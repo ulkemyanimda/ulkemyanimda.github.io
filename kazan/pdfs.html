@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Belgeler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #6200ea;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .sections {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .section {
+            text-align: center;
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px;
+            width: 180px; /* Dar çerçeve genişliği */
+            height: 320px; /* Daha uzun çerçeve yüksekliği */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .section:hover {
+            transform: scale(1.05);
+        }
+        .section a {
+            text-decoration: none;
+            color: #6200ea;
+            font-weight: bold;
+            display: block;
+        }
+        .section img {
+            width: 100%; /* Görsel çerçeve genişliğine göre ayarlanıyor */
+            height: auto; /* Yükseklik görsel oranına göre ayarlanır */
+            margin-bottom: 10px;
+        }
+        .section span {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PDF Belgeler</h1>
+    </header>
+
+    <div class="sections">
+        <div class="section">
+            <a href="pdfs/sari.pdf" target="_blank">
+                <img src="pdfs/sari.png" alt="Sarı Çizmeli Mehmet Ağa">
+                <span>Sarı Çizmeli Mehmet Ağa ve Barış Manço</span>
+            </a>
+        </div>
+        <div class="section">
+            <a href="pdfs/gurbet.pdf" target="_blank">
+                <img src="pdfs/gurbet.png" alt="Gurbet Özdemir Erdoğan">
+                <span>Gurbet - Özdemir Erdoğan</span>
+            </a>
+        </div>
+        <div class="section">
+            <a href="pdfs/esek.pdf" target="_blank">
+                <img src="pdfs/esek.png" alt="Arkadaşım Eşek">
+                <span>Arkadaşım Eşek - Barış Manço</span>
+            </a>
+        </div>
+        <div class="section">
+            <a href="pdfs/mehter.pdf" target="_blank">
+                <img src="pdfs/mehter.png" alt="Mehter ve Plevne Marşı">
+                <span>Mehter ve Plevne Marşı</span>
+            </a>
+        </div>
+        <div class="section">
+            <a href="pdfs/kibris.pdf" target="_blank">
+                <img src="pdfs/kibris.png" alt="Kıbrıs Tatlısı">
+                <span>Kıbrıs Tatlısı</span>
+            </a>
+        </div>
+        <div class="section">
+            <a href="pdfs/mesir.pdf" target="_blank">
+                <img src="pdfs/mesir.png" alt="Manisa Mesir Macunu ve Üzüm Hoşafı">
+                <span>Manisa Mesir Macunu ve Üzüm Hoşafı</span>
+            </a>
+        </div>
+        <div class="section">
+            <a href="pdfs/anadolu.pdf" target="_blank">
+                <img src="pdfs/anadolu.png" alt="Gezsen Anadolu'yu">
+                <span>Gezsen Anadolu'yu</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
