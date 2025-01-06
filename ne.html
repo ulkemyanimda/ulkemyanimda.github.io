@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sabit ZIP Dosyasını Güncelle</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+  <h1>Sabit ZIP Dosyasını Güncelle</h1>
+  
+  <!-- Yeni içerik formu -->
+  <label for="newContent">Yeni Index.html İçeriği:</label><br>
+  <textarea id="newContent" rows="10" cols="50"></textarea><br><br>
+  
+  <button id="updateButton">Güncelle ve İndir</button>
+
+  <script>
+    // Sabit ZIP dosyasını yüklemek için fetch fonksiyonu
+    async function loadZip() {
+      const response = await fetch('default.zip'); // Sabit ZIP dosyasının yolu
+      if (!response.ok) {
+        throw new Error('ZIP dosyasına ulaşılamadı.');
+      }
+      return response.arrayBuffer(); // ZIP içeriğini ArrayBuffer olarak döndür
+    }
+
+    document.getElementById('updateButton').addEventListener('click', async () => {
+      const newContent = document.getElementById('newContent').value;
+
+      if (!newContent.trim()) {
+        alert('Lütfen yeni içerik girin.');
+        return;
+      }
+
+      const zip = new JSZip();
+
+      try {
+        // Sabit ZIP dosyasını yükle
+		const response = await fetch('files/default.zip');
+
+  
+        if (!response.ok) {
+          throw new Error('ZIP dosyasına ulaşılamadı.');
+        }
+        const zipBuffer = await response.arrayBuffer();
+
+        // ZIP içeriğini aç
+        const zipContent = await zip.loadAsync(zipBuffer);
+
+        // index.html dosyasını kontrol et
+        if (!zipContent.files['index.html']) {
+          throw new Error('ZIP dosyasında index.html bulunamadı.');
+        }
+
+        // index.html'i yeni içerikle güncelle
+        zip.file('index.html', newContent);
+
+        // Güncellenmiş ZIP dosyasını oluştur
+        const updatedZip = await zip.generateAsync({ type: 'blob' });
+
+        // Yeni ZIP dosyasını indir
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(updatedZip);
+        downloadLink.download = 'updated.zip';
+        downloadLink.click();
+
+        alert('ZIP dosyası başarıyla güncellendi ve indirildi!');
+      } catch (error) {
+        console.error('Bir hata oluştu:', error.message);
+        alert(`ZIP dosyasını işlerken bir hata oluştu: ${error.message}`);
+      }
+    });
+  </script>
+</body>
+</html>
