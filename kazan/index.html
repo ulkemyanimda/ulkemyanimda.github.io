@@ -14,9 +14,15 @@
         }
         header {
             background-color: #6200ea;
-            color: white;
-            padding: 10px 20px;
             text-align: center;
+            position: relative;
+            padding: 0; /* Ekstra padding kaldırıldı */
+        }
+        header img {
+            width: 100%; /* Tam genişlik */
+            height: auto; /* Oran koruma */
+            display: block; /* Alt satıra taşmaları önlemek için */
+            margin: 0 auto; /* Yatay ortalama */
         }
         .announcements {
             padding: 20px;
@@ -63,23 +69,22 @@
         }
 		
 		ul {
-    text-align: center;
-    list-style-position: inside;
-}
+            text-align: center;
+            list-style-position: inside;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1> Kültürel Keşif Yarışması</h1>
+        <img src="icons/mainbanner.png" alt="Kültürel Keşif Yarışması Bannerı">
     </header>
-
     <div class="announcements">
         <h2>Duyurular</h2>
 		   <ul>
       <li>Yarışma, PDF bölümündeki dokümanlar ve müzik bölümündeki eserler üzerinden gerçekleştirilecektir.</li>
       <li>Şartnameyi dikkatlice okuyunuz.</li>
       <li>Yarışmaya katılmak için kayıt formunu doldurmanız gerekmektedir.</li>
-	  <li>Örnek sorulara aşağıdaki menülerden ulaşabilirsiniz..</li>
+	  <li>Örnek sorulara aşağıdaki menülerden ulaşabilirsiniz.</li>
 	  
    </ul>
     </div>
