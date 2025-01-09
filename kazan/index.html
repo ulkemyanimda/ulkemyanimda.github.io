@@ -16,20 +16,31 @@
             background-color: #6200ea;
             text-align: center;
             position: relative;
-            padding: 0; /* Ekstra padding kaldırıldı */
+            padding: 0;
         }
         header img {
-            width: 100%; /* Tam genişlik */
-            height: auto; /* Oran koruma */
-            display: block; /* Alt satıra taşmaları önlemek için */
-            margin: 0 auto; /* Yatay ortalama */
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
-        .announcements {
+        .announcements-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .announcements-table {
+            background-color: #ede7f6;
+            border-radius: 8px;
             padding: 20px;
             text-align: center;
-            background-color: #ede7f6;
-            margin: 20px;
-            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .announcements-table ul {
+            list-style-position: inside;
+            padding: 0;
+            margin: 0;
+            text-align: left;
         }
         .sections {
             display: flex;
@@ -67,26 +78,22 @@
             width: 100px;
             height: 100px;
         }
-		
-		ul {
-            text-align: center;
-            list-style-position: inside;
-        }
     </style>
 </head>
 <body>
     <header>
         <img src="icons/mainbanner.png" alt="Kültürel Keşif Yarışması Bannerı">
     </header>
-    <div class="announcements">
-        <h2>Duyurular</h2>
-		   <ul>
-      <li>Yarışma, PDF bölümündeki dokümanlar ve müzik bölümündeki eserler üzerinden gerçekleştirilecektir.</li>
-      <li>Şartnameyi dikkatlice okuyunuz.</li>
-      <li>Yarışmaya katılmak için kayıt formunu doldurmanız gerekmektedir.</li>
-	  <li>Örnek sorulara aşağıdaki menülerden ulaşabilirsiniz.</li>
-	  
-   </ul>
+    <div class="announcements-container">
+        <div class="announcements-table">
+            <h4>Duyurular</h4>
+            <ul>
+                <li>Yarışma, PDF bölümündeki dokümanlar ve müzik bölümündeki eserler üzerinden gerçekleştirilecektir.</li>
+                <li>Şartnameyi dikkatlice okuyunuz.</li>
+                <li>Yarışmaya katılmak için kayıt formunu doldurmanız gerekmektedir.</li>
+                <li>Örnek sorulara aşağıdaki menülerden ulaşabilirsiniz.</li>
+            </ul>
+        </div>
     </div>
 
     <div class="sections">
@@ -96,34 +103,25 @@
                 PDF Belgeler
             </a>
         </div>
-		
-
-		
-		
-
         <div class="section">
             <a href="https://ulkemyanimda.github.io/music/index.html" target="_blank">
                 <img src="icons/note.png" alt="Music Icon">
                 Müzikler
             </a>
         </div>
-		
-				        <div class="section">
+        <div class="section">
             <a href="pdfs/sartname.pdf" target="_blank">
                 <img src="icons/deal.png" alt="Tools Icon">
                 Şartname
             </a>
         </div>
-		
-		
-						        <div class="section">
+        <div class="section">
             <a href="pdfs/orneksorular.pdf" target="_blank">
                 <img src="icons/difficulties.png" alt="Tools Icon">
                 Örnek Soru
             </a>
         </div>
-		
-		        <div class="section">
+        <div class="section">
             <a href="https://forms.gle/8PgQon146rwSTjT28" target="_blank">
                 <img src="icons/form.png" alt="Tools Icon">
                 Kayıt Formu
