@@ -13,23 +13,24 @@
             color: #333;
         }
         header {
-            background-color: #6200ea;
-            text-align: center;
             position: relative;
-            padding: 0; /* Ekstra padding kaldırıldı */
         }
-        header img {
-            width: 100%; /* Tam genişlik */
-            height: auto; /* Oran koruma */
-            display: block; /* Alt satıra taşmaları önlemek için */
-            margin: 0 auto; /* Yatay ortalama */
+        .banner {
+            background-image: url('https://ulkemyanimda.github.io/icons/banner.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 200px; /* Banner yüksekliği ayarlandı */
         }
-        .announcements {
-            padding: 20px;
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             text-align: center;
-            background-color: #ede7f6;
-            margin: 20px;
-            border-radius: 8px;
         }
         .sections {
             display: flex;
@@ -64,42 +65,31 @@
             justify-content: center;
         }
         .section img {
-            width: 100px;
-            height: 100px;
-        }
-		
-		ul {
-            text-align: center;
-            list-style-position: inside;
+            width: 200px;
+            height: 200px;
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="icons/mainbanner.png" alt="Kültürel Keşif Yarışması Bannerı">
+        <div class="banner">
+            <div class="title"> <h1>ARAÇLAR</h1></div>
+        </div>
     </header>
-    
 
     <div class="sections">
         <div class="section">
             <a href="ekler/code.html" target="_blank">
-                <img src="icons/fix.png" alt=" Ders Harf Kodları      Icon">
-                Ders Harf Kodları     
-
+                <img src="icons/fix.png" alt="Ders Harf Kodları   Icon">
+                <br>          Ders Harf Kodları     
             </a>
         </div>
-		
-
-		
-		
-
         <div class="section">
-            <a href="https://ulkemyanimda.github.io/scorm.html" target="_blank">
-                <img src="icons/code.png" alt="Scorm Üretici Icon">
-         Scorm Üretici
+            <a href="https://ulkemyanimda.github.io/scorm.html"target="_blank">
+                <img src="icons/scorm.png" alt="    Scorm Üretici Icon">
+                <br>Scorm Üretici
             </a>
         </div>
-		
 
     </div>
 </body>
