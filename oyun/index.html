@@ -1,27 +1,465 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Kitaplar</title>
+    <title>Eğitim Araçları</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-image: url('icons/qr.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            box-sizing: border-box;
         }
-        iframe {
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .banner {
+            position: relative;
+            height: 200px;
+            background-color: #2c3e50;
+            overflow: hidden;
+        }
+
+        .banner__image {
             width: 100%;
-            height: 100vh;
-            border: none;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        .banner__title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card__image {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+        }
+
+        .card__content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .card__title {
+            color: #2c3e50;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            text-decoration: none;
+        }
+
+        .card__link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.875rem;
+            transition: background-color 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+
+        @media (max-width: 768px) {
+            .banner {
+                height: 150px;
+            }
+
+            .banner__title {
+                font-size: 2rem;
+            }
+
+            .grid {
+                padding: 1rem;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
         }
     </style>
 </head>
 <body>
-    <iframe src="https://f.eba.gov.tr/seyyah/wbglBuild/index.html"></iframe>
+    <header class="banner">
+        <img src="icons/banner.jpg" alt="Araçlar banner" class="banner__image">
+        <h1 class="banner__title">OYUNLAR</h1>
+    </header>
+
+    <main class="grid">
+        <article class="card">
+            <a href="files/Seyyah.html" class="card__link" target="_blank">
+                <img src="icons/Seyyah.jpg" alt="Seyyah" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">SEYYAH</h2>
+                    <a href="files/zips/Seyyah.zip" class="download-btn" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/cody.html" class="card__link" target="_blank">
+                <img src="icons/cody.jpg" alt="Cody" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Cody</h2>
+					 <a class="download-btn" href="files/zips/cody.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/aile.html" class="card__link" target="_blank">
+                <img src="icons/aile.png" alt="Aile" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Aile</h2>
+					 <a class="download-btn" href="files/zips/aile.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/azcok.html" class="card__link" target="_blank">
+                <img src="icons/azcok.jpg" alt="Az Çok" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Az Çok</h2>
+					 <a class="download-btn" href="files/zips/azcok.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/benzerfarkli.html" class="card__link" target="_blank">
+                <img src="icons/benzerfarkli.jpg" alt="Benzer Farklı" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Benzer Farklı</h2>
+					 <a class="download-btn" href="files/zips/benzerfarkli.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/bilmeceler.html" class="card__link" target="_blank">
+                <img src="icons/bilmeceler.png" alt="Bilmeceler" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Bilmeceler</h2>
+					 <a class="download-btn" href="files/zips/bilmeceler.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/buyukkucuk.html" class="card__link" target="_blank">
+                <img src="icons/buyukkucuk.jpg" alt="Büyük Küçük" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Büyük Küçük</h2>
+					 <a class="download-btn" href="files/zips/buyukkucuk.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/buyuktenkucuge.html" class="card__link" target="_blank">
+                <img src="icons/buyuktenkucuge.jpg" alt="Büyükten Küçüğe" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Büyükten Küçüğe</h2>
+					 <a class="download-btn" href="files/zips/buyuktenkucuge.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/cantam.html" class="card__link" target="_blank">
+                <img src="icons/cantam.jpg" alt="Çantam" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Çantam</h2>
+					 <a class="download-btn" href="files/zips/cantam.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/carpim-tablosu.html" class="card__link" target="_blank">
+                <img src="icons/carpim-tablosu.png" alt="Çarpım Tablosu" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Çarpım Tablosu</h2>
+					 <a class="download-btn" href="files/zips/carpim-tablosu.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/ciftsayilar.html" class="card__link" target="_blank">
+                <img src="icons/ciftsayilar.jpg" alt="Çift Sayılar" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Çift Sayılar</h2> <a class="download-btn" href="files/zips/ciftsayilar.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/deyimlerveanlamlar.html" class="card__link" target="_blank">
+                <img src="icons/deyimlerveanlamlar.jpg" alt="Deyimler ve Anlamları" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Deyimler ve Anlamları</h2> <a class="download-btn" href="files/zips/deyimlerveanlamlar.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/dikkatvealgi.html" class="card__link" target="_blank">
+                <img src="icons/dikkatvealgi.jpg" alt="Dikkat ve Algı" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Dikkat ve Algı</h2> <a class="download-btn" href="files/zips/dikkatvealgi.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/dogalsayilar.html" class="card__link" target="_blank">
+                <img src="icons/dogalsayilar.jpg" alt="Doğal Sayılar" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Doğal Sayılar</h2> <a class="download-btn" href="files/zips/dogalsayilar.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/dogalsayilarisiralama.html" class="card__link" target="_blank">
+                <img src="icons/dogalsayilarisiralama.jpg" alt="Doğal Sayıları Sıralama" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Doğal Sayıları Sıralama</h2> <a class="download-btn" href="files/zips/dogalsayilarisiralama.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/esanlamlisozcukler.html" class="card__link" target="_blank">
+                <img src="icons/esanlamlisozcukler.jpg" alt="Eş Anlamlı Sözcükler" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Eş Anlamlı Sözcükler</h2> <a class="download-btn" href="files/zips/esanlamlisozcukler.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/hangisidogru.html" class="card__link" target="_blank">
+                <img src="icons/hangisidogru.jpg" alt="Hangisi Doğru?" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Hangisi Doğru?</h2> <a class="download-btn" href="files/zips/hangisidogru.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/harf-sirasi.html" class="card__link" target="_blank">
+                <img src="icons/harf-sirasi.PNG" alt="Harf Sırası" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Harf Sırası</h2> <a class="download-btn" href="files/zips/harf-sirasi.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/IsaretlerineBakIsimleriniYaz.html" class="card__link" target="_blank">
+                <img src="icons/IsaretlerineBakIsimleriniYaz.jpg" alt="İşaretlerine Bak" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">İşaretlerine Bak</h2> <a class="download-btn" href="files/zips/IsaretlerineBakIsimleriniYaz.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/KelimeTreni.html" class="card__link" target="_blank">
+                <img src="icons/KelimeTreni.jpg" alt="Kelime Treni" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Kelime Treni</h2> <a class="download-btn" href="files/zips/KelimeTreni.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/kucuktenbuyuge.html" class="card__link" target="_blank">
+                <img src="icons/kucuktenbuyuge.jpg" alt="Küçükten Büyüğe" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Küçükten Büyüğe</h2> <a class="download-btn" href="files/zips/kucuktenbuyuge.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/OkulEsyalari.html" class="card__link" target="_blank">
+                <img src="icons/OkulEsyalari.jpg" alt="Okul Eşyaları" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Okul Eşyaları</h2> <a class="download-btn" href="files/zips/OkulEsyalari.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/okulheyecanim.html" class="card__link" target="_blank">
+                <img src="icons/okulheyecanim.jpg" alt="Okul Heyecanım" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Okul Heyecanım</h2> <a class="download-btn" href="files/zips/okulheyecanim.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/oncesisonrasi.html" class="card__link" target="_blank">
+                <img src="icons/oncesisonrasi.png" alt="Öncesi ve Sonrası" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Öncesi ve Sonrası</h2> <a class="download-btn" href="files/zips/oncesisonrasi.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/onlaribulalim.html" class="card__link" target="_blank">
+                <img src="icons/onlaribulalim.jpg" alt="Onları Bulalım" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Onları Bulalım</h2> <a class="download-btn" href="files/zips/onlaribulalim.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/copadam.html" class="card__link" target="_blank">
+                <img src="icons/copadam.jpg" alt="Çöp Adam" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Çöp Adam</h2> <a class="download-btn" href="files/zips/copadam.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/mevsimler.html" class="card__link" target="_blank">
+                <img src="icons/mevsimler.jpg" alt="Mevsimler" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Mevsimler</h2> <a class="download-btn" href="files/zips/mevsimler.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/resimlisudoku.html" class="card__link" target="_blank">
+                <img src="icons/resimlisudoku.png" alt="Resimli Sudoku" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Resimli Sudoku</h2> <a class="download-btn" href="files/zips/resimlisudoku.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/ritmiksaymalar.html" class="card__link" target="_blank">
+                <img src="icons/ritmiksaymalar.jpg" alt="Ritmik Saymalar" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Ritmik Saymalar</h2> <a class="download-btn" href="files/zips/ritmiksaymalar.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/romenrakamlari.html" class="card__link" target="_blank">
+                <img src="icons/romenrakamlari.jpg" alt="Romen Rakamları" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Romen Rakamları</h2> <a class="download-btn" href="files/zips/romenrakamlari.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/tamyarimceyrek.html" class="card__link" target="_blank">
+                <img src="icons/tamyarimceyrek.jpg" alt="Tam Yarım Çeyrek" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Tam Yarım Çeyrek</h2> <a class="download-btn" href="files/zips/tamyarimceyrek.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/teksayilar.html" class="card__link" target="_blank">
+                <img src="icons/teksayilar.jpg" alt="Tek Sayılar" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Tek Sayılar</h2> <a class="download-btn" href="files/zips/teksayilar.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/toplamacikarma.html" class="card__link" target="_blank">
+                <img src="icons/toplamacikarma.jpg" alt="Toplama ve Çıkarma" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Toplama ve Çıkarma</h2> <a class="download-btn" href="files/zips/toplamacikarma.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/trafik.html" class="card__link" target="_blank">
+                <img src="icons/trafik.jpg" alt="Trafik" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Trafik</h2> <a class="download-btn" href="files/zips/trafik.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/VarliklarinSayilarinaGoreisimler.html" class="card__link" target="_blank">
+                <img src="icons/VarliklarinSayilarinaGoreisimler.jpg" alt="Varlıkların Sayılarına Göre" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Varlıkların Sayılarına Göre</h2> <a class="download-btn" href="files/zips/VarliklarinSayilarinaGoreisimler.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+
+        <article class="card">
+            <a href="files/zitanlamlisozcukler.html" class="card__link" target="_blank">
+                <img src="icons/zitanlamlisozcukler.jpg" alt="Zıt Anlamlı Sözcükler" class="card__image">
+                <div class="card__content">
+                    <h2 class="card__title">Zıt Anlamlı Sözcükler</h2> <a class="download-btn" href="files/zips/zitanlamlisozcukler.zip" download>Scorm indir</a>
+                </div>
+            </a>
+        </article>
+    </main>
 </body>
 </html>
