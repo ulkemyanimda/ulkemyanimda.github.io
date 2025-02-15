@@ -117,7 +117,194 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
+			
+	.media-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.media-container img,
+.media-container iframe {
+    width: 48%; /* Resim ve video için eşit genişlik */
+    height: auto;
+}
+
+.media-container iframe {
+    height: 315px; /* Video yüksekliği */
+}
+			@media (max-width: 768px) {
+    .media-container {
+        flex-direction: column;
+    }
+
+    .media-container img,
+    .media-container iframe {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
         }
+		
+		
+		.media-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.media-item {
+    width: 48%; /* Eşit genişlik */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.media-item:hover {
+    transform: scale(1.05); /* Tıklanabilir hissi vermek için hover efekti */
+}
+
+.media-content {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal stil */
+.media-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    text-align: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+		
+		
+		    /* Genel stiller */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Resim ve video container */
+        .media-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        /* Her bir medya öğesi */
+        .media-item {
+            width: 48%; /* Eşit genişlik */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .media-item:hover {
+            transform: scale(1.05); /* Tıklanabilir hissi vermek için hover efekti */
+        }
+
+        /* Resim ve video stilleri */
+        .media-content {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* Sabit en-boy oranı */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .media-content img {
+            object-fit: cover; /* Resmi orantılı bir şekilde kırpar */
+        }
+
+        /* Modal (büyütülmüş medya) stilleri */
+        .media-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            aspect-ratio: 16 / 9; /* Modal içinde de en-boy oranını koru */
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .modal-content img {
+            object-fit: contain; /* Resmi orantılı bir şekilde göster */
+        }
+
+        /* Kapatma düğmesi */
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .media-container {
+                flex-direction: column;
+            }
+
+            .media-item {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
     </style>
     <script>
         function openVideo(modalId) {
@@ -216,8 +403,57 @@
         </div>
     </div>
     
-    <div class="announcements-table">
-        <img src="icons/afis.jpg" alt="Tools Icon">
+    <!-- Resim ve video container -->
+    <div class="media-container">
+        <div class="media-item" onclick="openMedia('image')">
+            <img src="icons/afis.jpg" alt="Poster" class="media-content">
+        </div>
+        <div class="media-item" onclick="openMedia('video')">
+            <iframe class="media-content" src="https://www.youtube.com/embed/ODc5ZgM3xIQ?si=fDAdcrCxMpNokU-y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
     </div>
+
+    <!-- Büyütülmüş medya için modal -->
+    <div id="mediaModal" class="media-modal">
+        <span class="close-button" onclick="closeMedia()">&times;</span>
+        <img id="expandedImage" class="modal-content" src="" alt="Büyütülmüş Resim">
+        <iframe id="expandedVideo" class="modal-content" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+
+
+    <script>
+        // Medyayı büyütmek için fonksiyon
+        function openMedia(type) {
+            const modal = document.getElementById('mediaModal');
+            const expandedImage = document.getElementById('expandedImage');
+            const expandedVideo = document.getElementById('expandedVideo');
+
+            if (type === 'image') {
+                const imgSrc = document.querySelector('.media-container img').src;
+                expandedImage.src = imgSrc;
+                expandedImage.style.display = 'block';
+                expandedVideo.style.display = 'none';
+            } else if (type === 'video') {
+                const videoSrc = document.querySelector('.media-container iframe').src;
+                expandedVideo.src = videoSrc;
+                expandedVideo.style.display = 'block';
+                expandedImage.style.display = 'none';
+            }
+
+            modal.style.display = 'block';
+        }
+
+        // Modalı kapatmak için fonksiyon
+        function closeMedia() {
+            const modal = document.getElementById('mediaModal');
+            const expandedVideo = document.getElementById('expandedVideo');
+
+            modal.style.display = 'none';
+            expandedVideo.src = ''; // Videoyu durdur
+        }
+    </script>
+
 </body>
 </html>
+
