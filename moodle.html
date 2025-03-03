@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="icons/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="icons/favicon.ico" type="image/x-icon">
     <title>Ülkem Yanımda</title>
     <style>
         body {
@@ -19,8 +19,8 @@
         }
         header img {
             width: 100%;
-            height: 250px;
-            object-fit: cover;
+            height: 250px; /* Banner yüksekliği küçültüldü */
+            object-fit: cover; /* Görüntünün oranını koruyarak düzgün kesim */
         }
         .announcements-container {
             display: flex;
@@ -49,75 +49,86 @@
         .section {
             text-align: center;
             background-color: #fff;
-            padding: 30px 20px; /* Padding artırıldı */
-            margin: 15px;
-            width: 220px; /* Genişlik artırıldı */
-            height: 220px; /* Yükseklik eklendi */
-            border-radius: 12px; /* Border radius artırıldı */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Gölge güçlendirildi */
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 20px;
+            margin: 10px;
+            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
         }
         .section:hover {
-            transform: scale(1.08);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
         }
         .section a {
             text-decoration: none;
             color: #6200ea;
             font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            height: 100%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            height: 100%;
         }
         .section img {
-            width: 120px; /* Resim boyutu büyütüldü */
-            height: 120px; /* Resim boyutu büyütüldü */
-            margin-bottom: 15px; /* Alt boşluk eklendi */
-            transition: transform 0.2s;
-        }
-        .section:hover img {
-            transform: scale(1.1); /* Hover durumunda resmi biraz büyüt */
-        }
-        .section a br {
-            display: none; /* Gereksiz <br> etiketini kaldır */
+            width: 200px;
+            height: 200px;
         }
     </style>
 </head>
 <body>
+
+	
+
+
+
     <div class="sections">
+      
+		
+		
+
+		
         <div class="section">
             <a href="books.html" target="_blank">
-                <img src="icons/kitap.png" alt="Kitaplar İkonu">
-                Kitaplar
+                <img src="icons/kitap.png" alt="Tools Icon">
+                <br> Kitaplar
             </a>
         </div>
-        
+		
+		
         <div class="section">
             <a href="video.html" target="_blank">
-                <img src="icons/vidyo.png" alt="Videolar İkonu">
-                Videolar
+                <img src="icons/vidyo.png" alt="Tools Icon">
+                <br> Videolar
             </a>
         </div>
-        
+		
+		
+
+
         <div class="section">
             <a href="music/index.html" target="_blank">
-                <img src="icons/muzik.png" alt="Müzikler İkonu">
-                Müzikler
+                <img src="icons/muzik.png" alt="Music Icon">
+                <br> Müzikler
             </a>
         </div>
-        
+
         <div class="section">
             <a href="oyun/index.html" target="_blank">
-                <img src="icons/oyun.png" alt="Oyunlar İkonu">
-                Oyunlar
+                <img src="icons/oyun.png" alt="Music Icon">
+                <br> Oyunlar
             </a>
         </div>
+
+
+
+
     </div>
+	
+
+
+	
 </body>
 </html>
