@@ -25,7 +25,7 @@
             display: block;
             margin: 0 auto;
         }
-        .announcements-container {
+            .announcements-container {
             display: flex;
             justify-content: center;
             margin: 20px 0;
@@ -36,6 +36,11 @@
             padding: 20px;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1200px; /* Duyuru genişliğini sınırlamak için */
+        }
+        .announcements-table h2 {
+            color: #6200ea;
+            margin-bottom: 15px;
         }
         .announcements-table ul {
             list-style-position: inside;
@@ -331,6 +336,25 @@
     <header>
         <img src="icons/mainbanner.png" alt="Kültürel Keşif Yarışması Bannerı">
     </header>
+	<div class="announcements-container">
+        <div class="announcements-table">
+            <h2>İstiklal Marşı Yarışması – Teknik Destek Duyurusu</h2>
+            <p>Değerli Öğrenciler,</p>
+            <p>İstiklal Marşı Yarışması kapsamında video yükleme sırasında teknik bir sorun yaşamanız 
+			halinde, durumu bize bildirebilirsiniz. Yaşadığınız problemi detaylı bir şekilde açıklayarak 
+			<a href="mailto:mebyyegmuzaktanegitim@gmail.com">mebyyegmuzaktanegitim@gmail.com</a> 
+			adresine e-posta göndermeniz yeterlidir. E-postanızda aşağıdaki bilgileri paylaşmanızı rica ederiz:</p>
+            
+            <ul>
+                <li>Adınız ve Soyadınız</li>
+                <li>Öğretmeninizin Adı Soyadı</li>
+                <li>Karşılaştığınız teknik sorun hakkında detaylı açıklama</li>
+                <li>(Varsa) Hata ekranının ekran görüntüsü</li>
+            </ul>
+            <p>Sizlere en kısa sürede destek sağlayabilmemiz için e-postanızı eksiksiz ve doğru bilgilerle göndermenizi önemle rica ederiz.</p>
+            <p>Başarılar dileriz!</p>
+        </div>
+    </div>
     <div class="sections">
         <div class="section">
             <a href="pdfs/sartname.pdf" target="_blank">
