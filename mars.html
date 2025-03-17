@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İstiklal Marşı Yarışması Sonuçları</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/tr.svg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #e30a17;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+        }
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background-color: #e30a17;
+        }
+        .winner-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+            perspective: 1000px;
+        }
+        .winner {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px 15px;
+            width: 28%;
+            opacity: 0;
+            transform: rotateY(90deg);
+            transition: all 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .winner.active {
+            opacity: 1;
+            transform: rotateY(0);
+        }
+        .winner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+        #first::before {
+            background-color: gold;
+        }
+        #second::before {
+            background-color: silver;
+        }
+        #third::before {
+            background-color: #cd7f32;
+        }
+        .place {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .medal {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% {transform: scale(1);}
+            50% {transform: scale(1.1);}
+            100% {transform: scale(1);}
+        }
+        .name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+        }
+        .score {
+            font-size: 1.2rem;
+            color: #555;
+            background-color: #f9f9f9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 15px 8px rgba(255, 215, 0, 0.7);
+            animation: firework 2s ease-out;
+            transform-origin: center;
+            z-index: 0;
+        }
+        @keyframes firework {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(1.2);
+                opacity: 0;
+            }
+        }
+        .logo {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .logo img {
+            width: 200px;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+        .control-panel {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .button {
+            background-color: #e30a17;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(227, 10, 23, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .button:hover {
+            background-color: #c00913;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(227, 10, 23, 0.4);
+        }
+        .button:active {
+            transform: translateY(1px);
+        }
+        #confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .quote {
+            font-style: italic;
+            color: #555;
+            margin: 30px auto;
+            max-width: 80%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+        .quote.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .anthem-text {
+            font-weight: bold;
+            color: #e30a17;
+        }
+        .info-panel {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .jury {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress {
+            height: 100%;
+            background-color: #e30a17;
+            width: 0;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        .background-music {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .background-music label {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .podium {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 150px;
+            margin-top: 40px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        .podium.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .podium-place {
+            text-align: center;
+            position: relative;
+        }
+        .podium-block {
+            width: 100px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .first-place {
+            height: 120px;
+            background-color: #ffd700;
+            z-index: 3;
+        }
+        .second-place {
+            height: 90px;
+            background-color: #c0c0c0;
+            z-index: 2;
+            margin: 0 5px;
+        }
+        .third-place {
+            height: 60px;
+            background-color: #cd7f32;
+            z-index: 1;
+        }
+        .podium-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            overflow: hidden;
+        }
+        .flag-wave {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .flag-wave.active {
+            opacity: 1;
+        }
+        .flag {
+            width: 40px;
+            height: 30px;
+            background-image: url('https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/tr.svg');
+            background-size: cover;
+            animation: wave 2s infinite;
+        }
+        .flag:nth-child(even) {
+            animation-delay: 0.5s;
+        }
+        @keyframes wave {
+            0% {transform: rotate(0deg);}
+            25% {transform: rotate(10deg);}
+            50% {transform: rotate(0deg);}
+            75% {transform: rotate(-10deg);}
+            100% {transform: rotate(0deg);}
+        }
+        .jury-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .jury-info.active {
+            opacity: 1;
+        }
+        .istiklal-verse {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div id="confetti"></div>
+    
+    <div class="container">
+        <div class="flag-wave" id="flagWave">
+            <div class="flag"></div>
+            <div class="flag"></div>
+            <div class="flag"></div>
+            <div class="flag"></div>
+            <div class="flag"></div>
+        </div>
+        
+        <h1>İstiklal Marşı'nı Güzel Okuma Yarışması</h1>
+        
+        <div class="quote" id="quote">
+            <p>"<span class="anthem-text">Korkma! Sönmez bu şafaklarda yüzen al sancak</span>"</p>
+        </div>
+        
+        <div class="progress-bar" id="progressBar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="control-panel">
+            <button class="button" id="revealWinners">Sonuçları Göster</button>
+            <button class="button" id="showPodium" style="display:none;">Podyum Göster</button>
+            <button class="button" id="resetApp" style="display:none;">Yeniden Başlat</button>
+        </div>
+        
+        <div class="winner-container">
+            <div class="winner" id="second">
+                <div class="place">2.</div>
+                <div class="medal">🥈</div>
+                <div class="name" id="secondName">Elif Zümra Akkuş</div>
+                <div class="name" id="secondName">Elif Uzun</div>              
+                <div class="name" id="secondName">Yusuf İhsan Çöpür</div>              
+                <div class="name" id="secondName">Yasin Bera Altun</div>
+                <div class="name" id="firstName">İbrahim Turhan</div>
+                <div class="name" id="firstName">Peri Meral</div>
+            </div>
+            
+            <div class="winner" id="first">
+                <div class="place">1.</div>
+                <div class="medal">🥇</div>
+                <div class="name" id="firstName">Ahsen Kotan</div>
+                <div class="name" id="firstName">Asel Zehra Yağcı</div>
+                <div class="name" id="firstName">Ediz Rombouts</div>
+                <div class="name" id="firstName">İpek Değirmencioğlu</div>
+                <div class="name" id="firstName">Zeynep Turhan</div>
+            </div>
+            
+            <div class="winner" id="third">
+                <div class="place">3.</div>
+                <div class="medal">🥉</div>
+                <div class="name" id="thirdName">Arina Tarazan</div>
+                <div class="name" id="firstName">Darina Tarazan</div>
+                <div class="name" id="firstName">Zehra Demirel</div>
+                <div class="name" id="firstName">Aziz Kerim Aydoğdu</div>
+                <div class="name" id="firstName">Defne Aksoy</div>
+            </div>
+        </div>
+        
+        <div class="podium" id="podium">
+            <div class="podium-place">
+                <div class="podium-block second-place"></div>
+                <div class="podium-avatar">🥈</div>
+                <div class="name" id="secondName">Elif Zümra Akkuş</div>
+                <div class="name" id="secondName">Elif Uzun</div>              
+                <div class="name" id="secondName">Yusuf İhsan Çöpür</div>              
+                <div class="name" id="secondName">Yasin Bera Altun</div>
+                <div class="name" id="firstName">İbrahim Turhan</div>
+                <div class="name" id="firstName">Peri Meral</div>
+                <!-- ikinciler -->
+            </div>       
+            <div class="podium-place">        
+                <div class="podium-block first-place"></div>
+                <div class="podium-avatar">🥇</div>
+                <div class="name" id="firstName">Ahsen Kotan</div>
+                <div class="name" id="firstName">Asel Zehra Yağcı</div>
+                <div class="name" id="firstName">Ediz Rombouts</div>
+                <div class="name" id="firstName">İpek Değirmencioğlu</div>
+                <div class="name" id="firstName">Zeynep Turhan</div>
+                <!-- birinciler -->
+            </div>
+            <div class="podium-place">
+                <div class="podium-block third-place"></div>
+                <div class="podium-avatar">🥉</div>
+                <div class="name" id="thirdName">Arina Tarazan</div>
+                <div class="name" id="firstName">Darina Tarazan</div>
+                <div class="name" id="firstName">Zehra Demirel</div>
+                <div class="name" id="firstName">Aziz Kerim Aydoğdu</div>
+                <div class="name" id="firstName">Defne Aksoy</div>
+                <!-- üçüncüler -->
+            </div>
+        </div>
+
+        <div class="jury-info" id="juryInfo">
+            <p>Jüri Üyeleri: Prof. Dr. Ahmet Yılmaz, Doç. Dr. Ayşe Kaya, Dr. Mehmet Demir</p>
+        </div>
+
+        <div class="background-music">
+            <label for="musicControl">Arka Plan Müziği</label>
+            <input type="checkbox" id="musicControl">
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('revealWinners').addEventListener('click', function() {
+            document.querySelectorAll('.winner').forEach(function(winner) {
+                winner.classList.add('active');
+            });
+            document.getElementById('quote').classList.add('active');
+            document.getElementById('flagWave').classList.add('active');
+            document.getElementById('showPodium').style.display = 'inline-block';
+            document.getElementById('resetApp').style.display = 'inline-block';
+        });
+
+        document.getElementById('showPodium').addEventListener('click', function() {
+            document.getElementById('podium').classList.add('active');
+        });
+
+        document.getElementById('resetApp').addEventListener('click', function() {
+            location.reload();
+        });
+
+        document.getElementById('musicControl').addEventListener('change', function() {
+            if (this.checked) {
+                console.log('Music started');
+            } else {
+                console.log('Music stopped');
+            }
+        });
+    </script>
+</body>
+</html>
