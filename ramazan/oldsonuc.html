@@ -123,6 +123,29 @@
             display: inline-block;
             margin-top: 10px;
         }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 15px 8px rgba(255, 215, 0, 0.7);
+            animation: firework 2s ease-out;
+            transform-origin: center;
+            z-index: 0;
+        }
+        @keyframes firework {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(1.2);
+                opacity: 0;
+            }
+        }
         .control-panel {
             margin-top: 40px;
             display: flex;
@@ -270,15 +293,6 @@
         .scroll-notice.active {
             opacity: 1;
         }
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-        }
         @media (max-width: 768px) {
             .winners-grid {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -290,7 +304,6 @@
     </style>
 </head>
 <body>
-    <canvas id="fireworksCanvas"></canvas>
     <div id="confetti"></div>
     
     <div class="container">
@@ -353,7 +366,7 @@
                     <div class="name">Eren ROMBOUTS</div>
                     <div class="award">Birincilik Ödülü</div>
                 </div>
-                <div class="winner">
+				                <div class="winner">
                     <div class="medal">🏆</div>
                     <div class="name">Fatih Sultan Mehmet SAYGILI</div>
                     <div class="award">Birincilik Ödülü</div>
@@ -410,96 +423,9 @@
     </div>
     
     <script>
-        // Canvas ayarları
-        const canvas = document.getElementById("fireworksCanvas");
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        // Havai fişek sınıfı
-        class Firework {
-            constructor(x, y, color) {
-                this.x = x;
-                this.y = y;
-                this.particles = [];
-                this.color = color;
-                this.createParticles();
-            }
-            createParticles() {
-                for (let i = 0; i < 100; i++) {
-                    const angle = Math.random() * 2 * Math.PI;
-                    const speed = Math.random() * 5 + 2;
-                    const dx = Math.cos(angle) * speed;
-                    const dy = Math.sin(angle) * speed;
-                    this.particles.push({ x: this.x, y: this.y, dx, dy, alpha: 1 });
-                }
-            }
-            update() {
-                this.particles.forEach(p => {
-                    p.x += p.dx;
-                    p.y += p.dy;
-                    p.dy += 0.05; // yerçekimi
-                    p.alpha -= 0.01;
-                });
-            }
-            draw() {
-                this.particles.forEach(p => {
-                    ctx.fillStyle = `rgba(${this.color},${p.alpha})`;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-                    ctx.fill();
-                });
-            }
-            isDone() {
-                return this.particles.every(p => p.alpha <= 0);
-            }
-        }
-
-        const fireworks = [];
-        let fireworksActive = false;
-
-        function randomColor() {
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            return `${r},${g},${b}`;
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            if (fireworksActive) {
-                ctx.fillStyle = "rgba(0,0,0,0.1)";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                if (Math.random() < 0.05) {
-                    const x = Math.random() * canvas.width;
-                    const y = Math.random() * canvas.height / 2;
-                    fireworks.push(new Firework(x, y, randomColor()));
-                }
-            }
-            
-            fireworks.forEach((f, index) => {
-                f.update();
-                f.draw();
-                if (f.isDone()) fireworks.splice(index, 1);
-            });
-        }
-
-        animate();
-
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
         // Birincileri gösterme animasyonu
         document.getElementById('revealWinners').addEventListener('click', function() {
             const winners = document.querySelectorAll('.winner');
-            
-            // Havai fişekleri başlat
-            fireworksActive = true;
             
             // Progress bar animasyonu
             const progress = document.getElementById('progress');
@@ -517,6 +443,9 @@
             winners.forEach(function(winner, index) {
                 setTimeout(function() {
                     winner.classList.add('active');
+                    
+                    // Konfeti efekti
+                    createFirework(winner);
                 }, 200 * index);
             });
             
@@ -526,11 +455,6 @@
             document.getElementById('scrollNotice').classList.add('active');
             document.getElementById('resetApp').style.display = 'inline-block';
             this.disabled = true;
-            
-            // 15 saniye sonra havai fişekleri durdur
-            setTimeout(function() {
-                fireworksActive = false;
-            }, 15000);
         });
 
         // Sayfayı yeniden başlatma
@@ -546,6 +470,30 @@
                 console.log('Müzik durduruldu');
             }
         });
+        
+        // Havai fişek efekti
+        function createFirework(element) {
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            
+            const rect = element.getBoundingClientRect();
+            firework.style.left = (rect.left + rect.width / 2) + 'px';
+            firework.style.top = (rect.top + rect.height / 2) + 'px';
+            
+            // Rastgele yöne hareket
+            firework.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
+            firework.style.setProperty('--y', (Math.random() * 200 - 100) + 'px');
+            
+            document.body.appendChild(firework);
+            
+            // Animasyon bitince elementi kaldır
+            setTimeout(function() {
+                firework.remove();
+            }, 2000);
+        }
     </script>
+	
+	
+	
 </body>
 </html>
