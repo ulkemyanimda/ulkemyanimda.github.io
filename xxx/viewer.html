@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SCORM Önizleme</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="controls">
+        <button id="backBtn">Geri Dön</button>
+        <span id="scormTitle">SCORM Önizleme</span>
+    </div>
+    <div id="previewContainer">
+        <iframe id="scormFrame"></iframe>
+    </div>
+    <script src="js/scorm-api.js"></script>
+    <script>
+        // URL'den launch parametresini al
+        const params = new URLSearchParams(window.location.search);
+        const launchFile = params.get('launch');
+        
+        if (launchFile) {
+            document.getElementById('scormFrame').src = launchFile;
+        } else {
+            document.getElementById('previewContainer').innerHTML = 
+                '<p class="error">SCORM başlatma dosyası bulunamadı</p>';
+        }
+        
+        document.getElementById('backBtn').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</body>
+</html>
