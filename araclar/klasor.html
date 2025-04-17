@@ -513,14 +513,17 @@
 </html>`;
 
                 // Default.zip içeriğini ekle (doğrudan root dizinine)
-                if (defaultZipContent) {
-                    for (let fileName in defaultZipContent.files) {
-                        if (!defaultZipContent.files[fileName].dir) {
-                            const fileData = await defaultZipContent.files[fileName].async("blob");
-                            zip.file(fileName, fileData);
-                        }
-                    }
-                }
+				// Default.zip içeriğini ekle (doğrudan root dizinine)
+				if (defaultZipContent) {
+					for (let fileName in defaultZipContent.files) {
+						if (!defaultZipContent.files[fileName].dir) {
+							const fileData = await defaultZipContent.files[fileName].async("blob");
+							// "default/" ön ekini kaldır
+							const newFileName = fileName.replace(/^default\//, '');
+							zip.file(newFileName, fileData);
+						}
+					}
+				}
 
                 // Dosyaları zip'e ekle
                 zip.file("index.html", indexHTML);
