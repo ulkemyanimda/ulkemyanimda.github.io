@@ -175,10 +175,8 @@
             <iframe id="controlled-iframe" src="https://example.com" width="600" height="400"></iframe>
         </div>
 
-
-
         <div class="embed-code-container">
-            <h3>oluşturulan iframe'i web sitenize ekleyin</h3>
+            <h3>Sadece oluşturulan iframe'i web sitenize ekleyin</h3>
             <p>Aşağıdaki iframe kodunu web sitenize yapıştırın:</p>
             <textarea id="iframe-code" readonly></textarea>
             <button class="copy-btn" id="copy-iframe-btn">Kodu Kopyala</button>
@@ -196,9 +194,7 @@
         const resetButton = document.getElementById('reset-size');
         const iframe = document.getElementById('controlled-iframe');
         const displayTitle = document.getElementById('display-title');
-        const embedCodeArea = document.getElementById('embed-code');
         const iframeCodeArea = document.getElementById('iframe-code');
-        const copyBtn = document.getElementById('copy-btn');
         const copyIframeBtn = document.getElementById('copy-iframe-btn');
 
         // URL değişikliğini izleme
@@ -216,8 +212,7 @@
         // Reset butonunu izleme
         resetButton.addEventListener('click', resetSizes);
 
-        // Kopyalama butonlarını izleme
-        copyBtn.addEventListener('click', () => copyToClipboard(embedCodeArea));
+        // Kopyalama butonunu izleme
         copyIframeBtn.addEventListener('click', () => copyToClipboard(iframeCodeArea));
 
         // Sayfa yüklendiğinde tüm değerleri güncelle
@@ -280,13 +275,6 @@
             const height = heightSlider.value;
             const url = iframeUrlInput.value;
             const title = iframeTitleInput.value;
-            
-            // Bu sayfanın kendi URL'si - gerçek bir web sitesinde kendi URL'nizi kullanmalısınız
-            const thisPageUrl = window.location.href;
-            
-            // Kontrolcünün iframe kodu
-            const embedCode = `<iframe src="${thisPageUrl}" width="850" height="700" frameborder="0" title="İframe Kontrolcüsü"></iframe>`;
-            embedCodeArea.value = embedCode;
             
             // Sadece oluşturulan iframe'in kodu
             const iframeCode = `<iframe src="${url}" width="${width}" height="${height}" frameborder="0" title="${title}"></iframe>`;
