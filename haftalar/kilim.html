@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anadolu'da Kilim Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f5eb;
+            color: #3a3a3a;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .reading-section {
+            border-left: 5px solid #d13030;
+            padding-left: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #d13030;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question {
+            background-color: #f0f0f0;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #7a6e5d;
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        button {
+            background-color: #7a6e5d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #5a5144;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            height: 24px;
+            text-align: center;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+        .score-section {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .reset-button {
+            display: block;
+            margin: 20px auto;
+            background-color: #d13030;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .answer-revealed {
+            font-style: italic;
+            color: #555;
+            text-align: center;
+            margin-top: 8px;
+        }
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .nav-button {
+            background-color: #4a6741;
+        }
+        .result-section {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ANADOLU'DA KILIM</h1>
+        
+        <div class="reading-section">
+            <p>Anadolu halkı. Cumhuriyetten önce yıllar yılı okumamış; okutulamamıştır. Yazı dilinden mahrum insanlar ne yapar? İşaretle konuşur, konuşamazsa düşüncelerini şekillerle anlatır, bunlara çeşitli renkleri de katarak, her birine ayrı bir anlam verir. Sonra bu anlamlı şekilleri, çizgileri halısına, kilimine, mendiline, çorabına işler. Bunlara "el işleri" denir.</p>
+            <p>Genç kız ya tezgâhtadır, halı kilim dokur, ya gergefin başına geçer, nakış nakış ibrişim büker. Ortası, havuzlu çiçekli bir bahçede gaga gagaya vermiş iki kuş mu işlemiş? Buna, "kara sevda" adım verir.</p>
+            <p>Konuşur da konuşur, el işlerinde, nakışlarda, renklerde, çizgilerde Anadolu. Sustuğu halde konuşur. Yalnız çizgiler, şekiller mi? Hayır! Renkler de konuşur. Yeşil, murattır; mavi, umuttur; beyaz, mutluluk... Siyah, üzüntüyü; pembe, bozuntuyu dile getirir.</p>
+            <p>Anadolu kadını, gergefin veya tezgâhının başına geçti mi, tamamdır. Okuryazardır. Bir kitap dokur; onu, o dilden anlayan okur. Bu kitap bir peşkirdir, mendildir, halıdır, kilimdir.</p>
+            <p>Ağaçtan yeşil, gökten mavi, çiçekten kırmızı arayan, bulamayınca da tezgâha koşan insanlar, üzüntülerini kilimlerde dile getirir. Anadolu'da kilim renk sofrasıdır, renge acıkmış insanların sofrası. Ah al, moru mor, akı karası, sarısı durusu, nesi var, nesi yoksa cömertçe ortaya döker Anadolu insanı; evini, çadırını bir bayram şenliği, bir düğün alayı gibi renklerle donatır.</p>
+            <p>Anadolu kilimlerinde çizgiler sert, renkler haşindir. Güneş doğarken yatağından kalkan, çamaşırım yıkayan, tezgâha oturan, yemeğini pişiren, yine tezgâha oturan, sütünü sağan, yağ ve peynir yapan, tekrar tezgâhına oturan, güneş batıncaya kadar koşan, yorulan, fırsat buldukça tezgâhına geçen Anadolu kadınının günlük çabası içinde, çizgiler elbette yumuşak, renkler elbette duru olmayacaktır.</p>
+            <p>Anadolu kızı, çeyizindeki kilimiyle övünür. Anadolu delikanlısı, kilimdeki renklerde sevgilisinin hayalini görür. Kilim, Anadolu'da gönül dolusu türküdür. Yanık ve içli... Anadolu'da kilim demek; özlemi, inancı, sevgiyi ilmik ilmik, renk renk dokumak demektir.</p>
+            <p><i>Mehmet Önder <br> "Sözü Anadolu" adlı yapıttan kısaltılarak ve düzenlenerek alınmıştır</i></p>
+        </div>
+        
+        <h2>SORULAR</h2>
+        
+        <div class="questions-section">
+            <div class="question" id="question1">
+                <div class="question-number">Soru 1:</div>
+                <p>Metne göre; genç kızlar dokuduğu halı ya da kilim desenine bir ad verebilir.</p>
+                <div class="options">
+                    <button onclick="checkAnswer(1, true)">Doğru</button>
+                    <button onclick="checkAnswer(1, false)">Yanlış</button>
+                </div>
+                <div class="feedback" id="feedback1"></div>
+                <div class="navigation">
+                    <button class="nav-button" onclick="nextQuestion(1)">Sonraki Soru</button>
+                </div>
+            </div>
+            
+            <div class="question" id="question2">
+                <div class="question-number">Soru 2:</div>
+                <p>Metne göre; Anadolu halkı, el işlerinde düşüncelerini şekillerle anlatır, bunlara çeşitli renkleri de katarak, her birine ayrı bir anlam verir.</p>
+                <div class="options">
+                    <button onclick="checkAnswer(2, true)">Doğru</button>
+                    <button onclick="checkAnswer(2, false)">Yanlış</button>
+                </div>
+                <div class="feedback" id="feedback2"></div>
+                <div class="navigation">
+                    <button class="nav-button" onclick="prevQuestion(2)">Önceki Soru</button>
+                    <button class="nav-button" onclick="nextQuestion(2)">Sonraki Soru</button>
+                </div>
+            </div>
+            
+            <div class="question" id="question3">
+                <div class="question-number">Soru 3:</div>
+                <p>Metne göre; Anadolu kilimlerinde doğayı birebir yansıtan çizimler görülür.</p>
+                <div class="options">
+                    <button onclick="checkAnswer(3, false)">Doğru</button>
+                    <button onclick="checkAnswer(3, true)">Yanlış</button>
+                </div>
+                <div class="feedback" id="feedback3"></div>
+                <div class="navigation">
+                    <button class="nav-button" onclick="prevQuestion(3)">Önceki Soru</button>
+                    <button class="nav-button" onclick="nextQuestion(3)">Sonraki Soru</button>
+                </div>
+            </div>
+            
+            <div class="question" id="question4">
+                <div class="question-number">Soru 4:</div>
+                <p>Metne göre; Anadolu'da gergef ve dokuma tezgâhının başına okuryazar olan kadınlar geçer.</p>
+                <div class="options">
+                    <button onclick="checkAnswer(4, false)">Doğru</button>
+                    <button onclick="checkAnswer(4, true)">Yanlış</button>
+                </div>
+                <div class="feedback" id="feedback4"></div>
+                <div class="navigation">
+                    <button class="nav-button" onclick="prevQuestion(4)">Önceki Soru</button>
+                    <button class="nav-button" onclick="nextQuestion(4)">Sonraki Soru</button>
+                </div>
+            </div>
+            
+            <div class="question" id="question5">
+                <div class="question-number">Soru 5:</div>
+                <p>Metne göre; Anadolu insanı; evini, çadırını bir bayram şenliği, bir düğün alayı gibi renklerle donatır.</p>
+                <div class="options">
+                    <button onclick="checkAnswer(5, true)">Doğru</button>
+                    <button onclick="checkAnswer(5, false)">Yanlış</button>
+                </div>
+                <div class="feedback" id="feedback5"></div>
+                <div class="navigation">
+                    <button class="nav-button" onclick="prevQuestion(5)">Önceki Soru</button>
+                    <button class="nav-button" onclick="nextQuestion(5)">Sonraki Soru</button>
+                </div>
+            </div>
+            
+            <div class="question" id="question6">
+                <div class="question-number">Soru 6:</div>
+                <p>Metne göre; her rengin bir anlamı vardır. Örneğin; yeşil murattır, mavi umuttur.</p>
+                <div class="options">
+                    <button onclick="checkAnswer(6, true)">Doğru</button>
+                    <button onclick="checkAnswer(6, false)">Yanlış</button>
+                </div>
+                <div class="feedback" id="feedback6"></div>
+                <div class="navigation">
+                    <button class="nav-button" onclick="prevQuestion(6)">Önceki Soru</button>
+                    <button class="nav-button" onclick="finishQuiz()">Testi Bitir</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-section" id="result-section">
+            <h2>Test Sonucu</h2>
+            <p>Skorunuz: <span id="final-score">0</span>/6</p>
+            <p id="performance-message"></p>
+            <button class="reset-button" onclick="resetQuiz()">Yeniden Başla</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        let score = 0;
+        let answeredQuestions = [];
+        const totalQuestions = 6;
+        
+        // Her sorunun doğru cevabı
+        const answers = {
+            1: true,  // Doğru - Metinde "kara sevda" örneği var
+            2: true,  // Doğru - İlk paragrafta açıkça belirtilmiş
+            3: true,  // Doğru - 3. soru düzeltildi
+            4: true,  // Doğru - 4. soru düzeltildi
+            5: true,  // Doğru - Metinde açıkça belirtilmiş
+            6: true   // Doğru - Renklerin anlamları metinde listelenmiş
+        };
+        
+        // Sayfa yüklendiğinde ilk soruyu göster
+        window.onload = function() {
+            showQuestion(1);
+        };
+        
+        // Belirli bir soruyu göster
+        function showQuestion(questionNumber) {
+            // Tüm soruları gizle
+            const questions = document.querySelectorAll('.question');
+            questions.forEach(question => {
+                question.classList.remove('active');
+            });
+            
+            // İstenen soruyu göster
+            const question = document.getElementById(`question${questionNumber}`);
+            question.classList.add('active');
+            
+            currentQuestion = questionNumber;
+        }
+        
+        // Sonraki soruya geçiş
+        function nextQuestion(currentQuestionNum) {
+            if (currentQuestionNum < totalQuestions) {
+                // Eğer soru cevaplandıysa sonraki soruya geç
+                if (answeredQuestions.includes(currentQuestionNum)) {
+                    showQuestion(currentQuestionNum + 1);
+                } else {
+                    alert("Lütfen önce bu soruyu cevaplayın!");
+                }
+            }
+        }
+        
+        // Önceki soruya geçiş
+        function prevQuestion(currentQuestionNum) {
+            if (currentQuestionNum > 1) {
+                showQuestion(currentQuestionNum - 1);
+            }
+        }
+        
+        // Cevabı kontrol et
+        function checkAnswer(questionNumber, userAnswer) {
+            const correctAnswer = answers[questionNumber];
+            const feedbackElement = document.getElementById(`feedback${questionNumber}`);
+            const questionElement = document.getElementById(`question${questionNumber}`);
+            
+            // Eğer soru daha önce yanıtlanmadıysa
+            if (!answeredQuestions.includes(questionNumber)) {
+                answeredQuestions.push(questionNumber);
+                
+                if (userAnswer === correctAnswer) {
+                    feedbackElement.textContent = "Doğru cevap!";
+                    feedbackElement.className = "feedback correct";
+                    score++;
+                } else {
+                    feedbackElement.textContent = "Yanlış cevap!";
+                    feedbackElement.className = "feedback incorrect";
+                    
+                    // Doğru cevabı göster
+                    setTimeout(() => {
+                        const answerText = correctAnswer ? "Doğru cevap: DOĞRU" : "Doğru cevap: YANLIŞ";
+                        feedbackElement.innerHTML += `<div class="answer-revealed">${answerText}</div>`;
+                    }, 1000);
+                }
+                
+                // Disable answer buttons
+                const buttons = questionElement.querySelectorAll('.options button');
+                buttons.forEach(button => {
+                    button.disabled = true;
+                });
+            }
+        }
+        
+        // Testi bitir
+        function finishQuiz() {
+            // Tüm sorular cevaplandı mı kontrol et
+            if (answeredQuestions.length < totalQuestions) {
+                alert("Lütfen tüm soruları cevaplayınız!");
+                return;
+            }
+            
+            // Tüm soruları gizle
+            const questions = document.querySelectorAll('.question');
+            questions.forEach(question => {
+                question.classList.remove('active');
+            });
+            
+            // Sonuç bölümünü göster
+            const resultSection = document.getElementById('result-section');
+            resultSection.style.display = 'block';
+            
+            // Skoru göster
+            document.getElementById('final-score').textContent = score;
+            
+            // Performans mesajını belirle
+            const performanceMessage = document.getElementById('performance-message');
+            if (score === totalQuestions) {
+                performanceMessage.textContent = "Mükemmel! Tüm soruları doğru cevapladınız!";
+            } else if (score >= Math.floor(totalQuestions * 0.7)) {
+                performanceMessage.textContent = "Çok iyi! Çoğu soruyu doğru cevapladınız.";
+            } else if (score >= Math.floor(totalQuestions * 0.5)) {
+                performanceMessage.textContent = "İyi! Yarısından fazlasını doğru cevapladınız.";
+            } else {
+                performanceMessage.textContent = "Tekrar deneyebilirsiniz. Metni daha dikkatli okuyun.";
+            }
+        }
+        
+        // Quiz'i sıfırla
+        function resetQuiz() {
+            score = 0;
+            answeredQuestions = [];
+            currentQuestion = 1;
+            
+            // Her soru için feedback'i temizle ve butonları etkinleştir
+            for (let i = 1; i <= totalQuestions; i++) {
+                const feedbackElement = document.getElementById(`feedback${i}`);
+                feedbackElement.textContent = "";
+                feedbackElement.className = "feedback";
+                
+                const questionElement = document.getElementById(`question${i}`);
+                const buttons = questionElement.querySelectorAll('.options button');
+                buttons.forEach(button => {
+                    button.disabled = false;
+                });
+            }
+            
+            // Sonuç bölümünü gizle
+            document.getElementById('result-section').style.display = 'none';
+            
+            // İlk soruyu göster
+            showQuestion(1);
+        }
+    </script>
+</body>
+</html>
