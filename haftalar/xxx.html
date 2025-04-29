@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>21 - 27 Nisan</title>
+    <title>28 Nisan - 4 Mayıs</title>
     <style>
+        :root {
+            --scale: 0.5; /* Bunu değiştirerek büyüklüğü ayarlarsın (örnek: 0.5, 0.75, 1, 1.2 gibi) */
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -20,15 +24,15 @@
             background-size: cover;
             background-position: center;
             width: 100%;
-            height: 200px; /* Banner yüksekliği ayarlandı */
+            height: calc(200px * var(--scale)); /* Banner yüksekliği de ölçeklendi */
         }
         .title {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) scale(var(--scale));
             color: white;
-            font-size: 2em;
+            font-size: calc(2em * var(--scale));
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
@@ -36,84 +40,90 @@
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            padding: 20px;
+            padding: calc(20px * var(--scale));
+            transform: scale(var(--scale));
+            transform-origin: top left;
         }
         .section {
             text-align: center;
             background-color: #fff;
-            padding: 20px;
-            margin: 10px;
-            width: 250px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: calc(20px * var(--scale));
+            margin: calc(10px * var(--scale));
+            width: calc(250px * var(--scale));
+            border-radius: calc(10px * var(--scale));
+            box-shadow: 0 calc(4px * var(--scale)) calc(8px * var(--scale)) rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
         }
         .section:hover {
-            transform: scale(1.05);
+            transform: scale(calc(1.05 * var(--scale)));
         }
         .section a {
             text-decoration: none;
             color: #6200ea;
             font-weight: bold;
             display: block;
-            margin-top: 10px;
+            margin-top: calc(10px * var(--scale));
+            font-size: calc(1em * var(--scale));
         }
         .section img {
-            width: 200px;
-            height: 200px;
+            width: calc(200px * var(--scale));
+            height: calc(200px * var(--scale));
+            border-radius: calc(10px * var(--scale));
         }
         .section iframe {
             width: 100%;
-            height: 200px;
+            height: calc(200px * var(--scale));
             border: none;
-            border-radius: 10px;
+            border-radius: calc(10px * var(--scale));
         }
         .section .video-title {
-            margin-top: 10px;
-            font-size: 1em;
+            margin-top: calc(10px * var(--scale));
+            font-size: calc(1em * var(--scale));
             color: #6200ea;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
-   
-
+    
     <div class="sections">
 	
-<div class="section">
-    <iframe src="https://www.youtube.com/embed/yhJIGg2VH-U" allowfullscreen></iframe>
-    <div class="video-title">Sihirli Sandık -Video</div>
-	5-7 ve 8-10 yaş Türkçeyi anlayabilir, konuşabilir, yazabilir grubu 
-</div>
-	
-<div class="section">
-    <iframe src="https://www.youtube.com/embed/X-K_nHRoSWo" allowfullscreen></iframe>
-    <div class="video-title">Dile Gelen Kültür -Video</div>
-	10-13, 13-16 yaş Türkçeyi anlayabilir, konuşabilir, yazabilir grubu 
-</div>
-	
-	
-	
+        <div class="section">
+            <a href="kilim.html" target="_blank">
+                <img src="icons/kilim.jpg" alt="kilim okuma Etkinliği Icon">
+                <br>Anadolu'da Kilim - Okuma Metni
+            </a>
+        </div>	
 	
         <div class="section">
-            <a href="https://drive.google.com/file/d/1gFFvPEoBq6KUS_cvv3SjMRxI8qJayirJ/view?usp=drive_link" target="_blank">
-                <img src="icons/sandik.jpg" alt="Sihirli Sandık Icon">
-                <br>Sihirli Sandık - PDF
-            </a>
-				5-7 ve 8-10 yaş Türkçeyi anlayabilir, konuşabilir, yazabilir grubu 
+            <iframe src="https://www.youtube.com/embed/iNA00MPb3Wk" allowfullscreen></iframe>
+            <div class="video-title">Bindallı'nın Hikayesi Bulgaristan Devrialem TRT Avaz</div>
         </div>
 
-		
-		
         <div class="section">
-            <a href="https://drive.google.com/file/d/1QFgVsXKh1Jb4kmwfGSuxVCB4ca1raaxB/view?usp=drive_link" target="_blank">
-                <img src="icons/dile.jpg" alt="Dile Gelen Kültür  Icon">
-                <br>Dile Gelen Kültür  - PDF
-            </a>
-	10-13, 13-16 yaş Türkçeyi anlayabilir, konuşabilir, yazabilir grubu 
-        </div>	
-		
+            <iframe src="https://www.youtube.com/embed/nI_GXzhPxA8" allowfullscreen></iframe>
+            <div class="video-title">Türkülerimiz ve Halk Çalgılarımız</div>
+        </div>
+	
+	    <div class="section">
+            <iframe src="https://www.youtube.com/embed/hZ1iQOgogy0" allowfullscreen></iframe>
+            <div class="video-title">Ebru Sanatı</div>
+        </div>
+	
+	    <div class="section">
+            <iframe src="https://www.youtube.com/embed/7xap2x4DnSQ" allowfullscreen></iframe>
+            <div class="video-title">Kilim Desenleri</div>
+        </div>
+
+	    <div class="section">
+            <iframe src="https://www.youtube.com/embed/kXhCeaJ4wq0" allowfullscreen></iframe>
+            <div class="video-title">Kültürel Ögeler Değişir mi?</div>
+        </div>
+
+	    <div class="section">
+            <iframe src="https://www.youtube.com/embed/Z9kw20oqudE" allowfullscreen></iframe>
+            <div class="video-title">Türk İğnesinin Mucizesi Bohça Markası Tanıtım Videosu</div>
+        </div>
 		
     </div>
 </body>
