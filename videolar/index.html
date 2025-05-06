@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videolar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('icons/qr.png'); /* PNG dosyasının yolu */
+            background-size: cover; /* Arka planı tam ekran yapar */
+            background-position: center; /* Resmi ortalar */
+            background-repeat: no-repeat; /* Resmin tekrarlanmasını engeller */
+            padding: 20px;
+        }
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background-color: rgba(255, 255, 255, 1); /* Tam opak beyaz arka plan */
+            padding: 20px;
+            border-radius: 15px; /* Köşeleri yuvarlatır */
+            max-width: 1200px; /* Maksimum genişlik */
+            margin: 0 auto; /* Ortalamak için */
+        }
+        .icon {
+            text-decoration: none;
+            color: #333;
+            display: inline-block;
+            text-align: center;
+        }
+        .icon img {
+            width: 250px;
+            height: 175px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+        .icon img:hover {
+            transform: scale(1.1);
+        }
+        .icon span {
+            display: block;
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hoş Geldiniz!</h1>
+    <p>Aşağıdan izlemek istediğiniz videoya tıklayınız.</p>
+    <div class="icon-container">
+	
+			<a class="icon" href="./video/canakkale.html" target="_blank">
+		<img src="icons/canakkale.jpg" alt="Çanakkale">
+            <span> Ali ve Ayşe<br> Çanakkale Gezisinde</span>
+        </a> 
+	
+        <a class="icon" href="./video/guraba.html" target="_blank">
+            <img src="icons/gl.jpg" alt="gurabahane-i laklakan">
+            <span>gurabahane-i laklakan</span>
+        </a>
+        <a class="icon" href="./video/kinalihasan.html" target="_blank">
+            <img src="icons/kinali.jpg" alt="kinalihasan">
+            <span>Kınalı Hasan</span>
+        </a>
+        <a class="icon" href="./video/yaren.html" target="_blank">
+            <img src="icons/yaren.jpg" alt="Yaren Leylek">
+            <span>Yaren Leylek<br>Adem Amca</span>
+        </a>
+
+        <a class="icon" href="./video/bayram.html" target="_blank">
+            <img src="icons/bayram.jpg" alt="Yaren Leylek">
+            <span>Barış Manço <br> Bugün Bayram</span>
+        </a>
+
+		
+    </div>
+    
+    <br><br>
+    
+
+</body>
+</html>

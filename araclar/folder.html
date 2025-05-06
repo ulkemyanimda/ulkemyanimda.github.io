@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İframe Boyut Ayarlayıcı</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .file-section {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        .file-section h3 {
+            margin-top: 0;
+            color: #444;
+        }
+        .file-path {
+            margin-top: 10px;
+            font-style: italic;
+            color: #666;
+            word-break: break-all;
+        }
+        .slider-container {
+            margin-bottom: 15px;
+        }
+        .slider-label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .slider {
+            width: 100%;
+        }
+        .preview-container {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+            overflow: auto;
+        }
+        .preview-frame {
+            border: 1px solid #ccc;
+            background-color: white;
+        }
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .package-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .package-button:hover {
+            background-color: #45a049;
+        }
+        .package-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .hidden {
+            display: none;
+        }
+        .file-button {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #4285f4;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+        .file-button:hover {
+            background-color: #3b78e7;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .error {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        .success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        .info {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            border: 1px solid #90caf9;
+        }
+        #downloadLink {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        #downloadLink:hover {
+            background-color: #0b7dda;
+        }
+        .file-list {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .file-list-item {
+            padding: 3px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .file-list-item:last-child {
+            border-bottom: none;
+        }
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            margin-right: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+            font-weight: bold;
+        }
+        .default-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 5px;
+            color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>İframe Boyut Ayarlayıcı</h1>
+        
+        <div class="tab-container">
+            <div class="tab active" id="tabHTML">HTML Dosyası</div>
+            <div class="tab" id="tabFolder">Klasör Seçimi</div>
+        </div>
+        
+        <div id="htmlSection" class="file-section">
+            <h3>HTML Dosyası Seçin</h3>
+            <label for="fileInput" class="file-button">HTML Dosyası Seç</label>
+            <input type="file" id="fileInput" accept=".html,.htm" class="hidden">
+            <div class="file-path" id="filePath">Henüz dosya seçilmedi  <h6>(Seçtiğiniz dosyanın adı index.html olmamalıdır. Bu isimde bir dosya varsa lütfen yüklemeden ismini değiştirin).</h6> </div>
+        </div>
+        
+        <div id="folderSection" class="file-section" style="display:none">
+            <h3>HTML Dosyasının Bulunduğu Klasörü Seçin</h3>
+            <label for="folderInput" class="file-button">Klasör Seç</label>
+            <input type="file" id="folderInput" webkitdirectory directory multiple class="hidden">
+            <div class="file-path" id="folderPath">Henüz klasör seçilmedi</div>
+            <div class="file-list" id="folderFileList" style="display:none"></div>
+        </div>
+        
+        <div class="default-info">
+            <strong>Not:</strong> Paketleme işleminde, varsayılan içerik (default.zip) otomatik olarak eklenecektir.
+        </div>
+        
+        <div class="slider-container">
+            <span class="slider-label" id="widthLabel">Genişlik: 600 px</span>
+            <input type="range" min="200" max="1200" value="600" class="slider" id="widthSlider">
+        </div>
+        
+        <div class="slider-container">
+            <span class="slider-label" id="heightLabel">Yükseklik: 400 px</span>
+            <input type="range" min="200" max="1000" value="400" class="slider" id="heightSlider">
+        </div>
+        
+        <div class="preview-container">
+            <iframe id="previewFrame" class="preview-frame" width="600" height="400" frameborder="0"></iframe>
+        </div>
+        
+        <div class="button-container">
+            <button id="packageButton" class="package-button" disabled>Paketleme İşlemini Başlat</button>
+        </div>
+        
+        <div id="message" class="message" style="display: none;"></div>
+        <a id="downloadLink" href="#" download="newscorm.zip" style="display: none;">İndirmek için tıklayın</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script>
+        // HTML elementlerini seç
+        const fileInput = document.getElementById('fileInput');
+        const filePath = document.getElementById('filePath');
+        const folderInput = document.getElementById('folderInput');
+        const folderPath = document.getElementById('folderPath');
+        const folderFileList = document.getElementById('folderFileList');
+        const widthSlider = document.getElementById('widthSlider');
+        const heightSlider = document.getElementById('heightSlider');
+        const widthLabel = document.getElementById('widthLabel');
+        const heightLabel = document.getElementById('heightLabel');
+        const previewFrame = document.getElementById('previewFrame');
+        const packageButton = document.getElementById('packageButton');
+        const messageDiv = document.getElementById('message');
+        const downloadLink = document.getElementById('downloadLink');
+        
+        // Tab elemanları
+        const tabHTML = document.getElementById('tabHTML');
+        const tabFolder = document.getElementById('tabFolder');
+        const htmlSection = document.getElementById('htmlSection');
+        const folderSection = document.getElementById('folderSection');
+
+        // Veri saklama
+        let selectedFile = null;
+        let selectedFileName = "";
+        let currentFileContent = "";
+        let folderFiles = [];
+        
+        // Default.zip içeriği (base64 kodlu mini bir zip dosyası)
+        // Gerçek default.zip dosyasını yerleştirin
+        const defaultZipBase64 = "UEsDBBQAAAAAACIQPFUAAAAAAAAAAAAAAAAIAAAAZGVmYXVsdC9QSwMEFAAAAAAAS4LHVAAAAAAAAAAAAAAAAA8AAABkZWZhdWx0L2ltYWdlcy9QSwMEFAAAAAAAS4LHVAAAAAAAAAAAAAAAAAATAAAAYWN0aXZpdHlfcGFyYW0ueG1sUEsBAhQAFAAAAAAAIhA8VQAAAAAAAAAAAAAAAAgAAAAAAAAAAAAQAO1BAAAAAGRlZmF1bHQvUEsBAhQAFAAAAAAAS4LHVAAAAAAAAAAAAAAAAAsAAAAAAAAAAAQAAUAAAABkZWZhdWx0L2ltYWdlcy9QSwECFAAUAAAAAABLgsdUAAAAAAAAAAAAAAAAEwAAAAAAAAAAABAA7UFWAAAAYWN0aXZpdHlfcGFyYW0ueG1sUEsFBgAAAAADAAMAogAAAIQAAAAAAA==";
+
+        // Varsayılan HTML içeriğini oluştur
+        const defaultHTML = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Varsayılan Sayfa</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        margin: 0;
+                        background-color: #f0f0f0;
+                    }
+                    .container {
+                        text-align: center;
+                        padding: 20px;
+                        border-radius: 10px;
+                        background-color: white;
+                        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                    }
+                    h1 {
+                        color: #4285f4;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <h1>İframe Ayarlayıcı</h1>
+                    <p>Lütfen görüntülemek istediğiniz bir HTML dosyası seçin.</p>
+                    <p>Yukarıdaki "HTML Dosyası Seç" düğmesini kullanarak bir dosya seçebilirsiniz.</p>
+                </div>
+            </body>
+            </html>
+        `;
+
+        // Default zip'i başlangıçta yükle
+        let defaultZipContent = null;
+        loadDefaultZip();
+
+        // Varsayılan HTML içeriğini iframe'e yükle
+        loadPreviewWithHTML(defaultHTML);
+
+        // Default zip'i yükle
+		async function loadDefaultZip() {
+			try {
+				// Default.zip dosyasını yükle (aynı klasörden)
+				const response = await fetch('./Default.zip');
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+				const blob = await response.blob();
+				
+				// JSZip ile aç
+				const zip = new JSZip();
+				defaultZipContent = await zip.loadAsync(blob);
+				
+				showMessage("Default içerik başarıyla yüklendi.", "info");
+				setTimeout(() => {
+					messageDiv.style.display = "none";
+				}, 3000);
+			} catch (error) {
+				console.error("Default zip yüklenirken hata:", error);
+				showMessage("Default içerik yüklenemedi. Lütfen sayfayı yenileyin.", "error");
+			}
+		}
+
+        // Tab değiştirme olayları
+        tabHTML.addEventListener('click', function() {
+            setActiveTab('html');
+        });
+        
+        tabFolder.addEventListener('click', function() {
+            setActiveTab('folder');
+        });
+
+        // Tab ayarlama fonksiyonu
+        function setActiveTab(tabName) {
+            // Tüm tabları ve bölümleri gizle
+            [tabHTML, tabFolder].forEach(tab => tab.classList.remove('active'));
+            [htmlSection, folderSection].forEach(section => section.style.display = 'none');
+            
+            // Seçilen tabı ve bölümü göster
+            if (tabName === 'html') {
+                tabHTML.classList.add('active');
+                htmlSection.style.display = 'block';
+            } else if (tabName === 'folder') {
+                tabFolder.classList.add('active');
+                folderSection.style.display = 'block';
+            }
+        }
+
+        // Dosya seçme olayını dinle
+        fileInput.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                selectedFile = this.files[0];
+                selectedFileName = selectedFile.name;
+                filePath.textContent = `Seçilen dosya: ${selectedFileName}`;
+                
+                // Dosyayı oku
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentFileContent = e.target.result;
+                    loadPreviewWithHTML(currentFileContent);
+                    
+                    // Paketleme butonunu etkinleştir
+                    updatePackageButtonState();
+                };
+                reader.readAsText(selectedFile);
+            }
+        });
+
+        // Klasör seçme olayını dinle
+        folderInput.addEventListener('change', function(e) {
+            if (this.files && this.files.length > 0) {
+                const files = Array.from(this.files);
+                folderFiles = files;
+                
+                // HTML dosyasını bul
+                const htmlFiles = files.filter(file => 
+                    file.name.endsWith('.html') || file.name.endsWith('.htm'));
+                
+                if (htmlFiles.length > 0) {
+                    // İlk HTML dosyasını seç
+                    selectedFile = htmlFiles[0];
+                    selectedFileName = selectedFile.name;
+                    
+                    // HTML dosyası içeriğini oku
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        currentFileContent = e.target.result;
+                        loadPreviewWithHTML(currentFileContent);
+                    };
+                    reader.readAsText(selectedFile);
+                }
+                
+                folderPath.textContent = `Seçilen klasör: ${files[0].webkitRelativePath.split('/')[0]}`;
+                
+                // Dosya listesini göster
+                folderFileList.innerHTML = '';
+                files.slice(0, 20).forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-list-item';
+                    fileItem.textContent = file.webkitRelativePath;
+                    folderFileList.appendChild(fileItem);
+                });
+                
+                if (files.length > 20) {
+                    const moreItem = document.createElement('div');
+                    moreItem.className = 'file-list-item';
+                    moreItem.textContent = `... ve ${files.length - 20} dosya daha`;
+                    folderFileList.appendChild(moreItem);
+                }
+                
+                folderFileList.style.display = 'block';
+                
+                // Paketleme butonunu etkinleştir
+                updatePackageButtonState();
+            }
+        });
+
+        // Paketleme butonunun durumunu güncelle
+        function updatePackageButtonState() {
+            // HTML seçilmiş veya klasörde HTML bulunmuşsa buton etkin olsun
+            packageButton.disabled = !(selectedFile || folderFiles.length > 0);
+        }
+
+        // Genişlik ayarını güncelle
+        widthSlider.addEventListener('input', function() {
+            const width = this.value;
+            widthLabel.textContent = `Genişlik: ${width} px`;
+            previewFrame.style.width = `${width}px`;
+        });
+
+        // Yükseklik ayarını güncelle
+        heightSlider.addEventListener('input', function() {
+            const height = this.value;
+            heightLabel.textContent = `Yükseklik: ${height} px`;
+            previewFrame.style.height = `${height}px`;
+        });
+
+        // Paketleme işlemi için düğmeye tıklama olayını dinle
+        packageButton.addEventListener('click', function() {
+            if (!selectedFile && folderFiles.length === 0) {
+                showMessage("Önce bir HTML dosyası veya klasör seçmelisiniz!", "error");
+                return;
+            }
+            
+            createPackage();
+        });
+
+        // Belirtilen HTML içeriğini iframe içinde göster
+        function loadPreviewWithHTML(htmlContent) {
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            previewFrame.src = URL.createObjectURL(blob);
+        }
+
+        // Paketleme işlemi
+        async function createPackage() {
+            try {
+                showMessage("Paketleme işlemi başlatıldı...", "info");
+                
+                const zip = new JSZip();
+                const width = widthSlider.value;
+                const height = heightSlider.value;
+                
+                // index.html oluştur
+                const indexHTML = `<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>iframe içerik görüntüleyici</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        iframe {
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <iframe style="max-width:100%" src="${selectedFileName}" width="${width}" height="${height}" frameborder="0" allowfullscreen></iframe>
+    </div>
+</body>
+</html>`;
+
+                // Default.zip içeriğini ekle (doğrudan root dizinine)
+				// Default.zip içeriğini ekle (doğrudan root dizinine)
+				if (defaultZipContent) {
+					for (let fileName in defaultZipContent.files) {
+						if (!defaultZipContent.files[fileName].dir) {
+							const fileData = await defaultZipContent.files[fileName].async("blob");
+							// "default/" ön ekini kaldır
+							const newFileName = fileName.replace(/^default\//, '');
+							zip.file(newFileName, fileData);
+						}
+					}
+				}
+
+                // Dosyaları zip'e ekle
+                zip.file("index.html", indexHTML);
+                
+                // Eğer tek dosya seçilmişse
+                if (selectedFile && folderFiles.length === 0) {
+                    zip.file(selectedFileName, currentFileContent);
+                }
+                
+                // Eğer klasör seçilmişse, tüm dosyaları ekle
+                if (folderFiles.length > 0) {
+                    // Klasör yapısını koruyarak dosyaları ekle
+                    const promises = folderFiles.map(file => {
+                        return new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                // Dosya yolunu al, ilk klasör adını çıkar
+                                const filePath = file.webkitRelativePath.split('/').slice(1).join('/');
+                                if (filePath) { // Boş değilse ekle
+                                    zip.file(filePath, e.target.result);
+                                }
+                                resolve();
+                            };
+                            reader.onerror = reject;
+                            reader.readAsArrayBuffer(file);
+                        });
+                    });
+                    
+                    await Promise.all(promises);
+                }
+                
+                // Zip dosyasını oluştur
+                const content = await zip.generateAsync({type:"blob"});
+                
+                // Zip dosyasını indirme bağlantısına ekle
+                const url = URL.createObjectURL(content);
+                downloadLink.href = url;
+                downloadLink.style.display = "inline-block";
+                
+                showMessage("Paketleme işlemi tamamlandı! Zip dosyasını indirmek için aşağıdaki bağlantıya tıklayın.", "success");
+            } catch (error) {
+                console.error(error);
+                showMessage(`Paketleme sırasında bir hata oluştu: ${error.message}`, "error");
+            }
+        }
+
+        // Mesaj gösterme fonksiyonu
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = "block";
+        }
+    </script>
+</body>
+</html>

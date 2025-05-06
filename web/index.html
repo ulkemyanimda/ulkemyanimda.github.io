@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Ülkem Yanımda Platformu</title>
+    <script type="application/ld+json">
+        {
+          "@context" : "https://schema.org",
+          "@type" : "LearningResource",
+          "name" : "Çevrimiçi Türkçe  Öğrenme Platformu",
+          "alternateName" : "ulkemyanimda",
+          "educationalLevel": "High school (TR)",
+          "url" : "https://ulkemyanimda.eba.gov.tr"
+        }
+    </script>
+
+    <meta name="description" content="Ülkem Yanımda, yurt dışında yaşayan Türk soylu çocuklar için özel olarak tasarlanmış ücretsiz bir eğitim platformudur. Anadil öğrenimi, Türk kültürü ve gelenekleriyle desteklenen etkileşimli dersler sayesinde çocuklar, hem dil becerilerini geliştirir hem de kültürel bağlarını güçlendirir. Online dersler, eğlenceli aktiviteler ve yapay zeka destekli konuşma pratiği ile Türkçe öğrenimi artık daha erişilebilir! Ülkemizden uzak olsanız da, ‘Ülkem Yanımda’!">
+    <meta name="keywords" content="türkçe eğitimi,  türk kültürü,  yurt dişindaki türkler,  çevrimiçi eğitim, anadil öğretimi, kültürel miras">
+    <meta name="author" content="T.C. Yükseköğretim Ve Yurt Dişi Eğitim Genel Müdürlüğü Yurt Dışı Eğitim Daire Başkanlığı">
+    <meta property="og:title" content="Çevrimiçi Türkçe Öğrenme Platformu">
+    <meta property="og:url" content="https://ulkemyanimda.eba.gov.tr">
+    <meta property="og:image" content="https://ulkemyanimda.eba.gov.tr/content/index_files/slayt.png">
+
+    <link href="./index_files/bootstrap.min.css" rel="stylesheet">
+    <link href="./index_files/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./index_files/css2" rel="stylesheet">
+    <link href="./index_files/toastr.min.css" rel="stylesheet">
+    <link href="./index_files/jquery.fancybox.min.css" rel="stylesheet">
+    <style type="text/css">
+        .fancybox-content {
+            padding: 1px;
+        }
+    </style>
+</head>
+
+<body class="" style="">
+    <header>
+        <div class="container-md header-container">
+            <div class="row  pt-3 pt-md-4">
+                <div class="col-xxl-7 col-xl-6 col-lg-5 col-md-4 col-sm-3 col-xs-12 logo text-left">
+                    <img src="./index_files/logo.svg" alt="logo">
+                    <div class="logo-text d-none d-md-block">Ülkem Yanımda</div>
+                </div>
+                <div class="col login-buttons text-end ">
+
+                    <a class="btn login d-none d-sm-block" data-bs-toggle="modal" data-bs-target="#buttonsModal">
+                        Giriş
+                    </a>
+                </div>
+            </div>
+            <a class="menu-button d-block d-sm-none" data-bs-toggle="modal" data-bs-target="#buttonsModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"></path>
+                    <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"></path>
+                </svg>
+            </a>
+
+        </div>
+    </header>
+
+
+    <div class="modal fade" id="buttonsModal" tabindex="-1" aria-labelledby="buttonsModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <a href="https://ulkemyanimda.eba.gov.tr/moodle/login/index.php" class="btn student">
+                        Ülkem Yanımda Girişi
+                    </a>
+                    <a class="btn graduate" href="https://ulkemyanimda.eba.gov.tr/moodle/login/signup.php">
+                        Yeni Üye
+                    </a>
+                    <a class="btn teacher" href="https://ulkemyanimda.eba.gov.tr/moodle/">
+                        Misafir Girişi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="discover-1-image" tabindex="-1" aria-labelledby="discover1ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Haber 1</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="./index_files/haber1.jpg">
+                </div>
+                <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-meb-dark""> <a href="https://yyegm.meb.gov.tr/www/istiklal-marsini-guzel-okuma-yarismasi-finali-tamamlandi/icerik/1022" target="_blank" download="mebi-afis-dikey.pdf">Haberi Aç </a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="discover-2-image" tabindex="-1" aria-labelledby="discover2ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Haber 2</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="./index_files/haber2.jpg">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-meb-dark""> <a target="_blank" href="https://yyegm.meb.gov.tr/www/kulturel-kesif-yarismasi/icerik/1003" download="mebi-afis-yatay.pdf">Haberi Aç</a></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="discover-3-image" tabindex="-1" aria-labelledby="discover3ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ülkem Yanımda Tanıtım Videosu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="video-1" style="width:100%; max-width:765px; height:430px;" src="https://www.youtube.com/watch?v=r0QxcRBSqdI" title="Ülkem Yanımda Tanıtım Videosu" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
+                </div>
+                <div class="modal-footer">
+                                    </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="discover-4-image" tabindex="-1" aria-labelledby="discover4ModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ülkem Yanımda Öğrenci Tanıtımları</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="video-2" style="width:100%; max-width:765px;height:430px;" src="https://www.youtube.com/watch?v=r0QxcRBSqdI" title="Ülkem Yanımda Öğrenci Tanıtımları" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
+                </div>
+                <div class="modal-footer">
+                                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section class="slider">
+        <img src="./index_files/slayt.png" alt="slider" class="d-none d-md-block">
+        <img src="./index_files/slayt_narrow.png" alt="slider" class="d-md-none">
+    </section>
+
+    <section class="discover">
+        <div class="container-md">
+            <div class="row justify-content-center text-center">
+                <div class="col-12 text-center">
+                    <div class="discover-title">Keşfet</div>
+                    <div class="discover-images container">
+                        <div class="row">
+                            <div class="relative col-6 col-md-3 mb-3">
+                                <img src="./index_files/discover-3.png">
+                                <button type="button" class="btn btn-meb-dark"" data-bs-toggle="modal" data-bs-target="#discover-3-image">
+                                    İzle
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="play_circle">
+                                            <mask id="mask0_2586_865" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                                <rect id="Bounding box" width="24" height="24" fill="#D9D9D9"></rect>
+                                            </mask>
+                                            <g mask="url(#mask0_2586_865)">
+                                                <path id="play_circle_2" d="M10.65 15.75L15.525 12.625C15.7583 12.475 15.875 12.2667 15.875 12C15.875 11.7333 15.7583 11.525 15.525 11.375L10.65 8.25C10.4 8.08333 10.1458 8.07083 9.8875 8.2125C9.62917 8.35417 9.5 8.575 9.5 8.875V15.125C9.5 15.425 9.62917 15.6458 9.8875 15.7875C10.1458 15.9292 10.4 15.9167 10.65 15.75ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z" fill="white"></path>
+                                            </g>
+                                        </g>
+                                    </svg>
+
+                                </button>
+
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3">
+                                <img src="./index_files/discover-4.png">
+                                <button class="btn btn-meb-dark"" type="button" data-bs-toggle="modal" data-bs-target="#discover-4-image">
+                                    İzle
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="play_circle">
+                                            <mask id="mask0_2586_865" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                                <rect id="Bounding box" width="24" height="24" fill="#D9D9D9"></rect>
+                                            </mask>
+                                            <g mask="url(#mask0_2586_865)">
+                                                <path id="play_circle_2" d="M10.65 15.75L15.525 12.625C15.7583 12.475 15.875 12.2667 15.875 12C15.875 11.7333 15.7583 11.525 15.525 11.375L10.65 8.25C10.4 8.08333 10.1458 8.07083 9.8875 8.2125C9.62917 8.35417 9.5 8.575 9.5 8.875V15.125C9.5 15.425 9.62917 15.6458 9.8875 15.7875C10.1458 15.9292 10.4 15.9167 10.65 15.75ZM12 22C10.6167 22 9.31667 21.7375 8.1 21.2125C6.88333 20.6875 5.825 19.975 4.925 19.075C4.025 18.175 3.3125 17.1167 2.7875 15.9C2.2625 14.6833 2 13.3833 2 12C2 10.6167 2.2625 9.31667 2.7875 8.1C3.3125 6.88333 4.025 5.825 4.925 4.925C5.825 4.025 6.88333 3.3125 8.1 2.7875C9.31667 2.2625 10.6167 2 12 2C13.3833 2 14.6833 2.2625 15.9 2.7875C17.1167 3.3125 18.175 4.025 19.075 4.925C19.975 5.825 20.6875 6.88333 21.2125 8.1C21.7375 9.31667 22 10.6167 22 12C22 13.3833 21.7375 14.6833 21.2125 15.9C20.6875 17.1167 19.975 18.175 19.075 19.075C18.175 19.975 17.1167 20.6875 15.9 21.2125C14.6833 21.7375 13.3833 22 12 22ZM12 20C14.2333 20 16.125 19.225 17.675 17.675C19.225 16.125 20 14.2333 20 12C20 9.76667 19.225 7.875 17.675 6.325C16.125 4.775 14.2333 4 12 4C9.76667 4 7.875 4.775 6.325 6.325C4.775 7.875 4 9.76667 4 12C4 14.2333 4.775 16.125 6.325 17.675C7.875 19.225 9.76667 20 12 20Z" fill="white"></path>
+                                            </g>
+                                        </g>
+                                    </svg>
+
+                                </button>
+                            </div>
+                        
+                            <div class="relative col-6 col-md-3 mb-3">
+                                <img src="./index_files/discover-1.png">
+                                <button class="btn btn-meb-dark"" type="button" data-bs-toggle="modal" data-bs-target="#discover-1-image">
+                                    Aç
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <mask id="mask0_2586_859" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                            <rect width="24" height="24" fill="#D9D9D9"></rect>
+                                        </mask>
+                                        <g mask="url(#mask0_2586_859)">
+                                            <path d="M5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H19C19.55 3 20.0208 3.19583 20.4125 3.5875C20.8042 3.97917 21 4.45 21 5V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM5 19H19V5H5V19ZM7 17H17C17.2 17 17.35 16.9083 17.45 16.725C17.55 16.5417 17.5333 16.3667 17.4 16.2L14.65 12.525C14.55 12.3917 14.4167 12.325 14.25 12.325C14.0833 12.325 13.95 12.3917 13.85 12.525L11.25 16L9.4 13.525C9.3 13.3917 9.16667 13.325 9 13.325C8.83333 13.325 8.7 13.3917 8.6 13.525L6.6 16.2C6.46667 16.3667 6.45 16.5417 6.55 16.725C6.65 16.9083 6.8 17 7 17Z" fill="white"></path>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3">
+                                <img src="./index_files/discover-2.png">
+                                <button class="btn btn-meb-dark"" type="button" data-bs-toggle="modal" data-bs-target="#discover-2-image">
+                                    Aç
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <mask id="mask0_2586_859" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                                            <rect width="24" height="24" fill="#D9D9D9"></rect>
+                                        </mask>
+                                        <g mask="url(#mask0_2586_859)">
+                                            <path d="M5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H19C19.55 3 20.0208 3.19583 20.4125 3.5875C20.8042 3.97917 21 4.45 21 5V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM5 19H19V5H5V19ZM7 17H17C17.2 17 17.35 16.9083 17.45 16.725C17.55 16.5417 17.5333 16.3667 17.4 16.2L14.65 12.525C14.55 12.3917 14.4167 12.325 14.25 12.325C14.0833 12.325 13.95 12.3917 13.85 12.525L11.25 16L9.4 13.525C9.3 13.3917 9.16667 13.325 9 13.325C8.83333 13.325 8.7 13.3917 8.6 13.525L6.6 16.2C6.46667 16.3667 6.45 16.5417 6.55 16.725C6.65 16.9083 6.8 17 7 17Z" fill="white"></path>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="more">Daha fazlasını görmek için <a href="https://ulkemyanimda.eba.gov.tr/moodle/">Tıkla</a></div>
+    </section>
+
+    <section class="about">
+        <div class="container-md">
+            <div class="row justify-content-center text-center">
+                <div class="col-sm-9 col-md-9 col-lg-6 mb-4">
+                    <div class="about-box">
+                        <div class="about-title">Ülkem Yanımda'yı Kimler Kullanabilir?</div>
+                        <div class="about-image">
+                            <img src="./index_files/image-1.svg" alt="Ülkem Yanımda'yı Kimler Kullanabilir?">
+                        </div>
+                        <div class="about-text">
+                  Ülkem Yanımda, yurt dışında yaşayan 5-16 yaş arası Türk soylu çocuklara Türkçe ve Türk kültürünü öğretmeyi amaçlayan yenilikçi bir dijital eğitim platformudur. Platform, canlı ve çevrim içi dersler ile öğrencilere aktif bir öğrenme ortamı sunmaktadır. Uzman öğretmenler eşliğinde gerçekleştirilen derslerde öğrenciler, Türkçe dil becerilerini geliştirirken aynı zamanda kültürel mirasımızla da yakından tanışma fırsatı bulmaktadır. Üstelik platforma kayıt olmak tamamen ücretsizdir ve herkes sisteme üye olarak bu derslerden faydalanabilir.		</div>
+                    </div>
+                </div>
+                <div class="col-sm-9 col-md-9 col-lg-6">
+                    <div class="about-box">
+                        <div class="about-title">Ülkem Yanımda'da Neler Var?</div>
+                        <div class="about-image">
+                            <img src="./index_files/image-2.svg" alt="Ülkem Yanımda'da Neler Var?">
+                        </div>
+                        <div class="about-text">
+                           Ülkem Yanımda, yalnızca canlı derslerle değil, aynı zamanda çeşitli dijital eğitim materyalleriyle de zengin bir öğrenme deneyimi sunmaktadır. Platformda, ders kitapları, sesli kitaplar, eğitici videolar, müzikler, interaktif oyunlar gibi pek çok içerik yer almaktadır. Bunun yanı sıra, öğrencilerin motivasyonlarını artırmak ve onları teşvik etmek amacıyla yıl içerisinde ödüllü yarışmalar düzenlenmektedir. Bu sayede öğrenciler hem eğlenerek öğrenme fırsatı bulmakta hem de kültürel ve akademik gelişimlerini destekleyici etkinliklere katılabilmektedir.                 </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container-md">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="features-title">Ülkem Yanımda Neler Sunuyor</div>
+                    <div class="feature-images container">
+                        <div class="row">
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-01.svg">
+                                <div class="feature-text" style="left: 40%;">
+                                    <span>Canlı Çevrimiçi Dersler</span>
+                                </div>
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-02.svg">
+                                <div class="feature-text" style="left: 40%;">
+                                     <span>Seviye Belirleme Sınavları</span>
+                                </div>
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-12.svg">
+                                <div class="feature-text" style="left: 43%;">
+								<span>Seviye ve Yaşa Uygun Sınıflar</span>
+                                   
+                                </div>
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-04.svg">
+                                <div class="feature-text" style="left: 43%;">
+                                    <span>Yapay Zekâ Desteği</span>
+                                </div>
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-05.svg">
+                                <div class="feature-text" style="left: 35%;">
+                                    <span>Kitaplar</span>
+                                </div>
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-06.svg">
+                                <div class="feature-text" style="left: 37%;">
+                                    <span>Oyunlar</span>
+                                </div>
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-07.svg">
+                                <div class="feature-text" style="left: 31%;">
+                                    <span>Sesli Kitaplar</span>
+                                </div>
+                            </div>
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-08.svg">
+                                <div class="feature-text" style="left: 34%; right: 5% !important;">
+                                    <span>Etkileşimli Videolar</span>
+                                </div>
+                            </div>
+							
+                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-09.svg">
+                                <div class="feature-text" style="left: 34%; right: 5% !important;">
+                                    <span>Kültürel Etkinlikler</span>
+                                </div>
+                            </div>
+							
+							                            <div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-15.svg">
+                                <div class="feature-text" style="left: 34%; right: 5% !important;">
+                                    <span>Yarışmalar</span>
+                                </div>
+                            </div>
+							
+							<div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-7.svg">
+                                <div class="feature-text" style="left: 34%; right: 5% !important;">
+                                    <span>Konuşma Pratiği</span>
+                                </div>
+                            </div>
+							
+							
+														<div class="relative col-6 col-md-3 mb-3 px-2">
+                                <img src="./index_files/feature-20.svg">
+                                <div class="feature-text" style="left: 34%; right: 5% !important;">
+                                    <span>	Bireysel Öğrenme</span>
+                                </div>
+                            </div>
+							
+						
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="modules">
+        <div class="container-md"></div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="modules-title">Ülkem Yanımda'da Yer Alan Modüller</div>
+                <div class="module-images container">
+                    <div class="row">
+                        <div class="relative col-6 col-md-4 mb-3 px-2">
+                            <img src="./index_files/module-1.svg">
+                            <div class="module-title-text">
+                                <span>Hiç Bilmez</span>
+                            </div>
+                            <div class="module-content-text">
+                                <span> Türkçeyi hiç bilmeyen öğrencilere temel becerileri kazandırmayı hedefleyen sınıflar.</span>
+                            </div>
+                        </div>
+                        <div class="relative col-6 col-md-4 mb-3 px-2">
+                            <img src="./index_files/module-2.svg">
+                            <div class="module-title-text">
+                                <span>Okuma Yazma Sınıfı</span>
+                            </div>
+                            <div class="module-content-text">
+                                <span>Okuma yazma bilmeyen veya yeni öğrenen öğrencilere yönelik sınıflar.</span>
+                            </div>
+                        </div>
+                        <div class="relative col-6 col-md-4 mb-3 px-2">
+                            <img src="./index_files/module-3.svg">
+                            <div class="module-title-text">
+                                <span>Konuşma Sınıfı</span>
+                            </div>
+                            <div class="module-content-text">
+                                <span>Konuşma pratiği olmayan öğrencilere yönelik, iletişim becerilerini geliştirmeyi amaçlayan bir sınıflar.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="kanka">
+        <div class="kanka-image">
+            <img src="./index_files/dildas.svg" alt="kanka">
+        </div>
+        <div class="kanka-text">
+            Yapay Zekâ Destekli Asistan <br><span>‘DİLDAŞ’</span> Ülkem Yanımda’da Sizlerle
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container-md">
+            <div class="row">
+                <div class="col-12 text-left stats-text">
+                    Bilgiye Kolayca Ulaşın. <span>Tüm Kaynaklar Çevrim İçi Olarak Ülkem Yanımda’da.</span>
+                </div>
+            </div>
+            <div class="row stat-images mt-4">
+                <div class="col-6 col-md-3 mb-3 px-2">
+                    <img src="./index_files/stat-1.svg">
+                </div>
+                <div class="col-6 col-md-3 mb-3 px-2">
+                    <img src="./index_files/stat-2.svg">
+                </div>
+                <div class="col-6 col-md-3 mb-3 px-2">
+                    <img src="./index_files/stat-3.svg">
+                </div>
+                <div class="col-6 col-md-3 mb-3 px-2">
+                    <img src="./index_files/stat-4.svg">
+                </div>
+            </div>
+            <div class="row stats-feature-image justify-content-center">
+                <div class="col-12 col-sm-6 text-center">
+                    <img src="./index_files/image-3.svg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="meb-footer">
+        <div class="container-md">
+            <div class="row ">
+                <div class="col-6 text-start align-items-center">
+                    <img src="./index_files/meblogoyatay.svg" alt="logo">
+                </div>
+                <div class="col-6 text-end align-items-center">
+                    <img src="./index_files/logo.svg" alt="logo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="info-footer">
+        <div class="container-md">
+            <div class="row">
+                <div class="col-xs-12 col-sm-3 justify-content-xs-center">
+                    <div class="title">Giriş Yapın</div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <div><img src="./index_files/user.png" style="max-width:32px"></div>
+                        <div class="ms-2 footer-item"><a href="https://ulkemyanimda.eba.gov.tr/moodle/login/index.php">Giriş</a></div>
+                    </div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <div><img src="./index_files/user.png" style="max-width:32px"></div>
+                        <div class="ms-2 footer-item"><a href="https://ulkemyanimda.eba.gov.tr/moodle/login/signup.php">Üye Kaydı</a></div>
+                    </div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <div><img src="./index_files/user.png" style="max-width:32px"></div>
+                        <div class="ms-2 footer-item"><a href="https://ulkemyanimda.eba.gov.tr/moodle/">Misafir Girişi</a></div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-3  justify-content-xs-center">
+                    <div class="title">İletişim</div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <div><img src="./index_files/mail.png" style="max-width:32px"></div>
+                        <div class="ms-2 footer-item">kahraman.kostas@meb.gov.tr</div>
+                    </div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <div><img src="./index_files/phone.png" style="max-width:32px"></div>
+                        <div class="ms-2 footer-item">	0 312 413 56 77</div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-3 justify-content-xs-center">
+                    <div class="title">Bizi Takip Edin</div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <div><img src="./index_files/x.svg" style="max-width:32px"></div>
+                        <div class="ms-2 footer-item"><a href="https://x.com/ulkemyanimda" target="_blank">X</a></div>
+                    </div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <div><img src="./index_files/instagram.svg" style="max-width:32px"></div>
+                        <div class="ms-2 footer-item"><a href="https://www.instagram.com/ulkemyanimda" target="_blank">Instagram</a></div>
+                    </div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <div><img src="./index_files/youtube.svg" style="max-width:32px"></div>
+                        <div class="ms-2 footer-item"><a href="https://www.youtube.com/@ulkem_yanimda" target="_blank">Youtube</a></div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-3 justify-content-xs-center">
+                    <div class="title">Mobil Uygulama</div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <a href="https://play.google.com/store/apps/details?id=com.moodle.moodlemobile" target="_blank"><img src="./index_files/playstore.png" style="max-height: 40px" class="img-fluid" alt="Google Play Store&#39;dan indir"></a>
+                    </div>
+                    <div class="d-flex justify-content-xs-center justify-content-sm-left mb-3">
+                        <a href="https://apps.apple.com/us/app/moodle/id633359593" target="_blank"><img src="./index_files/appstore.png" style="max-height: 40px" class="img-fluid" alt="AppStore&#39;dan indir"></a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </footer>
+
+    <footer class="bottom-notes">
+        © 2025, Millî Eğitim Bakanlığı Yükseköğretim Ve Yurt Dişi Eğitim Genel Müdürlüğü tarafından geliştirilmiştir.
+    </footer>
+
+    <script src="./index_files/bootstrap.bundle.min.js.download"></script>
+    <script src="./index_files/jquery-3.7.1.min.js.download"></script>
+    <script src="./index_files/toastr.min.js.download"></script>
+    <script src="./index_files/jquery.fancybox.min.js.download"></script>
+
+    <script>
+        var videoModal1 = document.getElementById('discover-3-image')
+          
+        videoModal1.addEventListener('show.bs.modal', function (event) {
+            
+            $('#video-1').attr('src', 'https://www.youtube.com/embed/r0QxcRBSqdI');
+        })
+
+        videoModal1.addEventListener('hide.bs.modal', function (event) {
+            $('#video-1').attr('src', '');
+        })
+
+
+        var videoModal2 = document.getElementById('discover-4-image')
+
+        videoModal2.addEventListener('show.bs.modal', function (event) {
+
+            $('#video-2').attr('src', 'https://www.youtube.com/embed/r0QxcRBSqdI');
+        })
+
+        videoModal2.addEventListener('hide.bs.modal', function (event) {
+            $('#video-2').attr('src', '');
+        })
+
+
+
+    </script>
+
+
+
+<veepn-lock-screen><template shadowrootmode="open"><style>html{box-sizing:border-box;text-size-adjust:100%;word-break:normal;-moz-tab-size:4;tab-size:4}*,:before,:after{background-repeat:no-repeat;box-sizing:border-box}:before,:after{text-decoration:inherit;vertical-align:inherit}*{padding:0;margin:0}hr{overflow:visible;height:0;color:inherit;border:0;border-top:1px solid}details,main{display:block}summary{display:list-item}small{font-size:80%}[hidden]{display:none!important}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}a{background-color:transparent}a:active,a:hover{outline-width:0}code,kbd,pre,samp{font-family:monospace}pre{font-size:1em}b,strong{font-weight:bolder}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-color:inherit;text-indent:0}iframe{border-style:none}input{border-radius:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none;-moz-appearance:none;appearance:none}textarea{overflow:auto;resize:vertical}button,input,optgroup,select,textarea{font:inherit;color:inherit}optgroup{font-weight:700}button{overflow:visible}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit],[role=button]{cursor:pointer}button::-moz-focus-inner,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{border-style:none;padding:0}button,html [type=button],[type=reset],[type=submit]{-webkit-appearance:button;-moz-appearance:button;appearance:button}button,input,select,textarea{background-color:transparent;border-style:none}button:-moz-focusring,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{outline:1px dotted ButtonText}select{-webkit-appearance:none;-moz-appearance:none;appearance:none}a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-width:0}select::-ms-expand{display:none}select::-ms-value{color:currentcolor}legend{border:0;color:inherit;display:table;white-space:normal;max-width:100%}::-webkit-file-upload-button{-webkit-appearance:button;-moz-appearance:button;appearance:button;color:inherit;font:inherit}[disabled]{cursor:default}img{border-style:none}progress{vertical-align:baseline}[aria-busy=true]{cursor:progress}[aria-controls]{cursor:pointer}[aria-disabled=true]{cursor:default}ul,ol{list-style-type:none}figure{margin:0}.lock-screen{font-family:FigtreeVF,sans-serif;letter-spacing:normal;position:fixed;z-index:2147483638;top:0;right:0;bottom:0;left:0;padding:32px 40px;color:#222e3a;background-color:#fdfdfd;display:flex;flex-direction:column;row-gap:12px;overflow:auto;background-image:radial-gradient(circle at 0% 0%,#e6fffdcc,#e6fffd00 50%),radial-gradient(circle at 100% 0%,#ebfffecc,#ebfffe00 50%),radial-gradient(circle at 100% 100%,#f0f5ffcc,#f0f5ff00 50%),radial-gradient(circle at 0% 100%,#f2f2ffcc,#f2f2ff00 50%),radial-gradient(circle at 50% 50%,#fff,#fffc,#f5f5ff66,#f0f0ff33,#f0f0ff00),linear-gradient(to bottom right,#e6fffd,#f2f2ff);background-size:100% 100%;background-repeat:no-repeat}.lock-screen__header{display:flex;align-items:center;justify-content:space-between}.lock-screen__logo{display:inline-flex;align-items:center;column-gap:12px;font-size:18px;font-weight:600}.lock-screen__close{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background-color:#222e3a1a}.lock-screen__main{flex-grow:1;align-content:center}.lock-screen__container{max-width:1120px;margin-inline:auto;display:flex;align-items:center;gap:24px}@media (width < 972px){.lock-screen__container{flex-direction:column}}.lock-screen__timer{display:flex;align-items:center;justify-content:center;width:100%}.lock-screen__content{width:100%}.lock-screen__title{font-size:48px;font-weight:700;line-height:56px;margin-bottom:16px}.lock-screen__description{font-size:18px;line-height:32px;margin-bottom:24px}.lock-screen__actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.lock-screen__action{height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;text-align:center;padding:8px 24px}.upgrade-btn{color:#fff;background:linear-gradient(180deg,#20df9e,#13cf8f)}.skip-btn{color:#3066ff;border-width:1px;border-style:solid;border-color:#3066ff;position:relative}.skip-btn__tooltip{font-size:14px;line-height:24px;font-weight:400;position:absolute;z-index:1;left:50%;top:calc(100% + 18px);padding:8px 12px;color:#fff;border:1px solid #4a5764;background-color:#222e3a;border-radius:8px;width:max-content;pointer-events:none;animation:slide-in .6s ease-in-out forwards}@keyframes slide-in{0%{opacity:0;transform:translate(-50%,-100%)}to{opacity:1;transform:translate(-50%)}}.skip-btn__tooltip:after{content:"";display:block;position:absolute;z-index:1;top:-8px;left:50%;width:0;height:0;border-style:solid;border-width:0 8px 8px;border-color:transparent transparent #222e3a;transform:translate(-6px)}.skip-btn__icon{display:none}.skip-btn:disabled{cursor:not-allowed}.skip-btn:disabled .skip-btn__tooltip,.skip-btn:disabled .skip-btn__text{display:none}.skip-btn:disabled .skip-btn__icon{display:initial;animation:tick-tock .8s steps(8,end) infinite}@keyframes tick-tock{to{transform:rotate(360deg)}}.timer{position:relative;max-width:422px;width:100%;aspect-ratio:1/1;border-radius:50%;background-color:#fff;box-shadow:0 0 40px #2b374114;display:flex;align-items:center;justify-content:center;pointer-events:none;-webkit-user-select:none;user-select:none}.timer__circle-backward{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:0;max-width:100%;height:auto;opacity:.4}.timer__circle-forward{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);z-index:1;max-width:100%;height:auto;animation:sector 5s linear forwards}.timer__fire-icon{position:absolute;top:22%;left:50%;transform:translate(-50%);z-index:2}.timer__text{font-size:clamp(18px,10vw,88px);letter-spacing:-1px;text-align:center;font-variant-numeric:tabular-nums;position:relative;z-index:3}.timer--finished .timer__text{color:#98a0a9}.timer--finished .timer__circle-forward{display:none}@keyframes sector{0%{clip-path:polygon(50% 50%,0% 2%,100% 0%,100% 100%,0% 100%,0% 2%)}25%{clip-path:polygon(50% 50%,0% 2%,100% 0%,100% 100%,0% 100%,0% 100%)}25.000001%{clip-path:polygon(50% 50%,0% 2%,100% 0%,100% 100%,0% 100%)}50%{clip-path:polygon(50% 50%,0% 2%,100% 0%,100% 100%,100% 100%)}50.000001%{clip-path:polygon(50% 50%,0% 2%,100% 0%,100% 100%)}75%{clip-path:polygon(50% 50%,0% 2%,100% 0%,100% 0%)}75.000001%{clip-path:polygon(50% 50%,0% 2%,100% 0%)}to{clip-path:polygon(50% 50%,0% 2%,0% 0%)}}@media (prefers-color-scheme: dark){.lock-screen{color:#fff;background-image:radial-gradient(circle at 0% 0%,#2f4f4fcc,#2f4f4f00 50%),radial-gradient(circle at 100% 0%,#193042cc,#19304200 50%),radial-gradient(circle at 100% 100%,#1c3041cc,#1c304100 50%),radial-gradient(circle at 0% 100%,#1b263bcc,#1b263b00 50%),radial-gradient(circle at 50% 50%,#141e28,#141e28cc,#1b263b66,#1c304133,#1c304100),linear-gradient(to bottom right,#2f4f4f,#1b263b)}.lock-screen__close{background-color:#ffffff1a}.skip-btn{color:#fff;border-color:#fff}.skip-btn__tooltip{color:#222e3a;border:1px solid #f5f6f7;background-color:#fff}.skip-btn__tooltip:after{border-color:transparent transparent #fff}.timer{background-color:#191b25}.timer__circle-backward{opacity:1}.timer--finished .timer__text{color:#5c6977}}</style></template><style>@font-face{font-family:FigtreeVF;src:url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2 supports variations"),url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2-variations");font-weight:100 1000;font-display:swap}</style></veepn-lock-screen><veepn-guard-alert><template shadowrootmode="open"><style>html{box-sizing:border-box;text-size-adjust:100%;word-break:normal;-moz-tab-size:4;tab-size:4}*,:before,:after{background-repeat:no-repeat;box-sizing:border-box}:before,:after{text-decoration:inherit;vertical-align:inherit}*{padding:0;margin:0}hr{overflow:visible;height:0;color:inherit;border:0;border-top:1px solid}details,main{display:block}summary{display:list-item}small{font-size:80%}[hidden]{display:none}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}a{background-color:transparent}a:active,a:hover{outline-width:0}code,kbd,pre,samp{font-family:monospace}pre{font-size:1em}b,strong{font-weight:bolder}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-color:inherit;text-indent:0}iframe{border-style:none}input{border-radius:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none;-moz-appearance:none;appearance:none}textarea{overflow:auto;resize:vertical}button,input,optgroup,select,textarea{font:inherit;color:inherit}optgroup{font-weight:700}button{overflow:visible}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit],[role=button]{cursor:pointer}button::-moz-focus-inner,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{border-style:none;padding:0}button,html [type=button],[type=reset],[type=submit]{-webkit-appearance:button;-moz-appearance:button;appearance:button}button,input,select,textarea{background-color:transparent;border-style:none}button:-moz-focusring,[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner{outline:1px dotted ButtonText}select{-webkit-appearance:none;-moz-appearance:none;appearance:none}a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-width:0}select::-ms-expand{display:none}select::-ms-value{color:currentcolor}legend{border:0;color:inherit;display:table;white-space:normal;max-width:100%}::-webkit-file-upload-button{-webkit-appearance:button;-moz-appearance:button;appearance:button;color:inherit;font:inherit}[disabled]{cursor:default}img{border-style:none}progress{vertical-align:baseline}[aria-busy=true]{cursor:progress}[aria-controls]{cursor:pointer}[aria-disabled=true]{cursor:default}ul,ol{list-style-type:none}figure{margin:0}.guard-popup{font-family:FigtreeVF,sans-serif;position:fixed;z-index:2147483638;top:8px;left:24px;overflow:visible;color:#222e3a;background-color:#fff;max-width:416px;width:calc(100% - 48px);border-radius:16px;box-shadow:0 4px 20px #00000040;padding:24px}.guard-popup__header{display:flex;justify-content:space-between;align-items:center;column-gap:16px;margin-bottom:24px}.guard-popup__close{display:flex;align-items:center;justify-content:center;width:24px;height:24px;opacity:.7}.guard-popup__img{line-height:0;margin-bottom:24px}.guard-popup__img img{width:100%;aspect-ratio:368/142;object-fit:cover;border-radius:12px;overflow:hidden}.guard-popup__title{font-size:24px;line-height:32px;margin-bottom:8px}.guard-popup__description{font-size:20px;line-height:28px;font-weight:500;color:#4a5764;margin-bottom:28px}.guard-popup__actions{display:flex;justify-content:flex-end;column-gap:16px}.guard-popup__btn{display:flex;align-items:center;justify-content:center;padding:8px 16px;border-radius:5px;font-size:16px;line-height:24px;font-weight:700;cursor:pointer;color:#fff;background:linear-gradient(180deg,#5695fd,#1554ff)}</style></template><style>@font-face{font-family:FigtreeVF;src:url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2 supports variations"),url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2) format("woff2-variations");font-weight:100 1000;font-display:swap}</style></veepn-guard-alert></body></html>

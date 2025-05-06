@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 19 Mayıs Atatürk’ü Anma, Gençlik ve Spor Bayramı Çizgi Roman Yarışması ı</title>
+    <style>
+        /* Önceki stiller aynı kalıyor */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #6200ea;
+            text-align: center;
+            position: relative;
+            padding: 0;
+        }
+        header img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+            .announcements-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .announcements-table {
+            background-color: #ede7f6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1200px; /* Duyuru genişliğini sınırlamak için */
+        }
+        .announcements-table h2 {
+            color: #6200ea;
+            margin-bottom: 15px;
+        }
+        .announcements-table ul {
+            list-style-position: inside;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .announcements-table ol {
+            list-style-position: inside;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .sections {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .section {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px;
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .section:hover {
+            transform: scale(1.05);
+        }
+        .section a {
+            text-decoration: none;
+            color: #6200ea;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .section img {
+            width: 100px;
+            height: 100px;
+        }
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+        .video-modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding-bottom: 45%;
+        }
+        .video-modal iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .close-button {
+            position: absolute;
+            top: -30px;
+            right: 0;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+			
+	.media-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.media-container img,
+.media-container iframe {
+    width: 48%; /* Resim ve video için eşit genişlik */
+    height: auto;
+}
+
+.media-container iframe {
+    height: 315px; /* Video yüksekliği */
+}
+			@media (max-width: 768px) {
+    .media-container {
+        flex-direction: column;
+    }
+
+    .media-container img,
+    .media-container iframe {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+        }
+		
+		
+		.media-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.media-item {
+    width: 48%; /* Eşit genişlik */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.media-item:hover {
+    transform: scale(1.05); /* Tıklanabilir hissi vermek için hover efekti */
+}
+
+.media-content {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal stil */
+.media-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    text-align: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+		
+		
+		    /* Genel stiller */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Resim ve video container */
+        .media-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        /* Her bir medya öğesi */
+        .media-item {
+            width: 48%; /* Eşit genişlik */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .media-item:hover {
+            transform: scale(1.05); /* Tıklanabilir hissi vermek için hover efekti */
+        }
+
+        /* Resim ve video stilleri */
+        .media-content {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* Sabit en-boy oranı */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .media-content img {
+            object-fit: cover; /* Resmi orantılı bir şekilde kırpar */
+        }
+
+        /* Modal (büyütülmüş medya) stilleri */
+        .media-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            aspect-ratio: 16 / 9; /* Modal içinde de en-boy oranını koru */
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .modal-content img {
+            object-fit: contain; /* Resmi orantılı bir şekilde göster */
+        }
+
+        /* Kapatma düğmesi */
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .media-container {
+                flex-direction: column;
+            }
+
+            .media-item {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    </style>
+    <script>
+        function openVideo(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+        
+        function closeVideo(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            // Video'yu durdur
+            var iframe = document.querySelector('#' + modalId + ' iframe');
+            var iframeSrc = iframe.src;
+            iframe.src = iframeSrc;
+        }
+        
+        // Modal dışına tıklandığında kapatma
+        window.onclick = function(event) {
+            if (event.target.classList.contains('video-modal')) {
+                closeVideo(event.target.id);
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <img src="icons/mainbanner.jpg" alt="Kültürel Keşif Yarışması Bannerı">
+    </header>
+
+    <div class="sections">
+        <div class="section">
+            <a href="pdfs/sartname.pdf" target="_blank">
+                <img src="icons/deal.png" alt="Tools Icon">
+                Şartname
+            </a>
+        </div>
+		
+		
+						        <div class="section">
+            <a href="https://drive.google.com/file/d/12uvAE5jaaMwmp7k5gqp7OobJbJI6jn-d/view?usp=sharing" target="_blank">
+                <img src="icons/difficulties.png" alt="Tools Icon">
+                Bu Ay Ne Oldu? | PDF
+            </a>
+        </div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        <div class="section">
+            <a href="#" onclick="openVideo('videoModal1'); return false;">
+                <img src="icons/youtube.png" alt="YouTube Icon">
+               19 Mayıs - İstiklal Yolculuğu
+            </a>
+        </div>
+		
+		        <div class="section">
+            <a href="#" onclick="openVideo('videoModal2'); return false;">
+                <img src="icons/youtube.png" alt="YouTube Icon">
+     Aslanın Deney Odası 19 Mayıs Kutlaması 
+            </a>
+        </div>	        
+		
+		
+		
+		<div class="section">
+            <a href="#" onclick="openVideo('videoModal3'); return false;">
+                <img src="icons/youtube.png" alt="YouTube Icon">
+      Atatürk ve Spor
+            </a>
+        </div>
+		
+		        <div class="section">
+            <a href="#" onclick="openVideo('videoModal4'); return false;">
+                <img src="icons/youtube.png" alt="YouTube Icon">
+        İleri Marşı
+            </a>
+        </div>	
+
+
+		        <div class="section">
+            <a href="#" onclick="openVideo('videoModal5'); return false;">
+                <img src="icons/youtube.png" alt="YouTube Icon">
+          Sporcularımız Kürsüde
+            </a>
+        </div>		
+       
+
+
+
+        <div class="section">
+            <a href="pdfs/ornek.pdf" target="_blank">
+                <img src="icons/comic.png" alt="Tools Icon">
+                Örnek Senaryo
+            </a>
+        </div>
+     <div class="section">
+            <a href="pdfs/cizgiroman.pdf" target="_blank">
+                <img src="icons/19mayis.png" alt="Tools Icon">
+                Örnek Çizgi Roman
+            </a>
+        </div>
+		
+       
+				        <div class="section">
+            <a href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=192" target="_blank">
+                <img src="icons/video.png" alt="Tools Icon">
+                Yarışmaya Katıl | Resim Yükle
+            </a>
+        </div>
+    </div>
+
+    <!-- Video Modal 1 -->
+    <div id="videoModal1" class="video-modal">
+        <div class="video-modal-content">
+            <span class="close-button" onclick="closeVideo('videoModal1')">&times;</span>
+            <iframe 
+                src="https://www.youtube-nocookie.com/embed/xJjPaekCTzw" 
+                title="19 Mayıs - İstiklal Yolculuğu"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+    <!-- Video Modal 2 -->
+    <div id="videoModal2" class="video-modal">
+        <div class="video-modal-content">
+            <span class="close-button" onclick="closeVideo('videoModal2')">&times;</span>
+            <iframe 
+                src="https://www.youtube-nocookie.com/embed/PBAhierLh34" 
+                title="Aslanın Deney Odası 19 Mayıs Kutlaması"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+	
+	
+	
+	
+    <!-- Video Modal 3 -->
+    <div id="videoModal3" class="video-modal">
+        <div class="video-modal-content">
+            <span class="close-button" onclick="closeVideo('videoModal3')">&times;</span>
+            <iframe 
+                src="https://www.youtube-nocookie.com/embed/A6YvaOgogR8" 
+                title="Atatürk ve Spor"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+	
+    <!-- Video Modal 4 -->
+    <div id="videoModal4" class="video-modal">
+        <div class="video-modal-content">
+            <span class="close-button" onclick="closeVideo('videoModal4')">&times;</span>
+            <iframe 
+                src="https://www.youtube-nocookie.com/embed/coZhvXBPuq0" 
+                title="İleri Marşı"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+	
+    <!-- Video Modal 5 -->
+    <div id="videoModal5" class="video-modal">
+        <div class="video-modal-content">
+            <span class="close-button" onclick="closeVideo('videoModal5')">&times;</span>
+            <iframe 
+                src="https://www.youtube-nocookie.com/embed/P6Zbs9aD1_c" 
+                title="Sporcularımız Kürsüde"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    
+    <!-- Resim ve video container -->
+    <div class="media-container">
+        <div class="media-item" onclick="openMedia('image')">
+            <img src="icons/afis.jpg" alt="Poster" class="media-content">
+        </div>
+        <div class="media-item" onclick="openMedia('video')">
+            <iframe class="media-content" src="https://www.youtube.com/embed/05fBDPik1-4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <!-- Büyütülmüş medya için modal -->
+    <div id="mediaModal" class="media-modal">
+        <span class="close-button" onclick="closeMedia()">&times;</span>
+        <img id="expandedImage" class="modal-content" src="" alt="Büyütülmüş Resim">
+        <iframe id="expandedVideo" class="modal-content" src="" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+
+
+    <script>
+        // Medyayı büyütmek için fonksiyon
+        function openMedia(type) {
+            const modal = document.getElementById('mediaModal');
+            const expandedImage = document.getElementById('expandedImage');
+            const expandedVideo = document.getElementById('expandedVideo');
+
+            if (type === 'image') {
+                const imgSrc = document.querySelector('.media-container img').src;
+                expandedImage.src = imgSrc;
+                expandedImage.style.display = 'block';
+                expandedVideo.style.display = 'none';
+            } else if (type === 'video') {
+                const videoSrc = document.querySelector('.media-container iframe').src;
+                expandedVideo.src = videoSrc;
+                expandedVideo.style.display = 'block';
+                expandedImage.style.display = 'none';
+            }
+
+            modal.style.display = 'block';
+        }
+
+        // Modalı kapatmak için fonksiyon
+        function closeMedia() {
+            const modal = document.getElementById('mediaModal');
+            const expandedVideo = document.getElementById('expandedVideo');
+
+            modal.style.display = 'none';
+            expandedVideo.src = ''; // Videoyu durdur
+        }
+    </script>
+
+</body>
+</html>
+
