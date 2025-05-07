@@ -92,23 +92,6 @@
         style="border: none; overflow: hidden;" 
         scrolling="no">
 </iframe>
-		  
-<div id="duyuru"></div>
-
-<script>
-    fetch('https://ulkemyanimda.github.io/duyurular.txt')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('duyuru').innerHTML = `
-                <marquee behavior="scroll" direction="left" scrollamount="10" style="background-color: #ffc801; color: #000000; padding: 10px;">
-                    <h5 style="margin: 0;">${data}</h5>
-                </marquee>
-            `;
-        })
-        .catch(error => {
-            console.error('Duyuru metni alınamadı:', error);
-        });
-</script>
 
 
 
