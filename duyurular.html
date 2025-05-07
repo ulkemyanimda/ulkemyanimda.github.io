@@ -1,0 +1,36 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
+    <title>DUYURU</title>
+
+</head>
+<body>
+    <header>
+
+    </header>
+
+<div id="duyuru"></div>
+
+<script>
+    fetch('https://ulkemyanimda.github.io/duyurular.txt')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('duyuru').innerHTML = `
+                <marquee behavior="scroll" direction="left" scrollamount="10" style="background-color: #ffc801; color: #000000; padding: 10px;">
+                    <h5 style="margin: 0;">${data}</h5>
+                </marquee>
+            `;
+        })
+        .catch(error => {
+            console.error('Duyuru metni alınamadı:', error);
+        });
+</script>
+
+</body>
+</html>
