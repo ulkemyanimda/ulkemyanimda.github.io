@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
-    <title>23 Nisan Resim Yarışması Sonuçları</title>
+    <title>19 Mayıs Çizgi Roman Yarışması Sonuçları</title>
     <style>
         * {
             margin: 0;
@@ -14,12 +13,12 @@
         }
         
         body {
-            background-color: #f0f0f0;
+            background-color: #f5f5f5;
             color: #333;
         }
         
         header {
-            background: linear-gradient(135deg, #e71d36, #ff9f1c);
+            background: linear-gradient(135deg, #e30a17, #002D62);
             color: white;
             text-align: center;
             padding: 2.5rem 1rem;
@@ -68,7 +67,7 @@
         }
         
         .announcement h3 {
-            color: #e71d36;
+            color: #e30a17;
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
@@ -77,16 +76,6 @@
             font-size: 1.1rem;
             line-height: 1.6;
             margin-bottom: 1rem;
-        }
-        
-        .sorting-info {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 0.75rem;
-            border-radius: 4px;
-            margin-bottom: 2rem;
-            text-align: center;
-            font-size: 1rem;
         }
         
         .gallery-title {
@@ -102,32 +91,35 @@
             display: block;
             width: 60px;
             height: 4px;
-            background-color: #e71d36;
+            background-color: #e30a17;
             margin: 1rem auto 0;
         }
         
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        .winners {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 2rem;
             margin-bottom: 3rem;
         }
         
-        .gallery-item {
+        .winner-card {
             background: white;
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            width: 300px;
+            position: relative;
         }
         
-        .gallery-item:hover {
+        .winner-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
         }
         
-        .gallery-image {
+        .winner-image {
             width: 100%;
             height: 250px;
             object-fit: cover;
@@ -135,34 +127,52 @@
             transition: opacity 0.3s ease;
         }
         
-        .gallery-item:hover .gallery-image {
+        .winner-card:hover .winner-image {
             opacity: 0.9;
         }
         
-        .gallery-caption {
+        .winner-caption {
             padding: 1.5rem;
             background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,1));
+            position: relative;
         }
         
         .student-name {
             font-size: 1.25rem;
             margin-bottom: 0.5rem;
-            color: #e71d36;
+            color: #e30a17;
         }
         
-        .view-button {
-            display: inline-block;
-            background-color: #2ec4b6;
+        .winner-place {
+            position: absolute;
+            top: -30px;
+            right: 10px;
+            width: 60px;
+            height: 60px;
+            background-color: #e30a17;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            text-decoration: none;
-            margin-top: 0.5rem;
-            transition: background-color 0.3s ease;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 3px solid white;
+            z-index: 1; /* Eklendi: Diğer elemanların üzerinde görünmesi için */
+            transform: translateY(15px); /* Eklendi: Derece numaralarını yukarı taşımak için */
         }
         
-        .view-button:hover {
-            background-color: #1a936f;
+        .first-place {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+        }
+        
+        .second-place {
+            background: linear-gradient(135deg, #C0C0C0, #A9A9A9);
+        }
+        
+        .third-place {
+            background: linear-gradient(135deg, #CD7F32, #8B4513);
         }
         
         .modal {
@@ -176,6 +186,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            overflow-y: auto; /* Eklendi: İçerik çok büyükse kaydırma çubuğu */
         }
         
         .modal-content {
@@ -185,6 +196,7 @@
             padding: 2rem;
             border-radius: 8px;
             position: relative;
+            margin: 30px auto; /* Eklendi: Merkezde konumlandırma */
         }
         
         .close-modal {
@@ -225,12 +237,22 @@
         .modal-info h3 {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
-            color: #e71d36;
+            color: #e30a17;
         }
         
         .modal-info p {
             font-size: 1.1rem;
             color: #555;
+        }
+        
+        .modal-info .prize {
+            display: inline-block;
+            background-color: #e30a17;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            font-weight: 500;
         }
         
         footer {
@@ -239,6 +261,50 @@
             text-align: center;
             padding: 1.5rem;
             margin-top: 2rem;
+        }
+        
+        .atatürk-quote {
+            background-color: #002D62;
+            color: white;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            border-radius: 8px;
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .atatürk-quote p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .atatürk-quote cite {
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        .atatürk-quote::before {
+            content: """;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 5rem;
+            opacity: 0.2;
+            font-family: Georgia, serif;
+        }
+        
+        .atatürk-quote::after {
+            content: """;
+            position: absolute;
+            bottom: -20px;
+            right: 10px;
+            font-size: 5rem;
+            opacity: 0.2;
+            font-family: Georgia, serif;
         }
         
         .confetti {
@@ -254,10 +320,44 @@
             100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
         
+        .flag-ribbon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .flag-ribbon::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 40px;
+            background-color: #e30a17;
+            transform: rotate(45deg) translateY(-60px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        .ribbon-text {
+            position: absolute;
+            top: 15px;
+            right: -40px;
+            transform: rotate(45deg);
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            text-align: center;
+            width: 200px;
+        }
+        
         @media (max-width: 768px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1.5rem;
+            .winners {
+                flex-direction: column;
+                align-items: center;
             }
             
             h1 {
@@ -267,140 +367,101 @@
             .announcement {
                 padding: 1.5rem;
             }
+            
+            .flag-ribbon {
+                width: 100px;
+                height: 100px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>23 Nisan Ulusal Egemenlik ve Çocuk Bayramı</h1>
-        <h2>Resim Yarışması Sonuçları</h2>
+        <h1>19 Mayıs Atatürk'ü Anma, Gençlik ve Spor Bayramı</h1>
+        <h2>Çizgi Roman Yarışması Sonuçları</h2>
+        <div class="flag-ribbon">
+            <span class="ribbon-text"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19 MAYIS 1919</span>
+        </div>
     </header>
     
     <div class="container">
         <div class="announcement">
             <h3>Yarışma Sonuçları Açıklandı</h3>
-            <p>23 Nisan Ulusal Egemenlik ve Çocuk Bayramı kapsamında düzenlenen resim yarışmasında dereceye giren öğrencilerimizi tebrik ederiz.  Dereceye giren öğrencilerimizin birbirinden güzel eserleri aşağıda sergilenmektedir.</p>
-            <p>Tüm katılımcı öğrencilerimize teşekkür eder, başarılarının devamını dileriz.</p>
+            <p>19 Mayıs Atatürk'ü Anma, Gençlik ve Spor Bayramı kapsamında düzenlenen çizgi roman yarışmasının sonuçları açıklandı. 5-16 yaş arası öğrencilerin katılımıyla gerçekleşen yarışmada genç yetenekler, Atatürk'ün gençliğe verdiği önemi ve milli mücadelenin ruhunu çizgilerle anlattı.</p>
+            <p>Yarışmaya katılan tüm öğrencilerimiz özgün anlatımları ve güzel çizimleriyle büyük beğeni toplarken, jüri değerlendirmesi sonucunda ilk beşe giren eserler belirlendi.</p>
         </div>
         
-        <div class="sorting-info">
-            <strong>Not:</strong> Öğrencilerimizin isimleri alfabetik sıraya göre listelenmiştir.
+        <div class="atatürk-quote">
+            <p>"Gençler! Benim gelecekteki emellerimi gerçekleştirmeyi üstlenen gençler! Bir gün memleketi sizin gibi beni anlamış bir gençliğe bırakacağımdan dolayı çok memnun ve mesudum."</p>
+            <cite>Mustafa Kemal Atatürk</cite>
         </div>
         
-        <h2 class="gallery-title">Yarışma Sonuçları</h2>
+        <h2 class="gallery-title">Kazananlar</h2>
         
-        <div class="gallery">
-            <!-- Öğrenciler alfabetik sırayla -->
-            <div class="gallery-item" onclick="openModal('Ayşe Eminefendi')">
-                <img src="./imgs/01.jpg" alt="Ayşe Eminefendi'nin Resmi" class="gallery-image">
-                <div class="gallery-caption">
+        <div class="winners">
+            <!-- Birinci -->
+            <div class="winner-card" onclick="openModal('Aylin Eminefendi', 1, 'imgs/01.jpg')">
+                <div class="winner-place first-place">1</div>
+                <img src="imgs/01.jpg" alt="Aylin Eminefendi'nin Çizgi Romanı" class="winner-image">
+                <div class="winner-caption">
+                    <h3 class="student-name">Aylin Eminefendi</h3>
+                    <p>Birincilik Ödülü</p>
+                </div>
+            </div>
+            
+            <!-- İkinci -->
+            <div class="winner-card" onclick="openModal('Ayşe Eminefendi', 2, 'imgs/02.jpg')">
+                <div class="winner-place second-place">2</div>
+                <img src="imgs/02.jpg" alt="Ayşe Eminefendi'nin Çizgi Romanı" class="winner-image">
+                <div class="winner-caption">
                     <h3 class="student-name">Ayşe Eminefendi</h3>
+                    <p>İkincilik Ödülü</p>
                 </div>
             </div>
             
-            <div class="gallery-item" onclick="openModal('Berra Akteke')">
-                <img src="./imgs/02.jpg" alt="Berra Akteke'nin Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Berra Akteke</h3>
+            <!-- Üçüncü -->
+            <div class="winner-card" onclick="openModal('Eren Rombouts', 3, 'imgs/03.jpg')">
+                <div class="winner-place third-place">3</div>
+                <img src="imgs/03.jpg" alt="Eren Rombouts'un Çizgi Romanı" class="winner-image">
+                <div class="winner-caption">
+                    <h3 class="student-name">Eren Rombouts</h3>
+                    <p>Üçüncülük Ödülü</p>
                 </div>
             </div>
             
-            <div class="gallery-item" onclick="openModal('Büşra Bendez')">
-                <img src="./imgs/03.jpg" alt="Büşra Bendez'in Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Büşra Bendez</h3>
+            <!-- Dördüncü -->
+            <div class="winner-card" onclick="openModal('Ediz Rombouts', 4, 'imgs/04.jpg')">
+                <div class="winner-place">4</div>
+                <img src="imgs/04.jpg" alt="Ediz Rombouts'un Çizgi Romanı" class="winner-image">
+                <div class="winner-caption">
+                    <h3 class="student-name">Ediz Rombouts</h3>
+                    <p>Dördüncülük Ödülü</p>
                 </div>
             </div>
             
-            <div class="gallery-item" onclick="openModal('Derin Demirer')">
-                <img src="./imgs/04.jpg" alt="Derin Demirer'in Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Derin Demirer</h3>
+            <!-- Beşinci - İki kişi -->
+            <div class="winner-card" onclick="openModal('Mukhammad Yusuf Takhirov', 5, 'imgs/05a.jpg')">
+                <div class="winner-place">5</div>
+                <img src="imgs/05a.jpg" alt="Mukhammad Yusuf Takhirov Çizgi Romanı" class="winner-image">
+                <div class="winner-caption">
+                    <h3 class="student-name">Mukhammad Yusuf Takhirov</h3>
+                    <p>Beşincilik Ödülü</p>
                 </div>
             </div>
             
-            <div class="gallery-item" onclick="openModal('Elif Şahin')">
-                <img src="./imgs/05.jpg" alt="Elif Şahin'in Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Elif Şahin</h3>
+            <div class="winner-card" onclick="openModal('Peri Meral', 5, 'imgs/05b.jpg')">
+                <div class="winner-place">5</div>
+                <img src="imgs/05b.jpg" alt="Peri Meral'in Çizgi Romanı" class="winner-image">
+                <div class="winner-caption">
+                    <h3 class="student-name">Peri Meral</h3>
+                    <p>Beşincilik Ödülü</p>
                 </div>
             </div>
-            
-            <div class="gallery-item" onclick="openModal('Kerem Nuri')">
-                <img src="./imgs/06.jpg" alt="Kerem Nuri'nin Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Kerem Nuri</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Muhammed Eymen Akteke')">
-                <img src="./imgs/07.jpg" alt="Muhammed Eymen Akteke'nin Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Muhammed Eymen Akteke</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Özgür Arslan')">
-                <img src="./imgs/08.jpg" alt="Özgür Arslan'ın Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Özgür Arslan</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Selin Anacak')">
-                <img src="./imgs/09.jpg" alt="Selin Anacak'ın Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Selin Anacak</h3>
-                </div>
-            </div>
-  
-  
-  
-  
-              <div class="gallery-item" onclick="")">
-              
-                <div class="gallery-caption">
-                    <h3 class="student-name"></h3>
-                </div>
-            </div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-            <div class="gallery-item" onclick="openModal('Uchechu Modebelu Iroghama')">
-                <img src="./imgs/10.jpg" alt="Uchechu Modebelu Iroghama'nın Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Uchechu Modebelu Iroghama</h3>
-                </div>
-            </div>
-			
-			
-			
-			  
-              <div class="gallery-item" onclick="")">
-              
-                <div class="gallery-caption">
-                    <h3 class="student-name"></h3>
-                </div>
-            </div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+        </div>
+        
+        <div class="announcement">
+            <h3>Teşekkür</h3>
+            <p>Tarih bilinciyle sanatsal becerilerini birleştirerek yarışmamıza katılım gösteren tüm öğrencilerimize ve rehberlik eden öğretmenlerine teşekkür ederiz.</p>
         </div>
     </div>
     
@@ -408,21 +469,22 @@
     <div class="modal" id="imageModal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal()">&times;</span>
-            <img src="/api/placeholder/800/600" alt="Büyük Resim" class="modal-image" id="modalImage">
+            <img src="" alt="Büyük Görsel" class="modal-image" id="modalImage">
             <div class="modal-info">
                 <h3 id="modalName">Öğrenci Adı</h3>
-                <p>23 Nisan Ulusal Egemenlik ve Çocuk Bayramı Resim Yarışması</p>
+                <p>19 Mayıs Atatürk'ü Anma, Gençlik ve Spor Bayramı Çizgi Roman Yarışması</p>
+                <span class="prize" id="modalPrize">Birincilik Ödülü</span>
             </div>
         </div>
     </div>
     
     <footer>
-        <p>&copy; 2025 23 Nisan Ulusal Egemenlik ve Çocuk Bayramı Resim Yarışması Sonuçları</p>
+        <p>&copy; 2025 19 Mayıs Atatürk'ü Anma, Gençlik ve Spor Bayramı Çizgi Roman Yarışması</p>
     </footer>
     
     <script>
-        // Konfeti efekti için rastgele renkler
-        const colors = ["#e71d36", "#ff9f1c", "#2ec4b6", "#fdfffc", "#011627"];
+        // Konfeti efekti için renkler - Türk bayrağı renkleri
+        const colors = ["#e30a17", "#ffffff", "#002D62", "#ffffff"];
         
         // Konfeti oluşturma
         for (let i = 0; i < 50; i++) {
@@ -453,25 +515,38 @@
             }, (duration + delay) * 1000);
         }
         
-function openModal(name) {
-    // Öğrenci adına göre doğru resim kaynağını bulalım
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    let imageSrc = '';
-    
-    // Tıklanan öğrenciyi bulup resim kaynağını alalım
-    for (let item of galleryItems) {
-        if (item.querySelector('.student-name').textContent === name) {
-            imageSrc = item.querySelector('.gallery-image').src;
-            break;
+        function openModal(name, place, imageSrc) {
+            // Prize metni belirle
+            let prizeText = "";
+            switch(place) {
+                case 1:
+                    prizeText = "Birincilik Ödülü";
+                    break;
+                case 2:
+                    prizeText = "İkincilik Ödülü";
+                    break;
+                case 3:
+                    prizeText = "Üçüncülük Ödülü";
+                    break;
+                case 4:
+                    prizeText = "Dördüncülük Ödülü";
+                    break;
+                case 5:
+                    prizeText = "Beşincilik Ödülü";
+                    break;
+                default:
+                    prizeText = "Katılım Ödülü";
+            }
+            
+            // Modal içindeki bilgileri güncelleyelim
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalPrize').textContent = prizeText;
+            
+            // Resim kaynağını doğrudan karttan alıyoruz
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalImage').alt = name + " - Çizgi Roman";
+            document.getElementById('imageModal').style.display = 'flex';
         }
-    }
-    
-    // Modal içindeki resmi ve bilgileri güncelleyelim
-    document.getElementById('modalName').textContent = name;
-    document.getElementById('modalImage').src = imageSrc;
-    document.getElementById('modalImage').alt = name + "'in Resmi";
-    document.getElementById('imageModal').style.display = 'flex';
-}
         
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
