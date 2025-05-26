@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-	<link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kültürel Keşif Yarışması</title>
+	<link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
+    <title> 18 Mart Çanakkale Zaferi</title>
     <style>
         /* Önceki stiller aynı kalıyor */
         body {
@@ -312,94 +312,24 @@
 		
 		
     </style>
-    <script>
-        function openVideo(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-        
-        function closeVideo(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            // Video'yu durdur
-            var iframe = document.querySelector('#' + modalId + ' iframe');
-            var iframeSrc = iframe.src;
-            iframe.src = iframeSrc;
-        }
-        
-        // Modal dışına tıklandığında kapatma
-        window.onclick = function(event) {
-            if (event.target.classList.contains('video-modal')) {
-                closeVideo(event.target.id);
-            }
-        }
-    </script>
+  
 </head>
 <body>
     <header>
-        <img src="icons/mainbanner.jpg" alt="Kültürel Keşif Yarışması Bannerı">
+        <img src="icons/mainbanner.jpg" alt="18 Mart Çanakkale Zaferi">
     </header>
+<div class="section">
 
-    <div class="sections">
         <div class="section">
-            <a href="pdfs/kültürelkesifsartname.pdf" target="_blank">
-                <img src="icons/deal.png" alt="Tools Icon">
-                Şartname
-            </a>
-        </div> 
-       
-				        <div class="section">
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNZN2dAQcNeUN7EcuPElqfJSyQ1UMGwtbU_Ghct1Q1VEvFWg/viewform?usp=sharing&ouid=110305936122489267647" target="_blank">
-                <img src="icons/video.png" alt="Tools Icon">
-                Yarışmaya Başvur
+            <a href="https://edpuzzle.com/media/67da966d358a0b8cb1222dcf" target="_blank">
+                <img src="icons/canakkale.jpg" alt="Tools Icon">
+                TBMM Çocuk - Ali ve Ayşe Çanakkale Gezisinde
             </a>
         </div>
-		
+    
+	 </div>
 
 
-    <!-- Büyütülmüş medya için modal -->
-    <div id="mediaModal" class="media-modal">
-        <span class="close-button" onclick="closeMedia()">&times;</span>
-        <img id="expandedImage" class="modal-content" src="" alt="Büyütülmüş Resim">
-        <iframe id="expandedVideo" class="modal-content" src="" frameborder="0" allowfullscreen></iframe>
-    </div>
-
-<div class="section">
-            <a href="icons/afis.png" target="_blank">
-                <img src="icons/afis.png" alt="afis">
-                <br>Kültürel Keşif Yarışması
-            </a>
-        </div>	
-
-    <script>
-        // Medyayı büyütmek için fonksiyon
-        function openMedia(type) {
-            const modal = document.getElementById('mediaModal');
-            const expandedImage = document.getElementById('expandedImage');
-            const expandedVideo = document.getElementById('expandedVideo');
-
-            if (type === 'image') {
-                const imgSrc = document.querySelector('.media-container img').src;
-                expandedImage.src = imgSrc;
-                expandedImage.style.display = 'block';
-                expandedVideo.style.display = 'none';
-            } else if (type === 'video') {
-                const videoSrc = document.querySelector('.media-container iframe').src;
-                expandedVideo.src = videoSrc;
-                expandedVideo.style.display = 'block';
-                expandedImage.style.display = 'none';
-            }
-
-            modal.style.display = 'block';
-        }
-
-        // Modalı kapatmak için fonksiyon
-        function closeMedia() {
-            const modal = document.getElementById('mediaModal');
-            const expandedVideo = document.getElementById('expandedVideo');
-
-            modal.style.display = 'none';
-            expandedVideo.src = ''; // Videoyu durdur
-        }
-    </script>
 
 </body>
 </html>
