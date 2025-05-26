@@ -3,487 +3,536 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
-    <title>23 Nisan Resim Yarışması Sonuçları</title>
+    <title>Türk Mutfağı Haftası Yarışması Sonuçları</title>
     <style>
-        * {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('/api/placeholder/400/320');
+            background-size: cover;
+            background-position: center;
         }
-        
-        body {
-            background-color: #f0f0f0;
-            color: #333;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #e71d36, #ff9f1c);
-            color: white;
+        .container {
+            width: 90%;
+            max-width: 900px;
             text-align: center;
-            padding: 2.5rem 1rem;
+            position: relative;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+        }
+
+        h1 {
+            color: #c41e3a;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+        }
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background-color: #c41e3a;
+        }
+        .winners-container {
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .winner {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
             position: relative;
             overflow: hidden;
         }
-        
-        header::before {
-            content: "";
+        .winner.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .winner.first-place::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'%3E%3Cpath fill='%23ffffff' fill-opacity='0.1' d='M14 16H9v-2h5V9.87a4 4 0 1 1 2 0V14h5v2h-5v15.95A10 10 0 0 0 23.66 27l-3.46-2 8.2-2.2-2.9 5a12 12 0 0 1-21 0l-2.89-5 8.2 2.2-3.47 2A10 10 0 0 0 14 31.95V16zm40 40h-5v-2h5v-4.13a4 4 0 1 1 2 0V54h5v2h-5v15.95A10 10 0 0 0 63.66 67l-3.47-2 8.2-2.2-2.88 5a12 12 0 0 1-21.02 0l-2.88-5 8.2 2.2-3.47 2A10 10 0 0 0 54 71.95V56zm-39 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm40-40a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM15 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm40 40a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'%3E%3C/path%3E%3C/svg%3E");
-            opacity: 0.2;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            position: relative;
-        }
-        
-        h2 {
-            font-size: 1.5rem;
-            font-weight: normal;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        
-        .announcement {
-            background-color: #fff;
-            padding: 2rem;
-            margin: 2rem auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 900px;
-        }
-        
-        .announcement h3 {
-            color: #e71d36;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .announcement p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-        
-        .sorting-info {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 0.75rem;
-            border-radius: 4px;
-            margin-bottom: 2rem;
-            text-align: center;
-            font-size: 1rem;
-        }
-        
-        .gallery-title {
-            text-align: center;
-            margin: 3rem 0 2rem;
-            font-size: 2rem;
-            color: #333;
-            position: relative;
-        }
-        
-        .gallery-title::after {
-            content: "";
-            display: block;
-            width: 60px;
-            height: 4px;
-            background-color: #e71d36;
-            margin: 1rem auto 0;
-        }
-        
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .gallery-item {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        }
-        
-        .gallery-image {
             width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-            transition: opacity 0.3s ease;
+            height: 5px;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
         }
-        
-        .gallery-item:hover .gallery-image {
-            opacity: 0.9;
+        .winner.second-place::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #C0C0C0, #A8A8A8);
         }
-        
-        .gallery-caption {
-            padding: 1.5rem;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,1));
+        .winner.third-place::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #CD7F32, #B8860B);
         }
-        
-        .student-name {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: #e71d36;
+        .winner.other-place::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #c41e3a;
         }
-        
-        .view-button {
+        .medal {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% {transform: scale(1); text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);}
+            50% {transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);}
+            100% {transform: scale(1); text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);}
+        }
+        .name {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+        }
+        .award {
+            font-size: 1.1rem;
+            color: #c41e3a;
+            background-color: #f9f9f9;
+            padding: 8px 15px;
+            border-radius: 20px;
             display: inline-block;
-            background-color: #2ec4b6;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        .control-panel {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .button {
+            background-color: #c41e3a;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            text-decoration: none;
-            margin-top: 0.5rem;
-            transition: background-color 0.3s ease;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(196, 30, 58, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .view-button:hover {
-            background-color: #1a936f;
+        .button:hover {
+            background-color: #a11729;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(196, 30, 58, 0.4);
         }
-        
-        .modal {
-            display: none;
+        .button:active {
+            transform: translateY(1px);
+        }
+        #confetti {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+            pointer-events: none;
+            z-index: 10;
         }
-        
-        .modal-content {
-            background-color: white;
-            max-width: 90%;
-            max-height: 90%;
-            padding: 2rem;
-            border-radius: 8px;
+        .quote {
+            font-style: italic;
+            color: #555;
+            margin: 30px auto;
+            max-width: 80%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+        .quote.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .turkish-text {
+            font-weight: bold;
+            color: #c41e3a;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
             position: relative;
         }
-        
-        .close-modal {
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #c41e3a, #ff6b6b);
+            width: 0;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        .theme-decoration {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #333;
-            z-index: 10;
-            background: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        .turkish-flag {
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 80px;
+            height: 50px;
+            background-color: #c41e3a;
+            border-radius: 5px;
+            opacity: 0.2;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-        }
-        
-        .close-modal:hover {
-            background: #f0f0f0;
-        }
-        
-        .modal-image {
-            max-width: 100%;
-            max-height: 70vh;
-            display: block;
-            margin: 0 auto 1rem;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .modal-info {
-            text-align: center;
-        }
-        
-        .modal-info h3 {
             font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #e71d36;
         }
-        
-        .modal-info p {
-            font-size: 1.1rem;
-            color: #555;
-        }
-        
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .confetti {
+        .turkish-pattern {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #f0f;
-            animation: confetti 5s ease-in-out infinite;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #c41e3a 20%, transparent 20%);
+            background-size: 20px 20px;
+            opacity: 0.1;
+            border-radius: 50%;
         }
-        
-        @keyframes confetti {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        .jury-info {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
-        
+        .jury-info.active {
+            opacity: 1;
+        }
+        .cultural-verse {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .header-icon {
+            font-size: 2rem;
+            margin: 0 10px;
+        }
+        .background-music {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .background-music label {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .scroll-notice {
+            margin-top: 10px;
+            color: #666;
+            font-style: italic;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .scroll-notice.active {
+            opacity: 1;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .countries-info {
+            background-color: rgba(196, 30, 58, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #333;
+        }
         @media (max-width: 768px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-                gap: 1.5rem;
+            .winners-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
-            
             h1 {
                 font-size: 2rem;
-            }
-            
-            .announcement {
-                padding: 1.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>23 Nisan Ulusal Egemenlik ve Çocuk Bayramı</h1>
-        <h2>Resim Yarışması Sonuçları</h2>
-    </header>
+    <canvas id="fireworksCanvas"></canvas>
+    <div id="confetti"></div>
     
     <div class="container">
-        <div class="announcement">
-            <h3>Yarışma Sonuçları Açıklandı</h3>
-            <p>23 Nisan Ulusal Egemenlik ve Çocuk Bayramı kapsamında düzenlenen resim yarışmasında dereceye giren öğrencilerimizi tebrik ederiz.  Dereceye giren öğrencilerimizin birbirinden güzel eserleri aşağıda sergilenmektedir.</p>
-            <p>Tüm katılımcı öğrencilerimize teşekkür eder, başarılarının devamını dileriz.</p>
+        <div class="turkish-flag">🇹🇷</div>
+        <div class="turkish-pattern"></div>
+        
+        <h1><span class="header-icon">🍽️</span> Türk Mutfağı Haftası Yarışması Sonuçları<span class="header-icon">🥙</span></h1>
+        
+        <div class="countries-info">
+            <strong>Katılımcı Ülkeler:</strong> ABD, Bulgaristan, Çin, İskandinavya, Hollanda<br>
+            <strong>Yaş Aralığı:</strong> 5-16 yaş | <strong>Çevrim İçi Türkçe ve Türk Kültürü Dersi</strong>
         </div>
         
-        <div class="sorting-info">
-            <strong>Not:</strong> Öğrencilerimizin isimleri alfabetik sıraya göre listelenmiştir.
+        <div class="quote" id="quote">
+            <p>"<span class="turkish-text">Geleneksel tatlarımızı tanıtmak ve öğrencilerimizin kültürel farkındalığını artırmak amacıyla düzenlediğimiz yarışmada birbirinden lezzetli çalışmalar yer aldı.</span>"</p>
         </div>
         
-        <h2 class="gallery-title">Yarışma Sonuçları</h2>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress" id="progress"></div>
+        </div>
         
-        <div class="gallery">
-            <!-- Öğrenciler alfabetik sırayla -->
-            <div class="gallery-item" onclick="openModal('Ayşe Eminefendi')">
-                <img src="./imgs/01.jpg" alt="Ayşe Eminefendi'nin Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Ayşe Eminefendi</h3>
+        <div class="control-panel">
+            <button class="button" id="revealWinners">🏆 Dereceleri Göster</button>
+            <button class="button" id="resetApp" style="display:none;">🔄 Yeniden Başlat</button>
+        </div>
+        
+        <div class="scroll-notice" id="scrollNotice" style="display: none;">
+            Tüm dereceleri görmek için aşağı kaydırabilirsiniz.
+        </div>
+        
+        <div class="winners-container" id="winnersContainer">
+            <div class="winners-grid" id="winnersGrid">
+                <div class="winner first-place">
+                    <div class="medal">🥇</div>
+                    <div class="name">Deniz Alp TURAN ve Derin DEMİRER</div>
+                    <div class="award">1. Derece</div>
+                </div>
+                
+                <div class="winner second-place">
+                    <div class="medal">🥈</div>
+                    <div class="name">Nila HAŞMET ve Zehra DEMİREL</div>
+                    <div class="award">2. Derece</div>
+                </div>
+                
+                <div class="winner third-place">
+                    <div class="medal">🥉</div>
+                    <div class="name">Peri MERAL</div>
+                    <div class="award">3. Derece</div>
+                </div>
+                
+                <div class="winner other-place">
+                    <div class="medal">🏅</div>
+                    <div class="name">Nefes Ada KAYGISIZ</div>
+                    <div class="award">4. Derece</div>
+                </div>
+                
+                <div class="winner other-place">
+                    <div class="medal">🏅</div>
+                    <div class="name">Ayşe EMİNEFENDİ</div>
+                    <div class="award">5. Derece</div>
                 </div>
             </div>
-            
-            <div class="gallery-item" onclick="openModal('Berra Akteke')">
-                <img src="./imgs/02.jpg" alt="Berra Akteke'nin Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Berra Akteke</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Büşra Bendez')">
-                <img src="./imgs/03.jpg" alt="Büşra Bendez'in Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Büşra Bendez</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Derin Demirer')">
-                <img src="./imgs/04.jpg" alt="Derin Demirer'in Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Derin Demirer</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Elif Şahin')">
-                <img src="./imgs/05.jpg" alt="Elif Şahin'in Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Elif Şahin</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Kerem Nuri')">
-                <img src="./imgs/06.jpg" alt="Kerem Nuri'nin Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Kerem Nuri</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Muhammed Eymen Akteke')">
-                <img src="./imgs/07.jpg" alt="Muhammed Eymen Akteke'nin Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Muhammed Eymen Akteke</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Özgür Arslan')">
-                <img src="./imgs/08.jpg" alt="Özgür Arslan'ın Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Özgür Arslan</h3>
-                </div>
-            </div>
-            
-            <div class="gallery-item" onclick="openModal('Selin Anacak')">
-                <img src="./imgs/09.jpg" alt="Selin Anacak'ın Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Selin Anacak</h3>
-                </div>
-            </div>
-  
-  
-  
-  
-              <div class="gallery-item" onclick="")">
-              
-                <div class="gallery-caption">
-                    <h3 class="student-name"></h3>
-                </div>
-            </div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-            <div class="gallery-item" onclick="openModal('Uchechu Modebelu Iroghama')">
-                <img src="./imgs/10.jpg" alt="Uchechu Modebelu Iroghama'nın Resmi" class="gallery-image">
-                <div class="gallery-caption">
-                    <h3 class="student-name">Uchechu Modebelu Iroghama</h3>
-                </div>
-            </div>
-			
-			
-			
-			  
-              <div class="gallery-item" onclick="")">
-              
-                <div class="gallery-caption">
-                    <h3 class="student-name"></h3>
-                </div>
-            </div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+        </div>
+
+        <div class="jury-info" id="juryInfo">
+            <p><strong>Yarışma Kapsamı:</strong></p>
+            <p>• Yöresel yemek tariflerini tanıtma<br>
+               • Mutfak kültürümüze dair sunumlar hazırlama<br>
+               • Aile büyüklerinden öğrenilen tarifleri yaratıcı yollarla paylaşma</p>
+            <p class="cultural-verse">"Kazanan öğrencilerimize katılım belgeleri ve sürpriz ödüller gönderilecektir!"</p>
+            <p><strong>Tüm öğrencilerimize emeklerinden dolayı teşekkür eder, Türk kültürünü yaşatmaya ve tanıtmaya verdikleri katkı için kendilerini tebrik ederiz!</strong></p>
+        </div>
+
+        <div class="background-music">
+            <label for="musicControl">🎵 Arka Plan Müziği</label>
+            <input type="checkbox" id="musicControl">
         </div>
     </div>
-    
-    <!-- Modal -->
-    <div class="modal" id="imageModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <img src="/api/placeholder/800/600" alt="Büyük Resim" class="modal-image" id="modalImage">
-            <div class="modal-info">
-                <h3 id="modalName">Öğrenci Adı</h3>
-                <p>23 Nisan Ulusal Egemenlik ve Çocuk Bayramı Resim Yarışması</p>
-            </div>
-        </div>
-    </div>
-    
-    <footer>
-        <p>&copy; 2025 23 Nisan Ulusal Egemenlik ve Çocuk Bayramı Resim Yarışması Sonuçları</p>
-    </footer>
     
     <script>
-        // Konfeti efekti için rastgele renkler
-        const colors = ["#e71d36", "#ff9f1c", "#2ec4b6", "#fdfffc", "#011627"];
-        
-        // Konfeti oluşturma
-        for (let i = 0; i < 50; i++) {
-            createConfetti();
-        }
-        
-        function createConfetti() {
-            const confetti = document.createElement("div");
-            confetti.classList.add("confetti");
-            
-            // Rastgele konumlandırma ve özelleştirme
-            confetti.style.left = Math.random() * 100 + "vw";
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.opacity = Math.random() + 0.5;
-            confetti.style.width = Math.random() * 10 + 5 + "px";
-            confetti.style.height = Math.random() * 10 + 5 + "px";
-            
-            // Animasyon süresi ve gecikme
-            const duration = Math.random() * 3 + 2;
-            const delay = Math.random() * 5;
-            confetti.style.animation = `confetti ${duration}s ease-in-out ${delay}s infinite`;
-            
-            document.body.appendChild(confetti);
-            
-            // Belirli bir süre sonra konfeti elementini kaldır
-            setTimeout(() => {
-                confetti.remove();
-            }, (duration + delay) * 1000);
-        }
-        
-function openModal(name) {
-    // Öğrenci adına göre doğru resim kaynağını bulalım
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    let imageSrc = '';
-    
-    // Tıklanan öğrenciyi bulup resim kaynağını alalım
-    for (let item of galleryItems) {
-        if (item.querySelector('.student-name').textContent === name) {
-            imageSrc = item.querySelector('.gallery-image').src;
-            break;
-        }
-    }
-    
-    // Modal içindeki resmi ve bilgileri güncelleyelim
-    document.getElementById('modalName').textContent = name;
-    document.getElementById('modalImage').src = imageSrc;
-    document.getElementById('modalImage').alt = name + "'in Resmi";
-    document.getElementById('imageModal').style.display = 'flex';
-}
-        
-        function closeModal() {
-            document.getElementById('imageModal').style.display = 'none';
-        }
-        
-        // Dışarı tıklandığında modalı kapatma
-        window.onclick = function(event) {
-            const modal = document.getElementById('imageModal');
-            if (event.target == modal) {
-                closeModal();
+        // Canvas ayarları
+        const canvas = document.getElementById("fireworksCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Havai fişek sınıfı
+        class Firework {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.particles = [];
+                this.color = color;
+                this.createParticles();
+            }
+            createParticles() {
+                for (let i = 0; i < 100; i++) {
+                    const angle = Math.random() * 2 * Math.PI;
+                    const speed = Math.random() * 5 + 2;
+                    const dx = Math.cos(angle) * speed;
+                    const dy = Math.sin(angle) * speed;
+                    this.particles.push({ x: this.x, y: this.y, dx, dy, alpha: 1 });
+                }
+            }
+            update() {
+                this.particles.forEach(p => {
+                    p.x += p.dx;
+                    p.y += p.dy;
+                    p.dy += 0.05; // yerçekimi
+                    p.alpha -= 0.01;
+                });
+            }
+            draw() {
+                this.particles.forEach(p => {
+                    ctx.fillStyle = `rgba(${this.color},${p.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+            isDone() {
+                return this.particles.every(p => p.alpha <= 0);
             }
         }
+
+        const fireworks = [];
+        let fireworksActive = false;
+
+        function randomColor() {
+            const colors = ['196,30,58', '255,107,107', '255,215,0', '255,165,0'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (fireworksActive) {
+                ctx.fillStyle = "rgba(0,0,0,0.1)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                if (Math.random() < 0.05) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height / 2;
+                    fireworks.push(new Firework(x, y, randomColor()));
+                }
+            }
+            
+            fireworks.forEach((f, index) => {
+                f.update();
+                f.draw();
+                if (f.isDone()) fireworks.splice(index, 1);
+            });
+        }
+
+        animate();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Dereceleri gösterme animasyonu
+        document.getElementById('revealWinners').addEventListener('click', function() {
+            const winners = document.querySelectorAll('.winner');
+            
+            // Havai fişekleri başlat
+            fireworksActive = true;
+            
+            // Progress bar animasyonu
+            const progress = document.getElementById('progress');
+            let width = 0;
+            const interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progress.style.width = width + '%';
+                }
+            }, 20);
+            
+            // Dereceleri sırayla gösterme (derece sırasına göre)
+            winners.forEach(function(winner, index) {
+                setTimeout(function() {
+                    winner.classList.add('active');
+                }, 300 * index);
+            });
+            
+            // Diğer elemanları aktifleştir
+            setTimeout(() => {
+                document.getElementById('quote').classList.add('active');
+            }, 500);
+            
+            setTimeout(() => {
+                document.getElementById('juryInfo').classList.add('active');
+                document.getElementById('scrollNotice').classList.add('active');
+            }, 2000);
+            
+            document.getElementById('resetApp').style.display = 'inline-block';
+            this.disabled = true;
+            
+            // 20 saniye sonra havai fişekleri durdur
+            setTimeout(function() {
+                fireworksActive = false;
+            }, 20000);
+        });
+
+        // Sayfayı yeniden başlatma
+        document.getElementById('resetApp').addEventListener('click', function() {
+            location.reload();
+        });
+
+        // Müzik kontrolü
+        document.getElementById('musicControl').addEventListener('change', function() {
+            if (this.checked) {
+                console.log('Türk kültürü müziği başladı');
+            } else {
+                console.log('Müzik durduruldu');
+            }
+        });
     </script>
 </body>
 </html>
