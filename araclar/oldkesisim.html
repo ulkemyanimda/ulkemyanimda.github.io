@@ -130,22 +130,6 @@
             border-color: #667eea;
         }
 
-        .clear-btn {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .clear-btn:hover {
-            background: #ff5252;
-            transform: translateY(-1px);
-        }
-
         .chart-container {
             padding: 30px;
             overflow-x: auto;
@@ -167,12 +151,6 @@
         .timeline-info {
             color: #666;
             font-size: 0.9rem;
-        }
-
-        .date-filter-info {
-            color: #ff6b6b;
-            font-weight: bold;
-            font-size: 1rem;
         }
 
         .timeline-chart {
@@ -415,13 +393,6 @@
                 <label>Filtre:</label>
                 <input type="text" id="filterInput" placeholder="Proje ara..." />
             </div>
-            <div class="control-group">
-                <label>📅 Tarihe Göre Filtrele:</label>
-                <input type="date" id="dateFilter" />
-            </div>
-            <div class="control-group">
-                <button id="clearDateFilter" class="clear-btn">Temizle</button>
-            </div>
         </div>
 
         <div class="chart-container">
@@ -456,7 +427,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="activeProjects">0</div>
-                <div class="stat-label">Seçili Tarihte Aktif</div>
+                <div class="stat-label">Aktif Tatil</div>
             </div>
         </div>
     </div>
@@ -618,59 +589,6 @@
             endDate = new Date(Math.max(...processedData.map(d => d.endDate)));
         }
 
-        // Filtrelenmiş veri
-        function getFilteredData() {
-            const filter = document.getElementById('filterInput').value.toLowerCase();
-            const dateFilter = document.getElementById('dateFilter').value;
-            
-            let filteredData = processedData.filter(item => 
-                item.name.toLowerCase().includes(filter)
-            );
-            
-            // Tarih filtreleme
-            if (dateFilter) {
-                const selectedDate = new Date(dateFilter);
-                filteredData = filteredData.filter(item => {
-                    return item.startDate <= selectedDate && item.endDate >= selectedDate;
-                });
-                
-                // Tarihe göre filtrelendiğinde info mesajı göster
-                updateDateFilterInfo(selectedDate, filteredData.length);
-            } else {
-                clearDateFilterInfo();
-            }
-            
-            return filteredData;
-        }
-
-        // Tarih filtre bilgisi güncelle
-        function updateDateFilterInfo(selectedDate, count) {
-            const timelineInfo = document.getElementById('timelineInfo');
-            const dateStr = formatDate(selectedDate);
-            timelineInfo.innerHTML = `
-                <div class="date-filter-info">
-                    📅 ${dateStr} tarihinde aktif olan: ${count} öğrenci
-                </div>
-                <div style="font-size: 0.8rem; color: #666; margin-top: 2px;">
-                    ${formatDate(startDate)} - ${formatDate(endDate)}
-                </div>
-            `;
-        }
-
-        // Tarih filtre bilgisini temizle
-        function clearDateFilterInfo() {
-            if (!startDate || !endDate) return;
-            const timelineInfo = document.getElementById('timelineInfo');
-            const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-            timelineInfo.textContent = `${formatDate(startDate)} - ${formatDate(endDate)} (${totalDays} gün)`;
-        }
-
-        // Tarih filtresini temizle
-        function clearDateFilter() {
-            document.getElementById('dateFilter').value = '';
-            renderTimeline();
-        }
-
         // Timeline render
         function renderTimeline() {
             const timelineInfo = document.getElementById('timelineInfo');
@@ -679,11 +597,7 @@
 
             const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
             
-            // Tarih filtresi kontrolü
-            const dateFilter = document.getElementById('dateFilter').value;
-            if (!dateFilter) {
-                timelineInfo.textContent = `${formatDate(startDate)} - ${formatDate(endDate)} (${totalDays} gün)`;
-            }
+            timelineInfo.textContent = `${formatDate(startDate)} - ${formatDate(endDate)} (${totalDays} gün)`;
 
             // Axis oluştur
             const axisPoints = 5;
@@ -725,9 +639,6 @@
                 row.innerHTML = trackHTML;
                 timelineRows.appendChild(row);
             });
-
-            // İstatistikleri güncelle
-            updateStats();
         }
 
         // Ay bölücülerini oluştur
@@ -778,6 +689,14 @@
             return dividers;
         }
 
+        // Filtrelenmiş veri
+        function getFilteredData() {
+            const filter = document.getElementById('filterInput').value.toLowerCase();
+            return processedData.filter(item => 
+                item.name.toLowerCase().includes(filter)
+            );
+        }
+
         // Tooltip göster
         function showTooltip(event, index) {
             const tooltip = document.getElementById('tooltip');
@@ -813,33 +732,16 @@
 
         // İstatistikleri güncelle
         function updateStats() {
-            const filteredData = getFilteredData();
-            const dateFilter = document.getElementById('dateFilter').value;
-            
-            if (filteredData.length === 0) {
-                document.getElementById('totalProjects').textContent = '0';
-                document.getElementById('avgDuration').textContent = '0';
-                document.getElementById('longestProject').textContent = '0';
-                document.getElementById('activeProjects').textContent = '0';
-                return;
-            }
-
-            const totalProjects = filteredData.length;
-            const durations = filteredData.map(d => d.duration);
+            const totalProjects = processedData.length;
+            const durations = processedData.map(d => d.duration);
             const avgDuration = Math.round(durations.reduce((a, b) => a + b, 0) / totalProjects);
             const longestProject = Math.max(...durations);
             
-            // Seçili tarihte aktif projeler
-            let activeProjects = 0;
-            if (dateFilter) {
-                activeProjects = filteredData.length; // Zaten filtrelenmiş veri
-            } else {
-                // Bugünün tarihine göre
-                const today = new Date();
-                activeProjects = processedData.filter(d => 
-                    d.startDate <= today && d.endDate >= today
-                ).length;
-            }
+            // Aktif projeler (bugünün tarihine göre)
+            const today = new Date();
+            const activeProjects = processedData.filter(d => 
+                d.startDate <= today && d.endDate >= today
+            ).length;
 
             document.getElementById('totalProjects').textContent = totalProjects;
             document.getElementById('avgDuration').textContent = avgDuration;
@@ -855,7 +757,6 @@
                 year: 'numeric'
             });
         }
-
 
         // Örnek veri yükleme
         function loadSampleData() {
@@ -884,7 +785,6 @@ Proje Omicron,20.08.2024,31.08.2024`;
         document.getElementById('endColumn').addEventListener('change', processData);
         document.getElementById('nameColumn').addEventListener('change', processData);
         document.getElementById('filterInput').addEventListener('input', renderTimeline);
-		        document.getElementById('dateFilter').addEventListener('input', renderTimeline);
     </script>
 </body>
 </html>
