@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
+    <title> 29 Mayıs İstanbul'un Fethi </title>
+    <style>
+        /* Önceki stiller aynı kalıyor */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #6200ea;
+            text-align: center;
+            position: relative;
+            padding: 0;
+        }
+        header img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+            .announcements-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .announcements-table {
+            background-color: #ede7f6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1200px; /* Duyuru genişliğini sınırlamak için */
+        }
+        .announcements-table h2 {
+            color: #6200ea;
+            margin-bottom: 15px;
+        }
+        .announcements-table ul {
+            list-style-position: inside;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .announcements-table ol {
+            list-style-position: inside;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        .sections {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .section {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px;
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .section:hover {
+            transform: scale(1.05);
+        }
+        .section a {
+            text-decoration: none;
+            color: #6200ea;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .section img {
+            width: 100px;
+            height: 100px;
+        }
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+        .video-modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding-bottom: 45%;
+        }
+        .video-modal iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .close-button {
+            position: absolute;
+            top: -30px;
+            right: 0;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+			
+	.media-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.media-container img,
+.media-container iframe {
+    width: 48%; /* Resim ve video için eşit genişlik */
+    height: auto;
+}
+
+.media-container iframe {
+    height: 315px; /* Video yüksekliği */
+}
+			@media (max-width: 768px) {
+    .media-container {
+        flex-direction: column;
+    }
+
+    .media-container img,
+    .media-container iframe {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+        }
+		
+		
+		.media-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.media-item {
+    width: 48%; /* Eşit genişlik */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.media-item:hover {
+    transform: scale(1.05); /* Tıklanabilir hissi vermek için hover efekti */
+}
+
+.media-content {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal stil */
+.media-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    text-align: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+		
+		
+		    /* Genel stiller */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Resim ve video container */
+        .media-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        /* Her bir medya öğesi */
+        .media-item {
+            width: 48%; /* Eşit genişlik */
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .media-item:hover {
+            transform: scale(1.05); /* Tıklanabilir hissi vermek için hover efekti */
+        }
+
+        /* Resim ve video stilleri */
+        .media-content {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* Sabit en-boy oranı */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .media-content img {
+            object-fit: cover; /* Resmi orantılı bir şekilde kırpar */
+        }
+
+        /* Modal (büyütülmüş medya) stilleri */
+        .media-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            aspect-ratio: 16 / 9; /* Modal içinde de en-boy oranını koru */
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .modal-content img {
+            object-fit: contain; /* Resmi orantılı bir şekilde göster */
+        }
+
+        /* Kapatma düğmesi */
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        /* Mobil uyumluluk */
+        @media (max-width: 768px) {
+            .media-container {
+                flex-direction: column;
+            }
+
+            .media-item {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+    </style>
+  
+</head>
+<body>
+    <header>
+        <img src="icons/mainbanner.jpg" alt="29 Mayıs İstanbul'un Fethi">
+    </header>
+<div class="section">
+
+        <div class="section">
+            <a href="https://www.youtube.com/watch?v=mW67FGiHvR4" target="_blank">
+                <img src="icons/29mayis.jpg" alt="Tools Icon">
+                29 Mayıs İstanbul'un Fethi
+            </a>
+        </div>
+    
+	 </div>
+
+
+
+</body>
+</html>
+

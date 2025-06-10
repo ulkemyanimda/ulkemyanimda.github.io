@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkiye Tatili Analiz Programı</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .upload-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 15px 0;
+        }
+
+        .file-input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255,255,255,0.2);
+            border: 2px dashed rgba(255,255,255,0.5);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .file-input-label:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .column-selection {
+            margin: 20px 0;
+            display: none;
+        }
+
+        .column-group {
+            display: inline-block;
+            margin: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .column-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            font-size: 14px;
+            min-width: 150px;
+        }
+
+        .analyze-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        .results {
+            display: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .chart-container {
+            margin: 30px 0;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .heatmap {
+            margin: 30px 0;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(31, 1fr);
+            gap: 2px;
+            margin: 20px 0;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.2);
+            z-index: 10;
+            position: relative;
+        }
+
+        .legend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        .top-dates {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin: 30px 0;
+        }
+
+        .date-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .error {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .heatmap-grid {
+                grid-template-columns: repeat(15, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏖️ Türkiye Tatili Analiz Programı</h1>
+            <p>Öğrenci tatil kesişimlerini analiz edin ve en popüler tarihleri keşfedin</p>
+        </div>
+
+        <div class="content">
+            <div class="upload-section">
+                <h2>📊 CSV Dosyasını Yükleyin</h2>
+                <p>Başlangıç ve bitiş tarihlerini içeren CSV dosyanızı seçin</p>
+                
+                <div class="file-input-wrapper">
+                    <input type="file" id="csvFile" class="file-input" accept=".csv">
+                    <label for="csvFile" class="file-input-label">
+                        📁 CSV Dosyası Seç
+                    </label>
+                </div>
+
+                <div class="column-selection" id="columnSelection">
+                    <h3>Sütun Seçimi</h3>
+                    <div class="column-group">
+                        <label>Başlangıç Tarihi Sütunu:</label>
+                        <select id="startDateColumn"></select>
+                    </div>
+                    <div class="column-group">
+                        <label>Bitiş Tarihi Sütunu:</label>
+                        <select id="endDateColumn"></select>
+                    </div>
+                    <button class="analyze-btn" onclick="analyzeData()">🔍 Analiz Et</button>
+                </div>
+            </div>
+
+            <div id="error" class="error" style="display: none;"></div>
+
+            <div class="results" id="results">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-number" id="totalStudents">0</span>
+                        <span class="stat-label">Toplam Öğrenci</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="mostPopularDate">-</span>
+                        <span class="stat-label">En Popüler Tarih</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="maxStudents">0</span>
+                        <span class="stat-label">Maksimum Öğrenci Sayısı</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number" id="averageDuration">0</span>
+                        <span class="stat-label">Ortalama Tatil Süresi (Gün)</span>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">📈 Günlük Öğrenci Sayısı</div>
+                    <canvas id="dailyChart"></canvas>
+                </div>
+
+                <div class="heatmap">
+                    <div class="chart-title">🔥 Tatil Yoğunluk Haritası</div>
+                    <div id="heatmapContainer"></div>
+                </div>
+
+                <div class="top-dates">
+                    <div class="chart-title">🏆 En Popüler 10 Tarih</div>
+                    <div id="topDatesList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let csvData = [];
+        let holidayData = [];
+
+        document.getElementById('csvFile').addEventListener('change', handleFile);
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.errors.length > 0) {
+                        showError('CSV dosyası okunurken hata oluştu: ' + results.errors[0].message);
+                        return;
+                    }
+                    
+                    csvData = results.data;
+                    populateColumnOptions(results.meta.fields);
+                    document.getElementById('columnSelection').style.display = 'block';
+                    hideError();
+                }
+            });
+        }
+
+        function populateColumnOptions(columns) {
+            const startSelect = document.getElementById('startDateColumn');
+            const endSelect = document.getElementById('endDateColumn');
+            
+            startSelect.innerHTML = '';
+            endSelect.innerHTML = '';
+            
+            columns.forEach(column => {
+                const startOption = new Option(column, column);
+                const endOption = new Option(column, column);
+                startSelect.appendChild(startOption);
+                endSelect.appendChild(endOption);
+            });
+        }
+
+        function analyzeData() {
+            const startColumn = document.getElementById('startDateColumn').value;
+            const endColumn = document.getElementById('endDateColumn').value;
+            
+            if (!startColumn || !endColumn) {
+                showError('Lütfen başlangıç ve bitiş tarihi sütunlarını seçin.');
+                return;
+            }
+
+            try {
+                holidayData = processHolidayData(csvData, startColumn, endColumn);
+                if (holidayData.length === 0) {
+                    showError('Geçerli tatil verisi bulunamadı. Tarih formatlarını kontrol edin.');
+                    return;
+                }
+                
+                displayResults();
+                hideError();
+            } catch (error) {
+                showError('Veri işlenirken hata oluştu: ' + error.message);
+            }
+        }
+
+        function processHolidayData(data, startColumn, endColumn) {
+            const holidays = [];
+            
+            data.forEach((row, index) => {
+                const startStr = row[startColumn];
+                const endStr = row[endColumn];
+                
+                if (!startStr || !endStr) return;
+                
+                const startDate = parseDate(startStr);
+                const endDate = parseDate(endStr);
+                
+                if (startDate && endDate && startDate <= endDate) {
+                    holidays.push({
+                        student: index + 1,
+                        start: startDate,
+                        end: endDate,
+                        duration: Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1
+                    });
+                }
+            });
+            
+            return holidays;
+        }
+
+        function parseDate(dateStr) {
+            // Farklı tarih formatlarını destekle
+            const formats = [
+                /(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{4})/,  // DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY
+                /(\d{4})[-\/.](\d{1,2})[-\/.](\d{1,2})/,  // YYYY/MM/DD, YYYY-MM-DD
+                /(\d{1,2})[-\/.](\d{1,2})[-\/.](\d{2})/   // DD/MM/YY, DD-MM-YY
+            ];
+            
+            for (let format of formats) {
+                const match = dateStr.match(format);
+                if (match) {
+                    let day, month, year;
+                    
+                    if (format === formats[1]) { // YYYY-MM-DD format
+                        year = parseInt(match[1]);
+                        month = parseInt(match[2]);
+                        day = parseInt(match[3]);
+                    } else {
+                        day = parseInt(match[1]);
+                        month = parseInt(match[2]);
+                        year = parseInt(match[3]);
+                        
+                        if (year < 100) {
+                            year += 2000; // 2-digit year to 4-digit
+                        }
+                    }
+                    
+                    const date = new Date(year, month - 1, day);
+                    if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) {
+                        return date;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function displayResults() {
+            const dailyCounts = calculateDailyCounts();
+            const stats = calculateStats(dailyCounts);
+            
+            // İstatistikleri göster
+            document.getElementById('totalStudents').textContent = holidayData.length;
+            document.getElementById('mostPopularDate').textContent = stats.mostPopularDate;
+            document.getElementById('maxStudents').textContent = stats.maxStudents;
+            document.getElementById('averageDuration').textContent = stats.averageDuration;
+            
+            // Grafikleri oluştur
+            createDailyChart(dailyCounts);
+            createHeatmap(dailyCounts);
+            createTopDatesList(dailyCounts);
+            
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function calculateDailyCounts() {
+            const counts = {};
+            const today = new Date();
+            
+            holidayData.forEach(holiday => {
+                const current = new Date(holiday.start);
+                while (current <= holiday.end) {
+                    const dateStr = current.toISOString().split('T')[0];
+                    counts[dateStr] = (counts[dateStr] || 0) + 1;
+                    current.setDate(current.getDate() + 1);
+                }
+            });
+            
+            return counts;
+        }
+
+        function calculateStats(dailyCounts) {
+            const dates = Object.keys(dailyCounts);
+            const counts = Object.values(dailyCounts);
+            
+            const maxStudents = Math.max(...counts);
+            const mostPopularDate = dates[counts.indexOf(maxStudents)];
+            const averageDuration = Math.round(holidayData.reduce((sum, h) => sum + h.duration, 0) / holidayData.length);
+            
+            return {
+                mostPopularDate: formatDate(new Date(mostPopularDate)),
+                maxStudents,
+                averageDuration
+            };
+        }
+
+        function createDailyChart(dailyCounts) {
+            const ctx = document.getElementById('dailyChart').getContext('2d');
+            
+            // Tarihleri sırala
+            const sortedDates = Object.keys(dailyCounts).sort();
+            const data = sortedDates.map(date => dailyCounts[date]);
+            const labels = sortedDates.map(date => formatDate(new Date(date)));
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Öğrenci Sayısı',
+                        data: data,
+                        borderColor: 'rgb(102, 126, 234)',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function createHeatmap(dailyCounts) {
+            const container = document.getElementById('heatmapContainer');
+            
+            // Haziran-Ağustos ayları için heatmap
+            const months = ['Haziran', 'Temmuz', 'Ağustos'];
+            const maxCount = Math.max(...Object.values(dailyCounts));
+            
+            let html = '<div class="legend">';
+            html += '<span>Az</span>';
+            for (let i = 0; i < 5; i++) {
+                const intensity = i / 4;
+                html += `<div class="legend-color" style="background: ${getHeatmapColor(intensity)}"></div>`;
+            }
+            html += '<span>Çok</span>';
+            html += '</div>';
+            
+            months.forEach((monthName, monthIndex) => {
+                html += `<h4 style="margin: 20px 0 10px 0; color: #333;">${monthName} 2024</h4>`;
+                html += '<div class="heatmap-grid">';
+                
+                const monthNum = monthIndex + 6; // Haziran = 6
+                const daysInMonth = new Date(2024, monthNum, 0).getDate();
+                
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const date = new Date(2024, monthNum - 1, day);
+                    const dateStr = date.toISOString().split('T')[0];
+                    const count = dailyCounts[dateStr] || 0;
+                    const intensity = maxCount > 0 ? count / maxCount : 0;
+                    const color = getHeatmapColor(intensity);
+                    
+                    html += `<div class="heatmap-cell" style="background: ${color}" title="${formatDate(date)}: ${count} öğrenci">
+                        ${day}
+                    </div>`;
+                }
+                
+                html += '</div>';
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function getHeatmapColor(intensity) {
+            if (intensity === 0) return '#ebedf0';
+            if (intensity <= 0.25) return '#c6e48b';
+            if (intensity <= 0.5) return '#7bc96f';
+            if (intensity <= 0.75) return '#239a3b';
+            return '#196127';
+        }
+
+        function createTopDatesList(dailyCounts) {
+            const container = document.getElementById('topDatesList');
+            
+            const sortedDates = Object.entries(dailyCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+            
+            let html = '';
+            sortedDates.forEach(([date, count], index) => {
+                const medal = index < 3 ? ['🥇', '🥈', '🥉'][index] : `${index + 1}.`;
+                html += `<div class="date-item">
+                    <span>${medal} ${formatDate(new Date(date))}</span>
+                    <span>${count} öğrenci</span>
+                </div>`;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function formatDate(date) {
+            const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+                           'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
