@@ -49,7 +49,7 @@
             max-height: 500px;
             overflow-y: auto;
             padding: 10px;
-            margin: 20px 0;
+            margin: 10px 0 20px 0; /* Adjusted margin */
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.5);
             /* Kaydırma çubuğu stilleri */
@@ -260,10 +260,11 @@
             color: #333;
         }
         .scroll-notice {
-            margin-top: 10px;
-            color: #666;
-            font-style: italic;
-            font-size: 0.9rem;
+            margin-top: 25px; /* Increased margin-top */
+            color: #444; /* Darker color */
+            font-style: normal; /* Removed italic */
+            font-weight: bold; /* Made bold */
+            font-size: 1.2rem; /* Increased font size */
             opacity: 0;
             transition: opacity 1s ease;
         }
@@ -311,17 +312,16 @@
             <button class="button" id="revealWinners">Dereceleri Göster</button>
             <button class="button" id="resetApp" style="display:none;">Yeniden Başlat</button>
         </div>
-        <div>
-        <div class="scroll-notice" id="scrollNotice">
+        
+        <div class="scroll-notice">
             Küçük yaş grubunda yarışanlar derece sıralaması:
         </div>
-        
-        <div class="winners-container" id="winnersContainer">
-            <div class="winners-grid" id="winnersGrid">
+        <div class="winners-container" id="winnersContainerKucuk">
+            <div class="winners-grid" id="winnersGridKucuk">
                 <div class="winner">
                     <div class="medal">🏆</div>
                     <div class="name">Yasemin Birben</div>
-					<div class="award">Birinci</div>
+                    <div class="award">Birinci</div>
                 </div>
                 
                 <div class="winner">
@@ -335,22 +335,17 @@
                     <div class="name">Ömer Kandaş</div>
                     <div class="award">Üçüncü</div>
                 </div>
-       
             </div>
         </div>
-		</div>
-	<div>
-		<div class="scroll-notice" id="scrollNotice">
+        
+        <div class="scroll-notice">
             Büyük yaş grubunda yarışanlar derece sıralaması:
         </div>
-        
-		
-		
-       <div class="winners-container" id="winnersContainer">
-            <div class="winners-grid" id="winnersGrid">
+        <div class="winners-container" id="winnersContainerBuyuk">
+            <div class="winners-grid" id="winnersGridBuyuk">
                 <div class="winner">
                     <div class="medal">🏆</div>
-                    <div class="name">Elif Kandaş </div>
+                    <div class="name">Elif Kandaş</div>
                     <div class="award">Birinci</div>
                 </div>
                 
@@ -367,23 +362,9 @@
                 </div>
             </div>
         </div>
-		
-		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-
 
         <div class="jury-info" id="juryInfo">
             <p>Tüm katılımcıları ve dereceye giren tüm öğrencilerimizi tebrik ederiz!</p>
-            
         </div>
 
         <div class="background-music">
@@ -480,6 +461,7 @@
         // Birincileri gösterme animasyonu
         document.getElementById('revealWinners').addEventListener('click', function() {
             const winners = document.querySelectorAll('.winner');
+            const scrollNotices = document.querySelectorAll('.scroll-notice');
             
             // Havai fişekleri başlat
             fireworksActive = true;
@@ -496,7 +478,7 @@
                 }
             }, 20);
             
-            // Birincileri sırayla gösterme
+            // Kazananları sırayla gösterme
             winners.forEach(function(winner, index) {
                 setTimeout(function() {
                     winner.classList.add('active');
@@ -506,7 +488,10 @@
             // Diğer elemanları aktifleştir
             document.getElementById('quote').classList.add('active');
             document.getElementById('juryInfo').classList.add('active');
-            document.getElementById('scrollNotice').classList.add('active');
+            
+            // Her iki "scroll-notice" elementini de aktifleştir
+            scrollNotices.forEach(notice => notice.classList.add('active'));
+
             document.getElementById('resetApp').style.display = 'inline-block';
             this.disabled = true;
             
