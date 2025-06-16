@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramazan Ayı Konulu Hikâye Yazma Yarışması</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('/api/placeholder/400/320');
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+        }
+
+        h1 {
+            color: #4a6741;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+        }
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background-color: #4a6741;
+        }
+        .winners-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            /* Kaydırma çubuğu stilleri */
+            scrollbar-width: thin;
+            scrollbar-color: #8d354b #f0f0f0;
+        }
+        /* Webkit tarayıcılar için kaydırma çubuğu stilleri */
+        .winners-container::-webkit-scrollbar {
+            width: 10px;
+        }
+        .winners-container::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+        .winners-container::-webkit-scrollbar-thumb {
+            background-color: #8d354b;
+            border-radius: 10px;
+            border: 2px solid #f0f0f0;
+        }
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .winner {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .winner.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .winner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #8d354b;
+        }
+        .medal {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% {transform: scale(1); text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);}
+            50% {transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);}
+            100% {transform: scale(1); text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);}
+        }
+        .name {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+        }
+        .award {
+            font-size: 1.1rem;
+            color: #8d354b;
+            background-color: #f9f9f9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 15px 8px rgba(255, 215, 0, 0.7);
+            animation: firework 2s ease-out;
+            transform-origin: center;
+            z-index: 0;
+        }
+        @keyframes firework {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y)) scale(1.2);
+                opacity: 0;
+            }
+        }
+        .control-panel {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .button {
+            background-color: #4a6741;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(74, 103, 65, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .button:hover {
+            background-color: #3b5233;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(74, 103, 65, 0.4);
+        }
+        .button:active {
+            transform: translateY(1px);
+        }
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .quote {
+            font-style: italic;
+            color: #555;
+            margin: 30px auto;
+            max-width: 80%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+        .quote.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .ramadan-text {
+            font-weight: bold;
+            color: #8d354b;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress {
+            height: 100%;
+            background-color: #8d354b;
+            width: 0;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        .theme-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        .crescent {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            box-shadow: 15px 15px 0 0 #8d354b;
+            transform: rotate(-45deg);
+            opacity: 0.2;
+        }
+        .lantern {
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 150px;
+            background-color: #8d354b;
+            border-radius: 20px 20px 50% 50%;
+            opacity: 0.2;
+        }
+        .jury-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .jury-info.active {
+            opacity: 1;
+        }
+        .ramadan-verse {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .header-icon {
+            font-size: 2rem;
+            margin: 0 10px;
+        }
+        .background-music {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .background-music label {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .scroll-notice {
+            margin-top: 10px;
+            color: #666;
+            font-style: italic;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .scroll-notice.active {
+            opacity: 1;
+        }
+        @media (max-width: 768px) {
+            .winners-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="confetti"></div>
+    
+    <div class="container">
+        <div class="crescent"></div>
+        <div class="lantern"></div>
+        
+        <h1><span class="header-icon">📖</span> Ramazan Ayı Konulu Hikâye Yazma Yarışması Sonuçları<span class="header-icon">🌙</span></h1>
+        
+        <div class="quote" id="quote">
+            <p>"<span class="ramadan-text">Bereketin, paylaşmanın ve maneviyatın ayı Ramazan'ı kalemleriyle anlatan öğrencilerimizi tebrik ederiz.</span>"</p>
+        </div>
+        
+        <div class="progress-bar" id="progressBar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="control-panel">
+            <button class="button" id="revealWinners">Birincileri Göster</button>
+            <button class="button" id="resetApp" style="display:none;">Yeniden Başlat</button>
+        </div>
+        
+        <div class="scroll-notice" id="scrollNotice">
+            Tüm birincileri görmek için aşağı kaydırabilirsiniz (Öğrenciler alfabetik olarak sıralanmıştır).
+        </div>
+        
+        <div class="winners-container" id="winnersContainer">
+            <div class="winners-grid" id="winnersGrid">
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Aylin EMİNEFENDİ</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Burak Efe ÖZBAŞI</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Ceylin İnci ÖZBAŞI</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Ediz ROMBOUTS</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Enes KOYUNCU</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Eren ROMBOUTS</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+				                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Fatih Sultan Mehmet SAYGILI</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Hüma Yağmur KÖŞKER</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Ilgaz ERÖZDEN</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Mukhammad Yusuf TAKHIROV</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Osman HUANG</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Yakub TOPÇU</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Zeynep BORLAK</div>
+                    <div class="award">Birincilik Ödülü</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jury-info" id="juryInfo">
+            <p>Tüm katılımcıları ve birinci olan tüm öğrencilerimizi tebrik ederiz!</p>
+            <p class="ramadan-verse">"Ramazan; sabır, paylaşma ve merhamet ayıdır."</p>
+        </div>
+
+        <div class="background-music">
+            <label for="musicControl">Arka Plan Müziği</label>
+            <input type="checkbox" id="musicControl">
+        </div>
+    </div>
+    
+    <script>
+        // Birincileri gösterme animasyonu
+        document.getElementById('revealWinners').addEventListener('click', function() {
+            const winners = document.querySelectorAll('.winner');
+            
+            // Progress bar animasyonu
+            const progress = document.getElementById('progress');
+            let width = 0;
+            const interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progress.style.width = width + '%';
+                }
+            }, 20);
+            
+            // Birincileri sırayla gösterme
+            winners.forEach(function(winner, index) {
+                setTimeout(function() {
+                    winner.classList.add('active');
+                    
+                    // Konfeti efekti
+                    createFirework(winner);
+                }, 200 * index);
+            });
+            
+            // Diğer elemanları aktifleştir
+            document.getElementById('quote').classList.add('active');
+            document.getElementById('juryInfo').classList.add('active');
+            document.getElementById('scrollNotice').classList.add('active');
+            document.getElementById('resetApp').style.display = 'inline-block';
+            this.disabled = true;
+        });
+
+        // Sayfayı yeniden başlatma
+        document.getElementById('resetApp').addEventListener('click', function() {
+            location.reload();
+        });
+
+        // Müzik kontrolü
+        document.getElementById('musicControl').addEventListener('change', function() {
+            if (this.checked) {
+                console.log('Ramazan müziği başladı');
+            } else {
+                console.log('Müzik durduruldu');
+            }
+        });
+        
+        // Havai fişek efekti
+        function createFirework(element) {
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            
+            const rect = element.getBoundingClientRect();
+            firework.style.left = (rect.left + rect.width / 2) + 'px';
+            firework.style.top = (rect.top + rect.height / 2) + 'px';
+            
+            // Rastgele yöne hareket
+            firework.style.setProperty('--x', (Math.random() * 200 - 100) + 'px');
+            firework.style.setProperty('--y', (Math.random() * 200 - 100) + 'px');
+            
+            document.body.appendChild(firework);
+            
+            // Animasyon bitince elementi kaldır
+            setTimeout(function() {
+                firework.remove();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
