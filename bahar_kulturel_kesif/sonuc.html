@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kültürel Keşif Yarışması</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('/api/placeholder/400/320');
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 40px auto;
+        }
+
+        h1 {
+            color: #4a6741;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: inline-block;
+        }
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 3px;
+            background-color: #4a6741;
+        }
+        .winners-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            margin: 10px 0 20px 0; /* Adjusted margin */
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            /* Kaydırma çubuğu stilleri */
+            scrollbar-width: thin;
+            scrollbar-color: #8d354b #f0f0f0;
+        }
+        /* Webkit tarayıcılar için kaydırma çubuğu stilleri */
+        .winners-container::-webkit-scrollbar {
+            width: 10px;
+        }
+        .winners-container::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+        .winners-container::-webkit-scrollbar-thumb {
+            background-color: #8d354b;
+            border-radius: 10px;
+            border: 2px solid #f0f0f0;
+        }
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .winner {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 25px 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .winner.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .winner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #8d354b;
+        }
+        .medal {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% {transform: scale(1); text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);}
+            50% {transform: scale(1.05); text-shadow: 0 0 20px rgba(255, 215, 0, 0.7);}
+            100% {transform: scale(1); text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);}
+        }
+        .name {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+        }
+        .award {
+            font-size: 1.1rem;
+            color: #8d354b;
+            background-color: #f9f9f9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .control-panel {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .button {
+            background-color: #4a6741;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(74, 103, 65, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .button:hover {
+            background-color: #3b5233;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(74, 103, 65, 0.4);
+        }
+        .button:active {
+            transform: translateY(1px);
+        }
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .quote {
+            font-style: italic;
+            color: #555;
+            margin: 30px auto;
+            max-width: 80%;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+        .quote.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .ramadan-text {
+            font-weight: bold;
+            color: #8d354b;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress {
+            height: 100%;
+            background-color: #8d354b;
+            width: 0;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        .theme-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        .crescent {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            box-shadow: 15px 15px 0 0 #8d354b;
+            transform: rotate(-45deg);
+            opacity: 0.2;
+        }
+        .lantern {
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 150px;
+            background-color: #8d354b;
+            border-radius: 20px 20px 50% 50%;
+            opacity: 0.2;
+        }
+        .jury-info {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .jury-info.active {
+            opacity: 1;
+        }
+        .ramadan-verse {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #333;
+            margin: 20px 0;
+            line-height: 1.6;
+        }
+        .header-icon {
+            font-size: 2rem;
+            margin: 0 10px;
+        }
+        .background-music {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .background-music label {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .scroll-notice {
+            margin-top: 25px; /* Increased margin-top */
+            color: #444; /* Darker color */
+            font-style: normal; /* Removed italic */
+            font-weight: bold; /* Made bold */
+            font-size: 1.2rem; /* Increased font size */
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .scroll-notice.active {
+            opacity: 1;
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        @media (max-width: 768px) {
+            .winners-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="fireworksCanvas"></canvas>
+    <div id="confetti"></div>
+    
+    <div class="container">
+        <div class="crescent"></div>
+        <div class="lantern"></div>
+        
+        <h1><span class="header-icon">📖</span> Bahar Dönemi Kültürel Keşif Yarışması Sonuçları<span class="header-icon">🌙</span></h1>
+        
+        <div class="quote" id="quote">
+            <p>"<span class="ramadan-text">Dereceye giren öğrencilerimizi tebrik ederiz.</span>"</p>
+        </div>
+        
+        <div class="progress-bar" id="progressBar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="control-panel">
+            <button class="button" id="revealWinners">Dereceleri Göster</button>
+            <button class="button" id="resetApp" style="display:none;">Yeniden Başlat</button>
+        </div>
+        
+        <div class="scroll-notice">
+            Küçük yaş grubunda yarışanlar derece sıralaması:
+        </div>
+        <div class="winners-container" id="winnersContainerKucuk">
+            <div class="winners-grid" id="winnersGridKucuk">
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Yasemin Birben</div>
+                    <div class="award">Birinci</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Derin Demirer</div>
+                    <div class="award">İkinci</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Ömer Kandaş</div>
+                    <div class="award">Üçüncü</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-notice">
+            Büyük yaş grubunda yarışanlar derece sıralaması:
+        </div>
+        <div class="winners-container" id="winnersContainerBuyuk">
+            <div class="winners-grid" id="winnersGridBuyuk">
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Elif Kandaş</div>
+                    <div class="award">Birinci</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Burak Efe Özbaşı</div>
+                    <div class="award">İkinci</div>
+                </div>
+                
+                <div class="winner">
+                    <div class="medal">🏆</div>
+                    <div class="name">Afra Zeren Gülünay</div>
+                    <div class="award">Üçüncü</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jury-info" id="juryInfo">
+            <p>Tüm katılımcıları ve dereceye giren tüm öğrencilerimizi tebrik ederiz!</p>
+        </div>
+
+        <div class="background-music">
+            <label for="musicControl">Arka Plan Müziği</label>
+            <input type="checkbox" id="musicControl">
+        </div>
+    </div>
+    
+    <script>
+        // Canvas ayarları
+        const canvas = document.getElementById("fireworksCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Havai fişek sınıfı
+        class Firework {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.particles = [];
+                this.color = color;
+                this.createParticles();
+            }
+            createParticles() {
+                for (let i = 0; i < 100; i++) {
+                    const angle = Math.random() * 2 * Math.PI;
+                    const speed = Math.random() * 5 + 2;
+                    const dx = Math.cos(angle) * speed;
+                    const dy = Math.sin(angle) * speed;
+                    this.particles.push({ x: this.x, y: this.y, dx, dy, alpha: 1 });
+                }
+            }
+            update() {
+                this.particles.forEach(p => {
+                    p.x += p.dx;
+                    p.y += p.dy;
+                    p.dy += 0.05; // yerçekimi
+                    p.alpha -= 0.01;
+                });
+            }
+            draw() {
+                this.particles.forEach(p => {
+                    ctx.fillStyle = `rgba(${this.color},${p.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+            isDone() {
+                return this.particles.every(p => p.alpha <= 0);
+            }
+        }
+
+        const fireworks = [];
+        let fireworksActive = false;
+
+        function randomColor() {
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            return `${r},${g},${b}`;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (fireworksActive) {
+                ctx.fillStyle = "rgba(0,0,0,0.1)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                if (Math.random() < 0.05) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height / 2;
+                    fireworks.push(new Firework(x, y, randomColor()));
+                }
+            }
+            
+            fireworks.forEach((f, index) => {
+                f.update();
+                f.draw();
+                if (f.isDone()) fireworks.splice(index, 1);
+            });
+        }
+
+        animate();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Birincileri gösterme animasyonu
+        document.getElementById('revealWinners').addEventListener('click', function() {
+            const winners = document.querySelectorAll('.winner');
+            const scrollNotices = document.querySelectorAll('.scroll-notice');
+            
+            // Havai fişekleri başlat
+            fireworksActive = true;
+            
+            // Progress bar animasyonu
+            const progress = document.getElementById('progress');
+            let width = 0;
+            const interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                } else {
+                    width++;
+                    progress.style.width = width + '%';
+                }
+            }, 20);
+            
+            // Kazananları sırayla gösterme
+            winners.forEach(function(winner, index) {
+                setTimeout(function() {
+                    winner.classList.add('active');
+                }, 200 * index);
+            });
+            
+            // Diğer elemanları aktifleştir
+            document.getElementById('quote').classList.add('active');
+            document.getElementById('juryInfo').classList.add('active');
+            
+            // Her iki "scroll-notice" elementini de aktifleştir
+            scrollNotices.forEach(notice => notice.classList.add('active'));
+
+            document.getElementById('resetApp').style.display = 'inline-block';
+            this.disabled = true;
+            
+            // 15 saniye sonra havai fişekleri durdur
+            setTimeout(function() {
+                fireworksActive = false;
+            }, 15000);
+        });
+
+        // Sayfayı yeniden başlatma
+        document.getElementById('resetApp').addEventListener('click', function() {
+            location.reload();
+        });
+
+        // Müzik kontrolü
+        document.getElementById('musicControl').addEventListener('change', function() {
+            if (this.checked) {
+                console.log('Ramazan müziği başladı');
+            } else {
+                console.log('Müzik durduruldu');
+            }
+        });
+    </script>
+</body>
+</html>
