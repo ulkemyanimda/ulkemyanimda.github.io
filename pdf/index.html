@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Dosyaları İndir</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .download-item {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .download-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #ff5252, #d63031);
+        }
+
+        .download-item:active {
+            transform: translateY(-2px);
+        }
+
+        .pdf-icon {
+            font-size: 24px;
+        }
+
+        .download-all {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .download-all:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #00a085, #00b894);
+        }
+
+        .info-text {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .download-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="download-counter">
+        İndirilen: <span id="downloadCount">0</span>/10
+    </div>
+
+    <div class="container">
+        <h1>📄 PDF Dosyaları</h1>
+        
+        <div class="download-grid">
+            <a href="1.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-1.pdf İndir</span>
+            </a>
+            <a href="2.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-2.pdf İndir</span>
+            </a>
+            <a href="3.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-3.pdf İndir</span>
+            </a>
+            <a href="4.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-4.pdf İndir</span>
+            </a>
+            <a href="5.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-5.pdf İndir</span>
+            </a>
+            <a href="6.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-6.pdf İndir</span>
+            </a>
+            <a href="7.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-7.pdf İndir</span>
+            </a>
+            <a href="8.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-8.pdf İndir</span>
+            </a>
+            <a href="9.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-9.pdf İndir</span>
+            </a>
+            <a href="10.pdf" class="download-item"  target="_blank" download onclick="incrementCounter()">
+                <span class="pdf-icon">📄</span>
+                <span>EK-10.pdf İndir</span>
+            </a>
+        </div>
+
+
+
+        
+    </div>
+
+    <script>
+        let downloadCount = 0;
+
+        function incrementCounter() {
+            downloadCount++;
+            document.getElementById('downloadCount').textContent = downloadCount;
+            
+            if (downloadCount === 10) {
+                setTimeout(() => {
+                    alert('🎉 Tüm dosyalar indirildi!');
+                }, 1000);
+            }
+        }
+
+        function downloadAll() {
+            const pdfFiles = ['1.pdf', '2.pdf', '3.pdf', '4.pdf', '5.pdf', '6.pdf', '7.pdf', '8.pdf', '9.pdf', '10.pdf'];
+            
+            pdfFiles.forEach((file, index) => {
+                setTimeout(() => {
+                    // Yeni pencerede aç
+                    window.open(file, '_blank');
+                    incrementCounter();
+                }, index * 800); // Her dosya arasında 800ms gecikme
+            });
+        }
+
+        // Sayfa yüklendiğinde sayacı sıfırla
+        window.addEventListener('load', function() {
+            downloadCount = 0;
+            document.getElementById('downloadCount').textContent = downloadCount;
+        });
+    </script>
+</body>
+</html>
