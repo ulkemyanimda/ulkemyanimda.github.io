@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İnteraktif Harita Sınav Uygulaması</title>
+    <style>
+        /* =================================
+           ANA SAYFA STİLLERİ
+        ================================= */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .instructions {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* =================================
+           HARİTA CONTAINER STİLLERİ
+        ================================= */
+        .map-container {
+            position: relative;
+            display: inline-block;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            background: white;
+            padding: 20px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .map-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        /* =================================
+           QUIZ NOKTALARI - TEMEL STİLLER
+        ================================= */
+        .quiz-point {
+            position: absolute;
+            /* BOYUT AYARLARI - Bu değerleri değiştirerek nokta boyutunu ayarlayabilirsiniz */
+            width: 80px;  /* Eski değer: 60px - Arttırıldı */
+            height: 80px; /* Eski değer: 60px - Arttırıldı */
+            
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
+            backdrop-filter: blur(8px);
+            border: 3px solid rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .quiz-point:hover {
+            transform: scale(1.2);
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* LOGO BOYUTU AYARLARI - Bu değerleri değiştirerek logo boyutunu ayarlayabilirsiniz */
+        .quiz-point-icon {
+            width: 85px;   /* Eski değer: 24px - Önemli ölçüde arttırıldı */
+            height: 85px;  /* Eski değer: 24px - Önemli ölçüde arttırıldı */
+            object-fit: contain;
+            animation: bounce 1s infinite alternate;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        /* =================================
+           RENK TEMALARı - Her sınav için farklı renkler
+        ================================= */
+        .quiz-point.exam1 {
+            background: linear-gradient(45deg, rgba(74, 144, 226, 0.4), rgba(74, 144, 226, 0.2));
+            border-color: rgba(74, 144, 226, 0.6);
+        }
+
+        .quiz-point.exam2 {
+            background: linear-gradient(45deg, rgba(231, 76, 60, 0.4), rgba(231, 76, 60, 0.2));
+            border-color: rgba(231, 76, 60, 0.6);
+        }
+
+        .quiz-point.exam3 {
+            background: linear-gradient(45deg, rgba(46, 204, 113, 0.4), rgba(46, 204, 113, 0.2));
+            border-color: rgba(46, 204, 113, 0.6);
+        }
+
+        .quiz-point.exam4 {
+            background: linear-gradient(45deg, rgba(241, 196, 15, 0.4), rgba(241, 196, 15, 0.2));
+            border-color: rgba(241, 196, 15, 0.6);
+        }
+
+        .quiz-point.exam5 {
+            background: linear-gradient(45deg, rgba(155, 89, 182, 0.4), rgba(155, 89, 182, 0.2));
+            border-color: rgba(155, 89, 182, 0.6);
+        }
+
+        /* =================================
+           ANİMASYONLAR
+        ================================= */
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(255, 255, 255, 0.4); }
+            50% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 10px rgba(255, 255, 255, 0.1); }
+            100% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 0 0 0 20px rgba(255, 255, 255, 0); }
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-3px); }
+        }
+
+        /* =================================
+           TOOLTIP STİLLERİ
+        ================================= */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .quiz-point:hover .tooltip {
+            opacity: 1;
+        }
+
+        /* =================================
+           MODAL STİLLERİ
+        ================================= */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        /* =================================
+           RESPONSİVE TASARIM
+        ================================= */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            /* Mobil cihazlarda quiz noktalarını küçült */
+            .quiz-point {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .quiz-point-icon {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗺️ İnteraktif Harita Sınav Sistemi</h1>
+        
+        <div class="instructions">
+            <p>Haritadaki parlayan noktaları tıklayarak sınavlara erişebilirsiniz. Her nokta farklı bir sınav konusunu temsil eder.</p>
+        </div>
+
+        <div class="map-container">
+            <img src="define.png" alt="Türkiye Haritası" class="map-image" id="mapImage">
+            
+            <!-- 
+            =================================
+            QUIZ NOKTALARI - KONUM AYARLARI
+            =================================
+            Konum ayarları: top ve left değerlerini değiştirerek noktaları istediğiniz yere yerleştirebilirsiniz
+            top: yukarıdan uzaklık (0% = en üst, 100% = en alt)
+            left: soldan uzaklık (0% = en sol, 100% = en sağ)
+            -->
+			
+			
+			
+			
+			            <!-- 1. SINAV NOKTASI - DİNLEME -->
+            <div class="quiz-point exam4" 
+                 style="top: 65%; left: 20%;" 
+                 data-exam="Dinleme Sınavı" 
+                 data-url="https://ulkemyanimda.eba.gov.tr/moodle/mod/quiz/view.php?id=1964">
+                <div class="tooltip">Haydi başlayalım!</div>
+                <img src="0.png" alt="Haydi başlayalım! İkonu" class="quiz-point-icon">
+            </div>
+			
+			
+			
+			
+			
+            
+            <!-- 1. SINAV NOKTASI - DİNLEME -->
+            <div class="quiz-point exam1" 
+                 style="top: 27%; left: 27%;" 
+                 data-exam="Dinleme Sınavı" 
+                 data-url="https://ulkemyanimda.eba.gov.tr/moodle/mod/quiz/view.php?id=1964">
+                <div class="tooltip">Dinleme</div>
+                <img src="1.png" alt="Dinleme İkonu" class="quiz-point-icon">
+            </div>
+            
+            <!-- 2. SINAV NOKTASI - OKUMA -->
+            <div class="quiz-point exam2" 
+                 style="top: 27%; left: 47%;" 
+                 data-exam="Okuma Sınavı" 
+                 data-url="https://moodlesiteniz.com/mod/quiz/view.php?id=46">
+                <div class="tooltip">Okuma</div>
+                <img src="2.png" alt="Okuma İkonu" class="quiz-point-icon">
+            </div>
+            
+            <!-- 3. SINAV NOKTASI - YAZMA -->
+            <div class="quiz-point exam3" 
+                 style="top: 60%; left: 49%;" 
+                 data-exam="Yazma Sınavı" 
+                 data-url="#yazma-sinav">
+                <div class="tooltip">Yazma</div>
+                <img src="3.png" alt="Yazma İkonu" class="quiz-point-icon">
+            </div>
+            
+            <!-- 4. SINAV NOKTASI - KONUŞMA -->
+            <div class="quiz-point exam4" 
+                 style="top: 33%; left: 66%;" 
+                 data-exam="Konuşma Sınavı" 
+                 data-url="#konusma-sinav">
+                <div class="tooltip">Konuşma</div>
+                <img src="4.png" alt="Konuşma İkonu" class="quiz-point-icon">
+            </div>
+            
+            <!-- 5. SINAV NOKTASI - TÜRKÇE -->
+            <div class="quiz-point exam5" 
+                 style="top: 60%; left: 80%;" 
+                 data-exam="Türkçe Sınavı" 
+                 data-url="#turkce-sinav">
+                <div class="tooltip">Türkçe Sınavı</div>
+                <img src="5.png" alt="Türkçe İkonu" class="quiz-point-icon">
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="examModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Sınav Başlatılıyor</h2>
+            <p id="modalText">Bu sınava başlamak istediğinizden emin misiniz?</p>
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="startExam">Sınavı Başlat</button>
+                <button class="btn btn-secondary" id="cancelExam">İptal</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =================================
+           JAVASCRIPT KONFİGÜRASYONLARI
+        ================================= */
+        
+        // Ana değişkenler
+        const quizPoints = document.querySelectorAll('.quiz-point');
+        const modal = document.getElementById('examModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        const startExamBtn = document.getElementById('startExam');
+        const cancelExamBtn = document.getElementById('cancelExam');
+        
+        let currentExamUrl = '';
+        let currentExamName = '';
+
+        /* =================================
+           QUIZ NOKTALARI OLAY DİNLEYİCİLERİ
+        ================================= */
+        
+        // Her sınav noktasına tıklama olayı ekle
+        quizPoints.forEach(point => {
+            point.addEventListener('click', function() {
+                currentExamUrl = this.getAttribute('data-url');
+                currentExamName = this.getAttribute('data-exam');
+                
+                modalTitle.textContent = currentExamName;
+                modalText.textContent = `${currentExamName} sınavına başlamak istediğinizden emin misiniz? Sınav yeni sekmede açılacaktır.`;
+                
+                modal.style.display = 'flex';
+            });
+
+            // Hover efektleri
+            point.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+
+            point.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        /* =================================
+           MODAL KONTROLÜ
+        ================================= */
+        
+        // Sınavı başlat butonu
+        startExamBtn.addEventListener('click', function() {
+            if (currentExamUrl && currentExamUrl !== '#') {
+                window.open(currentExamUrl, '_blank');
+            } else {
+                alert('Bu sınav henüz hazır değil. Lütfen daha sonra tekrar deneyin.');
+            }
+            modal.style.display = 'none';
+        });
+
+        // İptal butonu
+        cancelExamBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Modal dışına tıklayınca kapat
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // ESC tuşu ile modalı kapat
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            }
+        });
+
+        /* =================================
+           YARDIMCI FONKSİYONLAR
+        ================================= */
+        
+        // Responsive için harita boyutunu ayarla
+        window.addEventListener('resize', function() {
+            const mapImage = document.getElementById('mapImage');
+            if (mapImage.complete) {
+                adjustPointPositions();
+            }
+        });
+
+        function adjustPointPositions() {
+            // Bu fonksiyon gerektiğinde nokta pozisyonlarını ayarlamak için kullanılabilir
+            // Şu anda CSS yüzde değerleri kullandığımız için otomatik olarak responsive
+        }
+
+        // İkon yükleme hatalarını yakala
+        document.querySelectorAll('.quiz-point-icon').forEach(icon => {
+            icon.addEventListener('error', function() {
+                // İkon yüklenemezse varsayılan emoji göster
+                this.style.display = 'none';
+                this.parentElement.innerHTML += '<span style="font-size: 30px; animation: bounce 1s infinite alternate;">📝</span>';
+            });
+        });
+
+        // Harita yüklendiğinde pozisyonları ayarla
+        document.getElementById('mapImage').addEventListener('load', adjustPointPositions);
+    </script>
+</body>
+</html>
