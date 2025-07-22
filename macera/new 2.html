@@ -1,0 +1,162 @@
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const countrySelect = document.getElementById('id_profile_field_ulke');
+  const lessonSelect = document.getElementById('id_profile_field_derssaat');
+
+  if (!countrySelect || !lessonSelect) return;
+
+  const scheduleOptions = {
+    "Amerika Birleşik Devletleri": [
+      "Cumartesi 09:00 - 10:30 (Washington DC Saati)",
+      "Pazar 09:00 - 10:30 (Washington DC Saati)",
+      "Cumartesi 12:00 - 13:30 (Washington DC Saati)",
+      "Pazar 12:00 - 13:30 (Washington DC Saati)"
+    ],
+    "Bulgaristan": [
+      "Cumartesi 10:00 - 11:30",
+      "Pazar 10:00 - 11:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "Çin": [
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30"
+    ],
+    "Hollanda": [
+      "Cumartesi 09:00 - 10:30",
+      "Pazar 09:00 - 10:30",
+      "Cumartesi 12:00 - 13:30",
+      "Pazar 12:00 - 13:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "İsveç": [
+      "Cumartesi 09:00 - 10:30",
+      "Pazar 09:00 - 10:30",
+      "Cumartesi 12:00 - 13:30",
+      "Pazar 12:00 - 13:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "Finlandiya": [
+      "Cumartesi 09:00 - 10:30",
+      "Pazar 09:00 - 10:30",
+      "Cumartesi 12:00 - 13:30",
+      "Pazar 12:00 - 13:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "Norveç": [
+      "Cumartesi 09:00 - 10:30",
+      "Pazar 09:00 - 10:30",
+      "Cumartesi 12:00 - 13:30",
+      "Pazar 12:00 - 13:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "Danimarka": [
+      "Cumartesi 09:00 - 10:30",
+      "Pazar 09:00 - 10:30",
+      "Cumartesi 12:00 - 13:30",
+      "Pazar 12:00 - 13:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "İtalya": [
+      "Cumartesi 09:00 - 10:30",
+      "Pazar 09:00 - 10:30",
+      "Cumartesi 12:00 - 13:30",
+      "Pazar 12:00 - 13:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "İspanya": [
+      "Cumartesi 09:00 - 10:30",
+      "Pazar 09:00 - 10:30",
+      "Cumartesi 12:00 - 13:30",
+      "Pazar 12:00 - 13:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "İzlanda": [
+"Cumartesi 09:00 - 10:30",
+      "Pazar 09:00 - 10:30",
+      "Cumartesi 12:00 - 13:30",
+      "Pazar 12:00 - 13:30",
+      "Cumartesi 17:00 - 18:30",
+      "Pazar 17:00 - 18:30",
+      "Pazartesi 18:00 - 19:30",
+      "Salı 18:00 - 19:30",
+      "Çarşamba 18:00 - 19:30",
+      "Perşembe 18:00 - 19:30",
+      "Cuma 18:00 - 19:30"
+    ],
+    "Diğer": [
+      "Lütfen ülke seçin"
+    ],
+    "Öğretmen": [
+      "Kendi programını belirleyecek"
+    ]
+  };
+
+  function updateLessonOptions() {
+    const selectedCountry = countrySelect.value.trim();
+    const options = scheduleOptions[selectedCountry] || ["Saat bilgisi bulunamadı"];
+
+    lessonSelect.innerHTML = '';
+
+    options.forEach((text, index) => {
+      const option = document.createElement('option');
+      option.value = index + 1;
+      option.textContent = text;
+      lessonSelect.appendChild(option);
+    });
+  }
+
+  updateLessonOptions();
+  countrySelect.addEventListener('change', updateLessonOptions);
+});
+</script>
