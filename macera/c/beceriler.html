@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Sayfa</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            /* Arka plan gradyanını artık ana sayfa veriyor */
+            background: linear-gradient(135deg, #87CEEB, #4682B4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        iframe {
+            /* Iframe'in kenarlıklarını kaldırıp boyutunu ayarlıyoruz */
+            border: none;
+            width: 100%;
+            max-width: 900px; /* Iframe'in maksimum genişliği */
+            height: 600px; /* Iframe'in yüksekliği */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe 
+        src="c.html" 
+        title="Dil Becerileri Modülü"
+        allow="autoplay">
+    </iframe>
+
+</body>
+</html>

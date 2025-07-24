@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dil Becerileri (iFrame)</title>
+    <style>
+        /* Body stilini sıfırlayarak iframe içinde sorunsuz görünmesini sağlıyoruz */
+        body {
+            margin: 0;
+            padding: 0;
+            background: transparent; /* Iframe'in şeffaf olması için */
+        }
+
+        /* Tüm içeriği saran ana kapsayıcı */
+        #iframe-content-wrapper {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .skills-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .skills-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+
+        .skill-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            user-select: none;
+        }
+
+        .skill-item:hover {
+            transform: scale(1.1);
+        }
+
+        .skill-item:active {
+            transform: scale(0.95);
+        }
+
+        .skill-logo {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skill-logo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border-radius: 50%;
+            transition: opacity 0.3s ease;
+        }
+
+        .skill-item:hover .skill-logo {
+            transform: scale(1.1) translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .skill-item:hover .skill-logo::before {
+            opacity: 0.8;
+        }
+
+        .skill-icon {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .skill-label {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .skill-item:hover .skill-label {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .main-text {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .warning-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .start-text {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .audio-init-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .audio-init-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .audio-init-button {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .audio-init-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .warning-icon {
+            font-size: 28px;
+            color: #FF6B35;
+        }
+
+        .pulse {
+            animation: pulse 0.6s;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .playing {
+            background: rgba(144, 238, 144, 0.3) !important;
+            border-color: rgba(144, 238, 144, 0.8) !important;
+            box-shadow: 0 0 30px rgba(144, 238, 144, 0.4) !important;
+        }
+
+        .current-activity {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            display: none;
+        }
+		
+    .banner-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .banner-wrapper img {
+      max-width: 65%;
+      height: auto;
+    }
+    </style>
+</head>
+<body>
+
+    <div id="iframe-content-wrapper">
+
+        <div class="container">
+            <div class="audio-init-overlay" id="audioInitOverlay">
+                <div class="audio-init-box">
+                    <h2>🎵 Ses Deneyimi</h2>
+                    <p>Logoların üzerine geldiğinizde ses çalması için<br>lütfen "Başlat" butonuna tıklayın.</p>
+                    <button class="audio-init-button" onclick="initializeAudio()">🎶 Sesleri Başlat</button>
+                </div>
+            </div>
+
+            <div class="current-activity" id="currentActivity">
+                🎵 Ses çalıyor...
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-item" onclick="openExam('dinleme', 1)" onmouseenter="playHoverSound(1)" data-skill="dinleme">
+                    <div class="skill-logo">
+                        <img src="1.png" alt="Dinleme" class="skill-icon">
+                    </div>
+                </div>
+
+                <div class="skill-item" onclick="openExam('okuma', 2)" onmouseenter="playHoverSound(2)" data-skill="okuma">
+                    <div class="skill-logo">
+                        <img src="2.png" alt="Okuma" class="skill-icon">
+                    </div>
+                </div>
+
+                <div class="skill-item" onclick="openExam('yazma', 3)" onmouseenter="playHoverSound(3)" data-skill="yazma">
+                    <div class="skill-logo">
+                        <img src="3.png" alt="Yazma" class="skill-icon">
+                    </div>
+                </div>
+
+                <div class="skill-item" onclick="openExam('konusma', 4)" onmouseenter="playHoverSound(4)" data-skill="konusma">
+                    <div class="skill-logo">
+                        <img src="4.png" alt="Konuşma" class="skill-icon">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="banner-wrapper">
+                <img src="0.png" alt="Ülkem Yanımda Banner">
+            </div>
+        </div>
+
+    </div> <script>
+        // JavaScript kodunda herhangi bir değişiklik yapmaya gerek yok.
+        let currentAudio = null;
+        let currentPlayingElement = null;
+        let hoverAudios = {};
+        let audioInitialized = false;
+
+        function initializeAudio() {
+            for (let i = 1; i <= 4; i++) {
+                hoverAudios[i] = new Audio(`${i}.mp3`);
+                hoverAudios[i].volume = 0.7;
+                hoverAudios[i].preload = 'auto';
+                
+                hoverAudios[i].volume = 0;
+                hoverAudios[i].play().then(() => {
+                    hoverAudios[i].pause();
+                    hoverAudios[i].currentTime = 0;
+                    hoverAudios[i].volume = 0.7;
+                }).catch(e => {
+                    console.log(`Ses dosyası ${i}.mp3 yüklenemedi:`, e);
+                });
+            }
+            
+            audioInitialized = true;
+            document.getElementById('audioInitOverlay').style.display = 'none';
+        }
+
+        function playHoverSound(audioNumber) {
+            if (!audioInitialized) return;
+            
+            Object.values(hoverAudios).forEach(audio => {
+                if (!audio.paused) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+
+            const hoverAudio = hoverAudios[audioNumber];
+            if (hoverAudio) {
+                try {
+                    hoverAudio.currentTime = 0;
+                    hoverAudio.play().catch(e => console.log('Hover ses çalınamadı:', e));
+                } catch (error) {
+                    console.log(`Hover ses dosyası ${audioNumber}.mp3 yüklenemedi:`, error);
+                }
+            }
+        }
+
+        function openExam(skillName, examNumber) {
+            if (audioInitialized) {
+                Object.values(hoverAudios).forEach(audio => {
+                    if (!audio.paused) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                });
+            }
+
+            const element = document.querySelector(`[data-skill="${skillName}"]`);
+            const activity = document.getElementById('currentActivity');
+
+            element.classList.add('pulse');
+            setTimeout(() => {
+                element.classList.remove('pulse');
+            }, 600);
+
+            activity.textContent = `📚 ${skillName.toUpperCase()} sınavı açılıyor...`;
+            activity.style.display = 'block';
+            activity.style.background = 'rgba(34, 139, 34, 0.9)';
+
+            setTimeout(() => {
+                activity.style.display = 'none';
+            }, 2000);
+            
+            console.log(`${skillName} sınavı açılıyor... (Sınav ID: ${examNumber})`);
+            
+            setTimeout(() => {
+                // iframe içinde olduğumuz için üst pencereyi yönlendirmek daha doğru olabilir
+                // window.top.location.href = `exam_${examNumber}.html`;
+                alert(`${skillName.toUpperCase()} sınavına yönlendirileceksiniz.\n\nSınav dosyası: exam_${examNumber}.html`);
+            }, 1000);
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (audioInitialized) {
+                Object.values(hoverAudios).forEach(audio => {
+                    if (!audio.paused) {
+                        audio.pause();
+                    }
+                });
+            }
+        });
+
+        document.querySelectorAll('.skill-item').forEach(item => {
+            item.addEventListener('mouseleave', () => {
+                if (audioInitialized) {
+                    Object.values(hoverAudios).forEach(audio => {
+                        if (!audio.paused) {
+                            audio.pause();
+                            audio.currentTime = 0;
+                        }
+                    });
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && audioInitialized) {
+                Object.values(hoverAudios).forEach(audio => {
+                    if (!audio.paused) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                });
+                document.getElementById('currentActivity').style.display = 'none';
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && !audioInitialized) {
+                e.preventDefault();
+                initializeAudio();
+            }
+        });
+    </script>
+</body>
+</html>
