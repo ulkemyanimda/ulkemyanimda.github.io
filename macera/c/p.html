@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dil Becerileri</title>
     <style>
-        body {
+        * {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
             background: linear-gradient(135deg, #87CEEB, #4682B4);
             font-family: 'Comic Sans MS', cursive, sans-serif;
             min-height: 100vh;
@@ -15,11 +19,13 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 10px;
         }
 
         .container {
             max-width: 800px;
             text-align: center;
+            width: 100%;
         }
 
         .skills-grid {
@@ -27,7 +33,7 @@
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(2, 1fr);
             gap: 8vw;
-            margin: 40px 0;
+            margin: 20px 0;
             justify-items: center;
             align-items: center;
             width: 80vw;
@@ -271,7 +277,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
         .banner-wrapper img {
@@ -283,7 +289,7 @@
 <body>
     <div class="container">
         <!-- Ses Başlatma Overlay'i -->
-        <div class="audio-init-overlay" id="audioInitOverlay">
+        <div class="audio-init-overlay" id="audioInitOverlay" style="display: none;">
             <div class="audio-init-box">
                 <h2>🎵 Ses Deneyimi</h2>
                 <p>Logoların üzerine geldiğinizde ses çalması için<br>lütfen "Başlat" butonuna tıklayın.</p>
@@ -298,35 +304,31 @@
         <div class="skills-grid">
             <div class="skill-item" onclick="openExam('dinleme', 1)" onmouseenter="playHoverSound(1)" data-skill="dinleme">
                 <div class="skill-logo">
-                    <img src="1.png" alt="Dinleme" class="skill-icon">
+                    <img src="https://via.placeholder.com/200x200/4682B4/white?text=👂" alt="Dinleme" class="skill-icon">
                 </div>
-              <!--    <div class="skill-label">DİNLEME</div> -->
             </div>
 
             <div class="skill-item" onclick="openExam('okuma', 2)" onmouseenter="playHoverSound(2)" data-skill="okuma">
                 <div class="skill-logo">
-                    <img src="2.png" alt="Okuma" class="skill-icon">
+                    <img src="https://via.placeholder.com/200x200/4682B4/white?text=📖" alt="Okuma" class="skill-icon">
                 </div>
-                <!--  <div class="skill-label">OKUMA</div> -->
             </div>
 
             <div class="skill-item" onclick="openExam('yazma', 3)" onmouseenter="playHoverSound(3)" data-skill="yazma">
                 <div class="skill-logo">
-                    <img src="3.png" alt="Yazma" class="skill-icon">
+                    <img src="https://via.placeholder.com/200x200/4682B4/white?text=✍️" alt="Yazma" class="skill-icon">
                 </div>
-                <!--  <div class="skill-label">YAZMA</div> -->
             </div>
 
             <div class="skill-item" onclick="openExam('konusma', 4)" onmouseenter="playHoverSound(4)" data-skill="konusma">
                 <div class="skill-logo">
-                    <img src="4.png" alt="Konuşma" class="skill-icon">
+                    <img src="https://via.placeholder.com/200x200/4682B4/white?text=🗣️" alt="Konuşma" class="skill-icon">
                 </div>
-                 <!-- <div class="skill-label">KONUŞMA</div> -->
             </div>
         </div>
         
         <div class="banner-wrapper">
-            <img src="0.png" alt="Ülkem Yanımda Banner">
+            <img src="https://via.placeholder.com/400x100/87CEEB/4682B4?text=Ülkem+Yanımda" alt="Ülkem Yanımda Banner">
         </div>
     </div>
 
@@ -468,5 +470,6 @@
             }
         });
     </script>
+
 </body>
 </html>
