@@ -26,26 +26,36 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(2, 1fr);
-            gap: 40px;
+            gap: 8vw;
             margin: 40px 0;
             justify-items: center;
             align-items: center;
-            max-width: 600px;
+            width: 80vw;
+            max-width: 1200px;
             margin-left: auto;
             margin-right: auto;
         }
 
+        @media (max-width: 1024px) {
+            .skills-grid {
+                width: 70vw;
+                gap: 6vw;
+            }
+        }
+
         @media (max-width: 768px) {
             .skills-grid {
-                gap: 30px;
-                max-width: 400px;
+                width: 80vw;
+                gap: 8vw;
+                max-width: 500px;
             }
         }
 
         @media (max-width: 480px) {
             .skills-grid {
-                gap: 20px;
-                max-width: 300px;
+                width: 90vw;
+                gap: 6vw;
+                max-width: 350px;
             }
         }
 
@@ -69,8 +79,8 @@
         }
 
         .skill-logo {
-            width: 120px;
-            height: 120px;
+            width: min(25vw, 300px);
+            height: min(25vw, 300px);
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             border-radius: 50%;
@@ -85,17 +95,24 @@
             position: relative;
         }
 
+        @media (min-width: 1200px) {
+            .skill-logo {
+                width: min(20vw, 280px);
+                height: min(20vw, 280px);
+            }
+        }
+
         @media (max-width: 768px) {
             .skill-logo {
-                width: 100px;
-                height: 100px;
+                width: min(30vw, 200px);
+                height: min(30vw, 200px);
             }
         }
 
         @media (max-width: 480px) {
             .skill-logo {
-                width: 80px;
-                height: 80px;
+                width: min(35vw, 150px);
+                height: min(35vw, 150px);
             }
         }
 
@@ -123,24 +140,10 @@
         }
 
         .skill-icon {
-            width: 80px;
-            height: 80px;
+            width: 65%;
+            height: 65%;
             object-fit: contain;
             filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
-        }
-
-        @media (max-width: 768px) {
-            .skill-icon {
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .skill-icon {
-                width: 50px;
-                height: 50px;
-            }
         }
 
         .skill-label {
