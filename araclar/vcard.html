@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>vCard QR Kod Üreticisi</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -375,20 +375,26 @@
                 return;
             }
 
-            QRCode.toCanvas(qrContainer, data, {
-                width: 256,
-                height: 256,
-                colorDark: '#000000',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.M
-            }, function (error, canvas) {
-                if (error) {
-                    console.error(error);
-                    qrContainer.innerHTML = '<div class="empty-state">QR kod oluşturulamadı</div>';
-                } else {
-                    qrCodeDataURL = canvas.toDataURL();
-                }
-            });
+            try {
+                // Canvas oluştur
+                const canvas = document.createElement('canvas');
+                qrContainer.appendChild(canvas);
+                
+                // QRious ile QR kod oluştur
+                const qr = new QRious({
+                    element: canvas,
+                    value: data,
+                    size: 256,
+                    background: 'white',
+                    foreground: 'black',
+                    level: 'M'
+                });
+
+                qrCodeDataURL = canvas.toDataURL('image/png');
+            } catch (error) {
+                console.error('QR kod oluşturma hatası:', error);
+                qrContainer.innerHTML = '<div class="empty-state">QR kod oluşturulamadı</div>';
+            }
         }
 
         function downloadVCard() {
