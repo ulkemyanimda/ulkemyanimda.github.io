@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vCard QR Kod Üreticisi</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .form-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .form-section h2 {
+            color: #495057;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .result-section {
+            text-align: center;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .result-section h2 {
+            color: #495057;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        #qrcode:hover {
+            transform: scale(1.05);
+        }
+
+        .download-section {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .preview-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            text-align: left;
+        }
+
+        .preview-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .preview-content {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #6c757d;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .download-section {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+        }
+
+        .icon {
+            font-size: 1.2em;
+        }
+
+        .empty-state {
+            color: #6c757d;
+            font-style: italic;
+            padding: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="icon">📱</span> vCard QR Kod Üreticisi</h1>
+            <p>Kişisel bilgilerinizi girin ve QR kodunuzu anında oluşturun</p>
+        </div>
+        
+        <div class="content">
+            <div class="form-section">
+                <h2><span class="icon">✏️</span> Kişi Bilgileri</h2>
+                
+                <div class="form-group">
+                    <label for="firstName">Ad:</label>
+                    <input type="text" id="firstName" placeholder="Adınızı girin" value="Kahraman">
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Soyad:</label>
+                    <input type="text" id="lastName" placeholder="Soyadınızı girin" value="Koştaş">
+                </div>
+                
+                <div class="form-group">
+                    <label for="organization">Kurum:</label>
+                    <input type="text" id="organization" placeholder="Kurum adını girin" value="YYEGM">
+                </div>
+                
+                <div class="form-group">
+                    <label for="title">Ünvan:</label>
+                    <input type="text" id="title" placeholder="Ünvanınızı girin" value="Millî Eğitim Uzmanı">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phoneWork">İş Telefonu:</label>
+                    <input type="tel" id="phoneWork" placeholder="+90 312 413 5646" value="+90 312 413 5646">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phoneMobile">Cep Telefonu:</label>
+                    <input type="tel" id="phoneMobile" placeholder="+90 555 555 5555" value="+90 555 555 5555">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">E-posta:</label>
+                    <input type="email" id="email" placeholder="ornek@email.com" value="kahraman.kostas@meb.gov.tr">
+                </div>
+                
+                <div class="form-group">
+                    <label for="website">Web Sitesi:</label>
+                    <input type="url" id="website" placeholder="https://orneksite.com" value="https://kahramankostas.github.io">
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <h2><span class="icon">🔳</span> QR Kod</h2>
+                
+                <div id="qrcode">
+                    <div class="empty-state">
+                        QR kod burada görünecek
+                    </div>
+                </div>
+                
+                <div class="download-section">
+                    <button class="btn btn-primary" onclick="downloadVCard()">
+                        <span class="icon">💾</span> vCard İndir
+                    </button>
+                    <button class="btn btn-secondary" onclick="downloadQR()">
+                        <span class="icon">📷</span> QR Kod İndir
+                    </button>
+                </div>
+                
+                <div class="preview-section">
+                    <h3><span class="icon">👁️</span> vCard Önizleme</h3>
+                    <div class="preview-content" id="vcardPreview">
+                        vCard içeriği burada görünecek
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentVCard = '';
+        let qrCodeDataURL = '';
+
+        function generateVCard() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const organization = document.getElementById('organization').value.trim();
+            const title = document.getElementById('title').value.trim();
+            const phoneWork = document.getElementById('phoneWork').value.trim();
+            const phoneMobile = document.getElementById('phoneMobile').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const website = document.getElementById('website').value.trim();
+
+            // vCard formatı oluştur
+            let vcard = 'BEGIN:VCARD\n';
+            vcard += 'VERSION:3.0\n';
+            
+            if (lastName || firstName) {
+                vcard += `N:${lastName};${firstName};;;\n`;
+                vcard += `FN:${firstName} ${lastName}\n`;
+            }
+            
+            if (organization) {
+                vcard += `ORG:${organization}\n`;
+            }
+            
+            if (title) {
+                vcard += `TITLE:${title}\n`;
+            }
+            
+            if (phoneWork) {
+                vcard += `TEL;TYPE=WORK,VOICE:${phoneWork}\n`;
+            }
+            
+            if (phoneMobile) {
+                vcard += `TEL;TYPE=CELL,VOICE:${phoneMobile}\n`;
+            }
+            
+            if (email) {
+                vcard += `EMAIL:${email}\n`;
+            }
+            
+            if (website) {
+                vcard += `URL:${website}\n`;
+            }
+            
+            vcard += 'END:VCARD';
+
+            currentVCard = vcard;
+
+            // Önizlemeyi güncelle
+            document.getElementById('vcardPreview').textContent = vcard;
+
+            // QR kod oluştur
+            generateQRCode(vcard);
+        }
+
+        function generateQRCode(data) {
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+
+            if (!data.trim()) {
+                qrContainer.innerHTML = '<div class="empty-state">QR kod burada görünecek</div>';
+                return;
+            }
+
+            QRCode.toCanvas(qrContainer, data, {
+                width: 256,
+                height: 256,
+                colorDark: '#000000',
+                colorLight: '#ffffff',
+                correctLevel: QRCode.CorrectLevel.M
+            }, function (error, canvas) {
+                if (error) {
+                    console.error(error);
+                    qrContainer.innerHTML = '<div class="empty-state">QR kod oluşturulamadı</div>';
+                } else {
+                    qrCodeDataURL = canvas.toDataURL();
+                }
+            });
+        }
+
+        function downloadVCard() {
+            if (!currentVCard) {
+                alert('Önce bilgileri doldurun!');
+                return;
+            }
+
+            const blob = new Blob([currentVCard], { type: 'text/vcard;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'contact.vcf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadQR() {
+            if (!qrCodeDataURL) {
+                alert('Önce QR kod oluşturun!');
+                return;
+            }
+
+            const a = document.createElement('a');
+            a.href = qrCodeDataURL;
+            a.download = 'contact_qr.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // Input değişikliklerini dinle
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', generateVCard);
+        });
+
+        // Sayfa yüklendiğinde başlangıç QR kodunu oluştur
+        window.addEventListener('load', generateVCard);
+    </script>
+</body>
+</html>
