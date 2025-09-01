@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Renk Eşleştirme Oyunu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f2f2f2;
+    }
+    h1 {
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .drag-item {
+      padding: 10px 20px;
+      background-color: white;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      cursor: grab;
+      font-weight: bold;
+    }
+
+    .drop-zone {
+      width: 100px;
+      height: 100px;
+      border: 3px dashed #ccc;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .color-box {
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+    }
+
+    .matched {
+      border: 3px solid green;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎨 Renk Eşleştirme Oyunu</h1>
+  <p>Renk isimlerini doğru renge sürükle!</p>
+
+  <div class="container" id="draggables">
+    <div class="drag-item" draggable="true" id="kirmizi">Kırmızı</div>
+    <div class="drag-item" draggable="true" id="mavi">Mavi</div>
+    <div class="drag-item" draggable="true" id="yesil">Yeşil</div>
+    <div class="drag-item" draggable="true" id="sari">Sarı</div>
+  </div>
+
+  <div class="container">
+    <div class="drop-zone" data-color="kirmizi">
+      <div class="color-box" style="background-color: red;"></div>
+    </div>
+    <div class="drop-zone" data-color="mavi">
+      <div class="color-box" style="background-color: blue;"></div>
+    </div>
+    <div class="drop-zone" data-color="yesil">
+      <div class="color-box" style="background-color: green;"></div>
+    </div>
+    <div class="drop-zone" data-color="sari">
+      <div class="color-box" style="background-color: yellow;"></div>
+    </div>
+  </div>
+
+  <script>
+    const draggables = document.querySelectorAll('.drag-item');
+    const dropZones = document.querySelectorAll('.drop-zone');
+
+    draggables.forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', e.target.id);
+      });
+    });
+
+    dropZones.forEach(zone => {
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        zone.style.borderColor = '#999';
+      });
+
+      zone.addEventListener('dragleave', () => {
+        zone.style.borderColor = '#ccc';
+      });
+
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const draggedId = e.dataTransfer.getData('text/plain');
+        const correctId = zone.getAttribute('data-color');
+
+        if (draggedId === correctId) {
+          const draggedElement = document.getElementById(draggedId);
+          zone.appendChild(draggedElement);
+          zone.classList.add('matched');
+          zone.style.borderColor = 'green';
+          draggedElement.style.cursor = 'default';
+          draggedElement.setAttribute('draggable', 'false');
+        } else {
+          alert("Yanlış eşleştirme! Tekrar deneyin.");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

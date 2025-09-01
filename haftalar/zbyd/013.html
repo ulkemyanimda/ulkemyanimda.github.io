@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zıtlarını Bul!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 2.2em;
+            font-weight: 800;
+            color: #2c3e50;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .small {
+            font-size: 0.8em;
+            opacity: 0.7;
+            font-weight: 400;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+        }
+
+        select, button {
+            font-size: 14px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        select {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-weight: 600;
+            text-transform: none;
+        }
+
+        button.secondary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button.secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        button.ghost {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        button.ghost:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        #ses {
+            background: linear-gradient(45deg, #10ac84, #1dd1a1);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(16, 172, 132, 0.3);
+        }
+
+        #ses:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 172, 132, 0.4);
+        }
+
+        /* Info Banner */
+        .info {
+            background: linear-gradient(45deg, #3742fa, #2f3542);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(55, 66, 250, 0.3);
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        /* Status Area */
+        .status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stars {
+            display: flex;
+            gap: 5px;
+        }
+
+        .star {
+            font-size: 20px;
+            color: #ffd700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .score {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        /* Game Board */
+        .board {
+            display: grid;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Card Styles */
+        .card {
+            aspect-ratio: 1;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border: 2px solid #e1e8ed;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            box-shadow: 
+                0 2px 8px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transition: left 0.5s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.15),
+                inset 0 1px 0 rgba(255,255,255,0.6);
+            border-color: #667eea;
+        }
+
+        .card:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        .card.selected {
+            background: linear-gradient(145deg, #667eea, #764ba2);
+            color: white;
+            border-color: #5a6fd8;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .card.correct {
+            background: linear-gradient(145deg, #10ac84, #1dd1a1);
+            color: white;
+            border-color: #0e9871;
+            animation: correctPulse 0.6s ease-out;
+        }
+
+        .card.wrong {
+            background: linear-gradient(145deg, #ff6b6b, #ff5252);
+            color: white;
+            border-color: #ff5252;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti.hidden {
+            display: none;
+        }
+
+        .confetti span {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            animation: confetti-fall linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .wrap {
+                padding: 15px;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .controls {
+                justify-content: center;
+            }
+
+            .status {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .board {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 12px;
+            }
+
+            .card {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .board {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 10px;
+            }
+
+            .card {
+                font-size: 14px;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease-out backwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+        .card:nth-child(6) { animation-delay: 0.6s; }
+        .card:nth-child(7) { animation-delay: 0.7s; }
+        .card:nth-child(8) { animation-delay: 0.8s; }
+        .card:nth-child(9) { animation-delay: 0.9s; }
+        .card:nth-child(10) { animation-delay: 1.0s; }
+        .card:nth-child(11) { animation-delay: 1.1s; }
+        .card:nth-child(12) { animation-delay: 1.2s; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <div class="title">
+                <div class="logo" aria-hidden="true">Z</div>
+                <h1>Zıtlarını Bul! <span class="small">(1. Sınıf)</span></h1>
+            </div>
+            <div class="controls">
+                <label class="small" for="adet">Kart sayısı:</label>
+                <select id="adet" aria-label="Tur başına kaç çift olsun?">
+                    <option value="4">4 çift (kolay)</option>
+                    <option selected="selected" value="5">5 çift</option>
+                    <option value="6">6 çift</option>
+                </select>
+                <button id="yeniTur" class="secondary">Yeni Tur</button>
+                <button id="karistir" class="ghost">Karıştır</button>
+                <button id="ses" title="Tıklayınca kelimeyi seslendir">🔊 Ses Açık</button>
+            </div>
+        </header>
+
+        <div class="info" role="status" aria-live="polite">
+            <span class="badge">Nasıl oynanır?</span> 
+            İki kart seç. Zıt anlamlılarsa eşleştirilir! Hepsini eşleştirince tur biter. Kartlara tıklayınca kelime sesli okunur.
+        </div>
+
+        <div class="status">
+            <div id="yildizlar" class="stars" aria-label="Puan yıldızları"></div>
+            <div id="puan" class="score">Puan: 0</div>
+            <div id="turBilgi" class="small"></div>
+        </div>
+
+        <main id="tahta" class="board" aria-label="Oyun tahtası"></main>
+    </div>
+
+    <div id="confetti" class="confetti hidden" aria-hidden="true"></div>
+
+    <footer>
+        <div class="small">💡 İpucu: Küçük ekranlarda yatay çevirirsen kartlar daha büyük görünür!</div>
+    </footer>
+
+    <script>
+        // --- Veri kümesi: Zıt anlamlı çiftler (Türkçe) ---
+        const ANTONYMS = [
+            ["büyük", "küçük"],
+            ["uzun", "kısa"],
+            ["sıcak", "soğuk"],
+            ["yukarı", "aşağı"],
+            ["hızlı", "yavaş"],
+            ["gece", "gündüz"],
+            ["açık", "kapalı"],
+            ["kirli", "temiz"],
+            ["mutlu", "üzgün"],
+            ["ağır", "hafif"],
+            ["ıslak", "kuru"],
+            ["yeni", "eski"],
+            ["kalın", "ince"],
+            ["güçlü", "zayıf"],
+            ["aydınlık", "karanlık"],
+            ["geniş", "dar"],
+            ["sert", "yumuşak"],
+            ["yakın", "uzak"],
+            ["dolu", "boş"],
+            ["tembel", "çalışkan"],
+        ];
+
+        // Durum
+        const state = {
+            round: 0,
+            score: 0,
+            toMatch: 0,
+            selected: [], // card elements
+            speak: true,
+        }
+
+        const el = {
+            board: document.getElementById('tahta'),
+            score: document.getElementById('puan'),
+            stars: document.getElementById('yildizlar'),
+            roundInfo: document.getElementById('turBilgi'),
+            newRoundBtn: document.getElementById('yeniTur'),
+            shuffleBtn: document.getElementById('karistir'),
+            countSel: document.getElementById('adet'),
+            voiceBtn: document.getElementById('ses'),
+            confetti: document.getElementById('confetti'),
+        }
+
+        // Yardımcılar
+        const rand = (n) => Math.floor(Math.random() * n)
+        const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(x => x[1])
+
+        function pickPairs(n) {
+            return shuffle(ANTONYMS).slice(0, n)
+        }
+
+        function buildRound() {
+            const n = parseInt(el.countSel.value, 10)
+            state.round++
+            el.roundInfo.textContent = `Tur ${state.round}`
+
+            const pairs = pickPairs(n)
+            state.toMatch = n
+            state.selected = []
+
+            // Kartları hazırla
+            const cards = []
+            pairs.forEach((pair, idx) => {
+                const pid = `p${state.round}_${idx}`
+                pair.forEach(word => {
+                    cards.push({ id: pid + "_" + word, word, pairId: pid })
+                })
+            })
+
+            // Karıştırıp yerleştir
+            el.board.innerHTML = ''
+            shuffle(cards).forEach((c, index) => {
+                const div = document.createElement('div')
+                div.className = 'card'
+                div.textContent = c.word
+                div.setAttribute('data-pair', c.pairId)
+                div.setAttribute('data-id', c.id)
+                div.setAttribute('role', 'button')
+                div.setAttribute('aria-pressed', 'false')
+                div.style.animationDelay = `${index * 0.1}s`
+                div.addEventListener('click', () => onSelect(div))
+                el.board.appendChild(div)
+            })
+
+            // UI
+            updateStars()
+            flashBoard()
+        }
+
+        function onSelect(card) {
+            if (card.classList.contains('locked') || card.classList.contains('correct')) return
+
+            // Seslendir
+            if (state.speak) speak(card.textContent)
+
+            // Aynı karta ikinci kez basmayı engelle
+            if (state.selected[0] && state.selected[0] === card) {
+                return
+            }
+
+            card.classList.add('selected')
+            card.setAttribute('aria-pressed', 'true')
+            state.selected.push(card)
+
+            if (state.selected.length === 2) {
+                setTimeout(() => checkMatch(), 300)
+            }
+        }
+
+        function checkMatch() {
+            const [a, b] = state.selected
+            if (!a || !b) return
+
+            const isMatch = a.dataset.pair === b.dataset.pair
+
+            if (isMatch) {
+                a.classList.remove('selected')
+                b.classList.remove('selected')
+                a.classList.add('correct', 'locked')
+                b.classList.add('correct', 'locked')
+                state.score += 10
+                state.toMatch -= 1
+
+                if (state.toMatch === 0) {
+                    setTimeout(() => onRoundWin(), 500)
+                }
+            } else {
+                a.classList.add('wrong')
+                b.classList.add('wrong')
+                state.score = Math.max(0, state.score - 2)
+                
+                setTimeout(() => {
+                    a.classList.remove('wrong', 'selected')
+                    a.setAttribute('aria-pressed', 'false')
+                    b.classList.remove('wrong', 'selected')
+                    b.setAttribute('aria-pressed', 'false')
+                }, 500)
+            }
+
+            updateScore()
+            state.selected = []
+        }
+
+        function updateScore() {
+            el.score.textContent = `Puan: ${state.score}`
+        }
+
+        function updateStars() {
+            const total = parseInt(el.countSel.value, 10)
+            el.stars.innerHTML = ''
+            for (let i = 0; i < total; i++) {
+                const s = document.createElement('div')
+                s.className = 'star'
+                s.textContent = '★'
+                s.style.animationDelay = `${i * 0.2}s`
+                el.stars.appendChild(s)
+            }
+        }
+
+        function flashBoard() {
+            el.board.animate([
+                { transform: 'scale(0.98)', opacity: .8 },
+                { transform: 'scale(1)', opacity: 1 }
+            ], { duration: 300 })
+        }
+
+        // Konfeti
+        function confetti() {
+            const cont = el.confetti
+            cont.classList.remove('hidden')
+            cont.innerHTML = ''
+            
+            const colors = ['#ffb000', '#5b8def', '#18a957', '#ff6b6b', '#9b59b6', '#00c2ff']
+            
+            for (let i = 0; i < 120; i++) {
+                const piece = document.createElement('span')
+                piece.style.left = Math.random() * 100 + 'vw'
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)]
+                piece.style.animationDuration = (6 + Math.random() * 4) + 's'
+                piece.style.transform = `translateY(-20px) rotate(${Math.random()*360}deg)`
+                cont.appendChild(piece)
+            }
+            
+            setTimeout(() => cont.classList.add('hidden'), 6500)
+        }
+
+        function onRoundWin() {
+            confetti()
+            
+            const msg = document.createElement('div')
+            msg.style.cssText = `
+                position: fixed;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: rgba(0,0,0,.4);
+                backdrop-filter: blur(8px);
+                z-index: 1001;
+                animation: fadeIn 0.3s ease-out;
+            `
+            
+            msg.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 30px 25px;
+                    border-radius: 20px;
+                    box-shadow: 0 20px 40px rgba(0,0,0,.3);
+                    text-align: center;
+                    max-width: 400px;
+                    margin: 20px;
+                    animation: fadeIn 0.5s ease-out 0.2s backwards;
+                ">
+                    <div style="font-size: 32px; margin-bottom: 15px;">🎉</div>
+                    <div style="font-size: 24px; font-weight: 800; margin-bottom: 10px; color: #2c3e50;">
+                        Tebrikler!
+                    </div>
+                    <div style="margin-bottom: 20px; font-size: 16px; color: #666;">
+                        Tüm zıtları doğru eşleştirdin.
+                    </div>
+                    <button id="devam" style="
+                        font-size: 16px;
+                        padding: 12px 24px;
+                        border: none;
+                        border-radius: 12px;
+                        background: linear-gradient(45deg, #667eea, #764ba2);
+                        color: white;
+                        cursor: pointer;
+                        font-weight: 600;
+                        transition: all 0.3s ease;
+                        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                    ">
+                        Yeni Tur Başlat
+                    </button>
+                </div>
+            `
+            
+            document.body.appendChild(msg)
+            
+            const devamBtn = document.getElementById('devam')
+            devamBtn.addEventListener('mouseenter', () => {
+                devamBtn.style.transform = 'translateY(-2px)'
+                devamBtn.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)'
+            })
+            devamBtn.addEventListener('mouseleave', () => {
+                devamBtn.style.transform = 'translateY(0)'
+                devamBtn.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)'
+            })
+            devamBtn.addEventListener('click', () => {
+                msg.remove()
+                buildRound()
+            })
+        }
+
+        // Seslendirme
+        function speak(text) {
+            try {
+                const u = new SpeechSynthesisUtterance(text)
+                u.lang = 'tr-TR'
+                u.rate = 0.9
+                window.speechSynthesis.cancel()
+                window.speechSynthesis.speak(u)
+            } catch (e) {
+                /* sessiz geç */
+            }
+        }
+
+        // Olaylar
+        el.newRoundBtn.addEventListener('click', buildRound)
+
+        el.shuffleBtn.addEventListener('click', () => {
+            // mevcut kartları yeniden karıştır
+            const cards = Array.from(el.board.children)
+            shuffle(cards).forEach(c => el.board.appendChild(c))
+            flashBoard()
+        })
+
+        el.countSel.addEventListener('change', buildRound)
+
+        el.voiceBtn.addEventListener('click', () => {
+            state.speak = !state.speak
+            el.voiceBtn.textContent = state.speak ? '🔊 Ses Açık' : '🔇 Ses Kapalı'
+        })
+
+        // Başlangıç
+        buildRound()
+    </script>
+</body>
+</html>

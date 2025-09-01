@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rakam Okunuşu Eşleştirme (1-9)</title>
+<style>
+  :root{--bg:#4b0082;--card:#5a0e90;--muted:#d1c4e9;--text:#f3e8ff;--accent:#a855f7;--ok:#22c55e;--bad:#ef4444;--number:#facc15}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#3c006d 0%,var(--bg) 100%);color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px}
+  .wrap{width:100%;max-width:920px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border-radius:14px;padding:20px;border:1px solid rgba(255,255,255,.08)}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  h1{font-size:20px;margin:0}
+  .info{color:var(--muted);font-size:13px}
+  .board{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}
+  .col{background:var(--card);padding:14px;border-radius:10px;border:1px solid rgba(255,255,255,.06)}
+  .col h2{margin:0 0 8px 0;font-size:14px}
+  .numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .num{background:rgba(255,255,255,.05);padding:12px;border-radius:8px;text-align:center;font-weight:700;font-size:18px;min-height:48px;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(255,255,255,.08);color:var(--number)}
+  .num.filled{border-style:solid}
+  .words{display:flex;flex-wrap:wrap;gap:10px}
+  .word{background:rgba(255,255,255,.08);padding:10px 12px;border-radius:999px;cursor:grab;border:1px solid rgba(255,255,255,.1);user-select:none}
+  .word:active{cursor:grabbing}
+  .controls{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+  .btn{background:transparent;border:1px solid rgba(255,255,255,.12);padding:10px 12px;border-radius:10px;color:var(--text);cursor:pointer}
+  .btn.primary{background:linear-gradient(90deg,var(--accent),#c084fc);border:none}
+  .result{margin-top:12px;color:var(--muted)}
+  .badge{display:inline-block;padding:6px 8px;border-radius:8px;font-weight:700}
+  .correct{background:rgba(34,197,94,.12);color:var(--ok);border:1px solid rgba(34,197,94,.12)}
+  .wrong{background:rgba(239,68,68,.08);color:var(--bad);border:1px solid rgba(239,68,68,.08)}
+  footer{margin-top:12px;color:var(--muted);font-size:13px;text-align:center}
+  @media(max-width:720px){.board{grid-template-columns:1fr;}.numbers{grid-template-columns:repeat(3,1fr);}}
+</style>
+</head>
+<body>
+  <main class="wrap" role="application" aria-label="Rakam okunuşu eşleştirme oyunu">
+    <header>
+      <div>
+        <h1>Rakam Okunuşu Eşleştirme (1-9)</h1>
+        <div class="info">Sürükle & bırak ile sağdaki okunuşları soldaki rakamlara eşleştirin. 0 hariç tüm rakamlar (1–9).</div>
+      </div>
+      <div class="info">Doğru eşleştirin: <span id="scoreBadge" class="badge">0 / 9</span></div>
+    </header>
+
+    <section class="board" aria-live="polite">
+      <div class="col">
+        <h2>Rakamlar</h2>
+        <div class="numbers" id="numberSlots" aria-label="Rakam slotları"></div>
+      </div>
+
+      <div class="col">
+        <h2>Okunuşlar (Sürükle)</h2>
+        <div class="words" id="wordsPool" aria-label="Okunuş havuzu"></div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <div>
+        <button id="checkBtn" class="btn primary">Kontrol Et</button>
+        <button id="resetBtn" class="btn">Sıfırla</button>
+      </div>
+      <div class="result" id="resultText">Tümünü doğru eşleştirdiğinizde sonuç gösterilecek.</div>
+    </div>
+
+    <footer>Arka plan mor, rakamlar sarı renkte güncellendi.</footer>
+  </main>
+
+<script>
+  const DIGITS=[{n:1,word:'bir'},{n:2,word:'iki'},{n:3,word:'üç'},{n:4,word:'dört'},{n:5,word:'beş'},{n:6,word:'altı'},{n:7,word:'yedi'},{n:8,word:'sekiz'},{n:9,word:'dokuz'}];
+  const numberSlots=document.getElementById('numberSlots');
+  const wordsPool=document.getElementById('wordsPool');
+  const checkBtn=document.getElementById('checkBtn');
+  const resetBtn=document.getElementById('resetBtn');
+  const resultText=document.getElementById('resultText');
+  const scoreBadge=document.getElementById('scoreBadge');
+  function shuffle(a){return a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1]);}
+  function init(){
+    numberSlots.innerHTML='';
+    wordsPool.innerHTML='';
+    resultText.textContent='Sürükle ve bırak ile eşleştirin, sonra "Kontrol Et" tıklayın.';
+    DIGITS.forEach(d=>{
+      const slot=document.createElement('div');
+      slot.className='num';
+      slot.setAttribute('data-digit',d.n);
+      slot.textContent=d.n;
+      slot.addEventListener('dragover',ev=>ev.preventDefault());
+      slot.addEventListener('drop',onDropToSlot);
+      numberSlots.appendChild(slot);
+    });
+    const shuffled=shuffle([...DIGITS]);
+    shuffled.forEach(d=>{
+      const w=document.createElement('div');
+      w.className='word';
+      w.setAttribute('draggable','true');
+      w.setAttribute('data-word',d.word);
+      w.textContent=d.word;
+      w.addEventListener('dragstart',onDragStart);
+      w.addEventListener('dragend',onDragEnd);
+      wordsPool.appendChild(w);
+    });
+    updateScore(0);
+  }
+  let dragged=null;
+  function onDragStart(e){dragged=e.target;e.dataTransfer.setData('text/plain',e.target.getAttribute('data-word'));setTimeout(()=>{e.target.style.opacity='0.4';},10);}
+  function onDragEnd(e){if(e.target) e.target.style.opacity='';dragged=null;}
+  function onDropToSlot(e){e.preventDefault();const slot=e.currentTarget;const word=e.dataTransfer.getData('text/plain');if(!word)return;const existing=slot.querySelector('.word');if(existing){wordsPool.appendChild(existing);existing.style.margin='';}
+    const el=Array.from(wordsPool.querySelectorAll('.word')).find(w=>w.getAttribute('data-word')===word);
+    if(el){slot.appendChild(el);el.style.margin='6px 0 0 0';}slot.classList.add('filled');}
+  function check(){let correct=0;const slots=Array.from(numberSlots.children);slots.forEach(slot=>{const digit=Number(slot.getAttribute('data-digit'));const child=slot.querySelector('.word');slot.classList.remove('correct','wrong');if(child){const w=child.getAttribute('data-word');const expected=DIGITS.find(d=>d.n===digit).word;if(w===expected){correct++;slot.classList.add('correct');}else{slot.classList.add('wrong');}}else{slot.classList.add('wrong');}});
+    updateScore(correct);resultText.textContent=`Doğru: ${correct} / ${DIGITS.length}`;if(correct===DIGITS.length){resultText.textContent=`Tebrikler! Tümünü doğru eşleştirdiniz. 🎉`;}}
+  function updateScore(val){scoreBadge.textContent=`${val} / ${DIGITS.length}`;}
+  function resetBoard(){const slots=Array.from(numberSlots.children);slots.forEach(slot=>{const child=slot.querySelector('.word');if(child)wordsPool.appendChild(child);slot.classList.remove('filled','correct','wrong');});
+    const words=Array.from(wordsPool.querySelectorAll('.word'));const shuffledWords=shuffle(words.map(w=>w.getAttribute('data-word')));wordsPool.innerHTML='';shuffledWords.forEach(wrd=>{const el=document.createElement('div');el.className='word';el.setAttribute('draggable','true');el.setAttribute('data-word',wrd);el.textContent=wrd;el.addEventListener('dragstart',onDragStart);el.addEventListener('dragend',onDragEnd);wordsPool.appendChild(el);});updateScore(0);resultText.textContent='Sıfırlandı. Tekrar eşleştirin.';}
+  checkBtn.addEventListener('click',check);resetBtn.addEventListener('click',resetBoard);
+  init();
+</script>
+</body>
+</html>

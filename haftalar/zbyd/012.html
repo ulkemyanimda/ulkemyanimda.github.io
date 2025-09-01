@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Eş Anlamlı Kelimeler Oyunu</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .game-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .draggable, .dropzone {
+      width: 150px;
+      padding: 10px;
+      margin: 10px;
+      background: white;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      cursor: grab;
+    }
+    .dropzone {
+      background-color: #e3e3e3;
+      height: 50px;
+    }
+    .correct {
+      background-color: #c8e6c9 !important;
+      border-color: green !important;
+    }
+    .wrong {
+      background-color: #ffcdd2 !important;
+      border-color: red !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧠 Eş Anlamlı Kelimeler Oyunu</h1>
+  <p style="text-align:center;">Kelimeyi doğru eş anlamlısıyla eşleştir!</p>
+  <div class="game-container">
+    <!-- Sürüklenebilir kelimeler -->
+    <div class="draggable" draggable="true" id="guzel">güzel</div>
+    <div class="draggable" draggable="true" id="kucuk">küçük</div>
+    <div class="draggable" draggable="true" id="zor">zor</div>
+    <div class="draggable" draggable="true" id="ogretmen">öğretmen</div>
+    <div class="draggable" draggable="true" id="araba">araba</div>
+  </div>
+
+  <div class="game-container">
+    <!-- Eş anlamlı kelimeler (bırakılacak kutular) -->
+    <div class="dropzone" data-match="guzel">hoş</div>
+    <div class="dropzone" data-match="kucuk">ufak</div>
+    <div class="dropzone" data-match="zor">güç</div>
+    <div class="dropzone" data-match="ogretmen">hoca</div>
+    <div class="dropzone" data-match="araba">otomobil</div>
+  </div>
+
+  <script>
+    const draggables = document.querySelectorAll('.draggable');
+    const dropzones = document.querySelectorAll('.dropzone');
+
+    draggables.forEach(elem => {
+      elem.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData("text", e.target.id);
+      });
+    });
+
+    dropzones.forEach(zone => {
+      zone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+
+      zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const droppedId = e.dataTransfer.getData("text");
+        const droppedElem = document.getElementById(droppedId);
+
+        if (zone.dataset.match === droppedId) {
+          zone.classList.add('correct');
+          zone.textContent = `${zone.textContent} ✅`;
+          zone.appendChild(droppedElem);
+          droppedElem.setAttribute("draggable", "false");
+        } else {
+          zone.classList.add('wrong');
+          setTimeout(() => {
+            zone.classList.remove('wrong');
+          }, 1000);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
