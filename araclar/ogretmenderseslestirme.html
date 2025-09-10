@@ -158,22 +158,18 @@
         .teacher-branch {
             color: #666;
             font-size: 0.9em;
-            margin-bottom: 3px;
+            margin-bottom: 8px; /* */
         }
 
-        .teacher-school {
-            color: #888;
-            font-size: 0.8em;
-        }
-
-        .teacher-availability {
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 3px 6px;
+        /* */
+        .teacher-slots {
+            color: #3a539b;
+            font-size: 0.85em;
+            font-weight: bold;
+            background-color: #e9eafc;
+            padding: 5px;
             border-radius: 5px;
-            font-size: 0.8em;
-            margin-top: 5px;
-            display: inline-block;
+            word-wrap: break-word;
         }
 
         .slots-container {
@@ -511,12 +507,14 @@
                 teacherEl.draggable = true;
                 teacherEl.dataset.index = teacherIndex;
                 
+                // --- DEĞİŞİKLİK BAŞLANGICI ---
+                // Okul bilgisi kaldırıldı ve yerine müsait slotlar eklendi.
                 teacherEl.innerHTML = `
                     <div class="teacher-name">${teacher["Ad Soyad"] || `Öğretmen ${teacherIndex + 1}`}</div>
                     <div class="teacher-branch">${teacher["Branş"] || "Branş belirtilmemiş"}</div>
-                    <div class="teacher-school">${teacher["Okul"] || ""}</div>
-                    ${availableSlots.length > 0 ? `<div class="teacher-availability">Müsait: ${availableSlots.length} slot</div>` : ''}
+                    ${availableSlots.length > 0 ? `<div class="teacher-slots">Müsait: ${availableSlots.join(', ')}</div>` : ''}
                 `;
+                // --- DEĞİŞİKLİK SONU ---
                 
                 // Drag events
                 teacherEl.addEventListener('dragstart', (e) => {
