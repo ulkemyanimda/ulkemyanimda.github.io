@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğretmen Atama - Sürükle Bırak</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-wrapper label {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .file-input-wrapper label:hover {
+            transform: translateY(-2px);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .filter-group select {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            min-width: 150px;
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .panel h3 {
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .teacher {
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: grab;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .teacher:hover {
+            transform: translateX(5px);
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .teacher:active {
+            cursor: grabbing;
+        }
+
+        .teacher-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .teacher-branch {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 3px;
+        }
+
+        .teacher-school {
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        .teacher-availability {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .slots-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 10px 0;
+        }
+
+        .slot {
+            background: white;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            padding: 15px;
+            min-height: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .slot.drag-over {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: scale(1.02);
+        }
+
+        .slot h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+            text-align: center;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            margin: -15px -15px 10px -15px;
+        }
+
+        .assigned {
+            background: linear-gradient(45deg, #e8f5e9, #c8e6c9);
+            border: 1px solid #4caf50;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .assigned:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+
+        .assigned-name {
+            font-weight: bold;
+            font-size: 0.9em;
+            color: #2e7d32;
+            margin-bottom: 3px;
+        }
+
+        .assigned-details {
+            font-size: 0.8em;
+            color: #555;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .remove-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .stats {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .empty-slot {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .slots-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4caf50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎓 Öğretmen Atama Sistemi</h1>
+        <p>Sürükle-bırak ile kolayca atama yapın</p>
+    </div>
+
+    <div class="controls">
+        <div class="file-input-wrapper">
+            <input id="fileInput" type="file" accept=".csv" />
+            <label for="fileInput">📁 CSV Dosya Seç</label>
+        </div>
+        
+        <div class="filter-group">
+            <label>Grup Filtresi:</label>
+            <select id="groupFilter">
+                <option value="">Tüm Gruplar</option>
+                <option value="minikler">👶 Minikler</option>
+                <option value="yazamaz">✏️ Yazamaz</option>
+                <option value="hic_bilmez">🔤 Hiç Bilmez</option>
+                <option value="bilen">📚 Bilen</option>
+                <option value="yuksek_yas">🎓 Yüksek Yaş</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Zaman Filtresi:</label>
+            <select id="timeFilter">
+                <option value="">Tüm Zamanlar</option>
+                <option value="weekdays">Hafta İçi</option>
+                <option value="saturday">Cumartesi</option>
+                <option value="sunday">Pazar</option>
+            </select>
+        </div>
+        
+        <button id="downloadBtn" class="download-btn">💾 Atamaları İndir</button>
+    </div>
+
+    <div class="stats" id="statsSection" style="display: none;">
+        <div class="stat-item">
+            <div class="stat-number" id="totalTeachers">0</div>
+            <div class="stat-label">Toplam Öğretmen</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="assignedTeachers">0</div>
+            <div class="stat-label">Atanmış Öğretmen</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="totalSlots">0</div>
+            <div class="stat-label">Toplam Slot</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number" id="filledSlots">0</div>
+            <div class="stat-label">Dolu Slot</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="panel">
+            <h3>👥 Öğretmenler</h3>
+            <div id="teacherList">
+                <div style="text-align: center; padding: 40px; color: #999;">
+                    CSV dosyasını yükleyiniz
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h3>📅 Zaman Slotları</h3>
+            <div class="slots-container" id="slotsContainer"></div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Global değişkenler
+        let TEACHERS = [];
+        let ASSIGNMENTS = {};
+        const AVAIL_COLS = ["Salı", "Çarşamba", "Perşembe", "c9", "c10", "c12", "c13", "c16", "c18", "c19", "p9", "p10", "p12", "p13", "p16", "p18", "p19"];
+        
+        // Branş-grup eşleştirmesi
+        const BRANCH_TO_GROUPS = {
+            "Okul Öncesi Öğretmeni": ["minikler"],
+            "Sınıf Öğretmeni": ["yazamaz"],
+            "İngilizce Öğretmeni": ["hic_bilmez"],
+            "Türkçe Öğretmeni": ["bilen"],
+            "Türk Dili ve Edebiyatı Öğretmeni": ["yuksek_yas"]
+        };
+
+        // DOM elementleri
+        const fileInput = document.getElementById('fileInput');
+        const teacherList = document.getElementById('teacherList');
+        const slotsContainer = document.getElementById('slotsContainer');
+        const groupFilter = document.getElementById('groupFilter');
+        const timeFilter = document.getElementById('timeFilter');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const statsSection = document.getElementById('statsSection');
+
+        // CSV parse fonksiyonu
+        function parseCSV(text) {
+            const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+            if (lines.length === 0) return [];
+            
+            const header = lines.shift().split(",").map(h => h.trim().replace(/"/g, ''));
+            return lines.map(line => {
+                const parts = line.split(",");
+                const obj = {};
+                header.forEach((h, i) => {
+                    obj[h] = (parts[i] || "").trim().replace(/"/g, '');
+                });
+                return obj;
+            });
+        }
+
+        // Grup belirleme
+        function getEligibleGroups(branch) {
+            for (const [branchKey, groups] of Object.entries(BRANCH_TO_GROUPS)) {
+                if (branch.includes(branchKey)) {
+                    return groups;
+                }
+            }
+            return ["bilen"];
+        }
+
+        // Müsaitlik kontrolü
+        function isAvailable(teacher, slot) {
+            const value = (teacher[slot] || "").toLowerCase().trim();
+            return value === "x";
+        }
+
+        // Bildirim gösterme
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${isError ? 'error' : ''} show`;
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Öğretmenleri render et
+        function renderTeachers() {
+            const filterGroup = groupFilter.value;
+            const timeFilterValue = timeFilter.value;
+            
+            teacherList.innerHTML = "";
+            
+            let filteredTeachers = TEACHERS.filter(teacher => {
+                // Grup filtresi
+                if (filterGroup) {
+                    const eligibleGroups = getEligibleGroups(teacher["Branş"] || "");
+                    if (!eligibleGroups.includes(filterGroup)) return false;
+                }
+                
+                // Zaman filtresi
+                if (timeFilterValue) {
+                    const availableSlots = AVAIL_COLS.filter(slot => isAvailable(teacher, slot));
+                    if (timeFilterValue === 'weekdays' && !availableSlots.some(slot => ['Salı', 'Çarşamba', 'Perşembe'].includes(slot))) return false;
+                    if (timeFilterValue === 'saturday' && !availableSlots.some(slot => slot.startsWith('c'))) return false;
+                    if (timeFilterValue === 'sunday' && !availableSlots.some(slot => slot.startsWith('p'))) return false;
+                }
+                
+                return true;
+            });
+
+            if (filteredTeachers.length === 0) {
+                teacherList.innerHTML = '<div style="text-align: center; padding: 40px; color: #999;">Filtre kriterlerine uygun öğretmen bulunamadı</div>';
+                return;
+            }
+
+            filteredTeachers.forEach((teacher, originalIndex) => {
+                const teacherIndex = TEACHERS.indexOf(teacher);
+                const availableSlots = AVAIL_COLS.filter(slot => isAvailable(teacher, slot));
+                
+                const teacherEl = document.createElement('div');
+                teacherEl.className = 'teacher';
+                teacherEl.draggable = true;
+                teacherEl.dataset.index = teacherIndex;
+                
+                teacherEl.innerHTML = `
+                    <div class="teacher-name">${teacher["Ad Soyad"] || `Öğretmen ${teacherIndex + 1}`}</div>
+                    <div class="teacher-branch">${teacher["Branş"] || "Branş belirtilmemiş"}</div>
+                    <div class="teacher-school">${teacher["Okul"] || ""}</div>
+                    ${availableSlots.length > 0 ? `<div class="teacher-availability">Müsait: ${availableSlots.length} slot</div>` : ''}
+                `;
+                
+                // Drag events
+                teacherEl.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', teacherIndex);
+                    teacherEl.style.opacity = '0.5';
+                });
+                
+                teacherEl.addEventListener('dragend', () => {
+                    teacherEl.style.opacity = '1';
+                });
+                
+                teacherList.appendChild(teacherEl);
+            });
+            
+            updateStats();
+        }
+
+        // Slotları oluştur
+        function setupSlots() {
+            slotsContainer.innerHTML = "";
+            
+            // Zaman filtresine göre slotları filtrele
+            let slotsToShow = AVAIL_COLS;
+            const timeFilterValue = timeFilter.value;
+            
+            if (timeFilterValue === 'weekdays') {
+                slotsToShow = ['Salı', 'Çarşamba', 'Perşembe'];
+            } else if (timeFilterValue === 'saturday') {
+                slotsToShow = AVAIL_COLS.filter(slot => slot.startsWith('c'));
+            } else if (timeFilterValue === 'sunday') {
+                slotsToShow = AVAIL_COLS.filter(slot => slot.startsWith('p'));
+            }
+            
+            slotsToShow.forEach(slot => {
+                const slotEl = document.createElement('div');
+                slotEl.className = 'slot';
+                slotEl.dataset.slot = slot;
+                
+                const slotName = getSlotDisplayName(slot);
+                slotEl.innerHTML = `
+                    <h4>${slotName}</h4>
+                    <div class="assigned-list"></div>
+                `;
+                
+                // Drop events
+                slotEl.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    slotEl.classList.add('drag-over');
+                });
+                
+                slotEl.addEventListener('dragleave', () => {
+                    slotEl.classList.remove('drag-over');
+                });
+                
+                slotEl.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    slotEl.classList.remove('drag-over');
+                    
+                    const teacherIndex = e.dataTransfer.getData('text/plain');
+                    const teacher = TEACHERS[teacherIndex];
+                    
+                    // Müsaitlik kontrolü
+                    if (!isAvailable(teacher, slot)) {
+                        showNotification('Bu öğretmen bu slotta müsait değil!', true);
+                        return;
+                    }
+                    
+                    // Grup uygunluk kontrolü
+                    const filterGroup = groupFilter.value;
+                    if (filterGroup) {
+                        const eligibleGroups = getEligibleGroups(teacher["Branş"] || "");
+                        if (!eligibleGroups.includes(filterGroup)) {
+                            showNotification('Bu öğretmen seçili grup için uygun değil!', true);
+                            return;
+                        }
+                    }
+                    
+                    // Atamayı kaydet
+                    if (!ASSIGNMENTS[slot]) {
+                        ASSIGNMENTS[slot] = [];
+                    }
+                    
+                    if (ASSIGNMENTS[slot].includes(teacherIndex)) {
+                        showNotification('Bu öğretmen zaten bu slotta atanmış!', true);
+                        return;
+                    }
+                    
+                    ASSIGNMENTS[slot].push(teacherIndex);
+                    renderSlotAssignments(slot);
+                    showNotification(`${teacher["Ad Soyad"]} ${slotName} slotuna atandı!`);
+                    updateStats();
+                });
+                
+                slotsContainer.appendChild(slotEl);
+                renderSlotAssignments(slot);
+            });
+        }
+
+        // Slot görünen adı
+        function getSlotDisplayName(slot) {
+            const timeMap = {
+                'Salı': '📅 Salı',
+                'Çarşamba': '📅 Çarşamba', 
+                'Perşembe': '📅 Perşembe',
+                'c9': '⏰ Cmt 09:00', 'c10': '⏰ Cmt 10:00', 'c12': '⏰ Cmt 12:00', 'c13': '⏰ Cmt 13:00',
+                'c16': '⏰ Cmt 16:00', 'c18': '⏰ Cmt 18:00', 'c19': '⏰ Cmt 19:00',
+                'p9': '⏰ Paz 09:00', 'p10': '⏰ Paz 10:00', 'p12': '⏰ Paz 12:00', 'p13': '⏰ Paz 13:00',
+                'p16': '⏰ Paz 16:00', 'p18': '⏰ Paz 18:00', 'p19': '⏰ Paz 19:00'
+            };
+            return timeMap[slot] || slot;
+        }
+
+        // Slot atamalarını render et
+        function renderSlotAssignments(slot) {
+            const slotEl = document.querySelector(`[data-slot="${slot}"]`);
+            const assignedList = slotEl.querySelector('.assigned-list');
+            
+            assignedList.innerHTML = "";
+            
+            const assignments = ASSIGNMENTS[slot] || [];
+            
+            if (assignments.length === 0) {
+                assignedList.innerHTML = '<div class="empty-slot">Henüz atama yok</div>';
+                return;
+            }
+            
+            assignments.forEach(teacherIndex => {
+                const teacher = TEACHERS[teacherIndex];
+                const assignedEl = document.createElement('div');
+                assignedEl.className = 'assigned';
+                
+                assignedEl.innerHTML = `
+                    <div class="assigned-name">${teacher["Ad Soyad"] || `Öğretmen ${teacherIndex + 1}`}</div>
+                    <div class="assigned-details">${teacher["Branş"] || ""}</div>
+                    <button class="remove-btn" onclick="removeAssignment('${slot}', '${teacherIndex}')">✕</button>
+                `;
+                
+                assignedList.appendChild(assignedEl);
+            });
+        }
+
+        // Atama silme
+        window.removeAssignment = function(slot, teacherIndex) {
+            ASSIGNMENTS[slot] = (ASSIGNMENTS[slot] || []).filter(idx => idx !== teacherIndex);
+            renderSlotAssignments(slot);
+            updateStats();
+            showNotification('Atama kaldırıldı');
+        }
+
+        // İstatistikleri güncelle
+        function updateStats() {
+            const totalTeachers = TEACHERS.length;
+            const assignedTeachersSet = new Set();
+            let totalSlots = 0;
+            let filledSlots = 0;
+            
+            Object.values(ASSIGNMENTS).forEach(assignments => {
+                if (assignments.length > 0) {
+                    filledSlots++;
+                    assignments.forEach(idx => assignedTeachersSet.add(idx));
+                }
+                totalSlots++;
+            });
+            
+            document.getElementById('totalTeachers').textContent = totalTeachers;
+            document.getElementById('assignedTeachers').textContent = assignedTeachersSet.size;
+            document.getElementById('totalSlots').textContent = AVAIL_COLS.length;
+            document.getElementById('filledSlots').textContent = filledSlots;
+        }
+
+        // Event listeners
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const rows = parseCSV(e.target.result);
+                    TEACHERS = rows.filter(row => row['Ad Soyad'] && row['Ad Soyad'].trim() !== '');
+                    ASSIGNMENTS = {};
+                    
+                    if (TEACHERS.length === 0) {
+                        showNotification('Geçerli öğretmen verisi bulunamadı!', true);
+                        return;
+                    }
+                    
+                    renderTeachers();
+                    setupSlots();
+                    statsSection.style.display = 'grid';
+                    showNotification(`${TEACHERS.length} öğretmen yüklendi!`);
+                } catch (error) {
+                    showNotification('CSV dosyası okuma hatası!', true);
+                }
+            };
+            reader.readAsText(file, 'utf-8');
+        });
+
+        groupFilter.addEventListener('change', () => {
+            renderTeachers();
+            setupSlots();
+        });
+
+        timeFilter.addEventListener('change', () => {
+            renderTeachers();
+            setupSlots();
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const rows = [['Slot', 'Ad Soyad', 'Branş', 'Okul', 'Telefon', 'E-posta']];
+            
+            Object.entries(ASSIGNMENTS).forEach(([slot, teacherIndices]) => {
+                teacherIndices.forEach(index => {
+                    const teacher = TEACHERS[index];
+                    rows.push([
+                        getSlotDisplayName(slot),
+                        teacher['Ad Soyad'] || '',
+                        teacher['Branş'] || '',
+                        teacher['Okul'] || '',
+                        teacher['Telefon Numarası'] || '',
+                        teacher['e - posta'] || teacher['e-posta'] || ''
+                    ]);
+                });
+            });
+            
+            const csv = rows.map(row => 
+                row.map(cell => `"${(cell || '').replace(/"/g, '""')}"`).join(',')
+            ).join('\r\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `ogretmen_atamalari_${new Date().toLocaleDateString('tr-TR').replace(/\./g, '_')}.csv`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            
+            showNotification('Atamalar CSV olarak indirildi!');
+        });
+    </script>
+</body>
+</html>

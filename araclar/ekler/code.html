@@ -1,28 +1,76 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DERS KODU OLUŞTURMA VE ÇÖZÜMLEME ARAYÜZÜ</title>
-    <style>
-        body {
-            display: flex;
-            height: 100vh;
-            margin: 0;
-        }
-        .iframe-container {
-            flex: 1;
-            border: none;
-            height: 100%;
-            width: 50%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DERS KODU OLUŞTURMA VE ÇÖZÜMLEME ARAYÜZÜ</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #f3f4f6, #e0f2fe);
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+      width: 95%;
+      max-width: 1400px;
+      height: 90vh;
+    }
+
+    .iframe-box {
+      flex: 1;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .iframe-header {
+      background: #0284c7;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    iframe {
+      border: none;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Mobil uyum */
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .iframe-box {
+        height: 50vh;
+      }
+    }
+  </style>
 </head>
 <body>
-    <!-- İlk sayfa için iframe -->
-    <iframe src="a.html" class="iframe-container"></iframe>
-    
-    <!-- İkinci sayfa için iframe -->
-    <iframe src="b.html" class="iframe-container"></iframe>
+  <div class="container">
+    <div class="iframe-box">
+      <div class="iframe-header">Kod Oluşturma</div>
+      <iframe src="a.html"></iframe>
+    </div>
+    <div class="iframe-box">
+      <div class="iframe-header">Kod Çözümleme</div>
+      <iframe src="b.html"></iframe>
+    </div>
+  </div>
 </body>
 </html>
