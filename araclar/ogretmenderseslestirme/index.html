@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci-Öğretmen Atama Sistemi</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Öğrenci-Öğretmen Atama Sistemi</h1>
+        <p>Lütfen öğrenci ve öğretmen listelerini içeren Excel dosyalarını seçin ve eşleştirmeyi başlatın.</p>
+
+        <div class="file-inputs">
+            <div class="file-input-wrapper">
+                <label for="ogrenci-dosyasi">1. Öğrenci Dosyasını Seçin (.xlsx)</label>
+                <input type="file" id="ogrenci-dosyasi" accept=".xlsx, .xls">
+                <span id="ogrenci-dosya-adi" class="file-name"></span>
+            </div>
+            <div class="file-input-wrapper">
+                <label for="ogretmen-dosyasi">2. Öğretmen Dosyasını Seçin (.xlsx)</label>
+                <input type="file" id="ogretmen-dosyasi" accept=".xlsx, .xls">
+                <span id="ogretmen-dosya-adi" class="file-name"></span>
+            </div>
+        </div>
+
+        <button id="eslestir-btn">Eşleştirmeyi Başlat</button>
+        <div id="status"></div>
+
+        <div id="sonuclar-alani" class="hidden">
+            <hr>
+            <h2>Eşleştirme Sonuçları</h2>
+            <button id="indir-btn">Sonuçları Excel Olarak İndir</button>
+
+            <h3>✅ Atama Sonuçları</h3>
+            <div class="table-container">
+                <table id="atama-sonuclari-tablosu">
+                    <thead>
+                        <tr>
+                            <th>Öğrenci YAS</th>
+                            <th>Öğrenci SEVİYE</th>
+                            <th>İstenen Saat</th>
+                            <th>Atanan Öğretmen</th>
+                            <th>Öğretmen Branşı</th>
+                            <th>Atama Türü</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <h3>❌ Atanamayan Sınıflar</h3>
+             <div class="table-container">
+                <table id="atanamayanlar-tablosu">
+                    <thead>
+                        <tr>
+                            <th>Öğrenci YAS</th>
+                            <th>Öğrenci SEVİYE</th>
+                            <th>İstenen Saat</th>
+                            <th>Sebep</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <h3>📊 Öğretmen Ders Yükü</h3>
+             <div class="table-container">
+                <table id="ogretmen-yuku-tablosu">
+                    <thead>
+                        <tr>
+                            <th>Ad Soyad</th>
+                            <th>Branş</th>
+                            <th>Atanan Ders Sayısı</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
