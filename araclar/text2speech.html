@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkçe Metin Seslendirme</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 150px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(72, 187, 120, 0.4);
+        }
+
+        .btn-secondary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status.success {
+            background: #c6f6d5;
+            color: #22543d;
+            display: block;
+        }
+
+        .status.error {
+            background: #fed7d7;
+            color: #742a2a;
+            display: block;
+        }
+
+        .status.info {
+            background: #bee3f8;
+            color: #2c5282;
+            display: block;
+        }
+
+        .wave {
+            display: inline-block;
+            animation: wave 1s infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ Türkçe Metin Seslendirme</h1>
+        
+        <div class="input-group">
+            <label for="textInput">Metninizi Girin:</label>
+            <textarea id="textInput" placeholder="Seslendirilecek Türkçe metni buraya yazın..."></textarea>
+        </div>
+
+        <div class="controls">
+            <div class="input-group">
+                <label for="voiceSelect">Ses Tonu:</label>
+                <select id="voiceSelect">
+                    <option value="">Ses yükleniyor...</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="speedSelect">Hız:</label>
+                <select id="speedSelect">
+                    <option value="0.5">Çok Yavaş (0.5x)</option>
+                    <option value="0.75">Yavaş (0.75x)</option>
+                    <option value="1" selected>Normal (1x)</option>
+                    <option value="1.25">Hızlı (1.25x)</option>
+                    <option value="1.5">Çok Hızlı (1.5x)</option>
+                    <option value="2">Çok Çok Hızlı (2x)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button id="playBtn" class="btn-primary">▶️ Seslendir</button>
+            <button id="downloadBtn" class="btn-secondary" disabled>⬇️ MP3 İndir</button>
+        </div>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        let audioBlob = null;
+        let turkishVoices = [];
+        const textInput = document.getElementById('textInput');
+        const voiceSelect = document.getElementById('voiceSelect');
+        const speedSelect = document.getElementById('speedSelect');
+        const playBtn = document.getElementById('playBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const status = document.getElementById('status');
+
+        // Sesleri yükle
+        function loadVoices() {
+            const voices = speechSynthesis.getVoices();
+            turkishVoices = voices.filter(voice => voice.lang.startsWith('tr'));
+            
+            voiceSelect.innerHTML = '';
+            
+            if (turkishVoices.length === 0) {
+                voiceSelect.innerHTML = '<option value="">Türkçe ses bulunamadı</option>';
+                showStatus('Tarayıcınızda Türkçe ses desteği bulunamadı. Lütfen farklı bir tarayıcı deneyin.', 'error');
+            } else {
+                turkishVoices.forEach((voice, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    const gender = voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('kadın') ? '👩' : 
+                                   voice.name.toLowerCase().includes('male') || voice.name.toLowerCase().includes('erkek') ? '👨' : '🎤';
+                    option.textContent = `${gender} ${voice.name}`;
+                    voiceSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Sesler yüklendiğinde
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        // Durum mesajı göster
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = `status ${type}`;
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    status.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Metni seslendir
+        playBtn.addEventListener('click', async () => {
+            const text = textInput.value.trim();
+            
+            if (!text) {
+                showStatus('Lütfen bir metin girin!', 'error');
+                return;
+            }
+
+            if (turkishVoices.length === 0) {
+                showStatus('Türkçe ses bulunamadı!', 'error');
+                return;
+            }
+
+            playBtn.disabled = true;
+            showStatus('Ses oluşturuluyor... <span class="wave">🎵</span>', 'info');
+
+            // Ses oluştur
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.voice = turkishVoices[voiceSelect.value];
+            utterance.rate = parseFloat(speedSelect.value);
+            utterance.lang = 'tr-TR';
+
+            // Ses kaydı için
+            await createAudioFile(text, utterance.voice, utterance.rate);
+
+            // Sesi oynat
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+
+            utterance.onend = () => {
+                playBtn.disabled = false;
+                showStatus('Seslendirme tamamlandı! ✅', 'success');
+            };
+
+            utterance.onerror = () => {
+                playBtn.disabled = false;
+                showStatus('Seslendirme sırasında hata oluştu!', 'error');
+            };
+        });
+
+        // MP3 dosyası oluştur
+        async function createAudioFile(text, voice, rate) {
+            try {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.voice = voice;
+                utterance.rate = rate;
+                utterance.lang = 'tr-TR';
+
+                // AudioContext ile kayıt
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioContext = new AudioContext();
+                const destination = audioContext.createMediaStreamDestination();
+                
+                const mediaRecorder = new MediaRecorder(destination.stream);
+                const chunks = [];
+
+                mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) {
+                        chunks.push(e.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    audioBlob = new Blob(chunks, { type: 'audio/webm' });
+                    downloadBtn.disabled = false;
+                };
+
+                mediaRecorder.start();
+                
+                // Tahmini süre (karakter başına yaklaşık 80ms)
+                const estimatedDuration = (text.length * 80) / rate;
+                
+                setTimeout(() => {
+                    mediaRecorder.stop();
+                }, estimatedDuration);
+
+            } catch (error) {
+                console.error('Kayıt hatası:', error);
+                // Yine de indirme butonunu aktif et
+                downloadBtn.disabled = false;
+            }
+        }
+
+        // MP3 indir
+        downloadBtn.addEventListener('click', () => {
+            const text = textInput.value.trim();
+            
+            if (!text) {
+                showStatus('Lütfen önce bir metin girin ve seslendir butonuna basın!', 'error');
+                return;
+            }
+
+            // Basit yöntem: Ses API'si ile yeniden oluştur ve kaydet
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.voice = turkishVoices[voiceSelect.value];
+            utterance.rate = parseFloat(speedSelect.value);
+            utterance.lang = 'tr-TR';
+
+            showStatus('MP3 dosyası hazırlanıyor...', 'info');
+
+            // Web Audio API ile kayıt yap
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const audioContext = new AudioContext();
+            const destination = audioContext.createMediaStreamDestination();
+            const mediaRecorder = new MediaRecorder(destination.stream);
+            const audioChunks = [];
+
+            mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const url = URL.createObjectURL(audioBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `turkce-ses-${Date.now()}.webm`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showStatus('Dosya indirildi! 🎉', 'success');
+            };
+
+            mediaRecorder.start();
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+
+            utterance.onend = () => {
+                setTimeout(() => mediaRecorder.stop(), 500);
+            };
+        });
+    </script>
+</body>
+</html>
