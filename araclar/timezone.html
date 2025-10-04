@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkiye Saat Dönüştürücü</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+        
+        .country-selector {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        select {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            min-width: 250px;
+            transition: all 0.3s;
+        }
+        
+        select:hover {
+            border-color: #764ba2;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 10px rgba(118, 75, 162, 0.3);
+        }
+        
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .time-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 25px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        
+        .time-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .turkey-time {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .converted-time {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .time-label {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        .current-country {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 Türkiye Saat Dönüştürücü</h1>
+        
+        <div class="country-selector">
+            <label for="country">Ülke Seçin: </label>
+            <select id="country">
+                <option value="TR">Türkiye</option>
+                <option value="CN">Çin</option>
+                <option value="BG">Bulgaristan</option>
+                <option value="NL">Hollanda</option>
+                <option value="SE">İsveç (İskandinav)</option>
+                <option value="NO">Norveç (İskandinav)</option>
+                <option value="DK">Danimarka (İskandinav)</option>
+                <option value="FI">Finlandiya (İskandinav)</option>
+                <option value="IT">İtalya</option>
+                <option value="ES">İspanya</option>
+                <option value="US-ET">ABD - Doğu (New York)</option>
+                <option value="US-CT">ABD - Merkez (Chicago)</option>
+                <option value="US-MT">ABD - Dağ (Denver)</option>
+                <option value="US-PT">ABD - Pasifik (Los Angeles)</option>
+            </select>
+        </div>
+        
+        <div class="current-country" id="currentCountry">Seçili Ülke: Türkiye</div>
+        
+        <div class="time-grid" id="timeGrid"></div>
+    </div>
+
+    <script>
+        const turkeyTimes = [
+            '09:00', '10:00', '11:00', '12:00', 
+            '13:00', '14:00', '15:00', '16:00', 
+            '17:00', '18:00', '19:00', '20:00'
+        ];
+
+        const timezoneOffsets = {
+            'TR': 3,      // Türkiye UTC+3
+            'CN': 8,      // Çin UTC+8
+            'BG': 2,      // Bulgaristan UTC+2
+            'NL': 1,      // Hollanda UTC+1
+            'SE': 1,      // İsveç UTC+1
+            'NO': 1,      // Norveç UTC+1
+            'DK': 1,      // Danimarka UTC+1
+            'FI': 2,      // Finlandiya UTC+2
+            'IT': 1,      // İtalya UTC+1
+            'ES': 1,      // İspanya UTC+1
+            'US-ET': -5,  // ABD Doğu UTC-5
+            'US-CT': -6,  // ABD Merkez UTC-6
+            'US-MT': -7,  // ABD Dağ UTC-7
+            'US-PT': -8   // ABD Pasifik UTC-8
+        };
+
+        const countryNames = {
+            'TR': 'Türkiye',
+            'CN': 'Çin',
+            'BG': 'Bulgaristan',
+            'NL': 'Hollanda',
+            'SE': 'İsveç',
+            'NO': 'Norveç',
+            'DK': 'Danimarka',
+            'FI': 'Finlandiya',
+            'IT': 'İtalya',
+            'ES': 'İspanya',
+            'US-ET': 'ABD - Doğu Saati',
+            'US-CT': 'ABD - Merkez Saati',
+            'US-MT': 'ABD - Dağ Saati',
+            'US-PT': 'ABD - Pasifik Saati'
+        };
+
+        function convertTime(turkeyTime, targetCountry) {
+            const [hours, minutes] = turkeyTime.split(':').map(Number);
+            
+            const turkeyOffset = timezoneOffsets['TR'];
+            const targetOffset = timezoneOffsets[targetCountry];
+            const diff = targetOffset - turkeyOffset;
+            
+            let newHours = hours + diff;
+            let dayLabel = '';
+            
+            if (newHours < 0) {
+                newHours += 24;
+                dayLabel = ' (önceki gün)';
+            } else if (newHours >= 24) {
+                newHours -= 24;
+                dayLabel = ' (ertesi gün)';
+            }
+            
+            return `${String(newHours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}${dayLabel}`;
+        }
+
+        function updateDisplay() {
+            const selectedCountry = document.getElementById('country').value;
+            const timeGrid = document.getElementById('timeGrid');
+            const currentCountry = document.getElementById('currentCountry');
+            
+            currentCountry.textContent = `Seçili Ülke: ${countryNames[selectedCountry]}`;
+            
+            timeGrid.innerHTML = '';
+            
+            turkeyTimes.forEach(time => {
+                const convertedTime = convertTime(time, selectedCountry);
+                
+                const card = document.createElement('div');
+                card.className = 'time-card';
+                card.innerHTML = `
+                    <div class="turkey-time">🇹🇷 Türkiye: ${time}</div>
+                    <div class="converted-time">${convertedTime}</div>
+                    <div class="time-label">${countryNames[selectedCountry]}</div>
+                `;
+                
+                timeGrid.appendChild(card);
+            });
+        }
+
+        document.getElementById('country').addEventListener('change', updateDisplay);
+        
+        updateDisplay();
+    </script>
+</body>
+</html>
