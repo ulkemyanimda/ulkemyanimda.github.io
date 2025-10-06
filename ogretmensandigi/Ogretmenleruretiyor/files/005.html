@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zıt Anlamlı Kelimeler Oyunu</title>
+  <style>
+    :root {
+      --bg: #0f172a;         /* slate-900 */
+      --panel: #111827;      /* gray-900 */
+      --muted: #334155;      /* slate-600 */
+      --text: #e5e7eb;       /* gray-200 */
+      --accent: #22d3ee;     /* cyan-400 */
+      --accent-2: #a78bfa;   /* violet-400 */
+      --card: #1f2937;       /* gray-800 */
+      --good: #10b981;       /* emerald-500 */
+      --bad: #ef4444;        /* red-500 */
+      --shadow: 0 10px 25px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 10% 10%, #0b1225, var(--bg));
+      color: var(--text);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px;
+      padding: 18px;
+    }
+
+    header {
+      display: grid;
+      gap: 10px;
+      align-items: start;
+    }
+    .title {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    h1 { font-size: clamp(20px, 5vw, 34px); margin: 0 }
+    .badge { font-size: 12px; padding: 4px 8px; border: 1px solid var(--muted); color: #cbd5e1; border-radius: 999px }
+
+    .controls {
+      background: linear-gradient(180deg, #101827, var(--panel));
+      border: 1px solid #263043;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+    @media (max-width: 720px){
+      .controls { grid-template-columns: 1fr 1fr 1fr; }
+      .controls .spacer { display: none }
+    }
+
+    .stat { font-size: 14px; opacity: .9 }
+    .stat strong { color: white }
+
+    select, button {
+      appearance: none; -webkit-appearance: none;
+      background: linear-gradient(180deg, #0e172a, #0b1322);
+      color: #e5e7eb;
+      border: 1px solid #23314b;
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform .05s ease, border-color .2s ease, box-shadow .2s ease;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03), 0 5px 18px rgba(0,0,0,.35);
+    }
+    button:hover, select:hover { border-color: #3b82f6 }
+    button:active { transform: translateY(1px) }
+
+    .grid {
+      margin-top: 6px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 12px;
+      align-content: start;
+    }
+
+    .card {
+      position: relative;
+      height: 110px;
+      border-radius: var(--radius);
+      perspective: 1000px;
+      outline: none;
+    }
+
+    .card-inner {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d;
+      transition: transform .4s ease;
+      border-radius: var(--radius);
+    }
+
+    .card.flipped .card-inner { transform: rotateY(180deg) }
+    .card.matched { box-shadow: 0 0 0 2px var(--good) inset }
+
+    .face {
+      position: absolute; inset: 0;
+      display: grid; place-items: center;
+      border-radius: var(--radius);
+      backface-visibility: hidden;
+    }
+    .front {
+      background: linear-gradient(180deg, #0b1322, #0a1020);
+      border: 1px solid #1f2a3f;
+    }
+    .back {
+      transform: rotateY(180deg);
+      background: linear-gradient(180deg, #17223a, #121b30);
+      border: 1px solid #24314c;
+      padding: 10px;
+      text-align: center;
+    }
+    .word { font-size: clamp(14px, 2.4vw, 22px); font-weight: 600; letter-spacing: .2px }
+    .pair { font-size: 12px; opacity: .8; margin-top: 6px }
+
+    .footer {
+      display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+      opacity: .8; font-size: 12px;
+    }
+
+    .pill {
+      display: inline-flex; gap: 8px; align-items: center;
+      padding: 8px 10px; border-radius: 999px; border: 1px dashed #2a3a58; background: rgba(255,255,255,.02);
+    }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%);
+      background: #0b1322; border: 1px solid #24406a; color: #e2e8f0;
+      padding: 10px 14px; border-radius: 12px; box-shadow: var(--shadow); opacity: 0; pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(-4px) }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">
+      <h1>🧠 Zıt Anlamlı Kelimeler • Eşleştirme Oyunu</h1>
+      <span class="badge">HTML • CSS • JS</span>
+    </div>
+    <div class="controls" role="region" aria-label="Oyun kontrolleri">
+      <div class="stat">Hamle: <strong id="moves">0</strong></div>
+      <div class="stat">Süre: <strong id="time">00:00</strong></div>
+      <div class="stat">Eşleşen: <strong id="matched">0</strong></div>
+      <span class="spacer"></span>
+      <select id="difficulty" aria-label="Zorluk">
+        <option value="6">Kolay (6 çift)</option>
+        <option value="8" selected>Orta (8 çift)</option>
+        <option value="10">Zor (10 çift)</option>
+        <option value="12">Usta (12 çift)</option>
+      </select>
+      <button id="newGame">Yeni Oyun</button>
+      <button id="reveal" title="Tüm kartları kısa süreliğine göster">İpucu</button>
+    </div>
+  </header>
+
+  <main class="grid" id="grid" aria-live="polite"></main>
+
+  <div class="footer">
+    <div class="pill">📚 <span id="poolSize"></span> kelimelik havuzdan rastgele seçilir. Kendi çiftlerinizi ekleyebilirsiniz → <code>pairs</code></div>
+    <div class="pill">⌨️ Kartlar: <kbd>Tab</kbd> ile gez, <kbd>Enter</kbd>/<kbd>Boşluk</kbd> ile çevir.</div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+  <script>
+    // --- 1) KELİME HAVUZU (özelleştirilebilir) ---
+    // Her nesne: { a: "kelime", b: "zıttı" }
+    const pairs = [
+      { a: "büyük", b: "küçük" },
+      { a: "uzun", b: "kısa" },
+      { a: "hızlı", b: "yavaş" },
+      { a: "sıcak", b: "soğuk" },
+      { a: "temiz", b: "kirli" },
+      { a: "açık", b: "kapalı" },
+      { a: "doğru", b: "yanlış" },
+      { a: "gece", b: "gündüz" },
+      { a: "güzel", b: "çirkin" },
+      { a: "kolay", b: "zor" },
+      { a: "mutlu", b: "üzgün" },
+      { a: "iç", b: "dış" },
+      { a: "yukarı", b: "aşağı" },
+      { a: "kalın", b: "ince" },
+      { a: "yeni", b: "eski" },
+      { a: "genç", b: "yaşlı" },
+      { a: "derin", b: "sığ" },
+      { a: "geniş", b: "dar" },
+      { a: "güçlü", b: "zayıf" },
+      { a: "aydınlık", b: "karanlık" },
+      { a: "önde", b: "arkada" },
+      { a: "sert", b: "yumuşak" },
+      { a: "az", b: "çok" },
+      { a: "erken", b: "geç" },
+      { a: "uzak", b: "yakın" },
+      { a: "dolu", b: "boş" },
+      { a: "ağır", b: "hafif" },
+      { a: "aydın", b: "kör" },
+      { a: "yaş", b: "kuru" },
+      { a: "düz", b: "eğri" }
+    ];
+
+    // --- 2) YARDIMCI FONKSİYONLAR ---
+    const $ = (sel, el=document) => el.querySelector(sel);
+    const $$ = (sel, el=document) => [...el.querySelectorAll(sel)];
+    const fmt = (n) => n.toString().padStart(2, '0');
+    const shuffle = (arr) => arr.map(v => [Math.random(), v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+
+    function toast(msg){
+      const el = $('#toast');
+      el.textContent = msg; el.classList.add('show');
+      setTimeout(()=> el.classList.remove('show'), 1500);
+    }
+
+    // --- 3) OYUN DURUMU ---
+    let state = {
+      deck: [],          // { id, word, pairId }
+      firstId: null,
+      lock: false,
+      moves: 0,
+      matched: 0,
+      startAt: 0,
+      timerId: null
+    };
+
+    // --- 4) OYUN OLUŞTURMA ---
+    function buildDeck(pairCount){
+      const chosen = shuffle(pairs).slice(0, pairCount);
+      const deck = [];
+      chosen.forEach((p, idx) => {
+        deck.push({ id: `a-${idx}`, word: p.a, pairId: idx, pairText: `${p.a} ↔ ${p.b}` });
+        deck.push({ id: `b-${idx}`, word: p.b, pairId: idx, pairText: `${p.a} ↔ ${p.b}` });
+      });
+      return shuffle(deck);
+    }
+
+    function render(){
+      const grid = $('#grid');
+      grid.innerHTML = '';
+      state.deck.forEach((card, i) => {
+        const el = document.createElement('button');
+        el.className = 'card';
+        el.setAttribute('data-id', card.id);
+        el.setAttribute('data-pair', card.pairId);
+        el.setAttribute('aria-label', `Kart ${i+1}`);
+        el.innerHTML = `
+          <div class="card-inner">
+            <div class="face front"></div>
+            <div class="face back">
+              <div class="word">${card.word}</div>
+              <div class="pair">${card.pairText}</div>
+            </div>
+          </div>`;
+        el.addEventListener('click', () => flip(el));
+        el.addEventListener('keyup', (e)=> { if(e.key==='Enter' || e.code==='Space') flip(el); });
+        grid.appendChild(el);
+      });
+      $('#poolSize').textContent = `${pairs.length}`;
+      updateStats();
+    }
+
+    // --- 5) OYUN LOJİĞİ ---
+    function flip(el){
+      if(state.lock) return;
+      if(el.classList.contains('matched')) return;
+      const id = el.getAttribute('data-id');
+      if(state.firstId === id) return;
+
+      el.classList.add('flipped');
+
+      if(state.firstId === null){
+        state.firstId = id;
+        return;
+      }
+
+      // İkinci kart
+      state.lock = true;
+      state.moves++;
+      updateStats();
+
+      const first = $(`.card[data-id="${state.firstId}"]`);
+      const second = el;
+
+      const p1 = first.getAttribute('data-pair');
+      const p2 = second.getAttribute('data-pair');
+
+      if(p1 === p2){
+        // Eşleşti
+        setTimeout(()=>{
+          first.classList.add('matched');
+          second.classList.add('matched');
+          first.setAttribute('aria-label', 'Eşleşen kart');
+          second.setAttribute('aria-label', 'Eşleşen kart');
+          state.matched += 1;
+          state.firstId = null;
+          state.lock = false;
+          updateStats();
+          checkWin();
+        }, 250);
+      } else {
+        // Eşleşmedi
+        setTimeout(()=>{
+          first.classList.remove('flipped');
+          second.classList.remove('flipped');
+          state.firstId = null;
+          state.lock = false;
+        }, 700);
+      }
+    }
+
+    function updateStats(){
+      $('#moves').textContent = state.moves;
+      $('#matched').textContent = state.matched;
+    }
+
+    function startTimer(){
+      state.startAt = Date.now();
+      clearInterval(state.timerId);
+      state.timerId = setInterval(()=>{
+        const s = Math.floor((Date.now()-state.startAt)/1000);
+        const mm = Math.floor(s/60), ss = s%60;
+        $('#time').textContent = `${fmt(mm)}:${fmt(ss)}`;
+      }, 250);
+    }
+
+    function stopTimer(){
+      clearInterval(state.timerId);
+      state.timerId = null;
+    }
+
+    function newGame(){
+      const count = parseInt($('#difficulty').value, 10);
+      state = { deck: buildDeck(count), firstId: null, lock: false, moves: 0, matched: 0, startAt: 0, timerId: null };
+      render();
+      startTimer();
+      toast('Yeni oyun başladı! Başarılar ✨');
+    }
+
+    function revealBriefly(){
+      const cards = $$('.card');
+      cards.forEach(c=> c.classList.add('flipped'));
+      setTimeout(()=> cards.forEach(c=> !c.classList.contains('matched') && c.classList.remove('flipped')), 1200);
+    }
+
+    function checkWin(){
+      const totalPairs = state.deck.length / 2;
+      if(state.matched >= totalPairs){
+        stopTimer();
+        setTimeout(()=>{
+          toast(`Tebrikler! ${state.moves} hamlede bitirdin.`);
+        }, 200);
+      }
+    }
+
+    // --- 6) OLAYLAR ---
+    $('#newGame').addEventListener('click', newGame);
+    $('#reveal').addEventListener('click', revealBriefly);
+    $('#difficulty').addEventListener('change', newGame);
+
+    // İlk başlangıç
+    newGame();
+  </script>
+</body>
+</html>
