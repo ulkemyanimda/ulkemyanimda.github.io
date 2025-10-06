@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renk-Hayvan Eşleştirme Oyunu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .game-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .colors-section, .animals-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .color-item, .animal-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            margin: 8px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.1em;
+            font-weight: 500;
+            border: 3px solid transparent;
+            user-select: none;
+        }
+
+        .color-item:hover, .animal-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-item.selected {
+            border-color: #007bff;
+            transform: scale(1.05);
+        }
+
+        .animal-item.selected {
+            border-color: #28a745;
+            transform: scale(1.05);
+        }
+
+        .color-item.matched, .animal-item.matched {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .color-item.wrong, .animal-item.wrong {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Renk arka planları */
+        .sari { background: #ffd700; color: #333; }
+        .yesil { background: #32cd32; color: white; }
+        .beyaz { background: #ffffff; color: #333; border: 2px solid #ddd; }
+        .kahverengi { background: #8b4513; color: white; }
+        .gri { background: #808080; color: white; }
+        .turuncu { background: #ff8c00; color: white; }
+        .pembe { background: #ff69b4; color: white; }
+        .mavi { background: #1e90ff; color: white; }
+
+        .animal-item {
+            background: #e9ecef;
+            color: #333;
+            font-size: 2em;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .message {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+
+        @media (max-width: 768px) {
+            .game-area {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 { font-size: 2em; }
+            .game-container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Renk-Hayvan Eşleştirme</h1>
+        <p class="subtitle">Renkleri doğru hayvanlarla eşleştirin!</p>
+        
+        <div class="score-board">
+            <div>Skor: <span id="score">0</span></div>
+            <div>Kalan: <span id="remaining">8</span></div>
+            <div>Yanlış: <span id="mistakes">0</span></div>
+        </div>
+
+        <div class="game-area">
+            <div class="colors-section">
+                <div class="section-title">🎨 Renkler</div>
+                <div id="colors-container"></div>
+            </div>
+            
+            <div class="animals-section">
+                <div class="section-title">🐾 Hayvanlar</div>
+                <div id="animals-container"></div>
+            </div>
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <div class="controls">
+            <button class="btn" onclick="shuffleGame()">🔀 Karıştır</button>
+            <button class="btn" onclick="resetGame()">🔄 Yeni Oyun</button>
+        </div>
+    </div>
+
+    <script>
+        const gameData = [
+            { color: 'Sarı', animal: '🐥', class: 'sari' },
+            { color: 'Yeşil', animal: '🐸', class: 'yesil' },
+            { color: 'Beyaz', animal: '🐇', class: 'beyaz' },
+            { color: 'Kahverengi', animal: '🐻', class: 'kahverengi' },
+            { color: 'Gri', animal: '🐘', class: 'gri' },
+            { color: 'Turuncu', animal: '🦊', class: 'turuncu' },
+            { color: 'Pembe', animal: '🐷', class: 'pembe' },
+            { color: 'Mavi', animal: '🐋', class: 'mavi' }
+        ];
+
+        let selectedColor = null;
+        let selectedAnimal = null;
+        let score = 0;
+        let mistakes = 0;
+        let matched = new Set();
+        let shuffledColors = [];
+        let shuffledAnimals = [];
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function initializeGame() {
+            shuffledColors = shuffleArray(gameData);
+            shuffledAnimals = shuffleArray(gameData);
+            renderGame();
+            updateScore();
+        }
+
+        function renderGame() {
+            const colorsContainer = document.getElementById('colors-container');
+            const animalsContainer = document.getElementById('animals-container');
+
+            colorsContainer.innerHTML = '';
+            animalsContainer.innerHTML = '';
+
+            shuffledColors.forEach((item, index) => {
+                const colorDiv = document.createElement('div');
+                colorDiv.className = `color-item ${item.class}`;
+                colorDiv.textContent = item.color;
+                colorDiv.onclick = () => selectColor(item, colorDiv);
+                colorDiv.dataset.colorIndex = index;
+                colorsContainer.appendChild(colorDiv);
+            });
+
+            shuffledAnimals.forEach((item, index) => {
+                const animalDiv = document.createElement('div');
+                animalDiv.className = 'animal-item';
+                animalDiv.textContent = item.animal;
+                animalDiv.onclick = () => selectAnimal(item, animalDiv);
+                animalDiv.dataset.animalIndex = index;
+                animalsContainer.appendChild(animalDiv);
+            });
+        }
+
+        function selectColor(colorData, element) {
+            if (matched.has(colorData.color)) return;
+
+            // Önceki seçimi temizle
+            document.querySelectorAll('.color-item').forEach(el => el.classList.remove('selected'));
+            
+            selectedColor = colorData;
+            element.classList.add('selected');
+            
+            if (selectedAnimal) {
+                checkMatch();
+            }
+        }
+
+        function selectAnimal(animalData, element) {
+            if (matched.has(animalData.color)) return;
+
+            // Önceki seçimi temizle
+            document.querySelectorAll('.animal-item').forEach(el => el.classList.remove('selected'));
+            
+            selectedAnimal = animalData;
+            element.classList.add('selected');
+            
+            if (selectedColor) {
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const messageEl = document.getElementById('message');
+            
+            if (selectedColor.color === selectedAnimal.color) {
+                // Doğru eşleştirme
+                score += 10;
+                matched.add(selectedColor.color);
+                
+                // Eşleştirilen öğeleri işaretle
+                document.querySelectorAll('.color-item, .animal-item').forEach(el => {
+                    if ((el.textContent === selectedColor.color) || 
+                        (el.textContent === selectedAnimal.animal)) {
+                        el.classList.add('matched');
+                        el.classList.remove('selected');
+                    }
+                });
+                
+                messageEl.textContent = `✅ Harika! ${selectedColor.color} - ${selectedAnimal.animal}`;
+                messageEl.className = 'message success';
+                
+                // Oyun bitişini kontrol et
+                if (matched.size === gameData.length) {
+                    setTimeout(() => {
+                        messageEl.textContent = `🎉 Tebrikler! Oyunu tamamladınız! Skor: ${score}`;
+                    }, 1000);
+                }
+            } else {
+                // Yanlış eşleştirme
+                mistakes++;
+                
+                document.querySelectorAll('.selected').forEach(el => {
+                    el.classList.add('wrong');
+                    setTimeout(() => el.classList.remove('wrong'), 500);
+                });
+                
+                messageEl.textContent = `❌ Yanlış! ${selectedColor.color} ve ${selectedAnimal.animal} eşleşmiyor`;
+                messageEl.className = 'message error';
+            }
+            
+            // Seçimleri sıfırla
+            setTimeout(() => {
+                selectedColor = null;
+                selectedAnimal = null;
+                document.querySelectorAll('.selected').forEach(el => {
+                    if (!el.classList.contains('matched')) {
+                        el.classList.remove('selected');
+                    }
+                });
+                if (matched.size < gameData.length) {
+                    messageEl.textContent = 'Bir renk ve hayvan seçin';
+                    messageEl.className = 'message';
+                }
+            }, 1500);
+            
+            updateScore();
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('remaining').textContent = gameData.length - matched.size;
+            document.getElementById('mistakes').textContent = mistakes;
+        }
+
+        function shuffleGame() {
+            if (matched.size > 0) return; // Oyun başladıysa karıştırma
+            shuffledColors = shuffleArray(gameData);
+            shuffledAnimals = shuffleArray(gameData);
+            renderGame();
+            document.getElementById('message').textContent = 'Oyun karıştırıldı! Bir renk ve hayvan seçin';
+            document.getElementById('message').className = 'message';
+        }
+
+        function resetGame() {
+            selectedColor = null;
+            selectedAnimal = null;
+            score = 0;
+            mistakes = 0;
+            matched.clear();
+            initializeGame();
+            document.getElementById('message').textContent = 'Yeni oyun başladı! Bir renk ve hayvan seçin';
+            document.getElementById('message').className = 'message';
+        }
+
+        // Oyunu başlat
+        initializeGame();
+        document.getElementById('message').textContent = 'Bir renk ve hayvan seçin';
+    </script>
+</body>
+</html>
