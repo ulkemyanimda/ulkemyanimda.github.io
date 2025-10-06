@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" href="https://ulkemyanimda.github.io/icons/factory.ico" type="image/x-icon">
+    <title>Materyal Fabrikası - Türkçe ve Türk Kültürü</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .search-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            min-width: 250px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            min-width: 120px;
+        }
+
+        .clear-filters {
+            padding: 0.8rem 1.5rem;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            align-self: flex-end;
+        }
+
+        .clear-filters:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .material-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: cardAppear 0.5s ease-out;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .material-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            flex: 1;
+        }
+
+        .card-title h3 {
+            font-size: 1.3rem;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .tag-konu { background: #4CAF50; }
+        .tag-tema { background: #2196F3; }
+        .tag-seviye { background: #FF9800; }
+        .tag-yas { background: #9C27B0; }
+        
+        .card-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
+        }
+
+        .preview-btn {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+        }
+
+        .preview-btn:hover {
+            background: linear-gradient(135deg, #1976D2, #2196F3);
+            transform: translateY(-2px);
+        }
+
+        .pdf-btn {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+        }
+
+        .pdf-btn:hover {
+            background: linear-gradient(135deg, #d32f2f, #f44336);
+            transform: translateY(-2px);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: white;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .results-count {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .card-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏭 Materyal Fabrikası</h1>
+        <p>Türkçe ve Türk Kültürü Dersi Eğitim Materyalleri</p>
+    </div>
+
+    <div class="container">
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Materyal adı veya açıklama ile arayın..." id="searchInput">
+            </div>
+            
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label>Konu:</label>
+                    <select class="filter-select" id="konuFilter">
+                        <option value="">Tüm Konular</option>
+                        <option value="Okuma">Okuma</option>
+                        <option value="Yazma">Yazma</option>
+                        <option value="Dinleme">Dinleme</option>
+                        <option value="Konuşma">Konuşma</option>
+             
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Tema:</label>
+                    <select class="filter-select" id="temaFilter">
+                        <option value="">Tüm Temalar</option>
+                        <option value="BİRLİKTE YAŞAM">BİRLİKTE YAŞAM</option>
+						<option value="GÜZEL MEMLEKETİM">GÜZEL MEMLEKETİM</option>
+                        <option value="GELENEKSEL TÜRK OYUNLARI">GELENEKSEL TÜRK OYUNLARI</option>
+                        <option value="KÖKLERDEN GELECEĞE">KÖKLERDEN GELECEĞE</option>
+                        <option value="SANAT DÜNYASI">SANAT DÜNYASI</option>
+                        <option value="BİZİ BİZ YAPANLAR">BİZİ BİZ YAPANLAR</option>
+                        <option value="SAĞLIKLI YAŞAM">SAĞLIKLI YAŞAM</option>
+                        <option value="BİLİM VE TEKNOLOJİDE YOLCULUK">BİLİM VE TEKNOLOJİDE YOLCULUK</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Seviye:</label>
+                    <select class="filter-select" id="seviyeFilter">
+                        <option value="">Tüm Seviyeler</option>
+                        <option value="Yazar">Yazar</option>
+                        <option value="Yazamaz">Yazamaz</option>
+                    </select>
+                </div>
+				
+                <div class="filter-group">
+                    <label>Yaş Grubu:</label>
+                    <select class="filter-select" id="yasFilter">
+                        <option value="">Tüm Yaşlar</option>
+                        <option value="5-10">5-10 Yaş</option>
+                        <option value="11-16">11-16 Yaş</option>
+						
+                    </select>
+                </div>
+                
+                <button class="clear-filters" onclick="clearFilters()">Filtreleri Temizle</button>
+            </div>
+        </div>
+
+        <div class="results-count" id="resultsCount"></div>
+        <div class="materials-grid" id="materialsGrid"></div>
+        <div class="no-results" id="noResults" style="display: none;">
+            <h2>🔍 Sonuç Bulunamadı</h2>
+            <p>Arama kriterlerinize uygun materyal bulunmamaktadır.</p>
+        </div>
+    </div>
+
+    <script>
+        const materials = [
+            {
+                id: 1,
+                name: "Hep Bir Aradayız - Kalıp İfadeler - Eşleştir",
+                description: "Öğrenciler, günlük yaşamda kullanılan temel kalıp ifadelerin hangi durumda söylendiğini ayırt eder ve uygun resimlerle eşleştirir.",
+                icon: "👪",
+                konu: "Okuma",
+                tema: "BİRLİKTE YAŞAM",
+                seviye: "Yazar",
+                yas: "11-16",
+                scormPath: "scorm/HepbiraradayizKalipifadeler_eslestir.zip",
+                previewUrl: "preview/HepbiraradayizKalipifadeler_eslestir/index.html",
+                pdfPath: "pdf/HepbiraradayizKalipifadeler_eslestir.pdf"
+            },
+            {
+                id: 2,
+                name: "Hep Bir Aradayız - Kalıp İfadeler - Seç",
+                description: "Öğrenciler, görselleri inceleyerek Türk kültüründe birlikte yaşamda kullanılan temel kalıp ifadeleri tanır ve uygun durumlarla eşleştirir.",
+                icon: "👪",
+                konu: "Okuma",
+                tema: "BİRLİKTE YAŞAM",
+                seviye: "Yazar",
+                yas: "11-16",
+                scormPath: "scorm/HepbiraradayizKalipifadeler_sec.zip",
+                previewUrl: "preview/HepbiraradayizKalipifadeler_sec/index.html",
+                pdfPath: "pdf/HepbiraradayizKalipifadeler_sec.pdf"
+            },
+			{
+			id: 3,
+                name: "Hep Bir Aradayız - Kalıp İfadeler - Dinle",
+                description: "Öğrenciler, günlük yaşamda kullanılan bazı temel kalıp ifadeleri görseller eşliğinde dinleyerek tanır ve hangi durumda söylendiğini ayırt eder.",
+                icon: "👪",
+                konu: "Dinleme",
+                tema: "BİRLİKTE YAŞAM",
+                seviye: "Yazamaz",
+                yas: "11-16",
+                scormPath: "scorm/HepbiraradayizKalipifadeler_dinle.zip",
+                previewUrl: "preview/HepbiraradayizKalipifadeler_dinle/index.html",
+                pdfPath: "pdf/HepbiraradayizKalipifadeler_dinle.pdf"
+            },
+			{
+			id: 4,
+                name: "Türkiye'den Merhaba - Güzel Sözler - Eşleştir",
+                description: "Öğrenciler, günlük yaşamda kullanılan bazı temel kalıp ifadeleri tanır ve uygun görsellerle doğru şekilde eşleştirir.",
+                icon: "👪",
+                konu: "Okuma",
+                tema: "BEN VE AİLEM",
+                seviye: "Yazar",
+                yas: "5-10",
+                scormPath: "scorm/Turkiyedenmerhabaguzelsozler_eslestir.zip",
+                previewUrl: "preview/Turkiyedenmerhabaguzelsozler_eslestir/index.html",
+                pdfPath: "pdf/Turkiyedenmerhabaguzelsozler_eslestir.pdf"
+            },
+			{
+			id: 5,
+                name: "Türkiye'den Merhaba - Güzel Sözler - Yaz",
+                description: "Öğrenciler, görsellerden hareketle eksik harfleri tamamlayarak günlük yaşamda kullanılan temel kalıp ifadeleri tanır, doğru şekilde yazar ve iletişimde kullanır. ",
+                icon: "👪",
+                konu: "Yazma",
+                tema: "BEN VE AİLEM",
+                seviye: "Yazar",
+                yas: "5-10",
+                scormPath: "scorm/Turkiyedenmerhabaguzelsozler_yaz.zip",
+                previewUrl: "preview/Turkiyedenmerhabaguzelsozler_yaz/index.html",
+                pdfPath: "pdf/Turkiyedenmerhabaguzelsozler_yaz.pdf"
+            },
+			{
+			id: 6,
+                name: "Türkiye'den Merhaba - Karşılama ve Uğurlama",
+                description: "Öğrenciler, izledikleri videodaki karakterler ve olaylar hakkında soruları yanıtlar, günlük yaşamda misafir karşılama ve uğurlama ile ilgili kendi deneyimlerini sözlü olarak paylaşır. ",
+                icon: "👪",
+                konu: "Dinleme",
+                tema: "BEN VE AİLEM",
+                seviye: "Yazamaz",
+                yas: "5-10",
+                scormPath: "scorm/Turkiyedenmerhabakarsilamaugurlama.zip",
+                previewUrl: "preview/Turkiyedenmerhabakarsilamaugurlama/index.html",
+                pdfPath: "pdf/Turkiyedenmerhabakarsilamaugurlama.pdf"
+            }			
+        ];
+
+        let filteredMaterials = [...materials];
+
+        function renderMaterials(materialsToRender) {
+            const grid = document.getElementById('materialsGrid');
+            const resultsCount = document.getElementById('resultsCount');
+            const noResults = document.getElementById('noResults');
+
+            resultsCount.textContent = `${materialsToRender.length} materyal bulundu`;
+
+            if (materialsToRender.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                resultsCount.style.display = 'none';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+            resultsCount.style.display = 'block';
+
+            grid.innerHTML = materialsToRender.map(material => `
+                <div class="material-card">
+                    <div class="card-header">
+                        <div class="card-icon">${material.icon}</div>
+                        <div class="card-title">
+                            <h3>${material.name}</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="card-tags">
+                        <span class="tag tag-konu">${material.konu}</span>
+                        <span class="tag tag-tema">${material.tema}</span>
+                        <span class="tag tag-seviye">${material.seviye}</span>
+                        <span class="tag tag-yas">${material.yas} Yaş</span>
+                    </div>
+                    
+                    <div class="card-description">
+                        ${material.description}
+                    </div>
+                    
+                    <div class="card-actions">
+                        <a href="${material.scormPath}" class="action-btn download-btn" download>
+                            📥 SCORM
+                        </a>
+                        <a href="${material.previewUrl}" class="action-btn preview-btn" target="_blank">
+                            👁️ Önizle
+                        </a>
+                        <a href="${material.pdfPath}" class="action-btn pdf-btn" download>
+                            📄 PDF
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMaterials() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const konuFilter = document.getElementById('konuFilter').value;
+            const temaFilter = document.getElementById('temaFilter').value;
+            const seviyeFilter = document.getElementById('seviyeFilter').value;
+            const yasFilter = document.getElementById('yasFilter').value;
+
+            filteredMaterials = materials.filter(material => {
+                const matchesSearch = material.name.toLowerCase().includes(searchTerm) || 
+                                    material.description.toLowerCase().includes(searchTerm);
+                const matchesKonu = !konuFilter || material.konu === konuFilter;
+                const matchesTema = !temaFilter || material.tema === temaFilter;
+                const matchesSeviye = !seviyeFilter || material.seviye === seviyeFilter;
+                const matchesYas = !yasFilter || material.yas === yasFilter;
+                
+                return matchesSearch && matchesKonu && matchesTema && matchesSeviye && matchesYas;
+            });
+
+            renderMaterials(filteredMaterials);
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('konuFilter').value = '';
+            document.getElementById('temaFilter').value = '';
+            document.getElementById('seviyeFilter').value = '';
+            document.getElementById('yasFilter').value = '';
+            filterMaterials();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', filterMaterials);
+        document.getElementById('konuFilter').addEventListener('change', filterMaterials);
+        document.getElementById('temaFilter').addEventListener('change', filterMaterials);
+        document.getElementById('seviyeFilter').addEventListener('change', filterMaterials);
+        document.getElementById('yasFilter').addEventListener('change', filterMaterials);
+
+        renderMaterials(materials);
+    </script>
+	
+	
+	
+<footer style="background-color: #f1f1f1; padding: 20px 10px; text-align: center; font-family: Arial, sans-serif;">
+    <div style="margin-bottom: 15px;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+            <a href="https://yyegm.meb.gov.tr/" target="_blank">
+                <img src="icons/logo2.png" alt="Logo 1" style="height: 50px; width: auto;">
+            </a>
+            <a href="https://ulkemyanimda.github.io/" target="_blank">
+                <img src="icons/logo1.png" alt="Logo 2" style="height: 50px; width: auto;">
+            </a>
+        </div>
+    </div>
+
+    <!-- Sosyal Medya İkonları (CDN'den SVG) -->
+    <div style="margin: 15px 0; display: flex; justify-content: center; gap: 15px;">
+        <a href="https://www.instagram.com/ulkemyanimda" target="_blank">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram" style="height: 30px; width: 30px;">
+        </a>
+        <a href="https://twitter.com/ulkemyanimda" target="_blank">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg" alt="Twitter" style="height: 30px; width: 30px;">
+        </a>
+        <a href="https://www.facebook.com/ulkemyanimda" target="_blank">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook" style="height: 30px; width: 30px;">
+        </a>
+        <a href="https://www.youtube.com/@ulkem_yanimda" target="_blank">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube" style="height: 30px; width: 30px;">
+        </a>
+    </div>
+
+    <div>
+        <p style="margin: 0; font-size: 14px; color: #333;">&copy; 2025 ÜLKEM YANIMDA!</p>
+    </div>
+</footer>
+
+	
+	
+	
+	
+	
+	
+</body>
+</html>

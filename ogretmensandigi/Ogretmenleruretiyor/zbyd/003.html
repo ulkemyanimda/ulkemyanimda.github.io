@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Deyim – Anlam Eşleştirme Oyunu</title>
+  <style>
+    :root{
+      --bg:#0f172a;           /* slate-900 */
+      --panel:#111827;        /* gray-900 */
+      --card:#1f2937;         /* gray-800 */
+      --muted:#94a3b8;        /* slate-400 */
+      --text:#e5e7eb;         /* gray-200 */
+      --accent:#34d399;       /* emerald-400 */
+      --accent-2:#60a5fa;     /* blue-400 */
+      --danger:#f87171;       /* red-400 */
+      --warning:#fbbf24;      /* amber-400 */
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text); background: radial-gradient(1200px 600px at 20% -10%, #1e293b 0%, var(--bg) 60%);
+      display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .app{
+      width:min(1100px, 100%); background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.08); border-radius:24px; box-shadow:0 20px 80px rgba(0,0,0,0.35);
+      overflow:hidden;
+    }
+    header{padding:20px 24px; background:rgba(255,255,255,0.02); display:flex; gap:16px; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.06)}
+    .title{display:flex; gap:12px; align-items:center}
+    .logo{width:44px; height:44px; border-radius:12px; background:conic-gradient(from 200deg, var(--accent-2), var(--accent), #10b981); display:grid; place-items:center; box-shadow:0 8px 30px rgba(96,165,250,.35)}
+    .logo span{font-weight:800; color:#0b1020}
+    h1{font-size: clamp(18px, 2.6vw, 26px); margin:0}
+    .subtitle{color:var(--muted); font-size:14px}
+
+    .controls{display:flex; gap:8px; flex-wrap:wrap}
+    button{
+      background:var(--card); color:var(--text); border:1px solid rgba(255,255,255,0.1); padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:600; transition:transform .08s ease, background .2s ease, border-color .2s ease; user-select:none;
+    }
+    button:hover{transform:translateY(-1px); border-color:rgba(255,255,255,0.22)}
+    .primary{background:linear-gradient(180deg, var(--accent-2), #2563eb); border-color:transparent}
+    .danger{background:linear-gradient(180deg, #fb7185, #ef4444); border-color:transparent}
+    .ghost{background:transparent}
+
+    main{padding:26px; display:grid; gap:22px}
+    .grid{display:grid; gap:18px; grid-template-columns: 1fr;}
+    @media (min-width: 860px){ .grid{ grid-template-columns:1fr 1fr; } }
+
+    .col{background:rgba(15,23,42,0.45); border:1px solid rgba(255,255,255,0.08); border-radius:18px; padding:16px}
+    .col h2{margin:4px 6px 12px; font-size:16px; color:var(--muted); font-weight:700; letter-spacing:.3px}
+
+    .bank, .targets{display:grid; gap:12px}
+
+    .chip, .slot{
+      border-radius:14px; padding:12px 14px; background:var(--card); border:1px solid rgba(255,255,255,0.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+      line-height:1.3; font-weight:600; position:relative;
+    }
+    .chip{cursor:grab; outline:2px solid transparent}
+    .chip:active{cursor:grabbing}
+    .chip[aria-grabbed="true"]{outline-color:var(--accent-2)}
+
+    .slot{min-height:56px; display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .slot .label{flex:1}
+    .slot .dropzone{min-width:140px; display:flex; align-items:center; justify-content:center; padding:8px 10px; border-radius:12px; border:1px dashed rgba(255,255,255,0.2); color:var(--muted); font-size:13px}
+
+    .slot.correct{border-color: rgba(16,185,129,0.5); box-shadow:0 0 0 2px rgba(16,185,129,0.25) inset}
+    .slot.wrong{border-color: rgba(248,113,113,0.6); box-shadow:0 0 0 2px rgba(248,113,113,0.25) inset}
+
+    .stats{display:flex; gap:14px; flex-wrap:wrap; color:var(--muted); font-weight:600}
+    .badge{background:#0b1222; border:1px solid rgba(255,255,255,0.06); padding:8px 12px; border-radius:12px}
+
+    .footer{display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:8px}
+
+    .toast{position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.12); padding:12px 16px; border-radius:12px; font-weight:700; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease}
+    .toast.show{opacity:1; transform:translate(-50%, -2px)}
+
+    dialog.modal{border:none; border-radius:18px; padding:0; background:linear-gradient(180deg, #0b1220, #0e1424); color:var(--text); box-shadow:0 30px 120px rgba(0,0,0,0.5)}
+    .modal .box{padding:24px; min-width:min(520px, 92vw)}
+    .modal h3{margin:0 0 6px}
+    .modal p{margin:0 0 16px; color:var(--muted)}
+
+    /* Simple confetti dots */
+    .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden}
+    .confetti i{position:absolute; width:8px; height:8px; border-radius:50%; opacity:.9; animation: fall 900ms linear forwards}
+    @keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+  </style>
+</head>
+<body>
+  <div class="app" role="application" aria-label="Deyim – Anlam Eşleştirme Oyunu">
+    <header>
+      <div class="title">
+        <div class="logo" aria-hidden="true"><span>Δ</span></div>
+        <div>
+          <h1>Deyim – Anlam Eşleştirme</h1>
+          <div class="subtitle">Sürükle & bırak ya da tıklayarak eşleştir. 5 doğru eşleşmeyi tamamla!</div>
+        </div>
+      </div>
+      <div class="controls" aria-label="Kontroller">
+        <button id="newRound" class="primary" title="Yeni karışık tur başlat">Yeni Tur</button>
+        <button id="check" title="Yerleştirilenleri kontrol et">Kontrol Et</button>
+        <button id="hint" class="ghost" title="Bir ipucu göster">İpucu</button>
+        <button id="reset" class="danger" title="Tüm yerleştirmeleri temizle">Sıfırla</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="stats" aria-live="polite">
+        <div class="badge">Doğru: <span id="correct">0</span>/5</div>
+        <div class="badge">Deneme: <span id="tries">0</span></div>
+        <div class="badge">Süre: <span id="time">00:00</span></div>
+      </div>
+
+      <div class="grid">
+        <section class="col" aria-labelledby="idiomsHeading">
+          <h2 id="idiomsHeading">Deyimler</h2>
+          <div id="bank" class="bank" aria-describedby="dragHelp"></div>
+          <div id="dragHelp" class="subtitle">Deyimleri sürükleyin ya da birine tıklayıp sağda bir hedef seçin.</div>
+        </section>
+        <section class="col" aria-labelledby="meaningsHeading">
+          <h2 id="meaningsHeading">Anlamlar</h2>
+          <div id="targets" class="targets"></div>
+        </section>
+      </div>
+
+      <div class="footer">
+        <div class="subtitle">Püf: Deyimi sürükleyip doğru anlamın <em>BURAYA BIRAK</em> alanına bırakın.</div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <dialog class="modal" id="endModal">
+    <div class="box">
+      <h3>Harika! 🎉</h3>
+      <p id="summary">Tüm eşleşmeleri tamamladın.</p>
+      <div style="display:flex; gap:8px; justify-content:flex-end">
+        <button onclick="modal.close()">Kapat</button>
+        <button class="primary" onclick="newRound()">Tekrar Oyna</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    // --- Oyun verisi (kolayca değiştirilebilir) ---
+    const ALL_PAIRS = [
+      {
+        idiom: "Ağzı kulaklarına varmak",
+        meaning: "Çok sevinmek, yüzünden mutluluk taşmak"
+      },
+      {
+        idiom: "Burnundan solumak",
+        meaning: "Aşırı öfkeli olmak, sinirden köpürmek"
+      },
+      {
+        idiom: "Gözden düşmek",
+        meaning: "Eskisi kadar değer görmemek, itibar kaybetmek"
+      },
+      {
+        idiom: "Kulağına küpe olmak",
+        meaning: "Yaşanandan ders almak, ibret edinmek"
+      },
+      {
+        idiom: "Kulağını bükmek",
+        meaning: "Nazikçe uyarmak, azarlamadan ikaz etmek"
+      }
+    ];
+
+    // --- Durum ---
+    let state = {
+      roundPairs: [],       // bu turdaki 5'li
+      placed: new Map(),    // targetIndex -> idiomIndex
+      tries: 0,
+      startTime: null,
+      timerInt: null,
+      clickPick: null       // tıklama ile seçim (idiomIndex) 
+    };
+
+    const bankEl = document.getElementById('bank');
+    const targetsEl = document.getElementById('targets');
+    const correctEl = document.getElementById('correct');
+    const triesEl = document.getElementById('tries');
+    const timeEl = document.getElementById('time');
+    const toastEl = document.getElementById('toast');
+    const confettiEl = document.getElementById('confetti');
+    const modal = document.getElementById('endModal');
+
+    // --- Yardımcılar ---
+    const shuffle = arr => arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+    const fmtTime = ms => {
+      const total = Math.floor(ms/1000); const m = String(Math.floor(total/60)).padStart(2,'0'); const s = String(total%60).padStart(2,'0');
+      return `${m}:${s}`;
+    }
+    const showToast = (msg, ms=1200) => {
+      toastEl.textContent = msg; toastEl.classList.add('show');
+      setTimeout(()=> toastEl.classList.remove('show'), ms);
+    }
+    function burst(){
+      // minik konfeti (bağımsız kütüphane yok)
+      for(let i=0;i<24;i++){
+        const dot = document.createElement('i');
+        dot.style.left = Math.random()*100 + 'vw';
+        dot.style.top = '-10px';
+        dot.style.background = `hsl(${Math.random()*360},90%,60%)`;
+        dot.style.transform = `translateY(0) rotate(0)`;
+        dot.style.animationDelay = (Math.random()*0.4)+'s';
+        confettiEl.appendChild(dot);
+        setTimeout(()=> dot.remove(), 1200);
+      }
+    }
+
+    // --- Arayüzü çiz ---
+    function render(){
+      bankEl.innerHTML = '';
+      targetsEl.innerHTML = '';
+
+      const idioms = state.roundPairs.map((p,idx)=>({text:p.idiom, idx}));
+      const meanings = state.roundPairs.map((p,idx)=>({text:p.meaning, idx}));
+
+      // bank: idioms (karışık)
+      shuffle(idioms).forEach(({text, idx})=>{
+        const el = document.createElement('div');
+        el.className = 'chip';
+        el.textContent = text;
+        el.setAttribute('draggable','true');
+        el.setAttribute('role','button');
+        el.setAttribute('tabindex','0');
+        el.dataset.idiomIndex = idx;
+
+        el.addEventListener('dragstart', e=>{
+          el.setAttribute('aria-grabbed','true');
+          e.dataTransfer.setData('text/plain', String(idx));
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        el.addEventListener('dragend', ()=> el.removeAttribute('aria-grabbed'));
+
+        // tıklayarak seç – hedefe tıkla bırak
+        el.addEventListener('click', ()=>{
+          state.clickPick = idx;
+          showToast('Hedef anlamı seçin…');
+          [...document.querySelectorAll('.dropzone')].forEach(z=> z.style.borderColor = 'rgba(96,165,250,.6)');
+        });
+        el.addEventListener('keydown', (ev)=>{
+          if(ev.key==='Enter' || ev.key===' '){ ev.preventDefault(); el.click(); }
+        });
+        bankEl.appendChild(el);
+      });
+
+      // targets: meanings (karışık) – her biri bir slot + dropzone
+      shuffle(meanings).forEach(({text, idx}, targetIndex)=>{
+        const slot = document.createElement('div');
+        slot.className = 'slot';
+        slot.dataset.targetIndex = targetIndex; // görsel sıra
+        slot.dataset.answerIdx = idx;           // doğru idiomIndex
+
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = text;
+        slot.appendChild(label);
+
+        const drop = document.createElement('div');
+        drop.className = 'dropzone';
+        drop.textContent = 'BURAYA BIRAK';
+        slot.appendChild(drop);
+
+        const accept = (idiomIndex)=>{
+          // Eğer önceden düşmüşse banke geri koy
+          for(const [t, idIdx] of state.placed){
+            if(idIdx === idiomIndex){ state.placed.delete(t); }
+          }
+          state.placed.set(targetIndex, idiomIndex);
+          updateSlots();
+        }
+
+        slot.addEventListener('dragover', e=>{ e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+        slot.addEventListener('drop', e=>{ e.preventDefault(); accept(Number(e.dataTransfer.getData('text/plain'))); });
+
+        // tıklama ile bırakma
+        slot.addEventListener('click', ()=>{
+          if(state.clickPick!=null){ accept(state.clickPick); state.clickPick=null; [...document.querySelectorAll('.dropzone')].forEach(z=> z.style.borderColor = 'rgba(255,255,255,0.2)'); }
+        });
+
+        targetsEl.appendChild(slot);
+      });
+
+      updateSlots();
+    }
+
+    function updateSlots(){
+      // önce tüm slotları temizle
+      document.querySelectorAll('.slot').forEach(slot=>{
+        const dz = slot.querySelector('.dropzone');
+        dz.textContent = 'BURAYA BIRAK';
+        dz.dataset.filled = '';
+        slot.classList.remove('correct','wrong');
+      });
+
+      // bank'teki tüm chipleri görünür yap
+      document.querySelectorAll('.chip').forEach(ch=> ch.style.display='');
+
+      // yerleştirilenleri slotlara yaz
+      for(const [t, idIdx] of state.placed){
+        const slot = document.querySelector(`.slot[data-target-index="${t}"]`);
+        const dz = slot.querySelector('.dropzone');
+        dz.textContent = ALL_PAIRS[idIdx].idiom;
+        dz.dataset.filled = '1';
+
+        // bankte karşılık gelen chipi gizle
+        const chip = document.querySelector(`.chip[data-idiom-index="${idIdx}"]`);
+        if(chip) chip.style.display = 'none';
+      }
+
+      // sayaç
+      correctEl.textContent = countCorrect();
+      triesEl.textContent = state.tries;
+    }
+
+    function countCorrect(){
+      let c=0;
+      document.querySelectorAll('.slot').forEach(slot=>{
+        const t = Number(slot.dataset.targetIndex);
+        const ansIdx = Number(slot.dataset.answerIdx);
+        const placed = state.placed.get(t);
+        if(placed!=null && placed===ansIdx) c++;
+      });
+      return c;
+    }
+
+    function check(){
+      state.tries++;
+      let allCorrect = true;
+      document.querySelectorAll('.slot').forEach(slot=>{
+        const t = Number(slot.dataset.targetIndex);
+        const ansIdx = Number(slot.dataset.answerIdx);
+        const placed = state.placed.get(t);
+        slot.classList.remove('correct','wrong');
+        if(placed==null){ allCorrect=false; return; }
+        if(placed===ansIdx){ slot.classList.add('correct'); }
+        else { slot.classList.add('wrong'); allCorrect=false; }
+      });
+      updateSlots();
+      if(allCorrect && state.placed.size===state.roundPairs.length){
+        burst();
+        setTimeout(()=> finish(), 350);
+      } else {
+        showToast('Kontrol edildi. Doğru sayısı: '+countCorrect());
+      }
+    }
+
+    function finish(){
+      const elapsed = Date.now() - state.startTime;
+      document.getElementById('summary').textContent = `Deneme: ${state.tries} • Süre: ${fmtTime(elapsed)}`;
+      modal.showModal();
+    }
+
+    function newRound(){
+      // 5’li seç (burada zaten 5 item var ama ölçeklenebilir)
+      state.roundPairs = shuffle(ALL_PAIRS).slice(0,5);
+      state.placed.clear();
+      state.tries = 0;
+      state.clickPick = null;
+      state.startTime = Date.now();
+      clearInterval(state.timerInt);
+      state.timerInt = setInterval(()=>{ timeEl.textContent = fmtTime(Date.now() - state.startTime); }, 1000);
+      render();
+      showToast('Yeni tur başladı!');
+      if(modal.open) modal.close();
+    }
+
+    function resetBoard(){
+      state.placed.clear();
+      state.tries = 0;
+      render();
+      showToast('Temizlendi.');
+    }
+
+    function hint(){
+      // yanlış veya boş bir slot bul, doğru deyimi otomatik yerleştir
+      const slots = [...document.querySelectorAll('.slot')];
+      const target = slots.find(slot=>{
+        const t = Number(slot.dataset.targetIndex);
+        const ansIdx = Number(slot.dataset.answerIdx);
+        const placed = state.placed.get(t);
+        return placed==null || placed!==ansIdx;
+      });
+      if(!target){ showToast('Zaten hepsi doğru!'); return; }
+      const ansIdx = Number(target.dataset.answerIdx);
+      state.placed.set(Number(target.dataset.targetIndex), ansIdx);
+      updateSlots();
+      showToast('İpucu yerleştirildi.');
+    }
+
+    // --- Event bağla ---
+    document.getElementById('check').addEventListener('click', check);
+    document.getElementById('reset').addEventListener('click', resetBoard);
+    document.getElementById('hint').addEventListener('click', hint);
+    document.getElementById('newRound').addEventListener('click', newRound);
+
+    // klavye kısayolları
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='Enter' && e.shiftKey){ check(); }
+      if(e.key.toLowerCase()==='r' && (e.ctrlKey || e.metaKey)){ e.preventDefault(); resetBoard(); }
+    });
+
+    // başlangıç
+    newRound();
+  </script>
+</body>
+</html>
