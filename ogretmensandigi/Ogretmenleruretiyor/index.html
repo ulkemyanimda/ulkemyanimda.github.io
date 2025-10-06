@@ -1,105 +1,477 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-	<link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>Öğretmenler Üretiyor</title>
+    <title>Etkinlik Kartları</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         header {
-            position: relative;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .banner {
-            background-image: url('https://ulkemyanimda.github.io/icons/banner.jpg');
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 200px; /* Banner yüksekliği ayarlandı */
-        }
-        .title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 25px;
             text-align: center;
+            font-size: 2.5em;
         }
-        .sections {
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
             display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            padding: 20px;
+            flex-direction: column;
         }
-        .section {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            margin: 10px;
-            width: 250px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.95em;
         }
-        .section:hover {
-            transform: scale(1.05);
-        }
-        .section a {
-            text-decoration: none;
-            color: #6200ea;
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-        }
-        .section img {
-            width: 200px;
-            height: 200px;
-        }
-        .section iframe {
-            width: 100%;
-            height: 200px;
-            border: none;
-            border-radius: 10px;
-        }
-        .section .video-title {
-            margin-top: 10px;
+
+        .filter-group select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
             font-size: 1em;
-            color: #6200ea;
-            font-weight: bold;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-group select:hover {
+            border-color: #667eea;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .reset-btn {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            align-self: flex-end;
+        }
+
+        .reset-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #333;
+            line-height: 1.3;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            padding: 6px 12px;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.85em;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .tag.ogrenme { background: #e3f2fd; color: #1976d2; }
+        .tag.tema { background: #f3e5f5; color: #7b1fa2; }
+        .tag.seviye { background: #fff3e0; color: #e65100; }
+        .tag.yas { background: #e8f5e9; color: #2e7d32; }
+
+        .card-footer {
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .teacher-icon {
+            font-size: 1.2em;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .no-results h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .no-results p {
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="banner">
-            <div class="title"> <h1>Öğretmenler Üretiyor</h1></div>
+    <div class="container">
+        <header>
+            <h1>🎯 Etkinlik Kartları</h1>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="ogrenmeAlani">Öğrenme Alanı</label>
+                    <select id="ogrenmeAlani">
+                        <option value="">Tümü</option>
+                        <option value="Okuma">Okuma</option>
+                        <option value="Yazma">Yazma</option>
+                        <option value="Dinleme">Dinleme</option>
+                        <option value="Konuşma">Konuşma</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="tema">Tema</label>
+                    <select id="tema">
+                        <option value="">Tümü</option>
+                        <option value="Birlikte yaşam">Birlikte yaşam</option>
+                        <option value="Güzel memleketim">Güzel memleketim</option>
+                        <option value="Geleneksel türk oyunları">Geleneksel türk oyunları</option>
+                        <option value="Köklerden geleceğe">Köklerden geleceğe</option>
+                        <option value="Sanat dünyası">Sanat dünyası</option>
+                        <option value="Bizi biz yapanlar">Bizi biz yapanlar</option>
+                        <option value="Sağlıklı yaşam">Sağlıklı yaşam</option>
+                        <option value="Bilim ve teknolojide yolculuk">Bilim ve teknolojide yolculuk</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="seviye">Seviye</label>
+                    <select id="seviye">
+                        <option value="">Tümü</option>
+                        <option value="Yazar">Yazar</option>
+                        <option value="Yazmaz">Yazmaz</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="yas">Yaş</label>
+                    <select id="yas">
+                        <option value="">Tümü</option>
+                        <option value="5-10 Yaş">5-10 Yaş</option>
+                        <option value="11-16 Yaş">11-16 Yaş</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>&nbsp;</label>
+                    <button class="reset-btn" onclick="resetFilters()">🔄 Filtreleri Sıfırla</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="cards-grid" id="cardsGrid">
+            <!-- Kartlar buraya JavaScript ile eklenecek -->
         </div>
-    </header>
-
-<div class="sections">
-
-
-
-
-<!--PDF LINKI--> 
-
-<div class="section">
-<a href="zbyd/index.html" target="_blank">
-	<img src="icons/oyunlar.png" alt="Icon">
-		<br> Eğitimde Yapılan Oyunlar
-</a>
-</div>	
- 
-
-
     </div>
+
+    <script>
+        // Örnek etkinlikler - Kendi verilerinizle değiştirebilirsiniz
+        const etkinlikler = [
+            {
+                id: 1,
+                baslik: "Sesli Renk Oyunu",
+                icon: "icons/civciv.png",
+                ogrenmeAlani: "Konuşma",
+                tema: "Sanat dünyası",
+                seviye: "Yazamaz",
+                yas: "5-10 Yaş",
+                ogretmen: "Fatime Aksu",
+                url: "files/civciv.html"
+            },
+            {
+                id: 2,
+                baslik: "Okuma Saati",
+                icon: "icons/okuma.png",
+                ogrenmeAlani: "Okuma",
+                tema: "Köklerden geleceğe",
+                seviye: "Yazmaz",
+                yas: "5-10 Yaş",
+                ogretmen: "Mehmet Demir",
+                url: "https://example.com/etkinlik2"
+            },
+            {
+                id: 3,
+                baslik: "Dinleme ve Anlama",
+                icon: "icons/dinleme.png",
+                ogrenmeAlani: "Dinleme",
+                tema: "Birlikte yaşam",
+                seviye: "Yazar",
+                yas: "11-16 Yaş",
+                ogretmen: "Zeynep Kaya",
+                url: "https://example.com/etkinlik3"
+            },
+            {
+                id: 4,
+                baslik: "Sunum Teknikleri",
+                icon: "icons/konusma.png",
+                ogrenmeAlani: "Konuşma",
+                tema: "Bilim ve teknolojide yolculuk",
+                seviye: "Yazar",
+                yas: "11-16 Yaş",
+                ogretmen: "Ali Öztürk",
+                url: "https://example.com/etkinlik4"
+            },
+            {
+                id: 5,
+                baslik: "Geleneksel Oyunlar",
+                icon: "icons/oyunlar.png",
+                ogrenmeAlani: "Konuşma",
+                tema: "Geleneksel türk oyunları",
+                seviye: "Yazmaz",
+                yas: "5-10 Yaş",
+                ogretmen: "Fatma Şahin",
+                url: "https://example.com/etkinlik5"
+            },
+            {
+                id: 6,
+                baslik: "Sağlıklı Beslenme",
+                icon: "icons/saglik.png",
+                ogrenmeAlani: "Okuma",
+                tema: "Sağlıklı yaşam",
+                seviye: "Yazmaz",
+                yas: "5-10 Yaş",
+                ogretmen: "Can Arslan",
+                url: "https://example.com/etkinlik6"
+            },
+            {
+                id: 7,
+                baslik: "Memleketimi Tanıyorum",
+                icon: "icons/memleket.png",
+                ogrenmeAlani: "Yazma",
+                tema: "Güzel memleketim",
+                seviye: "Yazar",
+                yas: "11-16 Yaş",
+                ogretmen: "Elif Aydın",
+                url: "https://example.com/etkinlik7"
+            },
+            {
+                id: 8,
+                baslik: "Büyüklerimiz Anlatıyor",
+                icon: "icons/buyukler.png",
+                ogrenmeAlani: "Dinleme",
+                tema: "Bizi biz yapanlar",
+                seviye: "Yazmaz",
+                yas: "5-10 Yaş",
+                ogretmen: "Ahmet Çelik",
+                url: "https://example.com/etkinlik8"
+            }
+        ];
+
+        let filteredEtkinlikler = [...etkinlikler];
+
+        function createCard(etkinlik) {
+            return `
+                <div class="card" onclick="openActivity('${etkinlik.url}')">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <img src="${etkinlik.icon}" alt="${etkinlik.baslik}">
+                        </div>
+                        <div class="card-title">${etkinlik.baslik}</div>
+                    </div>
+                    <div class="card-tags">
+                        <span class="tag ogrenme">${etkinlik.ogrenmeAlani}</span>
+                        <span class="tag tema">${etkinlik.tema}</span>
+                        <span class="tag seviye">${etkinlik.seviye}</span>
+                        <span class="tag yas">${etkinlik.yas}</span>
+                    </div>
+                    <div class="card-footer">
+                        <span class="teacher-icon">👨‍🏫</span>
+                        <span>${etkinlik.ogretmen}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCards() {
+            const grid = document.getElementById('cardsGrid');
+            
+            if (filteredEtkinlikler.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <h2>Sonuç Bulunamadı</h2>
+                        <p>Seçtiğiniz kriterlere uygun etkinlik bulunamadı. Lütfen filtreleri değiştirin.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filteredEtkinlikler.map(createCard).join('');
+        }
+
+        function filterActivities() {
+            const ogrenmeAlani = document.getElementById('ogrenmeAlani').value;
+            const tema = document.getElementById('tema').value;
+            const seviye = document.getElementById('seviye').value;
+            const yas = document.getElementById('yas').value;
+
+            filteredEtkinlikler = etkinlikler.filter(etkinlik => {
+                return (
+                    (!ogrenmeAlani || etkinlik.ogrenmeAlani === ogrenmeAlani) &&
+                    (!tema || etkinlik.tema === tema) &&
+                    (!seviye || etkinlik.seviye === seviye) &&
+                    (!yas || etkinlik.yas === yas)
+                );
+            });
+
+            renderCards();
+        }
+
+        function resetFilters() {
+            document.getElementById('ogrenmeAlani').value = '';
+            document.getElementById('tema').value = '';
+            document.getElementById('seviye').value = '';
+            document.getElementById('yas').value = '';
+            filteredEtkinlikler = [...etkinlikler];
+            renderCards();
+        }
+
+        function openActivity(url) {
+            window.open(url, '_blank');
+        }
+
+        // Filtre değişikliklerini dinle
+        document.getElementById('ogrenmeAlani').addEventListener('change', filterActivities);
+        document.getElementById('tema').addEventListener('change', filterActivities);
+        document.getElementById('seviye').addEventListener('change', filterActivities);
+        document.getElementById('yas').addEventListener('change', filterActivities);
+
+        // Sayfa yüklendiğinde kartları göster
+        renderCards();
+    </script>
 </body>
 </html>
