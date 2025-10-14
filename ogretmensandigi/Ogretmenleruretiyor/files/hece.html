@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkçe Hece Ayırıcı</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 15px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .output-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 100px;
+            line-height: 2;
+            font-size: 18px;
+        }
+
+        .sentence {
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .syllable {
+            display: inline;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .pink {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        .blue {
+            background-color: #4169e1;
+            color: white;
+        }
+
+        .info {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔤 Türkçe Hece Ayırıcı</h1>
+        
+        <div class="input-section">
+            <textarea id="inputText" placeholder="Hecelemek istediğiniz Türkçe metni buraya yazın veya yapıştırın..."></textarea>
+            <button onclick="hecelemeYap()">Hecelere Ayır</button>
+        </div>
+
+        <div class="output-section" id="output">
+            Sonuç burada görünecek...
+        </div>
+
+        <div class="info">
+            Her hece sırayla pembe ve mavi renklerle gösterilir
+        </div>
+    </div>
+
+    <script>
+        const sesliHarfler = ['a', 'e', 'ı', 'i', 'o', 'ö', 'u', 'ü', 'A', 'E', 'I', 'İ', 'O', 'Ö', 'U', 'Ü'];
+
+        function sesliMi(harf) {
+            return sesliHarfler.includes(harf);
+        }
+
+        function kelimeyiHecele(kelime) {
+            if (!kelime) return [];
+            
+            const heceler = [];
+            let hece = '';
+            
+            for (let i = 0; i < kelime.length; i++) {
+                hece += kelime[i];
+                
+                // Eğer sesli harf bulduk
+                if (sesliMi(kelime[i])) {
+                    // Sonraki karakterlere bak
+                    if (i + 1 < kelime.length) {
+                        // Bir sonraki harf sessiz mi?
+                        if (!sesliMi(kelime[i + 1])) {
+                            // İki sessiz harf yan yana mı?
+                            if (i + 2 < kelime.length && !sesliMi(kelime[i + 2])) {
+                                // İki sessiz varsa, ilkini al
+                                hece += kelime[i + 1];
+                                i++;
+                            }
+                            // Heceyi kaydet ve yenisine başla
+                            heceler.push(hece);
+                            hece = '';
+                        }
+                    } else {
+                        // Son karakterse, heceyi kaydet
+                        heceler.push(hece);
+                        hece = '';
+                    }
+                }
+            }
+            
+            // Kalan varsa ekle
+            if (hece) {
+                if (heceler.length > 0) {
+                    heceler[heceler.length - 1] += hece;
+                } else {
+                    heceler.push(hece);
+                }
+            }
+            
+            return heceler;
+        }
+
+        function hecelemeYap() {
+            const input = document.getElementById('inputText').value;
+            const output = document.getElementById('output');
+            
+            if (!input.trim()) {
+                output.innerHTML = 'Lütfen bir metin girin...';
+                return;
+            }
+            
+            // Metni cümlelere ayır
+            const cumleler = input.split(/([.!?]+)/);
+            let sonuc = '';
+            let heceIndex = 0;
+            
+            for (let i = 0; i < cumleler.length; i++) {
+                let cumle = cumleler[i].trim();
+                
+                if (!cumle) continue;
+                
+                // Noktalama işareti ise bir önceki cümleye ekle
+                if (/^[.!?]+$/.test(cumle)) {
+                    continue;
+                }
+                
+                // Cümle için div başlat
+                let cumleHTML = '<div class="sentence">';
+                
+                // Cümleyi kelimelere ayır
+                const kelimeler = cumle.split(/(\s+|[,;:])/);
+                
+                kelimeler.forEach(kelime => {
+                    // Boşluk veya noktalama işareti ise direkt ekle
+                    if (/^\s+$/.test(kelime) || /^[,;:]$/.test(kelime)) {
+                        cumleHTML += kelime;
+                    } else if (kelime) {
+                        // Kelimeyi hecelere ayır
+                        const heceler = kelimeyiHecele(kelime);
+                        
+                        heceler.forEach(hece => {
+                            const renk = heceIndex % 2 === 0 ? 'pink' : 'blue';
+                            cumleHTML += `<span class="syllable ${renk}">${hece}</span>`;
+                            heceIndex++;
+                        });
+                    }
+                });
+                
+                // Noktalama işaretini ekle
+                if (i + 1 < cumleler.length && /^[.!?]+$/.test(cumleler[i + 1])) {
+                    cumleHTML += cumleler[i + 1];
+                }
+                
+                cumleHTML += '</div>';
+                sonuc += cumleHTML;
+            }
+            
+            output.innerHTML = sonuc || 'Sonuç bulunamadı...';
+        }
+
+        // Enter tuşu ile de çalıştır
+        document.getElementById('inputText').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                hecelemeYap();
+            }
+        });
+    </script>
+</body>
+</html>
