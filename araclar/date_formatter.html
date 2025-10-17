@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarih Format Dönüştürücü</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-size: 20px;
+            color: #333;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📅 Tarih Format Dönüştürücü</h1>
+        
+        <div class="input-group">
+            <label for="dateInput">Tarih Girin (GG/AA/YYYY)</label>
+            <input 
+                type="text" 
+                id="dateInput" 
+                placeholder="Örnek: 31/01/2021"
+                maxlength="10"
+            >
+            <div class="error" id="error">Geçerli bir tarih girin! (Örnek: 31/01/2021)</div>
+        </div>
+
+        <button onclick="donustur()">Dönüştür</button>
+
+        <div class="result" id="result">
+            <div class="result-label">Dönüştürülmüş Format</div>
+            <div class="result-value" id="resultValue"></div>
+        </div>
+    </div>
+
+    <script>
+        function formatTarih(tarih) {
+            // Tarihi ayır (gün/ay/yıl)
+            const parcalar = tarih.split('/');
+            
+            if (parcalar.length !== 3) {
+                return null;
+            }
+            
+            const gun = parseInt(parcalar[0]);
+            const ay = parseInt(parcalar[1]) - 1; // JavaScript ayları 0'dan başlatır
+            const yil = parseInt(parcalar[2]);
+            
+            // Basit validasyon
+            if (isNaN(gun) || isNaN(ay) || isNaN(yil)) {
+                return null;
+            }
+            
+            // Tarih objesi oluştur
+            const tarihObj = new Date(yil, ay, gun, 0, 0); // 12:00 AM = 00:00
+            
+            // Gün isimleri
+            const gunIsimleri = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+            
+            // Ay isimleri
+            const ayIsimleri = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 
+                               'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+            
+            const gunIsmi = gunIsimleri[tarihObj.getDay()];
+            const ayIsmi = ayIsimleri[tarihObj.getMonth()];
+            const gunNumarasi = tarihObj.getDate();
+            const yilNumarasi = tarihObj.getFullYear();
+            
+            // Format: Çarşamba, 7 Eylül 2011, 12:00 AM
+            return `${gunIsmi}, ${gunNumarasi} ${ayIsmi} ${yilNumarasi}, 12:00 AM`;
+        }
+
+        function donustur() {
+            const input = document.getElementById('dateInput');
+            const result = document.getElementById('result');
+            const resultValue = document.getElementById('resultValue');
+            const error = document.getElementById('error');
+            
+            const tarih = input.value.trim();
+            
+            if (!tarih) {
+                error.classList.add('show');
+                result.classList.remove('show');
+                return;
+            }
+            
+            const donusturulmus = formatTarih(tarih);
+            
+            if (donusturulmus) {
+                resultValue.textContent = donusturulmus;
+                result.classList.add('show');
+                error.classList.remove('show');
+            } else {
+                error.classList.add('show');
+                result.classList.remove('show');
+            }
+        }
+
+        // Enter tuşu ile dönüştürme
+        document.getElementById('dateInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                donustur();
+            }
+        });
+
+        // Input yazılırken hatayı temizle
+        document.getElementById('dateInput').addEventListener('input', function() {
+            document.getElementById('error').classList.remove('show');
+        });
+    </script>
+</body>
+</html>
