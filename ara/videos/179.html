@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ege ile Gaga - Kutup Yıldızı</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+   <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        color: #333;
+    }
+    header {
+        position: relative;
+    }
+    .banner {
+        background-image: url('https://ulkemyanimda.github.io/icons/banner.jpg');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 200px;
+        position: relative;
+    }
+    .title {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+    }
+    .title h1 {
+        font-size: 2.8em;
+        margin: 0;
+        line-height: 1.2;
+    }
+    .title h1 span {
+        display: block;
+        font-size: 0.7em;
+        font-weight: 400;
+    }
+    .sections {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+    .section {
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        margin: 10px;
+        width: 600px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
+    .section:hover {
+        transform: scale(1.05);
+    }
+    .section iframe {
+        width: 100%;
+        height: 300px;
+        border: none;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    .section a {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+        color: #333;
+    }
+    .download-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1em;
+        margin-top: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .download-btn:hover {
+        background-color: #45a049;
+    }
+    .alert {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+<header>
+    <div class="banner">
+        <div class="title">
+            <h2>Ege ile Gaga<br><span>Kutup Yıldızı</span></h2>
+        </div>
+    </div>
+</header>
+    <main>
+        <div class="sections">
+            <div class="section"> 
+                <iframe src="https://www.youtube.com/embed/BriA1ljNSn8" allowfullscreen></iframe>
+                <a>Kutup Yıldızı</a>
+                <button class="download-btn" onclick="downloadScorm(this)">SCORM İndir</button>
+                <div class="alert" style="display:none;"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function downloadScorm(button) {
+            const section = button.closest('.section');
+            const iframe = section.querySelector('iframe');
+            const alertDiv = section.querySelector('.alert');
+            
+            if (!iframe || !iframe.src) {
+                alertDiv.innerText = 'Video bulunamadı.';
+                alertDiv.style.display = 'block';
+                return;
+            }
+
+            const iframeHTML = `<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        iframe {
+            width: 90%;
+            height: 90%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="${iframe.src}" allowfullscreen></iframe>
+</body>
+</html>`;
+
+            const zip = new JSZip();
+            
+            try {
+                const response = await fetch('files/default.zip');
+                
+                if (!response.ok) {
+                    throw new Error('ZIP dosyasına ulaşılamadı.');
+                }
+                
+                const zipBuffer = await response.arrayBuffer();
+                const zipContent = await zip.loadAsync(zipBuffer);
+                
+                if (!zipContent.files['index.html']) {
+                    throw new Error('ZIP dosyasında index.html bulunamadı.');
+                }
+                
+                zip.file('index.html', iframeHTML);
+                
+                const updatedZip = await zip.generateAsync({ type: 'blob' });
+                
+                const downloadLink = document.createElement('a');
+                downloadLink.href = URL.createObjectURL(updatedZip);
+                downloadLink.download = 'video1.zip';
+                downloadLink.click();
+                
+                alertDiv.innerText = 'SCORM paketi başarıyla indirildi!';
+                alertDiv.style.color = 'green';
+                alertDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    alertDiv.style.display = 'none';
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Bir hata oluştu:', error.message);
+                alertDiv.innerText = `Hata: ${error.message}`;
+                alertDiv.style.color = 'red';
+                alertDiv.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
