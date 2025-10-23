@@ -1,0 +1,328 @@
+function mobilMenuYeni() {
+  // const navbarOpen = document.querySelector(".toggle-open");
+  // const navbarClose = document.querySelector(".toggle-close");
+  // const navbar = document.querySelector(".navbar-nav");
+
+  // navbarOpen.addEventListener("click", (e) => {
+  //   document.body.classList.add("no-scroll");
+  //   navbar.classList.add("show");
+  // });
+  // navbarClose.addEventListener("click", (e) => {
+  //   document.body.classList.remove("no-scroll");
+  //   navbar.classList.remove("show");
+  // });
+
+  // const mediaQuery = window.matchMedia("(max-width: 1024px)");
+  // let dropdowns = document.querySelectorAll(".dropdown");
+  // let subDropdowns = document.querySelectorAll(".sub-dropdown");
+  // const navList = document.querySelector(".nav-list");
+
+  // dropdowns.forEach(function (dropdown) {
+  //   let button = dropdown.querySelector(".dropdown-button");
+
+  //   let returnBtn = dropdown.querySelector(".return-btn");
+
+  //   button.addEventListener("click", (e) => {
+  //     let dropdownMenu = e.target.parentElement.querySelector(
+  //       ".dropdown-container"
+  //     );
+  //     if (mediaQuery.matches) {
+  //       dropdownMenu.classList.add("active");
+  //       navList.style.transform = "translateX(-100%)";
+  //     }
+  //   });
+
+  //   returnBtn.addEventListener("click", (e) => {
+  //     if (!dropdown.classList.contains("sub-dropdown")) {
+  //       navList.removeAttribute("style");
+  //       dropdowns.forEach(function (item) {
+  //         let dropdownMenu = item.querySelector(".dropdown-container");
+  //         dropdownMenu.classList.remove("active");
+  //       });
+  //     }
+  //   });
+  // });
+
+  // subDropdowns.forEach(function (dropdown) {
+  //   let button = dropdown.querySelector(".dropdown-button");
+  //   let mainMenu = dropdown.closest(".menu-content");
+  //   let returnBtn = dropdown.querySelector(".return-btn");
+  //   let dropdownMenu = dropdown.querySelector(".dropdown-container");
+
+  //   button.addEventListener("click", function (item) {
+  //     if (mediaQuery.matches) {
+  //       dropdownMenu.classList.add("active");
+  //       mainMenu.style.transform = "translateX(-100%)";
+  //     }
+  //   });
+
+  //   returnBtn.addEventListener("click", function (item) {
+  //     dropdownMenu.classList.remove("active");
+  //     mainMenu.removeAttribute("style");
+  //   });
+  // });
+
+  ////////////////
+  // Article Page
+  const navbarOpen = document.querySelector(".toggle-open");
+  const navbarClose = document.querySelector(".toggle-close");
+  const navbar = document.querySelector(".navbar-nav");
+  const searchInput = document.querySelector(".search-input");
+  const overlay = document.getElementById("searchOverlay");
+  const overlayInput = document.querySelector(".overlay-input"); // overlay input elemanını seç
+
+  // Hamburger Menüsü Açma
+  navbarOpen.addEventListener("click", (e) => {
+    document.body.classList.add("no-scroll"); // Sayfayı kaydırmayı engelle
+    navbar.classList.add("show"); // Menüyü göster
+  });
+
+  // Hamburger Menüsü Kapama
+  navbarClose.addEventListener("click", (e) => {
+    document.body.classList.remove("no-scroll"); // Sayfayı kaydırmaya izin ver
+    navbar.classList.remove("show"); // Menüyü gizle
+  });
+
+  // Arama Girişi Olayları
+  searchInput.addEventListener("focus", () => {
+    overlay.classList.add("active"); // Overlay'i aktif et
+    overlayInput.focus(); // Overlay input'a odaklan
+  });
+
+  searchInput.addEventListener("blur", () => {
+    overlay.classList.remove("active"); // Overlay'i pasif et
+  });
+
+  // Overlay tıklama olayları
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlayInput.blur(); // Overlay'e tıklandığında input'u blur yap
+    }
+  });
+
+  // Medya Sorgusu
+  const mediaQuery = window.matchMedia("(max-width: 1024px)");
+  let dropdowns = document.querySelectorAll(".dropdown");
+  let subDropdowns = document.querySelectorAll(".sub-dropdown");
+  const navList = document.querySelector(".nav-list");
+
+  // Dropdown Menüler
+  dropdowns.forEach(function (dropdown) {
+    let button = dropdown.querySelector(".dropdown-button");
+    let returnBtn = dropdown.querySelector(".return-btn");
+
+    // Dropdown menü açma
+    button.addEventListener("click", (e) => {
+      let dropdownMenu = e.target.parentElement.querySelector(
+        ".dropdown-container"
+      );
+      if (mediaQuery.matches) {
+        dropdownMenu.classList.add("active");
+        navList.style.transform = "translateX(-100%)"; // Menü kaydırma
+      }
+    });
+
+    // Dropdown menü kapama
+    returnBtn.addEventListener("click", (e) => {
+      if (!dropdown.classList.contains("sub-dropdown")) {
+        navList.removeAttribute("style"); // Menü stilini kaldır
+        dropdowns.forEach(function (item) {
+          let dropdownMenu = item.querySelector(".dropdown-container");
+          dropdownMenu.classList.remove("active"); // Aktif menüyü kaldır
+        });
+      }
+    });
+  });
+
+  // Alt Dropdown Menüler
+  subDropdowns.forEach(function (dropdown) {
+    let button = dropdown.querySelector(".dropdown-button");
+    let mainMenu = dropdown.closest(".menu-content");
+    let returnBtn = dropdown.querySelector(".return-btn");
+    let dropdownMenu = dropdown.querySelector(".dropdown-container");
+
+    // Alt dropdown menü açma
+    button.addEventListener("click", function (item) {
+      if (mediaQuery.matches) {
+        dropdownMenu.classList.add("active");
+        mainMenu.style.transform = "translateX(-100%)"; // Ana menüyü kaydır
+      }
+    });
+
+    // Alt dropdown menü kapama
+    returnBtn.addEventListener("click", function (item) {
+      dropdownMenu.classList.remove("active"); // Alt menüyü kapat
+      mainMenu.removeAttribute("style"); // Ana menü stilini kaldır
+    });
+  });
+}
+$(document).ready(function () {
+  const partners = new Swiper(".partners-slider", {
+    // Default parameters
+    slidesPerView: 2,
+    speed: 400,
+    spaceBetween: 10,
+    loop: true,
+
+    navigation: {
+      nextEl: ".custom-swiper-next",
+      prevEl: ".custom-swiper-prev",
+    },
+    // Responsive breakpoints
+    breakpoints: {
+      // when window width is >= 320px
+      320: {
+        slidesPerView: 2,
+        spaceBetween: 3,
+      },
+      // when window width is >= 480px
+      480: {
+        slidesPerView: 2,
+        spaceBetween: 5,
+      },
+      // when window width is >= 640px
+      640: {
+        slidesPerView: 4,
+        spaceBetween: 2,
+      },
+      // when window width is >= 1024px
+      1024: {
+        slidesPerView: 6,
+        spaceBetween: 20,
+      },
+    },
+  });
+
+  const jumbotron = new Swiper(".jumbotron", {
+    speed: 400,
+    loop: true,
+    autoplay: {
+      delay: 7000,
+      disableOnInteraction: false,
+    },
+    pagination: ".swiper-pagination",
+
+    // pagination: {
+    //     el: ".swiper-pagination",
+    //     type: "fraction",
+    // },
+
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    on: {
+      slideChange: function () {
+        var currentSlide = this.realIndex + 1;
+        document.querySelector("#currentSlide").innerHTML = currentSlide;
+      },
+      beforeInit: function () {
+        let numOfSlides =
+          this.wrapperEl.querySelectorAll(".swiper-slide").length;
+        document.querySelector("#totalSlide").innerHTML = numOfSlides;
+      },
+    },
+  });
+
+  var toplamSwiper = new Swiper(".mySwiper", {
+    pagination: {
+      el: ".swiper-pagination",
+      type: "fraction",
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+
+  //article kısmındaki optionlar
+
+  var $slider = $(".vertical-slider");
+
+  $slider.on("init", function () {
+    setTimeout(function () {
+      $slider.find(".slick-slide").eq(0).addClass("slick-active");
+    }, 100);
+  });
+
+  $slider.slick({
+    vertical: true,
+    verticalSwiping: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: false,
+    dots: false,
+    focusOnSelect: true,
+    infinite: true,
+    speed: 1000,
+  });
+
+  $("#close-btn").click(function () {
+    $("#announcement-section").hide();
+  });
+  //banner
+  var bannerSwiper = new Swiper(".banner-swiper", {
+    spaceBetween: 30,
+    effect: "fade",
+    autoplay: true,
+    autoplaySpeed: 6000,
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+  });
+
+  //Arama Kararma Efekti
+  $(".search-form").on("click", function () {
+    $("#searchOverlay").addClass("active");
+  });
+
+  $(".search-form").on("focusout", function () {
+    $("#searchOverlay").removeClass("active");
+  });
+});
+
+//SCROLL
+let progressPath = document.getElementById("progress-path");
+let progressWrap = document.getElementById("progress-wrap");
+let pathLength = progressPath.getTotalLength();
+progressPath.style.transition = progressPath.style.webkitTransition = "none";
+progressPath.style.strokeDasharray = pathLength + " " + pathLength;
+progressPath.style.strokeDashoffset = pathLength;
+progressPath.getBoundingClientRect();
+progressPath.style.transition = progressPath.style.webkitTransition =
+  "stroke-dashoffset 10ms linear";
+
+const onScollEvent = function (event) {
+  let scroll = window.scrollY;
+  let height = document.body.scrollHeight - window.innerHeight;
+  let progress = pathLength - (scroll * pathLength) / height;
+  progressPath.style.strokeDashoffset = progress;
+
+  let offset = 50;
+  if (window.scrollY > offset) {
+    progressWrap.classList.add("active-progress");
+  } else {
+    progressWrap.classList.remove("active-progress");
+  }
+};
+
+onScollEvent();
+window.onscroll = onScollEvent;
+progressWrap.onclick = function (event) {
+  window.scroll({ top: 0, behavior: "smooth" });
+  return false;
+};
+//SCROLL END
+
+//iletişim
+function openGoogleMaps() {
+  var address = "Atatürk Bulvarı No:98 Bakanlıklar/Ankara";
+  var googleMapsURL =
+    "https://www.google.com/maps?q=Atatürk Bulvarı No:98 Bakanlıklar/Ankara" +
+    encodeURIComponent(address);
+  window.open(googleMapsURL, "_blank");
+}

@@ -1,0 +1,1375 @@
+@font-face {
+    font-family: 'Inter';
+    src: url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Bold.eot');
+    src: url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Bold.eot?#iefix') format('embedded-opentype'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Bold.woff2') format('woff2'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Bold.woff') format('woff'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Bold.ttf') format('truetype'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Bold.svg#Inter-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Black.eot');
+    src: url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Black.eot?#iefix') format('embedded-opentype'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Black.woff2') format('woff2'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Black.woff') format('woff'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Black.ttf') format('truetype'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Black.svg#Inter-Black') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Regular.eot');
+    src: url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Regular.eot?#iefix') format('embedded-opentype'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Regular.woff2') format('woff2'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Regular.woff') format('woff'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Regular.ttf') format('truetype'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/Inter-Regular.svg#Inter-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "OpenDyslexic";
+    src: url("assets/fonts/OpenDyslexic-Regular.otf"),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/OpenDyslexic-Regular.woff2') format('woff2'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/OpenDyslexic-Regular.woff') format('woff'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/OpenDyslexic-Regular.ttf') format('truetype');
+    font-weight:600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "OpenDyslexic-Bold";
+    src: url("https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/OpenDyslexic-Bold.otf"),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/OpenDyslexic-Bold.woff2') format('woff2'),
+    url('https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/fonts/OpenDyslexic-Bold.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+#mebErisilebilirlikPaneli {
+    font-family: 'Inter', sans-serif;
+}
+#mebErisilebilirlikPaneli h1,
+#mebErisilebilirlikPaneli h5,
+#mebErisilebilirlikPaneli p
+{
+    color: #1C1C1C !important;
+}
+body p {
+    line-height: 1.5;
+}
+html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#mebErisilebilirlikPaneli{
+    overflow-x: hidden;
+}
+.erisilebilirlikButonu {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 163px;
+    right: 8px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 0;
+    z-index: 50;
+    transition: all .2s;
+    box-shadow: rgba(0,0,0,.08) 0 .125rem .25rem !important;
+    background-color: unset!important;
+}
+
+.erisilebilirlikButonu svg {
+    width: 39px
+}
+
+.erisilebilirlikButonu:hover {
+    transform: scale(1.1)
+}
+
+.erisilebilirlikButonu:hover svg {
+    width: 60px
+}
+
+.meb-clear-button {
+    margin-top: auto;
+    display: block;
+    background-color: #C9F9FF;
+    color: #3E818A;
+    user-select: none;
+    text-align: center;
+    padding: 16px;
+    border: 1px solid #00b5c7;
+    border-radius: 6px;
+    transition: all .2s
+}
+
+.meb-clear-button svg {
+    width: 20px;
+    margin-right: 6px
+}
+
+.meb-clear-button:hover {
+    background-color: #3e3e3e;
+    border-color: #3e3e3e
+}
+.panel ul li{
+    color:black;
+}
+
+.meb-panel {
+    width: 100%;
+    max-width: 450px;
+    position: fixed;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    /*z-index: 50;*/
+    z-index:100;
+    background-color: white;
+    padding: 16px;
+    display: flex;
+    visibility: hidden;
+    flex-direction: column;
+    transform: translateX(0);
+    overflow-y: auto;
+    -webkit-box-shadow: -7px 0 16px -6px rgba(0,0,0,.24);
+    -moz-box-shadow: -7px 0 16px -6px rgba(0,0,0,.24);
+    box-shadow: -8px 0 64px -6px rgba(0, 0, 0, 0.24);
+    transition: transform .3s ease-in-out,visibility .4s;
+    /*padding-bottom: 30px;*/
+}
+
+.meb-panel.show {
+    transform: translateX(0);
+    visibility: visible
+}
+
+.mebPanel-baslik {
+    padding: 10px 10px 1px 10px;
+    background-color: #C9F9FF;
+    color: #3E818A;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.mebPanel-baslik h5,.mebPanel-baslik .h5 {
+    font-size: 16px;
+    line-height: 30px
+}
+
+.kapamaButonu {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column
+}
+
+.kapamaButonu {
+    box-sizing: content-box;
+    width: 1em;
+    height: 1em;
+    z-index: 2;
+    top: -18px;
+    right: 0;
+    position: absolute;
+    padding: 30px 21px 24px;
+    border: 1px solid #E5E7EB;
+    background-color: black;
+}
+.topEris{
+    justify-content: space-between;
+    align-items: center;
+}
+.bi-x-lg {
+    color: white;
+}
+.enUstKisim {
+    position: sticky;
+    top: -16px;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background-color: #fff;
+}
+
+.erisBaslik{
+    margin-top: 30px;
+}
+
+.mebPanelkapsayici {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.meb-panel .kutuKapsayici {
+    flex: 0 0 auto;
+    width: 50%;
+    max-width: 100%;
+    padding: 7px;
+    margin-top: 12px;
+    border: 1px solid #000000;
+    background: #fff;
+
+}
+
+.meb-panel .kutuKapsayici  .kutular.active {
+    border: 1px solid black;
+}
+.tooltip-text {
+    display: none;
+    position: absolute;
+    /* bottom: -25px; */
+    /* left: 85%; */
+    transform: translateX(-50%);
+    /* background-color: #000; */
+    color: black;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1;
+    /* top: -67px; */
+    /*padding-top: 4px;*/
+    right: 14px;
+    font-weight: 600;
+}
+
+.rengiKapat:hover .tooltip-text {
+    display: block;
+}
+.erisButtonlar{
+    display: flex;
+}
+.erisButtonlar2{
+    margin: 0 20px 0 1px;
+}
+
+.meb-panel .kutular {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 13px 0 7px 0;
+    border-radius: unset;
+    background-color: #F8F8F8;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0);
+    user-select: none;
+    transition: 0.2s all;
+    margin: 8px;
+    width: 100%;
+    height: auto;
+}
+.meb-panel .kutular p,
+.meb-panel .kutular2 p{
+    text-align: center;
+    color:black!important;
+    margin-top: 5px;
+}
+
+.meb-panel.bigPanel .kutular h5,
+.meb-panel.bigPanel .kutular p{
+    font-size: 23px;
+}
+
+.meb-panel .kutular2 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px;
+    background-color: #F8F8F8;
+    cursor: pointer;
+    border: 2px solid rgba(0, 0, 0, 0);
+    user-select: none;
+    transition: 0.2s all;
+    /*width: 91%;*/
+    margin: 10px 7px;
+}
+.meb-panel .kutular3 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px ;
+    border-radius: 8px;
+    background-color: #F8F8F8;
+    cursor: pointer;
+    border: 2px solid rgba(0,0,0,0);
+    user-select: none;
+    transition: .2s all;
+    margin:10px;
+    width: 100%;
+}
+.meb-panel .kutular:hover {
+    border-color: #0c0c0c;
+}
+.kutular h5{
+    font-size: 13px;
+}
+
+.buttonDialog{
+    border-radius: 8px;
+    border: 2px solid #3b3a3a !important;
+
+}
+
+.meb-panel .kutular.active svg {
+    stroke: #1c1c1c
+}
+
+.meb-panel.active {
+    display: block;
+}
+.erisMan{
+    width: 50px;
+    height: 50px;
+}
+body.contrast {
+    filter: invert(1) !important;
+    top: 0;
+}
+.gray-scale{
+    filter: grayscale(1) !important;
+}
+.desaturate {
+    filter: saturate(0) !important;
+}
+.low-saturation {
+    filter: saturate(0.5) !important;
+}
+
+.high-saturation {
+    filter: saturate(2)
+}
+
+
+.card-title span{
+    position: relative;
+    z-index: 1;
+    margin-bottom: 4px !important;
+    padding: 0 5px;
+    font-weight: bold;
+    background: white;
+    /*display: inline;*/
+    word-wrap: break-word;
+    color: black !important;
+}
+.card-title{
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.card-title::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    background-image: url(https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/img/accesibilityNew/dot_erisebilirlik.png);
+    background-repeat: repeat-x;
+    background-size: contain;
+    /* width: 20vw; */
+    height: 20px;
+    left: 0;
+    top: calc(100% + -21px);
+    width: 98%;
+
+}
+
+
+.erisebilirlik{
+    position: relative;
+    font-size: 36px;
+    font-weight: 600;
+    color:black;
+}
+.erisebilirlik::after {
+    content: "";
+    position: absolute;
+    background-color: #EDF8CC;
+    width: 50%;
+    height: 50%;
+    top: 25px;
+    left: 39px;
+    transform: translateX(-50%);
+    z-index: -1;
+}
+.highlight-links a {
+
+    border: 1px solid #10cde6;
+    padding: 5px;
+}
+.recyleIcon{
+    width: 24px;
+    height: 24px;
+    padding-left: -8px;
+    margin-right: 5px;
+    filter: brightness(0) invert(1);
+}
+
+.beyazImlec *{
+    cursor: url("https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/img/accesibilityNew/cursor.png"),default !important;
+
+}
+.siyahImlec *{
+    cursor: url("https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/img/accesibilityNew/siyahimlec.svg"),default !important;
+
+}
+.up-arrow, .down-arrow {
+    cursor: pointer;
+}
+
+
+
+.reading-guide-line {
+    width: 70vw !important;
+    min-width: 200px !important;
+    position: absolute !important;
+    height: 8px;
+    z-index: 2147483647;
+    background-color: #000;
+    border-radius: 3px;
+    transform: translate(-50%);
+    border: 2px solid #10cde6;
+    pointer-events: none;
+    display: none;
+    zoom:1 !important;
+}
+
+.reading-guide .reading-guide-line {
+    display: block !important;
+}
+
+
+/*.dyslexic-friendly *{*/
+/*    font-family: "OpenDyslexic", "OpenDyslexic-Bold";*/
+/*    line-height: 1.5;*/
+/*    text-align: left;*/
+/*    font-weight: 500;*/
+/*}*/
+
+.hide-images img{
+    display: none !important;
+}
+.hide-images [style*="background-image"] {
+    background-image: none !important;
+}
+
+.hide-images img.erisMan,
+.hide-images img.searching-logo,
+.hide-images img.turkey-logo,
+.hide-images img.ataturk,
+.hide-images img.meb-panel {
+    display: inline !important;
+}
+
+.hide-images .kutuKapsayici img {
+    display: inline !important;
+}
+.hide-images .kapamaButonu img{
+    display: inline !important;
+}
+
+
+/*.readable-Font **/
+/*{*/
+/*    font-family: Arial;*/
+/*}*/
+
+body.dyslexic-friendly, body.dyslexic-friendly * {
+    font-family: "OpenDyslexic", "OpenDyslexic-Bold", sans-serif !important;
+    /*line-height: 1.5;*/
+    /*text-align: left;*/
+    font-weight: 500;
+}
+
+body.readable-font, body.readable-font * {
+    font-family: Arial, sans-serif !important;
+}
+
+
+
+.bigger-text .content {
+    zoom:1.3;
+}
+
+
+
+:root {
+    --mavi: #0076B4;
+    --mor: #7A549C;
+    --kirmizi: #C83733;
+    --turuncu: #D07021;
+    --turkuaz: #26999F;
+    --yesil: #4D7831;
+    --beyaz: #ffffff;
+    --siyah: #000000;
+}
+
+/* Metin Renkleri */
+*.text-mavi p { color: var(--mavi) !important; }
+*.text-mor p { color: var(--mor) !important; }
+*.text-kirmizi p { color: var(--kirmizi) !important; }
+*.text-turuncu p { color: var(--turuncu) !important; }
+*.text-turkuaz p { color: var(--turkuaz) !important; }
+*.text-yesil p { color: var(--yesil) !important; }
+*.text-beyaz p { color: var(--beyaz) !important; }
+*.text-siyah p { color: var(--siyah) !important; }
+
+/* Arka Plan Renkleri */
+*.bg-mavi { background-color: var(--mavi) !important;  }
+*.bg-mor { background-color: var(--mor) !important; }
+*.bg-kirmizi { background-color: var(--kirmizi) !important;  }
+*.bg-turuncu { background-color: var(--turuncu) !important;  }
+*.bg-turkuaz { background-color: var(--turkuaz) !important;  }
+*.bg-yesil { background-color: var(--yesil) !important; }
+*.bg-beyaz { background-color: var(--beyaz) !important; }
+*.bg-siyah { background-color: var(--siyah) !important; }
+
+/* Başlık Renkleri */
+*.text-head-mavi h1,
+*.text-head-mavi h2,
+*.text-head-mavi h3,
+*.text-head-mavi h4,
+*.text-head-mavi h5,
+*.text-head-mavi h6 {
+    color: var(--mavi) !important;
+}
+
+*.text-head-mor h1,
+*.text-head-mor h2,
+*.text-head-mor h3,
+*.text-head-mor h4,
+*.text-head-mor h5,
+*.text-head-mor h6 {
+    color: var(--mor)!important;
+}
+
+*.text-head-kirmizi h1,
+*.text-head-kirmizi h2,
+*.text-head-kirmizi h3,
+*.text-head-kirmizi h4,
+*.text-head-kirmizi h5,
+*.text-head-kirmizi h6 {
+    color: var(--kirmizi) !important;
+}
+
+*.text-head-turuncu h1,
+*.text-head-turuncu h2,
+*.text-head-turuncu h3,
+*.text-head-turuncu h4,
+*.text-head-turuncu h5,
+*.text-head-turuncu h6 {
+    color: var(--turuncu) !important;
+}
+
+*.text-head-turkuaz h1,
+*.text-head-turkuaz h2,
+*.text-head-turkuaz h3,
+*.text-head-turkuaz h4,
+*.text-head-turkuaz h5,
+*.text-head-turkuaz h6 {
+    color: var(--turkuaz)!important;
+}
+
+*.text-head-yesil h1,
+*.text-head-yesil h2,
+*.text-head-yesil h3,
+*.text-head-yesil h4,
+*.text-head-yesil h5,
+*.text-head-yesil h6 {
+    color: var(--yesil) !important;
+}
+
+*.text-head-beyaz h1,
+*.text-head-beyaz h2,
+*.text-head-beyaz h3,
+*.text-head-beyaz h4,
+*.text-head-beyaz h5,
+*.text-head-beyaz h6 {
+    color: var(--beyaz) !important;
+}
+
+*.text-head-siyah h1,
+*.text-head-siyah h2,
+*.text-head-siyah h3,
+*.text-head-siyah h4,
+*.text-head-siyah h5,
+*.text-head-siyah h6 {
+    color: var(--siyah) !important;
+}
+
+
+
+/* Metin Hizalama */
+.align-left p:not(#mebErisilebilirlikPaneli p),
+.align-left h1:not(#mebErisilebilirlikPaneli h1),
+.align-left h2,
+.align-left h3,
+.align-left h4,
+.align-left h5,
+.align-left h6,
+.align-left span,
+.align-left a {
+    text-align: left !important;
+}
+
+.align-center p:not(#mebErisilebilirlikPaneli p),
+.align-center h1:not(#mebErisilebilirlikPaneli h1),
+.align-center h2,
+.align-center h3,
+.align-center h4,
+.align-center h5,
+.align-center h6,
+.align-center span,
+.align-center a{
+    text-align: center !important;
+}
+
+.align-right p:not(#mebErisilebilirlikPaneli p),
+.align-right h1:not(#mebErisilebilirlikPaneli h1),
+.align-right h2,
+.align-right h3,
+.align-right h4,
+.align-right h5,
+.align-right h6,
+.align-right span,
+.align-right a{
+    text-align: right !important;
+}
+/* Okuma Maskesi */
+.reading-focus-overlay-top,.reading-focus-overlay-bottom {
+    position: fixed;
+    width: 100%;
+    background-color: rgba(0,0,0,.7);
+    z-index: 99999999999;
+    display: none;
+}
+
+.reading-focus-overlay-top {
+    top: 0;
+    border-bottom: 5px solid black;
+}
+
+.reading-focus-overlay-bottom {
+    bottom: 0;
+    border-top: 5px solid crimson;
+}
+
+.reading-mask .reading-focus-overlay-top,.reading-mask .reading-focus-overlay-bottom {
+    display: block;
+}
+
+
+.lineheight{
+
+    line-height: 2.5;
+}
+
+.bigButton {
+    background-color: black;
+    border: none;
+    border-radius: 50%;
+    /*color: white;*/
+    padding: 0;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    margin: 10px 2px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: 700;
+
+}
+.bigButton:hover{
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid #02d2ef;
+}
+.smallButton:hover{
+    background-color: #ffffff;
+    color: black;
+    border: 1px solid black;
+}
+
+.arttirButon .mebPanel-all {
+    font-size: 1.5em !important;
+}
+
+.arttirButon .mebPanelkapsayici {
+    width: 100% !important;
+}
+
+.arttirButon .kutuKapsayici {
+    font-size: 1.5em !important;
+}
+
+
+@media screen and (max-width: 767px){
+    /*.card-title::after {*/
+    /*    width: 84vw;*/
+
+    /*}*/
+    .card-title::after {
+        width: 84vw;
+        top: calc(100% + -20px);
+    }
+    .language-pair {
+        display: block!important;
+    }
+    .meb-clear-button {
+        padding-top: 8px;
+        padding-left: 61px;
+        padding-bottom: 0;
+    }
+    .meb-panel {
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+    }
+    .meb-panel .kutular {
+        padding: 6px 0;
+    }
+    .card-title::before {
+        left: 67px;
+    }
+    .colors {
+        margin: 0 2px!important;
+
+    }
+}
+@media screen and (max-width: 576px) {
+    .hide-on-sm {
+        display:none
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px){
+    /*.card-title::after {*/
+    /*    width: 52vw;*/
+    /*}*/
+    .meb-clear-button {
+        padding-top: 11px;
+        padding-left: 65px;
+        padding-bottom: 0;
+
+    }
+    .card-title::after {
+        width: 51vw;
+    }
+}
+.accSpeakingArea {
+    background-color: #02d2ef;
+}
+
+.buttonsRead{
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+.select {
+    position: relative;
+    min-width: 155px;
+}
+.select svg {
+    position: absolute;
+    right: 12px;
+    top: calc(50% - 3px);
+    width: 10px;
+    height: 6px;
+    stroke-width: 2px;
+    stroke: #9098a9;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+.select select {
+    -webkit-appearance: none;
+    padding: 7px 40px 7px 12px;
+    width: 100%;
+    border: 1px solid #e8eaed;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 1px 3px -2px #9098a9;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 150ms ease;
+    position: relative;
+    left: 3px;
+}
+.select select:required:invalid {
+    color: #5a667f;
+}
+/*.select select option {*/
+/*    color: #223254;*/
+/*}*/
+/*.select select option[value=""][disabled] {*/
+/*    display: none;*/
+/*}*/
+/*.select select:focus {*/
+/*    outline: none;*/
+/*    border-color: #07f;*/
+/*    box-shadow: 0 0 0 2px rgba(0,119,255,0.2);*/
+/*}*/
+/*.select select:hover + svg {*/
+/*    stroke: #07f;*/
+/*}*/
+.sprites {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+
+.uygulama-dili {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.uygulama-title{
+    padding: 20px;
+    display: flex;
+}
+
+.uygulama-title2{
+    display:flex ;
+    margin-top: 10px;
+    height: 20px;
+
+}
+
+.uygulama-title2 h5{
+    float: left;
+    left: -11px;
+    position: relative;
+    font-size: 18px;
+}
+
+
+.uygulama-title2 img {
+
+    position: relative;
+
+}
+
+.up-arrow img{
+    width: 30px;
+    float: left;
+    left: -47px;
+    position: relative;
+    cursor: pointer;
+    transform: rotate(180deg);
+    top: 5px;
+}
+
+.down-arrow img{
+    width: 30px;
+    float: right;
+    position: relative;
+    cursor: pointer;
+    right: -44px;
+    top: 6px;
+}
+
+.ac-amount{
+    width: 23%;
+    position: absolute;
+    text-align: center;
+    background: #fff;
+    padding: 7px;
+    border-radius: 20px;
+    left: 233px;
+    box-shadow: 4px 2px 11px -6px black;
+}
+
+.varsayilan{
+    display: flex;
+}
+
+.largeFont{
+    width: 330px;
+}
+
+
+/* butonlar */
+
+/*button {*/
+/*    !*padding: 9px;*!*/
+/*    !*border: none;*!*/
+/*    background-color: #fff;*/
+/*    color: black;*/
+/*    border: 1px solid black;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s ease;*/
+/*}*/
+
+.buttonsRead img:hover {
+    background-color: #02d2ef;
+}
+
+.buttonsRead img{
+    padding: 9px;
+    /*border: none;*/
+    background-color: #fff;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 34px;
+    width: 34px;
+    margin-right: -7px;
+}
+
+.buttonsRead button{
+    border: unset;
+    background: unset;
+}
+.satir{
+    padding: 5px;
+    border: 1px solid #adabab;
+    background: aliceblue;
+    margin-right: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+.colorPicker{
+    /*margin-top: 10px;*/
+    display: flex;
+}
+.colors{
+    position: relative;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    margin: 0 5px;
+    border: 1px solid black;
+}
+
+.colors:before{
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    opacity: 0;
+    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+}
+.cancel1{
+    width: 27px;
+    height: 29px;
+    margin-left: 10px;
+    margin-top: 0;
+}
+
+
+/* language */
+
+
+#language-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+.popup ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popup ul li {
+    margin: 10px 0;
+}
+
+.popup ul li a {
+    text-decoration: none;
+    /*color: #007BFF;*/
+    font-size: 16px;
+}
+
+.popup ul li a:hover {
+    text-decoration: underline;
+}
+
+#close-popup {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* language */
+:root {
+    --vs-primary: 29 92 255;
+}
+
+/*Dialog Styles*/
+#dialog {
+    position: fixed;
+    max-width: 400px;
+    width: 90%;
+    overflow-y: auto;
+    top: 50%;
+    left: 87%;
+    transform: translate(-66%, 25%);
+    background-color: #f8f8f8;
+    padding: 15px;
+    border: none;
+    border-radius: 21px;
+
+    .x {
+        filter: grayscale(1);
+        border: none;
+        background: none;
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        transition: ease filter, transform 0.3s;
+        cursor: pointer;
+        transform-origin: center;
+        &:hover {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+    }
+    h2 {
+        font-weight: 600;
+        font-size: 2rem;
+        padding-bottom: 1rem;
+    }
+    p {
+        font-size: 1rem;
+        line-height: 1.3rem;
+        padding: 0.5rem 0;
+        a {
+            &:visited {
+                color: rgb(var(--vs-primary));
+            }
+        }
+    }
+}
+
+#kisayolDialog2 {
+    position: fixed;
+    max-width: 400px;
+    width: 90%;
+    overflow-y: auto;
+    top: 50%;
+    left: 87%;
+//transform: translate(-50%, -50%);
+    transform: translate(-66%, 25%);
+    background-color: #f8f8f8;
+    padding: 15px;
+    border: none;
+    border-radius: 21px;
+
+    .x {
+        filter: grayscale(1);
+        border: none;
+        background: none;
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        transition: ease filter, transform 0.3s;
+        cursor: pointer;
+        transform-origin: center;
+        &:hover {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+    }
+    h2 {
+        font-weight: 600;
+        font-size: 2rem;
+        padding-bottom: 1rem;
+    }
+    p {
+        font-size: 1rem;
+        line-height: 1.3rem;
+        padding: 0.5rem 0;
+        a {
+            &:visited {
+                color: rgb(var(--vs-primary));
+            }
+        }
+    }
+}
+
+#erisDialog{
+    position: fixed;
+    max-width: 400px;
+    width: 90%;
+    overflow-y: auto;
+    top: 50%;
+    left: 87%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f8f8;
+    padding: 15px;
+    border: none;
+    border-radius: 21px;
+
+    .x {
+        filter: grayscale(1);
+        border: none;
+        background: none;
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        transition: ease filter, transform 0.3s;
+        cursor: pointer;
+        transform-origin: center;
+        &:hover {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+    }
+    h2 {
+        font-weight: 600;
+        font-size: 17px;
+        padding-bottom: 1rem;
+    }
+    p {
+        font-size: 1rem;
+        line-height: 1.3rem;
+        padding: 0.5rem 0;
+        a {
+            &:visited {
+                color: rgb(var(--vs-primary));
+            }
+        }
+    }
+}
+
+/*General Styles*/
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.language-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.language-pair {
+    display: flex;
+    flex-basis: 48%;
+    justify-content: space-between;
+    margin: 0 10px 10px 10px;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.language-option:hover {
+    background-color: #f1f1f1;
+}
+
+.flag-icon {
+    width: 30px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.language-option span {
+    font-size: 14px;
+    font-weight: 600;
+}
+.erisIcon{
+    width: 28px;
+    height: 28px;
+
+}
+.erisIconOkuma{
+    width: 20px;
+    height: 20px;
+}
+.erisIcon2{
+    width: 28px;
+    height: 36px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/*okuma hızı */
+.speedControl {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius:0;
+    position: relative;
+    outline: none;
+    margin-top: 11px;
+    margin-left: 5px;
+}
+
+.speedControl::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+.speedControl::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+.okumaHizi{
+    margin-top: 20px;
+    display: flex;
+}
+
+#dilSecenegiButton {
+    height: 94px;
+    line-height: 50px;
+    overflow: hidden;
+}
+
+#kisayol2{
+    height: 94px;
+    line-height: 50px;
+    overflow: hidden;
+}
+
+#metinRenkleri,
+#baslikRenkleri,
+#bgColor{
+    font-size: 15px;
+    font-weight: 400;
+}
+
+#videoPopup {
+    position: fixed;
+    left: 1%;
+    bottom: 3%;
+    z-index: 999
+}
+
+#videoPopupKapat {
+    position: absolute;
+    right: -11px;
+    z-index: 999;
+    font-size: 25px;
+    width: 24px;
+    height: 24px;
+    background: black;
+    border-radius: 40px;
+    overflow: hidden;
+    top: -12px;
+    color: white;
+}
+
+#videoPopupKapat i {
+    position: absolute;
+    top: -7px
+}
+
+
+
+h5 {
+    font-size: 1.25rem;
+}
+
+.icon{
+    width: 26px;
+    height: 26px;
+    margin-top: -8px;
+    margin-left: -5px;
+    filter: invert(1);
+}
+
+.big-Button{
+    width: 21px;
+    height: 21px;
+    padding: 3px;
+    filter: invert(1);
+
+}
+
+.big-Button:hover{
+    filter: none;
+}
+/*aria-live*/
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
