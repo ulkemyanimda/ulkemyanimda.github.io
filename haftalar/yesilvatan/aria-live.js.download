@@ -1,0 +1,111 @@
+// ARIA-live bildirimleri için yardımcı fonksiyon
+function announce(message, priority = 'polite') {
+    const liveRegion = document.getElementById('a11y-status');
+    if (!liveRegion) return;
+
+    // Önceki mesajı temizle
+    liveRegion.textContent = '';
+
+    // Yeni mesajı ekle (setTimeout bazı ekran okuyucular için gerekli)
+    setTimeout(() => {
+        liveRegion.textContent = message;
+        liveRegion.setAttribute('aria-live', priority);
+    }, 100);
+}
+
+// Mevcut fonksiyonları sarmalayarak ARIA-live ekleyelim
+function wrapFunctionsWithAnnouncements() {
+    // Ekran okuyucu kontrolleri
+    const originalReadEntirePage = window.readEntirePage;
+    window.readEntirePage = function() {
+        announce('Sayfa okunmaya başlıyor', 'assertive');
+        return originalReadEntirePage.apply(this, arguments);
+    };
+
+    const originalPauseSpeech = window.pauseSpeech;
+    window.pauseSpeech = function() {
+        announce('Okuma duraklatıldı');
+        return originalPauseSpeech.apply(this, arguments);
+    };
+
+    const originalRestartSpeech = window.restartSpeech;
+    window.restartSpeech = function() {
+        announce('Okuma yeniden başlatılıyor', 'assertive');
+        return originalRestartSpeech.apply(this, arguments);
+    };
+
+    // Renk değişiklikleri
+    const originalChangeColor = window.changeColor;
+    window.changeColor = function(className, type) {
+        let message = '';
+        if (type === 'text') message = 'Metin rengi değiştirildi';
+        else if (type === 'header') message = 'Başlık rengi değiştirildi';
+        else if (type === 'bg') message = 'Arka plan rengi değiştirildi';
+
+        announce(message);
+        return originalChangeColor.apply(this, arguments);
+    };
+
+    // Yazı boyutu
+    const originalChangeFontSize = window.changeFontSize;
+    window.changeFontSize = function(type) {
+        announce(`Metin boyutu ${type === 'increase' ? 'büyütüldü' : 'küçültüldü'}`);
+        return originalChangeFontSize.apply(this, arguments);
+    };
+
+    // Resim gizleme
+    const originalRemoveBackgroundImages = window.removeBackgroundImages;
+    window.removeBackgroundImages = function() {
+        const isActive = document.querySelector('.background-removed');
+        announce(isActive ? 'Resimler gösteriliyor' : 'Resimler gizlendi');
+        return originalRemoveBackgroundImages.apply(this, arguments);
+    };
+
+    // Aralık ayarları
+    const spacingFunctions = ['toggleLetterSpacing', 'toggleLineSpacing', 'toggleWordSpacing'];
+    spacingFunctions.forEach(funcName => {
+        const originalFunc = window[funcName];
+        window[funcName] = function() {
+            const elementType = funcName.replace('toggle', '').replace('Spacing', '');
+            const elements = document.querySelectorAll('*');
+            const currentValue = getComputedStyle(elements[0])[
+                funcName.replace('toggle', '').replace(/([A-Z])/g, '-$1').toLowerCase()
+                ];
+
+            const isActive = currentValue !== '0px' && currentValue !== 'normal';
+            announce(`${elementType} aralığı ${isActive ? 'kapatıldı' : 'açıldı'}`);
+            return originalFunc.apply(this, arguments);
+        };
+    });
+
+    // Diğer butonlar için genel yakalayıcı
+    document.addEventListener('click', function(e) {
+        const button = e.target.closest('.kutular, .read, .pause, .resume, .button, .colors');
+        if (!button) return;
+
+        // Özel durumlar zaten yukarıda ele alındı
+        if (button.id === 'readButton' || button.id === 'pauseButton' ||
+            button.id === 'resumeButton' || button.classList.contains('colors') ||
+            button.classList.contains('bigButton')) return;
+
+        // Buton metnini al
+        const buttonText = button.querySelector('p')?.textContent ||
+            button.getAttribute('aria-label') ||
+            button.textContent.trim();
+
+        if (buttonText) {
+            announce(`${buttonText} seçeneği etkinleştirildi`);
+        }
+    });
+
+    // Okuma hızı slider'ı
+    const speedSlider = document.getElementById('speedSlider');
+    if (speedSlider) {
+        speedSlider.addEventListener('input', function() {
+            announce(`Okuma hızı ${this.value} olarak ayarlandı`);
+        });
+    }
+}
+
+// // Sayfa yüklendiğinde fonksiyon sarmalayıcıyı çalıştır
+document.addEventListener('DOMContentLoaded', wrapFunctionsWithAnnouncements);
