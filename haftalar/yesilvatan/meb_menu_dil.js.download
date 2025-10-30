@@ -1,0 +1,230 @@
+function mainMenu(document, dil,anasayfa,iletisim) {
+  var sayac = 1;
+  var slash = "/";
+  var acilma = "";
+  var toplam = $(document).find("menusatir").length;
+  $(document)
+    .find("menusatir").each(function (index) {
+      //Browser Menu
+      acilma = "";
+      if ($(this).attr("acilma") == 2) acilma = 'target="_blank"';
+      if (index === 0) {
+        let link="/";
+        if(dil!="tr"){
+          link="/meb_iys_dosyalar/index"+dil+".html";
+        }
+        //if ($(this).find("baslik").text() == "Ana Sayfa") {
+        $(".nav-list").append(
+          '<li class="list-item dropdown menu-header-' +
+            $(this).find("altmenuadi").text() +
+            '">' +
+            '<a class="nav-link dropdown-button" href="'+link+'"><span>' +
+            //$(this).find("baslik").text() +
+            anasayfa +
+            "</span>" +
+            //'<div class="dropdown-icon"><img src="/www/assets/img/Vector.png" /> </div>' +
+            "</a>" +
+            '<span class="ps-2 d-none d-lg-block fw-light " aria-hidden="true">' +
+            slash +
+            "</span>" +
+            '<div class="dropdown-container">' +
+            '<div class="menu-content">' +
+            '	<button type="button" class="return-btn">' +
+            '		<i class="bi bi-chevron-left"></i>' +
+            "		<span>" +
+            $(this).find("baslik").text() +
+            "</span>" +
+            "	</button>" +
+            "</div>" +
+            "</div>" +
+            "</li>"
+        );
+        //} else if ($(this).find("baslik").text() == "İletişim") {
+      } else if (index === toplam - 1) {
+        $(".nav-list").append(
+          '<li class="list-item dropdown menu-header-' +
+            $(this).find("altmenuadi").text() +
+            '">' +
+            '<a class="nav-link dropdown-button" href="/www/iletisim.php?DIL=' +
+            dil +
+            '"><span>' +
+            //$(this).find("baslik").text() +
+            iletisim+
+            "</span>" +
+            //'<div class="dropdown-icon"><img src="/www/assets/img/Vector.png" /> </div>' +
+            "</a>" +
+            '<span class="ps-2 d-none d-lg-block fw-light " aria-hidden="true">' +
+            // slash +
+            "</span>" +
+            '<div class="dropdown-container">' +
+            '<div class="menu-content">' +
+            '	<button type="button" class="return-btn">' +
+            '		<i class="bi bi-chevron-left"></i>' +
+            "		<span>" +
+            $(this).find("baslik").text() +
+            "</span>" +
+            "	</button>" +
+            "</div>" +
+            "</div>" +
+            "</li>"
+        );
+      } else {
+        if ($(this).find("link").text() && !$(this).find("altmenuadi").text()) {
+          $(".nav-list").append(
+            '<li class="list-item dropdown menu-header-' +
+              $(this).find("altmenuadi").text() +
+              '">' +
+              '<a class="nav-link dropdown-button" href="' +
+              $(this).find("link").text() +
+              '" ' +
+              acilma +
+              ">" +
+              "<span>" +
+              $(this).find("baslik").text() +
+              "</span>" +
+              //'<div class="dropdown-icon"><img src="/www/assets/img/Vector.png" /> </div>' +
+              "</a>" +
+              '<span class="ps-2 d-none d-lg-block fw-light " aria-hidden="true">' +
+              slash +
+              "</span>" +
+              '<div class="dropdown-container">' +
+              '<div class="menu-content">' +
+              '	<button type="button" class="return-btn">' +
+              '		<i class="bi bi-chevron-left"></i>' +
+              "		<span>" +
+              $(this).find("baslik").text() +
+              "</span>" +
+              "	</button>" +
+              "</div>" +
+              "</div>" +
+              "</li>"
+          );
+        } else {
+          $(".nav-list").append(
+            '<li class="list-item dropdown menu-header-' +
+              $(this).find("altmenuadi").text() +
+              '">' +
+              '<a class="nav-link dropdown-button" href="#">' +
+              "<span>" +
+              $(this).find("baslik").text() +
+              "</span>" +
+              '<div class="dropdown-icon"><img src="/www/assets/img/Vector.png" /> </div>' +
+              "</a>" +
+              '<span class="ps-2 d-none d-lg-block fw-light " aria-hidden="true">' +
+              slash +
+              "</span>" +
+              '<div class="dropdown-container">' +
+              '<div class="menu-content">' +
+              '	<button type="button" class="return-btn">' +
+              '		<i class="bi bi-chevron-left"></i>' +
+              "		<span>" +
+              $(this).find("baslik").text() +
+              "</span>" +
+              "	</button>" +
+              "</div>" +
+              "</div>" +
+              "</li>"
+          );
+        }
+      }
+      //Mobile Menu
+      $("#mobile-menu ul").append(
+        '<li data-menu-id="' +
+          $(this).find("altmenuadi").text() +
+          '"><span><a href="">' +
+          $(this).find("baslik").text() +
+          "</a><span></li>"
+      );
+      sayac++;
+    });
+  $.ajax({
+    url: "/meb_iys_dosyalar/xml/diksubmenu" + dil + ".xml", // name of file you want to parse
+    dataType: "xml",
+    success: subMenu, // burada istediğiniz kadar parametre gönderebilirsiniz
+    error: function () {
+      alert("Error: Alt Menü Yüklenemedi");
+    },
+  }).done(function () {
+    mobilMenuYeni();
+  });
+}
+///sub menu
+function subMenu(document, dil) {
+  var i = 1;
+  var acilma = "";
+  $(document)
+    .find("altmenu")
+    .each(function () {
+      /*header*/
+      $(
+        ".menu-header-" +
+          $(this).attr("altmenuadi") +
+          " .dropdown-container .menu-content"
+      ).append("<ul>");
+      // }
+      $(this)
+        .find("altmenubaglantisatir")
+        .each(function () {
+          acilma = "";
+          if ($(this).attr("acilma") == 2) acilma = 'target="_blank"';
+          if ($(this).find("altmenubaglanti").text()) {
+            $(
+              ".menu-header-" + $(this).parent().attr("altmenuadi") + " ul"
+            ).append(
+              '<li class="sub-dropdown dropdown alt-menu menu-header-' +
+                $(this).find("altmenubaglanti").text() +
+                '">' +
+                '<a class="dropdown-button menu-square" href="#"><span class="mt-lg-1">' +
+                $(this).find("baslik").text() +
+                "</span>" +
+                '<div class="dropdown-icon icon-forward"><i class="bi bi-chevron-right"></i>' +
+                "</div></a>" +
+                '<div class="sub-dropdown-container dropdown-container">' +
+                '<div class="menu-content">' +
+                '<button type="button" class="return-btn">' +
+                '<i class="bi bi-chevron-left"></i>' +
+                "<span>" +
+                $(this).find("baslik").text() +
+                "</span>" +
+                "</button>" +
+                "</div>" +
+                "</div>" +
+                "</li>"
+            );
+          } else {
+            $(
+              ".menu-header-" + $(this).parent().attr("altmenuadi") + " ul "
+            ).append(
+              '<li class="alt-menu menu-square menu-header-' +
+                $(this).find("altmenubaglanti").text() +
+                '">' +
+                '<a href="' +
+                $(this).find("url").text() +
+                '" ' +
+                acilma +
+                ">" +
+                $(this).find("baslik").text() +
+                "</a>" +
+                "</li>"
+            );
+          }
+        });
+    });
+}
+function Menu(dil='tr',anasayfa='Ana Sayfa',iletisim='İletişim') {
+  if (dil == "tr") dil = "";
+
+  $(function () {
+    //#Menü
+    $.ajax({
+      url: "/meb_iys_dosyalar/xml/dikmenu" + dil + ".xml", // name of file you want to parse
+      dataType: "xml",
+      success: function (xml) {
+        mainMenu(xml, dil,anasayfa,iletisim); // burada istediğiniz kadar parametre gönderebilirsiniz
+      },
+      error: function () {
+        alert("Error: Ana Menü Yüklenemedi");
+      },
+    });
+  });
+}

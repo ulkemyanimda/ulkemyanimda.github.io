@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelime Eşleştirme Oyunu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            text-align: center;
+        }
+
+        .game-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        h1 {
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        #word-display {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .choice-btn {
+            background-color: #5dade2;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-transform: capitalize;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .choice-btn:hover {
+            background-color: #3498db;
+            transform: translateY(-2px);
+        }
+
+        .choice-btn:active {
+            transform: translateY(0);
+        }
+        
+        #result-message {
+            margin-top: 25px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: #27ae60;
+        }
+
+        .incorrect {
+            color: #e74c3c;
+        }
+
+        #score-container {
+            margin-top: 25px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <h1>Kelime Eşleştirme Oyunu</h1>
+    <div id="word-display"></div>
+    <div class="buttons-container" id="buttons-container"></div>
+    <div id="result-message"></div>
+    <div id="score-container">Puan: <span id="score">0</span></div>
+</div>
+
+<script>
+    // Kelime çiftlerini bir obje içinde tutuyoruz
+    const wordPairs = {
+        'Büyük': 'Küçük',
+        'Yüksek': 'Alçak',
+        'İyi': 'Kötü',
+        'Hızlı': 'Yavaş',
+        'Uzun': 'Kısa',
+        'Güçlü': 'Zayıf',
+        'Sıcak': 'Soğuk',
+        'Işık': 'Karanlık',
+        'Yeni': 'Eski',
+        'Sevinç': 'Üzüntü'
+    };
+
+    // HTML elemanlarına erişim
+    const wordDisplay = document.getElementById('word-display');
+    const buttonsContainer = document.getElementById('buttons-container');
+    const resultMessage = document.getElementById('result-message');
+    const scoreSpan = document.getElementById('score');
+
+    let currentWord;
+    let score = 0;
+
+    // Kelime listesini karıştırır
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    // Yeni bir kelime ve seçenekleri gösterir
+    function newRound() {
+        const words = Object.keys(wordPairs);
+        currentWord = words[Math.floor(Math.random() * words.length)];
+        const correctAntonym = wordPairs[currentWord];
+
+        // Yanlış seçenekleri oluşturmak için doğru cevabın dışındaki kelimeleri alır
+        const allAntonyms = Object.values(wordPairs);
+        const incorrectAntonyms = allAntonyms.filter(word => word !== correctAntonym);
+
+        // 3 adet yanlış kelime seç
+        shuffleArray(incorrectAntonyms);
+        const choices = [correctAntonym, ...incorrectAntonyms.slice(0, 3)];
+
+        shuffleArray(choices); // Seçenekleri karıştır
+
+        wordDisplay.textContent = currentWord;
+        buttonsContainer.innerHTML = ''; // Eski butonları temizle
+
+        choices.forEach(choice => {
+            const button = document.createElement('button');
+            button.classList.add('choice-btn');
+            button.textContent = choice;
+            button.addEventListener('click', () => checkAnswer(choice, correctAntonym));
+            buttonsContainer.appendChild(button);
+        });
+
+        resultMessage.textContent = ''; // Sonuç mesajını temizle
+    }
+
+    // Cevabı kontrol eder
+    function checkAnswer(selectedChoice, correctAntonym) {
+        if (selectedChoice === correctAntonym) {
+            resultMessage.textContent = 'Doğru!';
+            resultMessage.className = 'correct';
+            score += 10;
+        } else {
+            resultMessage.textContent = 'Yanlış. Doğru cevap: ' + correctAntonym;
+            resultMessage.className = 'incorrect';
+            score = Math.max(0, score - 5);
+        }
+        scoreSpan.textContent = score;
+        setTimeout(newRound, 1500); // 1.5 saniye sonra yeni tura geç
+    }
+
+    // Oyunu başlat
+    newRound();
+
+</script>
+
+</body>
+</html>

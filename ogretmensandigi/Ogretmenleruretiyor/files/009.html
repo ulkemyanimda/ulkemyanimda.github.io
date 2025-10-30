@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zıt Anlamlı Kelimeler Oyunu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 600px;
+            max-width: 90%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            user-select: none;
+        }
+        .card.matched {
+            background-color: #a5d6a7;
+            cursor: default;
+            visibility: hidden;
+            transform: scale(0);
+        }
+        .card.flipped {
+            background-color: #ff9800;
+        }
+        .card:hover:not(.matched) {
+            transform: scale(1.05);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .win-message {
+            font-size: 2em;
+            color: #333;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Zıt Anlamlı Kelimeleri Eşleştir</h1>
+    <div class="container" id="game-container"></div>
+    <div class="win-message" id="win-message" style="display: none;">Tebrikler, tüm kelimeleri eşleştirdin!</div>
+
+    <script>
+        const pairs = {
+            "İyi": "Kötü",
+            "Az": "Çok",
+            "Doğru": "Yanlış",
+            "Büyük": "Küçük",
+            "İleri": "Geri",
+            "Açık": "Kapalı",
+            "Uzun": "Kısa",
+            "Eski": "Yeni",
+            "Gece": "Gündüz",
+            "Güçlü": "Zayıf"
+        };
+
+        let words = Object.keys(pairs).concat(Object.values(pairs));
+        let flippedCards = [];
+        let matchedCards = 0;
+        let canFlip = true;
+
+        const container = document.getElementById('game-container');
+        const winMessage = document.getElementById('win-message');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function createBoard() {
+            shuffle(words).forEach(word => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.textContent = word;
+                card.addEventListener('click', () => flipCard(card));
+                container.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            if (!canFlip || flippedCards.length >= 2 || card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const word1 = card1.textContent;
+            const word2 = card2.textContent;
+
+            if (pairs[word1] === word2 || pairs[word2] === word1) {
+                // Eşleşme doğru
+                setTimeout(() => {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    matchedCards += 2;
+                    resetFlippedCards();
+                    checkWin();
+                }, 500);
+            } else {
+                // Eşleşme yanlış
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    resetFlippedCards();
+                }, 1000);
+            }
+        }
+
+        function resetFlippedCards() {
+            flippedCards = [];
+            canFlip = true;
+        }
+
+        function checkWin() {
+            if (matchedCards === words.length) {
+                winMessage.style.display = 'block';
+                container.style.display = 'none';
+            }
+        }
+
+        createBoard();
+    </script>
+</body>
+</html>

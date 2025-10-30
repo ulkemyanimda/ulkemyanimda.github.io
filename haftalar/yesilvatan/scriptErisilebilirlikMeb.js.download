@@ -1,0 +1,983 @@
+let utterance;
+let isPaused = false;
+let speechRate = 1;
+function setSpeechRate(value) {
+    speechRate = value;
+    if (window.speechSynthesis.speaking || window.speechSynthesis.paused) {
+        window.speechSynthesis.cancel();
+        readEntirePage();
+    }
+}
+
+function readEntirePage() {
+    if (isPaused && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+        isPaused = false;
+        return;
+    }
+
+    if (window.speechSynthesis.speaking) {
+        return;
+    }
+
+    const bodyText = document.body.innerText;
+    utterance = new SpeechSynthesisUtterance(bodyText);
+
+    utterance.lang = "tr-TR";
+    utterance.rate = speechRate;
+    utterance.pitch = 1;
+
+    utterance.onend = () => {
+        isPaused = false;
+    };
+
+    window.speechSynthesis.speak(utterance);
+}
+
+function pauseSpeech() {
+    if (window.speechSynthesis.speaking && !window.speechSynthesis.paused) {
+        window.speechSynthesis.pause();
+        isPaused = true;
+    }
+}
+function restartSpeech() {
+    if (window.speechSynthesis.speaking || window.speechSynthesis.paused) {
+        window.speechSynthesis.cancel();
+    }
+
+    const bodyText = document.body.innerText;
+    utterance = new SpeechSynthesisUtterance(bodyText);
+
+    utterance.lang = "tr-TR";
+    utterance.rate = speechRate;
+    utterance.pitch = 1;
+
+    utterance.onend = () => {
+        isPaused = false;
+    };
+    window.speechSynthesis.speak(utterance);
+}
+
+
+
+
+
+// renk
+
+function changeColor(className, type) {
+    document.querySelectorAll(("body, section")).forEach((element) => {
+       element.style.backgroundImage = 'none' ;
+    });
+    if (type === "text") {
+        document.body.classList.remove(
+            "text-mavi",
+            "text-mor",
+            "text-kirmizi",
+            "text-turuncu",
+            "text-turkuaz",
+            "text-yesil",
+            "text-beyaz",
+            "text-siyah"
+        );
+    } else if (type === "header") {
+        document.body.classList.remove(
+            "text-head-mavi",
+            "text-head-mor",
+            "text-head-kirmizi",
+            "text-head-turuncu",
+            "text-head-turkuaz",
+            "text-head-yesil",
+            "text-head-beyaz",
+            "text-head-siyah"
+        );
+    } else if (type === "bg") {
+        document.body.classList.remove(
+            "bg-mavi",
+            "bg-mor",
+            "bg-kirmizi",
+            "bg-turuncu",
+            "bg-turkuaz",
+            "bg-yesil",
+            "bg-beyaz",
+            "bg-siyah"
+        );
+    }
+    document.body.classList.add(className);
+}
+
+/*reset colors*/
+function resetTextColors() {
+    document.body.classList.remove(
+        "text-mavi",
+        "text-mor",
+        "text-kirmizi",
+        "text-turuncu",
+        "text-turkuaz",
+        "text-yesil",
+        "text-beyaz",
+        "text-siyah"
+    );
+}
+
+function resetHeaderColors() {
+    document.body.classList.remove(
+        "text-head-mavi",
+        "text-head-mor",
+        "text-head-kirmizi",
+        "text-head-turuncu",
+        "text-head-turkuaz",
+        "text-head-yesil",
+        "text-head-beyaz",
+        "text-head-siyah"
+    );
+}
+
+function resetBackgroundColors() {
+    document.body.classList.remove(
+        "bg-mavi",
+        "bg-mor",
+        "bg-kirmizi",
+        "bg-turuncu",
+        "bg-turkuaz",
+        "bg-yesil",
+        "bg-beyaz",
+        "bg-siyah"
+    );
+}
+
+// Harf aralığını değiştirme
+function toggleLetterSpacing() {
+    const elements = document.querySelectorAll("*");
+    elements.forEach((el) => {
+        const currentSpacing = getComputedStyle(el).letterSpacing;
+        if (currentSpacing === "0px" || currentSpacing === "normal") {
+            el.style.setProperty("letter-spacing", "2px", "important");
+        } else {
+            el.style.setProperty("letter-spacing", "0px", "important");
+        }
+    });
+}
+
+// Satır aralığını değiştirme
+function toggleLineSpacing() {
+    const elements = document.querySelectorAll("*");
+    elements.forEach((el) => {
+        const currentLineHeight = getComputedStyle(el).lineHeight;
+        if (currentLineHeight === "normal") {
+            el.style.setProperty("line-height", "2", "important");
+        } else {
+            el.style.setProperty("line-height", "normal", "important");
+        }
+    });
+}
+
+// Kelime aralığını değiştirme
+function toggleWordSpacing() {
+    const elements = document.querySelectorAll("*");
+    elements.forEach((el) => {
+        const currentSpacing = getComputedStyle(el).wordSpacing;
+        if (currentSpacing === "0px") {
+            el.style.setProperty("word-spacing", "4px", "important");
+        } else {
+            el.style.setProperty("word-spacing", "0px", "important");
+        }
+    });
+}
+
+
+//font
+
+function changeFontSize(type) {
+    const elements = document.querySelectorAll(
+        "h1, h2, h3, h4, h5, h6, p,li,a,span"
+    );
+
+    elements.forEach((element) => {
+        let currentSize = parseFloat(window.getComputedStyle(element).fontSize);
+
+        if (type === "increase") {
+            element.style.fontSize = currentSize + 2 + "px";
+        } else if (type === "decrease") {
+            element.style.fontSize = currentSize - 2 + "px";
+        }
+    });
+}
+
+
+//resimleri gizle
+
+function removeBackgroundImages() {
+    const sections = document.querySelectorAll("section, main, article, footer, nav, menu, address");
+
+    sections.forEach((section) => {
+        // Eğer daha önce background kaldırılmamışsa, kaydet ve kaldır
+        if (!section.classList.contains('background-removed')) {
+            const currentBackgroundImage = getComputedStyle(section).backgroundImage;
+            if (currentBackgroundImage && currentBackgroundImage !== "none") {
+                originalBackgroundImages.set(section, currentBackgroundImage);
+            }
+            section.style.backgroundImage = "none";
+            section.classList.add('background-removed'); // class ekle
+        } else {
+            // Eğer background kaldırıldıysa, orijinalini geri getir ve class'ı kaldır
+            section.style.backgroundImage = originalBackgroundImages.get(section) || "none";
+            section.classList.remove('background-removed'); // class'ı kaldır
+        }
+    });
+}
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Aria-live.js
+    const ariaLiveScript = document.createElement('script');
+    ariaLiveScript.src = 'https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/js/aria-live.js';
+    ariaLiveScript.async = true;
+    document.head.appendChild(ariaLiveScript);
+
+
+
+    const erisCode = document.getElementById("mebErisilebilirlikPaneli");
+    if (!erisCode) {
+        console.error(
+            "Script kullanımı için 'mebErisilebilirlikPaneli' div'i kullanılmadı.."
+        );
+        return;
+    }
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href ="https://cdn.eba.gov.tr/icerik/mebErisilebilirlikfile/assets/css/erisilebilirlikStyleMeb.css";
+    document.head.appendChild(link);
+
+    link.onload = function () {
+        console.log("CSS dosyası başarıyla yüklendi!");
+    };
+
+    link.onerror = function () {
+        console.error("CSS dosyası yüklenemedi.");
+    };
+
+    const htmlContent = `
+<!-- A11Y bildirimleri -->
+<div id="a11y-status" aria-live="polite" class="sr-only"></div>
+<button class="erisilebilirlikButonu" id="erisilebilirlikMenu" aria-label="Erişilebilirlik Menüsünü Aç">
+    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/erisilebilirlik_man.png" alt="Erişilebilirlik İkonu" class="erisMan">
+</button>
+<div id="erisilebilirlikPaneli" class="meb-panel">
+    <div class="enUstKisim">
+        <div class=" topEris">
+            <h1 tabindex="-1" class="erisebilirlik">Erişilebilirlik</h1>
+            <button type="button" class="kapamaButonu"  id="panelKapatma" aria-label="Kapat">
+                <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/close.svg" class="icon">
+            </button>
+        </div>
+    </div>
+    <div class="mebPanel-all">
+        <div class="mebPanelkapsayici">
+            <div class="kutuKapsayici" style="width:100%">
+                <h5 class="card-title" id="ayarlar"><span>Ayarlar</span></h5>
+                <div class="erisButtonlar">
+                    <div class="kutular" tabindex="0" aria-label="Erişilebilirlik ayarlarını temizle">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/clearSettings.svg" class="erisIcon" alt="Ayarları Temizle" aria-label="Erişilebilirlik ayarlarını temizlemek için tıklayın">
+                        <p id="clearSettings">Erişilebilirlik Ayarlarını Temizle</p>
+                    </div>
+
+                    <div class="kutular" tabindex="0" id="increaseSizeText" data-acc-option="buyuksizeKutu" alt="Büyük Boyutlu Erişebilirlik" aria-label="Erişilebilirlik boyutlarını büyütmek için tıklayın">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/xlwidget.svg" class="erisIcon" alt="Büyük Boyutlu Erişebilirlik" aria-label="Büyük Boyutlu Erişebilirlik">
+                        <p>Büyük Boyutlu Erişebilirlik</p>
+                    </div>
+                </div>
+                <div class="erisButtonlar">
+                    <div class="kutular" id="kisayol2" tabindex="0" aria-label="Kısayollar">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/shortcuts.svg" class="erisIcon" alt="Klavye Kısayolları">
+                        <p id="kisayollar">Kısayollar</p>
+                        <span id="upArrow" class="arrow-icon" style="display: none;"><i class="bi bi-arrow-up-short"></i></span>
+                    </div>
+                    <div class="kutular resimleriGizle" id="hideImagesButton" tabindex="0" data-acc-option="hide-images"  onclick="removeBackgroundImages()" aria-label="Resimleri gizlemek için tıklayın">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/hideImages.svg" class="erisIcon" alt="Resimleri Gizle" aria-label="Resimleri gizlemek için tıklayın">
+                        <p  id="hideImages">Resimleri Gizle</p>
+                    </div>
+                </div>
+                <div class="panel">
+                    <ul id="shortcutList" style="display: none;">
+                        <li aria-label="Ctrl + Y/ Ctrl + y: Erişilebilirlik Menüsünü Açma"><strong>Ctrl + Y/ Ctrl + y:</strong> Erişilebilirlik Menüsünü Açma</li>
+                        <li aria-label="Tab: Butonlar Arasında Gezinme "><strong>Tab:</strong> Butonlar Arasında Gezinme</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="kutuKapsayici" style="width:100%">
+            <h5 class="card-title" aria-label="Ekran Okuyucu" id="ekranOkuyucu"><span>Ekran Okuyucu</span></h5>
+            <div class="kutular2">
+                <div class="buttonsRead">
+
+                    <button class="read" aria-label="Okumayı Başlat" tabindex="0" id="readButton"  onclick="readEntirePage()">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/play-button.svg" class="erisIconOkuma">
+                    </button>
+                    <button class="pause" aria-label="Okumayı Duraklat" tabindex="0" id="pauseButton" onclick="pauseSpeech()">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/pause-button.svg" class="erisIconOkuma">
+                    </button>
+                    <button class="resume" aria-label="Okumayı Devam Ettir" tabindex="0" id="resumeButton"  onclick="restartSpeech()">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/restart.png" class="erisIconOkuma"/>
+                    </button>
+                </div>           <div class="d-flex okumaHizi">
+                <p aria-label="Okuma hızını ayarlayın" id="okumahizi">Okuma Hızı</p>
+                <!--                    <input type="range" id="speedControl" min="0.5" max="4" step="0.1" value="1" aria-label="Okuma hızını kontrol et" onchange="setSpeed(this.value)">-->
+                <input type="range" id="speedSlider" class="speedControl" min="0.1" max="2" step="0.1" value="1" aria-label="Okuma hızını kontrol et"  onchange="setSpeechRate(this.value)">
+            </div>
+            </div>
+        </div>
+
+        <div class="kutuKapsayici" style="width:100%">
+            <h5 class="card-title" aria-label="Metni Hizala" id="metniHizala"><span>Metni Hizala</span></h5>
+
+            <div class="erisButtonlar">
+                <button onclick="document.body.className = 'align-left'" class="kutular" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/text-left.svg" class="erisIcon" alt="Metni Sola Hizala" aria-label="Metni sola hizala">
+                    <p id="textAlignLeft">Metni Sola Hizala</p>
+                </button>
+                <button onclick="document.body.className = 'align-center'"  class="kutular" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/text-center.svg" class="erisIcon" alt="Metni Ortala" aria-label="Metni ortala">
+                    <p id="textAlignCenter">Metni Ortala</p>
+                </button>
+                <button onclick="document.body.className = 'align-right'"  class="kutular" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/text-right.svg" class="erisIcon" alt="Metni Sağa Hizala" aria-label="Metni sağa hizala">
+                    <p id="textAlignRight" class="align-text-right">Metni Sağa Hizala</p></button>
+            </div>
+
+        </div>
+        <div class="kutuKapsayici " style="width:100%">
+            <h5 class="card-title" aria-label="Okuma Araçları" id="readingTools"><span>Okuma Araçları</span></h5>
+            <div class="erisButtonlar">
+                <div class="kutular accessibility-button" data-acc-option="reading-guide" tabindex="0" id="readingGuideDiv">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/okumaKilavuzu.svg"
+                         class="erisIcon" alt="Okuma Klavuzu">
+                    <p id="readingGuide" aria-label="Okuma Kılavuzu">Okuma Rehberi</p>
+                </div>
+
+                <div class="kutular accessibility-button" data-acc-option="reading-mask" tabindex="0" id="readingMaskDiv">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/okumaMaskesi.svg"
+                         class="erisIcon" alt="Okuma Maskesi">
+                    <p id="readingMask" aria-label="Okuma Maskesi">Okuma Maskesi</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="kutuKapsayici " style="width:100%">
+            <h5 class="card-title" aria-label="Metin ve Bağlantılar" id="metinBaglantilar"><span>Metin ve Bağlantılar</span></h5>
+            <div class="erisButtonlar">
+                <div class="kutular" data-acc-option="highlight-links" alt="Bağlantı Vurgula" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/baglantiVurgula.svg" class="erisIcon mt-2">
+                    <p id="highlightLinks" aria-label="Bağlantı Vurgula">Bağlantı Vurgula</p>
+                </div>
+                <div class="kutular" alt="Büyük Metin" tabindex="0">
+                    <div class="varsayilan">
+                        <button class="button bigButton" onclick="changeFontSize('increase')" aria-label="Metin Boyutunu Arttır"><img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/plus.svg" class="big-Button"/></button>
+                        <button class="button bigButton" onclick="changeFontSize('decrease')" aria-label="Metin Boyutunu Azalt"><img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/minus.svg" class="big-Button"/></button>
+                    </div>
+                    <p id="fontSize">Büyük Metin</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="kutuKapsayici " style="width:100%">
+
+            <h5 class="card-title" aria-label="Yazı Tipi" id="font"><span>Yazı Tipi</span> </h5>
+
+            <div class="erisButtonlar">
+                <div class="kutular add-dyslexic-friendly" tabindex="0" id="dyslexicFont"  data-acc-option="dyslexic-friendly"  >
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/disleksi.svg" class="erisIcon" alt="Diskesi Dostu">
+                    <p id="dislexic" aria-label="Disleksi Dostu">Disleksi Dostu</p>
+                </div>
+                <div class="kutular add-readable-font" id="readableFont" data-acc-option="readable-Font" tabindex="0" >
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/okunakliFont.svg" class="erisIcon" alt="Okunaklı Font">
+                    <p id="readableFonts" aria-label="Okunaklı Font">Okunaklı Font</p>
+                </div>
+            </div>
+        </div>
+        <div class="kutuKapsayici " style="width:100%">
+            <h5 class="card-title" aria-label="İmleç" id="cursors"><span>İmleç</span></h5>
+            <div class="erisButtonlar">
+                <div class="kutular add-white-cursor accessibility-button" id="changeCursor" data-acc-option="beyazImlec" alt="imlec" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/beyazImlec.svg" class="erisIcon">
+                    <p id="cursor" aria-label="Beyaz İmleç">Beyazİmleç</p>
+                </div>
+                <div class="kutular add-black-cursor accessibility-button" id="changeCursorblack" data-acc-option="siyahImlec" alt="imlec" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/siyahImlec.svg" class="erisIcon">
+                    <p aria-label="Siyah İmleç" id="blackCursor">Siyah İmleç</p>
+                </div>
+            </div>
+        </div>
+        <div class="kutuKapsayici" style="width:100%">
+            <h5 class="card-title" aria-label="Renk ve Kontrast" id="colorContrast"><span>Renk ve Kontrast </span></h5>
+            <div class="erisButtonlar">
+                <div class="kutular toggleContrast accessibility-button" data-acc-option="contrast" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/kontrast.svg" class="erisIcon2" alt="Kontrast">
+                    <p id="kontrast " aria-label="Kontrast">Kontrast</p>
+                </div>
+                <div class="kutular accessibility-button" data-acc-option="desaturate" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/solgunlastirma.svg" class="erisIcon" alt="Solgunlaştırma">
+                    <p id="solgun" aria-label="Solgunlaştırma">Solgunlaştırma</p>
+                </div>
+
+            </div>
+            <div class="erisButtonlar">
+                <div class="kutular accessibility-button" data-acc-option="low-saturation" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/dusukDoygunluk.svg" class="erisIcon" alt="Düşük Doygunluk">
+                    <p id="lowSaturation" aria-label="Düşük Doygunluk">Düşük Doygunluk</p>
+                </div>
+
+                <div class="kutular accessibility-button" data-acc-option="high-saturation" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/yuksekDoygunluk.svg" class="erisIcon" alt="Yüksek Doygunluk">
+                    <p id="highSaturation" aria-label="Yüksek Doygunluk">Yüksek Doygunluk</p>
+                </div>
+            </div>
+        </div>
+        <div class="kutuKapsayici" style="width:100%">
+            <h5 class="card-title" aria-label="Metin Aralıkları" id="textSpaces"><span>Metin Aralıkları </span></h5>
+            <div class="erisButtonlar">
+                <!-- Harf Boşluğu -->
+                <div class="kutular" data-acc-option="letter-spacing" alt="imlec" onclick="toggleLetterSpacing()" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/harfBoslugu.svg" class="erisIcon mb-2" alt="Aralıkları aç">
+                    <p aria-label="Harf Boşluğu" id="letterSpacing">Harf Boşluğu</p>0
+                </div>
+
+                <!-- Satır Aralığı -->
+                <div class="kutular" data-acc-option="line-spacing" alt="imlec" onclick="toggleLineSpacing()" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/satirBoslugu.svg" class="erisIcon mb-2" alt="Aralıkları aç">
+                    <p aria-label="Satır Boşluğu" id="lineSpacing">Satır Aralığı</p>
+                </div>
+
+                <!-- Kelime Aralığı -->
+                <div class="kutular" data-acc-option="word-spacing" alt="imlec" onclick="toggleWordSpacing()" tabindex="0">
+                    <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/kelimeAraligi.svg" class="erisIcon mb-2" alt="Aralıkları aç">
+                    <p aria-label="Kelime Aralığı" id="wordSpacing">Kelime Aralığı</p>
+                </div>
+            </div>
+        </div>
+        <div class="kutuKapsayici " style="width:100%">
+            <h5 class="card-title" aria-label="Arka Plan Rengi" id="color"><span>Renk</span></h5>
+            <div class="kutular2">
+                <h5 aria-label="Metin Renkleri" id="metinRenkleri">Metin Renkleri</h5>
+                <div class="colorPicker d-flex" id="textColors">
+                    <button class="colors" style="background-color: rgb(0, 118, 180);" onclick="changeColor('text-mavi', 'text')" tabindex="0" aria-label="mavi rengi"></button>
+                    <button class="colors" style="background-color: rgb(122, 84, 156);" onclick="changeColor('text-mor', 'text')" tabindex="0" aria-label="mor rengi"></button>
+                    <button class="colors" style="background-color: rgb(200, 55, 51);" onclick="changeColor('text-kirmizi', 'text')" tabindex="0" aria-label="kırmızı rengi"></button>
+                    <button class="colors" style="background-color: rgb(208, 112, 33);" onclick="changeColor('text-turuncu', 'text')" tabindex="0" aria-label="turuncu rengi"></button>
+                    <button class="colors" style="background-color: rgb(38, 153, 159);" onclick="changeColor('text-turkuaz', 'text')" tabindex="0" aria-label="turkuaz rengi"></button>
+                    <button class="colors" style="background-color: rgb(77, 120, 49);" onclick="changeColor('text-yesil', 'text')" tabindex="0" aria-label="yeşil rengi"></button>
+                    <button class="colors" style="background-color: rgb(255, 255, 255);" onclick="changeColor('text-beyaz', 'text')" tabindex="0" aria-label="beyaz rengi"></button>
+                    <button class="colors" style="background-color: rgb(0, 0, 0);" onclick="changeColor('text-siyah', 'text')" tabindex="0" aria-label="siyah rengi"></button>
+                    <div class="rengiKapat">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/cancel.svg" class="cancel1" onclick="resetTextColors()" tabindex="31" alt="Sıfırla"/>
+                        <span class="tooltip-text">Sıfırla</span>
+                    </div>
+                </div>
+            </div>
+            <div class="kutular2">
+                <h5 aria-label="Başlık Renkleri" id="baslikRenkleri">Başlık Renkleri</h5>
+                <div class="colorPicker d-flex" id="headerColors">
+                    <button class="colors" style="background-color: rgb(0, 118, 180);" onclick="changeColor('text-head-mavi', 'header')" tabindex="0" aria-label="mavi rengi"></button>
+                    <button class="colors" style="background-color: rgb(122, 84, 156);" onclick="changeColor('text-head-mor', 'header')" tabindex="0" aria-label="more rengi"></button>
+                    <button class="colors" style="background-color: rgb(200, 55, 51);" onclick="changeColor('text-head-kirmizi', 'header')" tabindex="0" aria-label="kırmızı rengi"></button>
+                    <button class="colors" style="background-color: rgb(208, 112, 33);" onclick="changeColor('text-head-turuncu', 'header')" tabindex="0" aria-label="turuncu rengi"></button>
+                    <button class="colors" style="background-color: rgb(38, 153, 159);" onclick="changeColor('text-head-turkuaz', 'header')" tabindex="0" aria-label="turkuaz rengi"></button>
+                    <button class="colors" style="background-color: rgb(77, 120, 49);" onclick="changeColor('text-head-yesil', 'header')" tabindex="0" aria-label="yeşil rengi"></button>
+                    <button class="colors" style="background-color: rgb(255, 255, 255);" onclick="changeColor('text-head-beyaz', 'header')" tabindex="0" aria-label="beyaz rengi"></button>
+                    <button class="colors" style="background-color: rgb(0, 0, 0);" onclick="changeColor('text-head-siyah', 'header')" tabindex="0" aria-label="siyah rengi"></button>
+                    <div class="rengiKapat">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/cancel.svg" class="cancel1" onclick="resetHeaderColors()" tabindex="40" alt="Sıfırla"/>
+                        <span class="tooltip-text">Sıfırla</span>
+                    </div>
+                </div>
+            </div>
+            <div class="kutular2">
+                <h5 aria-label="Arka Plan Renkleri" id="bgColor">Arkaplan Renkleri</h5>
+                <div class="colorPicker d-flex" id="backgroundColors">
+                    <button class="colors" style="background-color: rgb(0, 118, 180);" onclick="changeColor('bg-mavi', 'bg')" tabindex="0" aria-label="mavi rengi"></button>
+                    <button class="colors" style="background-color: rgb(122, 84, 156);" onclick="changeColor('bg-mor', 'bg')" tabindex="0" aria-label="more rengi"></button>
+                    <button class="colors" style="background-color: rgb(200, 55, 51);" onclick="changeColor('bg-kirmizi', 'bg')" tabindex="0" aria-label="kırmızı rengi"></button>
+                    <button class="colors" style="background-color: rgb(208, 112, 33);" onclick="changeColor('bg-turuncu', 'bg')" tabindex="0" aria-label="turuncu rengi"></button>
+                    <button class="colors" style="background-color: rgb(38, 153, 159);" onclick="changeColor('bg-turkuaz', 'bg')" tabindex="0" aria-label="turkuaz rengi"></button>
+                    <button class="colors" style="background-color: rgb(77, 120, 49);" onclick="changeColor('bg-yesil', 'bg')" tabindex="0" aria-label="yeşil rengi"></button>
+                    <button class="colors" style="background-color: rgb(255, 255, 255);" onclick="changeColor('bg-beyaz', 'bg')" tabindex="0" aria-label="beyaz rengi"></button>
+                    <button class="colors" style="background-color: rgb(0, 0, 0);" onclick="changeColor('bg-siyah', 'bg')" tabindex="0" aria-label="siyah rengi"></button>
+                    <div class="rengiKapat">
+                        <img src="https://cdn.eba.gov.tr/icerik/erisilebilirlikMebfile/assets/img/accesibilityNew/icons/cancel.svg" class="cancel1" onclick="resetBackgroundColors()" tabindex="49"  alt="Sıfırla"/>
+                        <span class="tooltip-text">Sıfırla</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="readingFocusTop" class="reading-focus-overlay-top"></div>
+<div id="readingFocusBottom" class="reading-focus-overlay-bottom"></div>
+<div id="readingGuideLine" class="reading-guide-line"></div>
+    
+    `;
+
+    erisCode.innerHTML = htmlContent;
+});
+
+const originalBackgroundImages = new Map();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const content = document.getElementsByTagName("html")[0];
+    const mebPanel = document.getElementById("erisilebilirlikPaneli");
+    const menuButton = document.getElementById("erisilebilirlikMenu");
+    const kapatma = document.getElementById("panelKapatma");
+    const topReading = document.getElementById("readingFocusTop");
+    const bottomReading = document.getElementById("readingFocusBottom");
+    const readingGuideLine = document.getElementById("readingGuideLine");
+    const boxesMeb = document.querySelectorAll(".kutular");
+    const originalFontSizes = new Map();
+
+
+
+
+// Menü butonuna tıklama olayı
+    menuButton.addEventListener("click", function () {
+        mebPanel.classList.toggle("show");
+        localStorage.setItem(
+            "mebPanel",
+            mebPanel.classList.contains("show") ? "1" : "0"
+        );
+    });
+
+// Kapatma butonuna tıklama olayı
+    kapatma.addEventListener("click", function () {
+        mebPanel.classList.toggle("show");
+        localStorage.setItem(
+            "mebPanel",
+            mebPanel.classList.contains("show") ? "1" : "0"
+        );
+    });
+
+// Klavye kısayolu ile erişilebilirlik menüsünü açma
+    document.addEventListener("keydown", function (event) {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "y") {
+            // Ctrl + Y veya Cmd + Y (Mac için)
+            mebPanel.classList.toggle("show");
+            localStorage.setItem(
+                "mebPanel",
+                mebPanel.classList.contains("show") ? "1" : "0"
+            );
+        }
+    });
+
+
+    // Sayfa Fontlarını Yönetme
+    const saveOriginalFontSizes = () => {
+        document
+            .querySelectorAll("h1, h2, h3, h4, h5, h6, p, li, a, span")
+            .forEach((element) => {
+                originalFontSizes.set(
+                    element,
+                    window.getComputedStyle(element).fontSize
+                );
+            });
+    };
+
+
+
+    //  Okuma Kılavuzu ve Maskesi
+    document.addEventListener("mousemove", (e) => {
+        if (content.classList.contains("reading-guide")) {
+            readingGuideLine.style.left = `${e.pageX}px`;
+            readingGuideLine.style.top = `${e.pageY - 12}px`;
+        }
+
+        if (content.classList.contains("reading-mask")) {
+            const topCss = `calc(${e.clientY}px - 40px)`;
+            const bottomCss = `calc((100vh - ${e.clientY}px) - 40px)`;
+
+            topReading.style.setProperty("height", topCss);
+            bottomReading.style.setProperty("height", bottomCss);
+        }
+    });
+
+
+    //get boxesMeb from localstorage
+    document.addEventListener("DOMContentLoaded", function () {
+        const classes = [];
+        boxesMeb.forEach((e) => {
+            if (localStorage.getItem(e.getAttribute("data-acc-option")) === "1") {
+                classes.push(localStorage.getItem(e.getAttribute("data-acc-option")));
+                e.classList.add("active");
+            }
+            if (localStorage.getItem("mebPanel") === "1") {
+                mebPanel.classList.toggle("show");
+            }
+
+            classes.push(
+                localStorage.getItem(e.getAttribute("data-acc-option")) === "1" &&
+                e.getAttribute("data-acc-option")
+            );
+            localStorage.getItem(e.getAttribute("data-acc-option")) === "1"
+                ? e.classList.add("active")
+                : "";
+        });
+        content.classList.add(...classes);
+    });
+
+    // Erişilebilirlik seçeneklerini tıklama ile
+
+    boxesMeb.forEach((option) => {
+        const className = option.getAttribute("data-acc-option");
+        option.addEventListener("click", function () {
+            if (!content.classList.contains(className)) {
+                content.classList.add(className);
+                option.classList.add("active");
+                localStorage.setItem(className, "1");
+            } else {
+                content.classList.remove(className);
+                option.classList.remove("active");
+                localStorage.setItem(className, "0");
+            }
+        });
+    });
+
+    //  Okunabilir Font
+    const readableFontButton = document.getElementById("readableFont");
+    readableFontButton.addEventListener("click", function () {
+        document.body.classList.toggle("readable-Font");
+    });
+
+    //sıfırla ayarları
+
+
+    document
+        .getElementById("clearSettings")
+        .addEventListener("click", function () {
+            // 1. Accessibility-related classes reset on the `html` element
+            const content = document.querySelector("html");
+            const activeOptions = document.querySelectorAll(".kutular.active, .kutular2.active");
+
+            activeOptions.forEach((option) => {
+                const className = option.getAttribute("data-acc-option");
+                if (className) {
+                    content.classList.remove(className);
+                    option.classList.remove("active");
+                    localStorage.setItem(className, "0");
+                }
+            });
+
+            // 2. Reset font sizes
+            const elements = document.querySelectorAll("h1, h2, h3, h4, h5, h6, p, li, a, span");
+            elements.forEach((element) => {
+                element.style.fontSize = "";
+            });
+
+            // 3. Reset colors
+            document.body.classList.remove("body-with-color");
+            document.body.style.backgroundColor = "";
+            document.querySelectorAll("p, a p, a span").forEach((p) => (p.style.color = ""));
+            document.querySelectorAll("h1, h2, h3, h4, h5, h6").forEach((h) => (h.style.color = ""));
+            localStorage.removeItem("textColor");
+            localStorage.removeItem("headerColor");
+            localStorage.removeItem("backgroundColor");
+
+            // 4. Reset reading-related elements
+            const topReading = document.getElementById("readingFocusTop");
+            const bottomReading = document.getElementById("readingFocusBottom");
+            const readingGuideLine = document.getElementById("readingGuideLine");
+            if (topReading) topReading.style.height = "";
+            if (bottomReading) bottomReading.style.height = "";
+            if (readingGuideLine) {
+                readingGuideLine.style.left = "";
+                readingGuideLine.style.top = "";
+            }
+
+            // 5. Collapse accessibility panel
+            const mebPanel = document.getElementById("erisilebilirlikPaneli");
+            if (mebPanel) {
+                mebPanel.classList.remove("show");
+                localStorage.setItem("mebPanel", "0");
+            }
+
+            // 6. Reset text alignment
+            document.body.classList.remove("align-text-left", "align-text-right", "align-text-ortala");
+            document.body.className = "";
+
+            // 7. Reset letter spacing, line spacing, and word spacing
+            const paragraphs = document.querySelectorAll("*");
+            paragraphs.forEach((p) => {
+                p.style.removeProperty("letter-spacing");
+                p.style.removeProperty("line-height");
+                p.style.removeProperty("word-spacing");
+            });
+
+            // 8. Remove active classes for "Harf Boşluğu", "Satır Aralığı", "Kelime Aralığı"
+            document.querySelectorAll("[data-acc-option]").forEach((option) => {
+                option.classList.remove("active");
+            });
+
+            content.classList.remove("letter-spacing", "line-spacing", "word-spacing");
+            //9.resimleri gizle
+
+            const sections = document.querySelectorAll("section, main, article, footer, nav, menu, address");
+
+            sections.forEach((section) => {
+
+                if (originalBackgroundImages.has(section)) {
+                    section.style.backgroundImage = originalBackgroundImages.get(section);
+                } else {
+                    section.style.backgroundImage = "";
+                }
+            });
+
+
+        });
+
+
+    // erişilebilirlik boyutunu arttırma
+    document
+        .getElementById("increaseSizeText")
+        .addEventListener("click", function () {
+            const kutular = document.querySelectorAll(
+                ".meb-panel .kutular, .meb-panel .kutular2"
+            );
+            const isExpanded =
+                kutular.length > 0 && kutular[0].style.height === "157px";
+
+            kutular.forEach((kutu) => {
+                const newHeight = isExpanded ? "" : "157px";
+                const newFontSize = isExpanded ? "" : "20px";
+
+                kutu.style.height = newHeight;
+                kutu.querySelectorAll("p").forEach((p) => {
+                    p.style.fontSize = newFontSize;
+                });
+            });
+        });
+
+    // accordion
+    // function togglePanel(buttonId, panelId, arrowId) {
+    //   const button = document.getElementById(buttonId);
+    //   const panel = document.getElementById(panelId);
+    //   const arrow = document.getElementById(arrowId);
+    //
+    //   button.addEventListener("click", function () {
+    //     const isHidden = panel.style.display === "none";
+    //
+    //     panel.style.display = isHidden ? "block" : "none";
+    //     arrow.style.display = isHidden ? "inline" : "none";
+    //
+    //     button.classList.toggle("active", isHidden);
+    //   });
+    // }
+    //
+    // togglePanel("kisayol2", "shortcutList", "upArrow");
+    function togglePanel(buttonId, panelId, arrowId) {
+        const button = document.getElementById(buttonId);
+        const panel = document.getElementById(panelId);
+        const arrow = document.getElementById(arrowId);
+
+        if (!button || !panel || !arrow) {
+            console.error(`Element not found:`, { button, panel, arrow });
+            return;
+        }
+
+        button.addEventListener("click", function () {
+            const isHidden = panel.style.display === "none";
+
+            panel.style.display = isHidden ? "block" : "none";
+            arrow.style.display = isHidden ? "inline" : "none";
+
+            button.classList.toggle("active", isHidden);
+        });
+    }
+
+    togglePanel("kisayol2", "shortcutList", "upArrow");
+
+    // togglePanel("dilSecenegiButton", "dilSecenegiPanel", "dilArrow");
+
+    //changeButtons
+    const dyslexic = document.querySelectorAll('.add-dyslexic-friendly');
+    const readable = document.querySelectorAll('.add-readable-font');
+
+
+    function toggleFont(newFont, oldFont) {
+        let el = document.body;
+        if (el.classList.contains(newFont)) {
+
+            el.classList.remove(newFont);
+        } else if (el.classList.contains(oldFont)) {
+
+            el.classList.replace(oldFont, newFont);
+        } else {
+
+            el.classList.add(newFont);
+        }
+    }
+
+    if(dyslexic.length > 0){
+        dyslexic.forEach(el => el.addEventListener('click', ()=>{
+            toggleFont('dyslexic-friendly', 'readable-font')
+        }))
+    }
+
+    if(readable.length > 0){
+        readable.forEach(el => el.addEventListener('click', ()=>{
+            toggleFont('readable-font', 'dyslexic-friendly')
+        }))
+    }
+
+
+
+
+
+    function toggleAccessibilityOption(newClass) {
+        const body = document.body;
+        const allClasses = [
+            "reading-guide", "reading-mask", "contrast", "desaturate",
+            "low-saturation", "high-saturation","beyazImlec" , "siyahImlec"
+        ];
+
+        if (body.classList.contains(newClass)) {
+            body.classList.remove(newClass);
+            document.querySelectorAll(`.${newClass}`).forEach(item => {
+                item.classList.remove(newClass);
+            });
+        } else {
+            allClasses.forEach(cls => body.classList.remove(cls));
+            body.classList.add(newClass);
+            document.querySelectorAll(`.${allClasses.join(",.")}`).forEach(item => {
+                allClasses.forEach(cls => item.classList.remove(cls));
+                item.classList.add(newClass);
+            });
+        }
+
+
+        document.querySelectorAll('.accessibility-button').forEach(button => {
+            button.classList.remove('active');
+        });
+
+        const activeButton = document.querySelector(`.accessibility-button[data-acc-option="${newClass}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+
+    }
+
+    document.getElementById("readingGuideDiv").addEventListener("click", () => {
+        toggleAccessibilityOption("reading-guide");
+    });
+
+    document.getElementById("readingMaskDiv").addEventListener("click", () => {
+        toggleAccessibilityOption("reading-mask");
+    });
+
+    document.querySelector(" [data-acc-option='contrast']")?.addEventListener("click", () => {
+        toggleAccessibilityOption("contrast");
+    });
+
+    document.querySelector("[data-acc-option='desaturate']")?.addEventListener("click", () => {
+        toggleAccessibilityOption("desaturate");
+    });
+
+    document.querySelector("[data-acc-option='low-saturation']")?.addEventListener("click", () => {
+        toggleAccessibilityOption("low-saturation");
+    });
+
+    document.querySelector("[data-acc-option='high-saturation']")?.addEventListener("click", () => {
+        toggleAccessibilityOption("high-saturation");
+    });
+
+    document.querySelector("[data-acc-option='beyazImlec']")?.addEventListener("click", () => {
+        toggleAccessibilityOption("beyazImlec");
+    });
+
+    document.querySelector("[data-acc-option='siyahImlec']")?.addEventListener("click", () => {
+        toggleAccessibilityOption("siyahImlec");
+    });
+
+
+    //Okuma hizi
+
+    const speedControl = document.getElementById("speedSlider");
+    const value =
+        ((speedControl.value - speedControl.min) /
+            (speedControl.max - speedControl.min)) *
+        100;
+    speedControl.style.background = `linear-gradient(to right, black ${value}%, white ${value}%)`;
+
+    speedControl.addEventListener("input", () => {
+        const newValue =
+            ((speedControl.value - speedControl.min) /
+                (speedControl.max - speedControl.min)) *
+            100;
+        speedControl.style.background = `linear-gradient(to right, black ${newValue}%, white ${newValue}%)`;
+    });
+
+    //isaret dii
+
+    // $(".ses.fa-play").hide();
+    // $(".ses.fa-pause").hide();
+    // $("#videoPopup").hide();
+    //
+    // var video = document.getElementById("eVideo");
+    // var ses = document.getElementById("eAudio");
+    //
+    // function pKapat() {
+    //     $("#videoPopup").hide();
+    //     video.pause();
+    // }
+    //
+    // function pGoster() {
+    //     $("#videoPopup").css("display", "block")
+    //     video.play();
+    // }
+    //
+    // function pDuraklat() {
+    //     video.pause();
+    // }
+    //
+    // function playAudio() {
+    //     if (ses.paused) {
+    //         ses.play();
+    //         $(".ses.fa-pause").show();
+    //         $(".ses.fa-play").hide();
+    //         $(".ses.fa-ear-deaf").hide();
+    //     } else {
+    //         ses.pause()
+    //         $(".ses.fa-pause").hide();
+    //         $(".ses.fa-ear-deaf").hide();
+    //         $(".ses.fa-play").show();
+    //     }
+    // }
+    // document.onkeyup = function(e) {
+    //     if (e.ctrlKey && e.which == 66) {
+    //         pGoster();
+    //     } else if (e.altKey && e.which == 66) {
+    //         pKapat();
+    //     } else if (e.ctrlKey && e.which == 89) {
+    //         playAudio()
+    //     } else if (e.altKey && e.which == 89) {
+    //         pDuraklat()
+    //     }
+    // };
+//focus tab-index=h1
+    const heading = document.querySelector('.meb-panel h1');
+    if (heading) {
+        heading.focus();
+    }
+
+    const liveRegion = document.getElementById("accessibilityMessage");
+    if (liveRegion) {
+        liveRegion.textContent = "Erişilebilirlik menüsü açıldı";
+    }
+
+    function announceAction(message) {
+        const statusElement = document.getElementById('a11y-status');
+        statusElement.textContent = message;
+
+        setTimeout(() => {
+            statusElement.textContent = '';
+        }, 1000);
+
+    }
+});

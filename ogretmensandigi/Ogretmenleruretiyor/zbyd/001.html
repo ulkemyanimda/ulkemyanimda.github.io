@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesli Renk Öğrenme Oyunu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Yıldızlı gökyüzü arka planı */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        .star:nth-child(odd) { animation-delay: 1s; }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Bulutlar */
+        .clouds {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cloud {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 3em;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            from { transform: translateX(-100px); }
+            to { transform: translateX(calc(100vw + 100px)); }
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            backdrop-filter: blur(15px);
+            z-index: 10;
+            position: relative;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1.2em;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 20px;
+            height: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f, #4ecdc4);
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .current-object {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .object-emoji {
+            font-size: 5em;
+            display: block;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .object-name {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .instruction {
+            font-size: 1.1em;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .microphone-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .mic-button {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            font-size: 2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+            position: relative;
+        }
+
+        .mic-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .mic-button.listening {
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .status-text {
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            min-height: 25px;
+        }
+
+        .score-section {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .success-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(40, 167, 69, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+            border-radius: 20px;
+            animation: successFade 2s ease-out forwards;
+        }
+
+        @keyframes successFade {
+            0% { opacity: 0; transform: scale(0.8); }
+            30% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0; transform: scale(1); }
+        }
+
+        .completion-celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .celebration-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            text-align: center;
+            animation: celebrationPop 0.5s ease-out;
+        }
+
+        @keyframes celebrationPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .game-container { padding: 20px; }
+            .object-emoji { font-size: 4em; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Yıldızlı gökyüzü -->
+    <div class="stars" id="stars"></div>
+    
+    <!-- Bulutlar -->
+    <div class="clouds" id="clouds"></div>
+
+    <div class="game-container">
+        <h1>🎤 Sesli Renk Oyunu</h1>
+        <p class="subtitle">Nesnenin rengini söyleyin!</p>
+        
+        <!-- İlerleme çubuğu -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Mevcut nesne -->
+        <div class="current-object" id="currentObject">
+            <div class="object-emoji" id="objectEmoji">🐥</div>
+            <div class="object-name" id="objectName">Civciv</div>
+            <div class="instruction">Bu nesnenin rengini söyleyin</div>
+        </div>
+
+        <!-- Mikrofon bölümü -->
+        <div class="microphone-section">
+            <button class="mic-button" id="micButton" onclick="toggleListening()">🎤</button>
+            <div class="status-text" id="statusText">Mikrofonu başlatmak için tıklayın</div>
+        </div>
+
+        <!-- Skor -->
+        <div class="score-section">
+            <div>Skor: <span id="score">0</span></div>
+            <div>Seviye: <span id="level">1</span> / 10</div>
+        </div>
+
+        <!-- Kontroller -->
+        <div class="controls">
+            <button class="btn" onclick="skipToNext()">⏭️ Geç</button>
+            <button class="btn" onclick="resetGame()">🔄 Yeni Oyun</button>
+        </div>
+    </div>
+
+    <!-- Tebrik ekranı -->
+    <div class="completion-celebration" id="completionModal">
+        <div class="celebration-content">
+            <h2>🎉 Tebrikler!</h2>
+            <p>Tüm renkleri doğru söylediniz!</p>
+            <p>Final Skorunuz: <span id="finalScore">0</span></p>
+            <button class="btn" onclick="closeModal()">Tekrar Oyna</button>
+        </div>
+    </div>
+
+    <script>
+        const gameObjects = [
+            { name: 'Civciv', emoji: '🐥', color: 'sarı', colorEn: 'yellow' },
+            { name: 'Elma', emoji: '🍎', color: 'kırmızı', colorEn: 'red' },
+            { name: 'Yaprak', emoji: '🍃', color: 'yeşil', colorEn: 'green' },
+            { name: 'Balon', emoji: '🎈', color: 'mavi', colorEn: 'blue' },
+            { name: 'Havuç', emoji: '🥕', color: 'turuncu', colorEn: 'orange' },
+            { name: 'Çiçek', emoji: '🌸', color: 'pembe', colorEn: 'pink' },
+            { name: 'Üzüm', emoji: '🍇', color: 'mor', colorEn: 'purple' },
+            { name: 'Ayıcık', emoji: '🧸', color: 'kahverengi', colorEn: 'brown' },
+            { name: 'Bulut', emoji: '☁️', color: 'beyaz', colorEn: 'white' },
+            { name: 'Kömür', emoji: '🪨', color: 'siyah', colorEn: 'black' }
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+        let isListening = false;
+        let recognition;
+        let gameCompleted = false;
+
+        // Web Speech API desteğini kontrol et
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        function initializeSpeech() {
+            if (SpeechRecognition) {
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.lang = 'tr-TR';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 3;
+
+                recognition.onstart = function() {
+                    isListening = true;
+                    updateMicButton();
+                    document.getElementById('statusText').textContent = 'Dinliyorum... Rengi söyleyin!';
+                };
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+                    console.log('Duyduğum:', transcript);
+                    processVoiceInput(transcript);
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Ses tanıma hatası:', event.error);
+                    isListening = false;
+                    updateMicButton();
+                    document.getElementById('statusText').textContent = 'Hata! Tekrar deneyin';
+                };
+
+                recognition.onend = function() {
+                    isListening = false;
+                    updateMicButton();
+                };
+            } else {
+                document.getElementById('statusText').textContent = 'Tarayıcınız ses tanıma desteklemiyor';
+                document.getElementById('micButton').style.background = '#6c757d';
+                document.getElementById('micButton').disabled = true;
+            }
+        }
+
+        function createBackground() {
+            // Yıldızlar oluştur
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+
+            // Bulutlar oluştur
+            const cloudsContainer = document.getElementById('clouds');
+            for (let i = 0; i < 5; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = 'cloud';
+                cloud.textContent = '☁️';
+                cloud.style.top = Math.random() * 60 + '%';
+                cloud.style.animationDelay = Math.random() * 20 + 's';
+                cloud.style.animationDuration = (15 + Math.random() * 10) + 's';
+                cloudsContainer.appendChild(cloud);
+            }
+        }
+
+        function updateDisplay() {
+            const currentObject = gameObjects[currentIndex];
+            document.getElementById('objectEmoji').textContent = currentObject.emoji;
+            document.getElementById('objectName').textContent = currentObject.name;
+            document.getElementById('level').textContent = currentIndex + 1;
+            
+            // İlerleme çubuğunu güncelle
+            const progress = ((currentIndex) / gameObjects.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            if (!isListening) {
+                document.getElementById('statusText').textContent = 'Mikrofonu başlatmak için tıklayın';
+            }
+        }
+
+        function toggleListening() {
+            if (gameCompleted) return;
+            
+            if (!isListening) {
+                recognition.start();
+            } else {
+                recognition.stop();
+            }
+        }
+
+        function updateMicButton() {
+            const micButton = document.getElementById('micButton');
+            if (isListening) {
+                micButton.classList.add('listening');
+                micButton.textContent = '🛑';
+            } else {
+                micButton.classList.remove('listening');
+                micButton.textContent = '🎤';
+            }
+        }
+
+        function processVoiceInput(transcript) {
+            const currentObject = gameObjects[currentIndex];
+            const expectedColor = currentObject.color.toLowerCase();
+            
+            console.log('Beklenen:', expectedColor, 'Duyulan:', transcript);
+            
+            // Renk kelimesini kontrol et
+            if (transcript.includes(expectedColor)) {
+                correctAnswer();
+            } else {
+                wrongAnswer(transcript);
+            }
+        }
+
+        function correctAnswer() {
+            score += 10;
+            document.getElementById('score').textContent = score;
+            
+            // Başarı animasyonu
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-animation';
+            successDiv.innerHTML = '🎉 Doğru!';
+            document.getElementById('currentObject').appendChild(successDiv);
+            
+            // Alkış sesi çal
+            playApplauseSound();
+            
+            // Başarı efekti
+            setTimeout(() => {
+                successDiv.remove();
+                nextObject();
+            }, 2000);
+            
+            document.getElementById('statusText').textContent = '🎉 Harika! Doğru cevap!';
+        }
+
+        function wrongAnswer(heard) {
+            document.getElementById('statusText').textContent = `❌ "${heard}" yanlış. Tekrar deneyin!`;
+            
+            // Yanlış animasyonu
+            document.getElementById('currentObject').style.animation = 'shake 0.5s ease-in-out';
+            setTimeout(() => {
+                document.getElementById('currentObject').style.animation = '';
+            }, 500);
+        }
+
+        function nextObject() {
+            currentIndex++;
+            if (currentIndex >= gameObjects.length) {
+                gameCompleted = true;
+                showCompletionModal();
+            } else {
+                updateDisplay();
+            }
+        }
+
+        function skipToNext() {
+            if (gameCompleted) return;
+            nextObject();
+        }
+
+        function showCompletionModal() {
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('completionModal').style.display = 'flex';
+            
+            // Konfeti efekti
+            createConfetti();
+        }
+
+        function closeModal() {
+            document.getElementById('completionModal').style.display = 'none';
+            resetGame();
+        }
+
+        function resetGame() {
+            currentIndex = 0;
+            score = 0;
+            gameCompleted = false;
+            document.getElementById('score').textContent = score;
+            
+            // Nesneleri karıştır
+            for (let i = gameObjects.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [gameObjects[i], gameObjects[j]] = [gameObjects[j], gameObjects[i]];
+            }
+            
+            updateDisplay();
+        }
+
+        function playApplauseSound() {
+            // Web Audio API ile alkış sesi oluştur
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Birden fazla frekans ile alkış efekti
+            const frequencies = [200, 400, 800, 1200];
+            const duration = 0.8;
+            
+            frequencies.forEach((freq, index) => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+                
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.1);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                
+                oscillator.start(audioContext.currentTime + index * 0.1);
+                oscillator.stop(audioContext.currentTime + duration + index * 0.1);
+            });
+        }
+
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#ffd93d', '#6bcf7f', '#4ecdc4', '#a8e6cf', '#ffaaa5'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-10px';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.zIndex = '1000';
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.animation = 'fall 3s linear forwards';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // CSS animasyonu ekle
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(720deg);
+                }
+            }
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-10px); }
+                75% { transform: translateX(10px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Oyunu başlat
+        window.onload = function() {
+            createBackground();
+            initializeSpeech();
+            updateDisplay();
+        };
+    </script>
+</body>
+</html>

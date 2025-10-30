@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hayvan Sesli Tahmin Oyunu</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #8b0000, #ff4c4c);
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+  }
+  #animal-img {
+    max-width: 300px;
+    margin: 20px auto;
+    display: block;
+  }
+  button {
+    background-color: #ffcc00;
+    color: black;
+    padding: 15px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #ffdd33;
+  }
+</style>
+</head>
+<body>
+<h1>Hayvan Sesli Tahmin Oyunu</h1>
+<img id="animal-img" src="" alt="Hayvan" />
+<p>Bu hayvanın adını mikrofona basıp söyle!</p>
+<button onclick="startRecognition()">🎤 Konuş</button>
+<audio id="correct-sound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+<audio id="wrong-sound" src="https://www.soundjay.com/buttons/sounds/beep-07.mp3"></audio>
+
+<script>
+const animals = [
+  {name: "kedi", img: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Cat03.jpg"},
+  {name: "köpek", img: "https://upload.wikimedia.org/wikipedia/commons/6/6e/Golde33443.jpg"},
+  {name: "aslan", img: "https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg"},
+  {name: "kaplan", img: "https://upload.wikimedia.org/wikipedia/commons/5/56/Tiger.50.jpg"},
+  {name: "fil", img: "https://upload.wikimedia.org/wikipedia/commons/3/37/African_Bush_Elephant.jpg"},
+  {name: "zürafa", img: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Giraffe_standing.jpg"},
+  {name: "maymun", img: "https://upload.wikimedia.org/wikipedia/commons/3/32/Monkey_in_Bali.jpg"},
+  {name: "ayı", img: "https://upload.wikimedia.org/wikipedia/commons/7/79/Ursus_arctos_-_Norway.jpg"},
+  {name: "koyun", img: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Ovis_orientalis_aries_%28domestic_sheep%29.jpg"},
+  {name: "at", img: "https://upload.wikimedia.org/wikipedia/commons/8/8d/Horse_in_pasture.jpg"}
+];
+
+let currentIndex = 0;
+const imgElement = document.getElementById("animal-img");
+const correctSound = document.getElementById("correct-sound");
+const wrongSound = document.getElementById("wrong-sound");
+
+function loadAnimal() {
+  imgElement.src = animals[currentIndex].img;
+}
+
+function startRecognition() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Tarayıcınız konuşma tanımayı desteklemiyor.");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "tr-TR";
+  recognition.start();
+
+  recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+    if (transcript === animals[currentIndex].name) {
+      correctSound.play();
+      alert("Doğru! Tebrikler!");
+      currentIndex++;
+      if (currentIndex < animals.length) {
+        loadAnimal();
+      } else {
+        alert("Tüm hayvanları bildiniz! Oyun bitti.");
+      }
+    } else {
+      wrongSound.play();
+      alert("Yanlış, tekrar deneyin!");
+    }
+  };
+}
+
+loadAnimal();
+</script>
+</body>
+</html>

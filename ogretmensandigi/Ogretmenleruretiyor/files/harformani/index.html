@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<!-- saved from url=(0140)https://bqmv2wfyczh652ks.canva-hosted-embed.com/codelet/AAEAEGJxbXYyd2Z5Y3poNjUya3MAAAAAAZoBF5JTgJaa5HCkcxpJEIT8RjkMXwXd6dxC6OfpQXzfy-Mll_E/ -->
+<html lang="tr" crosspilot=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harf Ormanı - Türkçe Harf Öğrenme Oyunu</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 50%, #ffd3a5 100%);
+            min-height: 100%;
+            color: #333;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #ffffff 0%, #f0fff0 100%);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.3);
+            border: 3px solid #4caf50;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title {
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, #4caf50, #8bc34a, #cddc39, #ffeb3b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: forestGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes forestGlow {
+            0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+            50% { filter: hue-rotate(30deg) brightness(1.2); }
+        }
+
+        .forest-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .letter-zone {
+            background: linear-gradient(145deg, #c8e6c9, #a5d6a7);
+            border: 3px solid #4caf50;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .letter-zone:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .letter-zone.completed {
+            background: linear-gradient(145deg, #fff9c4, #f4ff81);
+            border-color: #cddc39;
+        }
+
+        .letter-display {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+
+        .zone-name {
+            font-size: 0.9rem;
+            color: #388e3c;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .progress-stars {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .star {
+            font-size: 1.2rem;
+            color: #ffc107;
+        }
+
+        .star.empty {
+            color: #e0e0e0;
+        }
+
+        .game-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .game-btn {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .game-btn.active {
+            background: linear-gradient(45deg, #ff9800, #f57c00);
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.3);
+        }
+
+        .game-area {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e8 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            min-height: 400px;
+            border: 2px solid #a5d6a7;
+        }
+
+        .listen-match-area {
+            text-align: center;
+        }
+
+        .letter-balloons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .letter-balloon {
+            background: linear-gradient(145deg, #81c784, #66bb6a);
+            border: 3px solid #4caf50;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .letter-balloon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .letter-balloon.correct {
+            background: linear-gradient(145deg, #4caf50, #388e3c);
+            animation: bounce 0.6s ease;
+        }
+
+        .letter-balloon.wrong {
+            background: linear-gradient(145deg, #f44336, #d32f2f);
+            animation: shake 0.6s ease;
+        }
+
+        .write-practice-area {
+            text-align: center;
+        }
+
+        .letter-trace {
+            width: 200px;
+            height: 200px;
+            border: 3px dashed #4caf50;
+            border-radius: 15px;
+            margin: 20px auto;
+            background: white;
+            position: relative;
+            cursor: crosshair;
+        }
+
+        .trace-letter {
+            font-size: 8rem;
+            color: #e8f5e8;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            user-select: none;
+        }
+
+        .word-complete-area {
+            text-align: center;
+        }
+
+        .word-puzzle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            font-size: 2rem;
+        }
+
+        .word-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            margin-right: 20px;
+        }
+
+        .letter-slot {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #4caf50;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .letter-slot.empty {
+            background: #f1f8e9;
+            border-style: dashed;
+        }
+
+        .letter-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .letter-option {
+            background: linear-gradient(145deg, #81c784, #66bb6a);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .letter-option:hover {
+            transform: scale(1.1);
+            background: linear-gradient(145deg, #66bb6a, #4caf50);
+        }
+
+        .memory-game-area {
+            text-align: center;
+        }
+
+        .memory-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .memory-card {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #a5d6a7, #81c784);
+            border: 3px solid #4caf50;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .memory-card.flipped {
+            background: white;
+            color: #2e7d32;
+            border-color: #ff9800;
+        }
+
+        .memory-card.matched {
+            background: linear-gradient(145deg, #4caf50, #388e3c);
+            animation: pulse 1s ease;
+        }
+
+        .rhythm-game-area {
+            text-align: center;
+        }
+
+        .rhythm-display {
+            font-size: 3rem;
+            margin: 30px 0;
+            color: #2e7d32;
+        }
+
+        .rhythm-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .rhythm-btn {
+            background: linear-gradient(145deg, #ff9800, #f57c00);
+            color: white;
+            border: none;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .rhythm-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        .rhythm-btn.active {
+            animation: rhythmPulse 0.3s ease;
+        }
+
+        @keyframes rhythmPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .control-btn {
+            background: linear-gradient(45deg, #2196f3, #1976d2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+        }
+
+        .score-display {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2e7d32;
+            margin: 20px 0;
+        }
+
+        .feedback {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(145deg, #c8e6c9, #a5d6a7);
+            color: #2e7d32;
+        }
+
+        .feedback.wrong {
+            background: linear-gradient(145deg, #ffcdd2, #ef9a9a);
+            color: #c62828;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            80% { transform: translateY(-5px); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .forest-map {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .letter-balloons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🌳 Harf Ormanı</h1>
+            <p style="font-size: 1.2rem; color: #388e3c; margin: 10px 0;">Türkçe harfleri öğrenmenin eğlenceli yolu!</p>
+        </div>
+
+        <div class="score-display">
+            Toplam Yıldız: <span id="totalStars">0</span> ⭐ | Tamamlanan Harfler: <span id="completedLetters">0</span>/29
+        </div>
+
+        <div class="forest-map" id="forestMap">
+                    <div class="letter-zone " onclick="selectLetter(&#39;A&#39;)">
+                        <div class="letter-display">A</div>
+                        <div class="zone-name">A Ağacı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;B&#39;)">
+                        <div class="letter-display">B</div>
+                        <div class="zone-name">B Bağı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;C&#39;)">
+                        <div class="letter-display">C</div>
+                        <div class="zone-name">C Camii</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;Ç&#39;)">
+                        <div class="letter-display">Ç</div>
+                        <div class="zone-name">Ç Çiçeği</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;D&#39;)">
+                        <div class="letter-display">D</div>
+                        <div class="zone-name">D Dağı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;E&#39;)">
+                        <div class="letter-display">E</div>
+                        <div class="zone-name">E Evi</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;F&#39;)">
+                        <div class="letter-display">F</div>
+                        <div class="zone-name">F Fırını</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;G&#39;)">
+                        <div class="letter-display">G</div>
+                        <div class="zone-name">G Gölü</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;Ğ&#39;)">
+                        <div class="letter-display">Ğ</div>
+                        <div class="zone-name">Ğ Dağı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;H&#39;)">
+                        <div class="letter-display">H</div>
+                        <div class="zone-name">H Hastanesi</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;I&#39;)">
+                        <div class="letter-display">I</div>
+                        <div class="zone-name">I Irmağı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;İ&#39;)">
+                        <div class="letter-display">İ</div>
+                        <div class="zone-name">İ İğnesi</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;J&#39;)">
+                        <div class="letter-display">J</div>
+                        <div class="zone-name">J Jeli</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;K&#39;)">
+                        <div class="letter-display">K</div>
+                        <div class="zone-name">K Kalesi</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;L&#39;)">
+                        <div class="letter-display">L</div>
+                        <div class="zone-name">L Limanı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;M&#39;)">
+                        <div class="letter-display">M</div>
+                        <div class="zone-name">M Mağarası</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;N&#39;)">
+                        <div class="letter-display">N</div>
+                        <div class="zone-name">N Nehri</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;O&#39;)">
+                        <div class="letter-display">O</div>
+                        <div class="zone-name">O Ormanı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;Ö&#39;)">
+                        <div class="letter-display">Ö</div>
+                        <div class="zone-name">Ö Öğretmeni</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;P&#39;)">
+                        <div class="letter-display">P</div>
+                        <div class="zone-name">P Parkı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;R&#39;)">
+                        <div class="letter-display">R</div>
+                        <div class="zone-name">R Rüzgarı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;S&#39;)">
+                        <div class="letter-display">S</div>
+                        <div class="zone-name">S Sarayı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;Ş&#39;)">
+                        <div class="letter-display">Ş</div>
+                        <div class="zone-name">Ş Şelalesi</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;T&#39;)">
+                        <div class="letter-display">T</div>
+                        <div class="zone-name">T Tepesi</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;U&#39;)">
+                        <div class="letter-display">U</div>
+                        <div class="zone-name">U Uçağı</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;Ü&#39;)">
+                        <div class="letter-display">Ü</div>
+                        <div class="zone-name">Ü Üzümü</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;V&#39;)">
+                        <div class="letter-display">V</div>
+                        <div class="zone-name">V Vadisi</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;Y&#39;)">
+                        <div class="letter-display">Y</div>
+                        <div class="zone-name">Y Yolu</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                
+                    <div class="letter-zone " onclick="selectLetter(&#39;Z&#39;)">
+                        <div class="letter-display">Z</div>
+                        <div class="zone-name">Z Zirve</div>
+                        <div class="progress-stars">
+                            <span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span><span class="star empty">⭐</span>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="game-selector" id="gameSelector" style="display: none;">
+            <button class="game-btn active" onclick="selectGame(&#39;listen&#39;)">🎵 Dinle-Eşleştir</button>
+            <button class="game-btn" onclick="selectGame(&#39;write&#39;)">✏️ İzle-Yaz</button>
+            <button class="game-btn" onclick="selectGame(&#39;complete&#39;)">🧩 Kelime Tamamla</button>
+            <button class="game-btn" onclick="selectGame(&#39;memory&#39;)">🧠 Hafıza Oyunu</button>
+            <button class="game-btn" onclick="selectGame(&#39;rhythm&#39;)">🎶 Ritim Şarkısı</button>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div style="text-align: center; padding: 40px;">
+                <h2 style="color: #2e7d32;">Harf Ormanı'na Hoş Geldin! 🌲</h2>
+                <p style="font-size: 1.2rem; color: #388e3c;">Öğrenmek istediğin harfi seç ve maceraya başla!</p>
+                <div style="font-size: 4rem; margin: 20px 0;">🦋🌸🍄</div>
+            </div>
+        </div>
+
+        <div class="control-buttons" id="controlButtons" style="display: none;">
+            <button class="control-btn" onclick="goBackToMap()">🏠 Ana Harita</button>
+            <button class="control-btn" onclick="nextGame()">➡️ Sonraki Oyun</button>
+        </div>
+    </div>
+
+    <script>
+        let currentLetter = '';
+        let currentGame = 'listen';
+        let gameProgress = {};
+        let totalStars = 0;
+
+        const letters = [
+            { letter: 'A', name: 'A Ağacı', sound: 'a', words: ['araba', 'ağaç', 'ayı'] },
+            { letter: 'B', name: 'B Bağı', sound: 'b', words: ['balon', 'baba', 'balık'] },
+            { letter: 'C', name: 'C Camii', sound: 'c', words: ['cami', 'ceket', 'ceviz'] },
+            { letter: 'Ç', name: 'Ç Çiçeği', sound: 'ç', words: ['çiçek', 'çanta', 'çay'] },
+            { letter: 'D', name: 'D Dağı', sound: 'd', words: ['dağ', 'deniz', 'doktor'] },
+            { letter: 'E', name: 'E Evi', sound: 'e', words: ['ev', 'elma', 'ekmek'] },
+            { letter: 'F', name: 'F Fırını', sound: 'f', words: ['fırın', 'fil', 'fener'] },
+            { letter: 'G', name: 'G Gölü', sound: 'g', words: ['göl', 'gül', 'gemi'] },
+            { letter: 'Ğ', name: 'Ğ Dağı', sound: 'ğ', words: ['dağ', 'sağ', 'yağmur'] },
+            { letter: 'H', name: 'H Hastanesi', sound: 'h', words: ['hastane', 'hava', 'hayvan'] },
+            { letter: 'I', name: 'I Irmağı', sound: 'ı', words: ['ırmak', 'ısı', 'ışık'] },
+            { letter: 'İ', name: 'İ İğnesi', sound: 'i', words: ['iğne', 'inek', 'ip'] },
+            { letter: 'J', name: 'J Jeli', sound: 'j', words: ['jel', 'jimnastik', 'jeton'] },
+            { letter: 'K', name: 'K Kalesi', sound: 'k', words: ['kale', 'kedi', 'kitap'] },
+            { letter: 'L', name: 'L Limanı', sound: 'l', words: ['liman', 'limon', 'lale'] },
+            { letter: 'M', name: 'M Mağarası', sound: 'm', words: ['mağara', 'muz', 'masal'] },
+            { letter: 'N', name: 'N Nehri', sound: 'n', words: ['nehir', 'nane', 'noel'] },
+            { letter: 'O', name: 'O Ormanı', sound: 'o', words: ['orman', 'okul', 'oyun'] },
+            { letter: 'Ö', name: 'Ö Öğretmeni', sound: 'ö', words: ['öğretmen', 'öğle', 'ördek'] },
+            { letter: 'P', name: 'P Parkı', sound: 'p', words: ['park', 'pazar', 'panda'] },
+            { letter: 'R', name: 'R Rüzgarı', sound: 'r', words: ['rüzgar', 'renk', 'robot'] },
+            { letter: 'S', name: 'S Sarayı', sound: 's', words: ['saray', 'su', 'sabah'] },
+            { letter: 'Ş', name: 'Ş Şelalesi', sound: 'ş', words: ['şelale', 'şeker', 'şarkı'] },
+            { letter: 'T', name: 'T Tepesi', sound: 't', words: ['tepe', 'tavuk', 'top'] },
+            { letter: 'U', name: 'U Uçağı', sound: 'u', words: ['uçak', 'uzun', 'uyku'] },
+            { letter: 'Ü', name: 'Ü Üzümü', sound: 'ü', words: ['üzüm', 'ülke', 'ütü'] },
+            { letter: 'V', name: 'V Vadisi', sound: 'v', words: ['vadi', 'vazo', 'vagon'] },
+            { letter: 'Y', name: 'Y Yolu', sound: 'y', words: ['yol', 'yıldız', 'yağmur'] },
+            { letter: 'Z', name: 'Z Zirve', sound: 'z', words: ['zirve', 'zaman', 'zebra'] }
+        ];
+
+        // Oyun verilerini başlat
+        letters.forEach(letterData => {
+            gameProgress[letterData.letter] = {
+                listen: 0,
+                write: 0,
+                complete: 0,
+                memory: 0,
+                rhythm: 0
+            };
+        });
+
+        function initializeForestMap() {
+            const forestMap = document.getElementById('forestMap');
+            forestMap.innerHTML = letters.map(letterData => {
+                const totalStarsForLetter = Object.values(gameProgress[letterData.letter]).reduce((a, b) => a + b, 0);
+                const isCompleted = totalStarsForLetter >= 10; // 5 oyun x 2 yıldız = 10
+                
+                return `
+                    <div class="letter-zone ${isCompleted ? 'completed' : ''}" onclick="selectLetter('${letterData.letter}')">
+                        <div class="letter-display">${letterData.letter}</div>
+                        <div class="zone-name">${letterData.name}</div>
+                        <div class="progress-stars">
+                            ${Array.from({length: 5}, (_, i) => 
+                                `<span class="star ${i < Math.floor(totalStarsForLetter / 2) ? '' : 'empty'}">⭐</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            updateTotalProgress();
+        }
+
+        function selectLetter(letter) {
+            currentLetter = letter;
+            document.getElementById('forestMap').style.display = 'none';
+            document.getElementById('gameSelector').style.display = 'flex';
+            document.getElementById('controlButtons').style.display = 'flex';
+            
+            selectGame('listen');
+        }
+
+        function selectGame(gameType) {
+            currentGame = gameType;
+            
+            // Buton stillerini güncelle
+            document.querySelectorAll('.game-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            switch(gameType) {
+                case 'listen':
+                    showListenMatchGame();
+                    break;
+                case 'write':
+                    showWritePracticeGame();
+                    break;
+                case 'complete':
+                    showWordCompleteGame();
+                    break;
+                case 'memory':
+                    showMemoryGame();
+                    break;
+                case 'rhythm':
+                    showRhythmGame();
+                    break;
+            }
+        }
+
+        function showListenMatchGame() {
+            const letterData = letters.find(l => l.letter === currentLetter);
+            const otherLetters = letters.filter(l => l.letter !== currentLetter).slice(0, 5);
+            const allOptions = [letterData, ...otherLetters].sort(() => Math.random() - 0.5);
+            
+            document.getElementById('gameArea').innerHTML = `
+                <div class="listen-match-area">
+                    <h3 style="color: #2e7d32; margin-bottom: 20px;">🎵 Dinle ve Doğru Harfi Seç!</h3>
+                    <button class="control-btn" onclick="playLetterSound('${letterData.sound}')" style="margin-bottom: 20px;">
+                        🔊 "${letterData.letter}" Sesini Dinle
+                    </button>
+                    <div class="letter-balloons">
+                        ${allOptions.map(option => 
+                            `<div class="letter-balloon" onclick="checkListenAnswer('${option.letter}', '${letterData.letter}')">
+                                ${option.letter}
+                            </div>`
+                        ).join('')}
+                    </div>
+                    <div id="listenFeedback"></div>
+                </div>
+            `;
+        }
+
+        function checkListenAnswer(selected, correct) {
+            const balloons = document.querySelectorAll('.letter-balloon');
+            balloons.forEach(balloon => {
+                balloon.style.pointerEvents = 'none';
+                if (balloon.textContent === correct) {
+                    balloon.classList.add('correct');
+                } else if (balloon.textContent === selected && selected !== correct) {
+                    balloon.classList.add('wrong');
+                }
+            });
+
+            const feedback = document.getElementById('listenFeedback');
+            if (selected === correct) {
+                gameProgress[currentLetter].listen = Math.min(gameProgress[currentLetter].listen + 1, 2);
+                feedback.innerHTML = '<div class="feedback correct">🎉 Harika! Doğru harfi seçtin!</div>';
+                playSuccessSound();
+            } else {
+                feedback.innerHTML = `<div class="feedback wrong">😊 Doğru cevap "${correct}" idi. Tekrar dene!</div>`;
+            }
+
+            setTimeout(() => {
+                showListenMatchGame();
+            }, 2000);
+        }
+
+        function showWritePracticeGame() {
+            document.getElementById('gameArea').innerHTML = `
+                <div class="write-practice-area">
+                    <h3 style="color: #2e7d32; margin-bottom: 20px;">✏️ ${currentLetter} Harfini Yaz!</h3>
+                    <p style="color: #388e3c;">Parmağınla veya fareyle harfi takip et</p>
+                    <div class="letter-trace" id="traceArea">
+                        <div class="trace-letter">${currentLetter}</div>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="control-btn" onclick="clearTrace()">🗑️ Temizle</button>
+                        <button class="control-btn" onclick="completeWriting()">✅ Tamamla</button>
+                    </div>
+                    <div id="writeFeedback"></div>
+                </div>
+            `;
+            
+            setupTracing();
+        }
+
+        function setupTracing() {
+            const traceArea = document.getElementById('traceArea');
+            let isDrawing = false;
+            
+            traceArea.addEventListener('mousedown', startDrawing);
+            traceArea.addEventListener('mousemove', draw);
+            traceArea.addEventListener('mouseup', stopDrawing);
+            traceArea.addEventListener('touchstart', startDrawing);
+            traceArea.addEventListener('touchmove', draw);
+            traceArea.addEventListener('touchend', stopDrawing);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                e.preventDefault();
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                e.preventDefault();
+                
+                const rect = traceArea.getBoundingClientRect();
+                const x = (e.clientX || e.touches[0].clientX) - rect.left;
+                const y = (e.clientY || e.touches[0].clientY) - rect.top;
+                
+                const dot = document.createElement('div');
+                dot.style.position = 'absolute';
+                dot.style.left = x + 'px';
+                dot.style.top = y + 'px';
+                dot.style.width = '4px';
+                dot.style.height = '4px';
+                dot.style.background = '#4caf50';
+                dot.style.borderRadius = '50%';
+                traceArea.appendChild(dot);
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+        }
+
+        function clearTrace() {
+            const traceArea = document.getElementById('traceArea');
+            const dots = traceArea.querySelectorAll('div:not(.trace-letter)');
+            dots.forEach(dot => dot.remove());
+        }
+
+        function completeWriting() {
+            gameProgress[currentLetter].write = Math.min(gameProgress[currentLetter].write + 1, 2);
+            const feedback = document.getElementById('writeFeedback');
+            feedback.innerHTML = '<div class="feedback correct">🌟 Harika yazı! Çok güzel yazdın!</div>';
+            
+            setTimeout(() => {
+                showWritePracticeGame();
+            }, 2000);
+        }
+
+        function showWordCompleteGame() {
+            const letterData = letters.find(l => l.letter === currentLetter);
+            const word = letterData.words[Math.floor(Math.random() * letterData.words.length)];
+            const missingIndex = Math.floor(Math.random() * word.length);
+            const missingLetter = word[missingIndex];
+            
+            const otherOptions = letters.filter(l => l.letter !== missingLetter).slice(0, 2);
+            const allOptions = [missingLetter, ...otherOptions.map(l => l.letter)].sort(() => Math.random() - 0.5);
+            
+            document.getElementById('gameArea').innerHTML = `
+                <div class="word-complete-area">
+                    <h3 style="color: #2e7d32; margin-bottom: 20px;">🧩 Eksik Harfi Tamamla!</h3>
+                    <div class="word-puzzle">
+                        <div class="word-image" style="background: linear-gradient(145deg, #81c784, #66bb6a); display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                            ${getWordEmoji(word)}
+                        </div>
+                        ${word.split('').map((letter, index) => 
+                            index === missingIndex 
+                                ? '<div class="letter-slot empty" id="emptySlot">?</div>'
+                                : `<div class="letter-slot">${letter.toUpperCase()}</div>`
+                        ).join('')}
+                    </div>
+                    <div class="letter-options">
+                        ${allOptions.map(option => 
+                            `<button class="letter-option" onclick="checkWordComplete('${option}', '${missingLetter}')">${option.toUpperCase()}</button>`
+                        ).join('')}
+                    </div>
+                    <div id="completeFeedback"></div>
+                </div>
+            `;
+        }
+
+        function getWordEmoji(word) {
+            const emojiMap = {
+                'araba': '🚗', 'ağaç': '🌳', 'ayı': '🐻',
+                'balon': '🎈', 'baba': '👨', 'balık': '🐟',
+                'cami': '🕌', 'ceket': '🧥', 'ceviz': '🥜',
+                'çiçek': '🌸', 'çanta': '👜', 'çay': '🍵',
+                'dağ': '⛰️', 'deniz': '🌊', 'doktor': '👨‍⚕️',
+                'ev': '🏠', 'elma': '🍎', 'ekmek': '🍞',
+                'fırın': '🔥', 'fil': '🐘', 'fener': '🔦',
+                'göl': '🏞️', 'gül': '🌹', 'gemi': '🚢',
+                'sağ': '➡️', 'yağmur': '🌧️',
+                'hastane': '🏥', 'hava': '🌤️', 'hayvan': '🐾',
+                'ırmak': '🏞️', 'ısı': '🌡️', 'ışık': '💡',
+                'iğne': '📌', 'inek': '🐄', 'ip': '🪢',
+                'jel': '🧴', 'jimnastik': '🤸', 'jeton': '🪙',
+                'kale': '🏰', 'kedi': '🐱', 'kitap': '📚',
+                'liman': '⚓', 'limon': '🍋', 'lale': '🌷',
+                'mağara': '🕳️', 'muz': '🍌', 'masal': '📖',
+                'nehir': '🏞️', 'nane': '🌿', 'noel': '🎄',
+                'orman': '🌲', 'okul': '🏫', 'oyun': '🎮',
+                'öğretmen': '👩‍🏫', 'öğle': '🕐', 'ördek': '🦆',
+                'park': '🏞️', 'pazar': '🛒', 'panda': '🐼',
+                'rüzgar': '💨', 'renk': '🎨', 'robot': '🤖',
+                'saray': '🏰', 'su': '💧', 'sabah': '🌅',
+                'şelale': '💦', 'şeker': '🍬', 'şarkı': '🎵',
+                'tepe': '⛰️', 'tavuk': '🐔', 'top': '⚽',
+                'uçak': '✈️', 'uzun': '📏', 'uyku': '😴',
+                'üzüm': '🍇', 'ülke': '🗺️', 'ütü': '🔌',
+                'vadi': '🏞️', 'vazo': '🏺', 'vagon': '🚃',
+                'yol': '🛤️', 'yıldız': '⭐', 'zirve': '🏔️',
+                'zaman': '⏰', 'zebra': '🦓'
+            };
+            return emojiMap[word] || '📝';
+        }
+
+        function checkWordComplete(selected, correct) {
+            const options = document.querySelectorAll('.letter-option');
+            options.forEach(option => option.disabled = true);
+            
+            const emptySlot = document.getElementById('emptySlot');
+            const feedback = document.getElementById('completeFeedback');
+            
+            if (selected === correct) {
+                emptySlot.textContent = selected.toUpperCase();
+                emptySlot.style.background = '#c8e6c9';
+                emptySlot.style.color = '#2e7d32';
+                gameProgress[currentLetter].complete = Math.min(gameProgress[currentLetter].complete + 1, 2);
+                feedback.innerHTML = '<div class="feedback correct">🎯 Mükemmel! Doğru harfi buldun!</div>';
+            } else {
+                emptySlot.style.background = '#ffcdd2';
+                feedback.innerHTML = `<div class="feedback wrong">😊 Doğru harf "${correct.toUpperCase()}" idi. Tekrar dene!</div>`;
+            }
+
+            setTimeout(() => {
+                showWordCompleteGame();
+            }, 2500);
+        }
+
+        function showMemoryGame() {
+            const letterData = letters.find(l => l.letter === currentLetter);
+            const otherLetters = letters.filter(l => l.letter !== currentLetter).slice(0, 3);
+            const gameLetters = [letterData, ...otherLetters];
+            
+            const cards = [];
+            gameLetters.forEach(letter => {
+                cards.push({ type: 'letter', content: letter.letter, id: letter.letter + '_letter' });
+                cards.push({ type: 'emoji', content: getWordEmoji(letter.words[0]), id: letter.letter + '_emoji' });
+            });
+            
+            cards.sort(() => Math.random() - 0.5);
+            
+            document.getElementById('gameArea').innerHTML = `
+                <div class="memory-game-area">
+                    <h3 style="color: #2e7d32; margin-bottom: 20px;">🧠 Hafıza Oyunu</h3>
+                    <p style="color: #388e3c;">Harfleri resimleriyle eşleştir!</p>
+                    <div class="memory-cards">
+                        ${cards.map((card, index) => 
+                            `<div class="memory-card" onclick="flipCard(${index})" data-id="${card.id}">
+                                <span style="display: none;">${card.content}</span>
+                            </div>`
+                        ).join('')}
+                    </div>
+                    <div id="memoryFeedback"></div>
+                </div>
+            `;
+            
+            window.memoryCards = cards;
+            window.flippedCards = [];
+            window.matchedPairs = 0;
+        }
+
+        function flipCard(index) {
+            const card = document.querySelectorAll('.memory-card')[index];
+            const cardData = window.memoryCards[index];
+            
+            if (card.classList.contains('flipped') || window.flippedCards.length >= 2) return;
+            
+            card.classList.add('flipped');
+            card.querySelector('span').style.display = 'block';
+            window.flippedCards.push({ element: card, data: cardData, index });
+            
+            if (window.flippedCards.length === 2) {
+                setTimeout(checkMemoryMatch, 1000);
+            }
+        }
+
+        function checkMemoryMatch() {
+            const [card1, card2] = window.flippedCards;
+            const match = card1.data.id.split('_')[0] === card2.data.id.split('_')[0];
+            
+            if (match) {
+                card1.element.classList.add('matched');
+                card2.element.classList.add('matched');
+                window.matchedPairs++;
+                
+                if (window.matchedPairs === 4) {
+                    gameProgress[currentLetter].memory = Math.min(gameProgress[currentLetter].memory + 1, 2);
+                    document.getElementById('memoryFeedback').innerHTML = 
+                        '<div class="feedback correct">🏆 Tebrikler! Tüm eşleştirmeleri buldun!</div>';
+                }
+            } else {
+                card1.element.classList.remove('flipped');
+                card2.element.classList.remove('flipped');
+                card1.element.querySelector('span').style.display = 'none';
+                card2.element.querySelector('span').style.display = 'none';
+            }
+            
+            window.flippedCards = [];
+        }
+
+        function showRhythmGame() {
+            const letterData = letters.find(l => l.letter === currentLetter);
+            
+            document.getElementById('gameArea').innerHTML = `
+                <div class="rhythm-game-area">
+                    <h3 style="color: #2e7d32; margin-bottom: 20px;">🎶 ${currentLetter} Harfi Şarkısı</h3>
+                    <div class="rhythm-display">${currentLetter} - ${currentLetter} - ${currentLetter}</div>
+                    <p style="color: #388e3c; margin-bottom: 20px;">Ritmi takip et ve harfi söyle!</p>
+                    <div class="rhythm-buttons">
+                        <button class="rhythm-btn" onclick="playRhythm(1)">🎵</button>
+                        <button class="rhythm-btn" onclick="playRhythm(2)">🎶</button>
+                        <button class="rhythm-btn" onclick="playRhythm(3)">🎼</button>
+                    </div>
+                    <div class="control-buttons">
+                        <button class="control-btn" onclick="completeRhythm()">✅ Şarkıyı Tamamla</button>
+                    </div>
+                    <div id="rhythmFeedback"></div>
+                </div>
+            `;
+        }
+
+        function playRhythm(beat) {
+            const btn = document.querySelectorAll('.rhythm-btn')[beat - 1];
+            btn.classList.add('active');
+            setTimeout(() => btn.classList.remove('active'), 300);
+            
+            // Ses efekti simülasyonu
+            playLetterSound(currentLetter.toLowerCase());
+        }
+
+        function completeRhythm() {
+            gameProgress[currentLetter].rhythm = Math.min(gameProgress[currentLetter].rhythm + 1, 2);
+            document.getElementById('rhythmFeedback').innerHTML = 
+                '<div class="feedback correct">🎵 Harika! Şarkıyı güzel söyledin!</div>';
+        }
+
+        function playLetterSound(sound) {
+            // TTS simülasyonu - gerçek uygulamada Web Speech API kullanılabilir
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(sound);
+                utterance.lang = 'tr-TR';
+                utterance.rate = 0.7;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function playSuccessSound() {
+            // Başarı sesi simülasyonu
+            console.log('🎉 Başarı sesi çalıyor!');
+        }
+
+        function goBackToMap() {
+            document.getElementById('forestMap').style.display = 'grid';
+            document.getElementById('gameSelector').style.display = 'none';
+            document.getElementById('controlButtons').style.display = 'none';
+            
+            document.getElementById('gameArea').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #2e7d32;">Harf Ormanı'na Hoş Geldin! 🌲</h2>
+                    <p style="font-size: 1.2rem; color: #388e3c;">Öğrenmek istediğin harfi seç ve maceraya başla!</p>
+                    <div style="font-size: 4rem; margin: 20px 0;">🦋🌸🍄</div>
+                </div>
+            `;
+            
+            initializeForestMap();
+        }
+
+        function nextGame() {
+            const games = ['listen', 'write', 'complete', 'memory', 'rhythm'];
+            const currentIndex = games.indexOf(currentGame);
+            const nextIndex = (currentIndex + 1) % games.length;
+            
+            // Sonraki oyun butonunu aktif yap
+            const buttons = document.querySelectorAll('.game-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons[nextIndex].classList.add('active');
+            
+            selectGame(games[nextIndex]);
+        }
+
+        function updateTotalProgress() {
+            let total = 0;
+            let completed = 0;
+            
+            letters.forEach(letterData => {
+                const letterStars = Object.values(gameProgress[letterData.letter]).reduce((a, b) => a + b, 0);
+                total += letterStars;
+                if (letterStars >= 10) completed++;
+            });
+            
+            document.getElementById('totalStars').textContent = total;
+            document.getElementById('completedLetters').textContent = completed;
+            totalStars = total;
+        }
+
+        // Oyunu başlat
+        initializeForestMap();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'990f7998271dd60f',t:'MTc2MDg2ODUxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><iframe height="1" width="1" style="position: absolute; top: 0px; left: 0px; border: none; visibility: hidden;" src="./saved_resource.html"></iframe>
+
+</body></html>

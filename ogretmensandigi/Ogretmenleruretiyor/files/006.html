@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doğru Heceleme Oyunu</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f4f8;
+            margin: 0;
+            text-align: center;
+        }
+
+        .game-container {
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+
+        #word-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #34495e;
+            margin-bottom: 40px;
+        }
+
+        #options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option-button {
+            padding: 15px 25px;
+            font-size: 1.2em;
+            font-weight: 500;
+            cursor: pointer;
+            border: 2px solid #bdc3c7;
+            border-radius: 10px;
+            background-color: #ecf0f1;
+            transition: all 0.3s ease;
+        }
+
+        .option-button:hover:not(.disabled) {
+            background-color: #e0e6e9;
+            transform: translateY(-2px);
+        }
+
+        .option-button.correct {
+            background-color: #2ecc71;
+            color: white;
+            border-color: #27ae60;
+            animation: pulse 1s infinite;
+        }
+
+        .option-button.incorrect {
+            background-color: #e74c3c;
+            color: white;
+            border-color: #c0392b;
+        }
+
+        .option-button.disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+        
+        #feedback-message {
+            margin-top: 25px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .feedback-correct {
+            color: #27ae60;
+        }
+        
+        .feedback-incorrect {
+            color: #c0392b;
+        }
+
+        #next-button {
+            margin-top: 25px;
+            padding: 12px 24px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #3498db;
+            color: white;
+            display: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        #next-button:hover {
+            background-color: #2980b9;
+        }
+
+        #final-score {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-top: 30px;
+            display: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 480px) {
+            #word-display {
+                font-size: 2.2em;
+            }
+            .option-button {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>Türkçe Heceleme Oyunu</h1>
+        <div id="game-area">
+            <div id="word-display"></div>
+            <div id="options-container"></div>
+            <p id="feedback-message"></p>
+            <button id="next-button">Sonraki Kelime</button>
+        </div>
+        <div id="final-score"></div>
+    </div>
+
+    <script>
+        const questions = [
+            { word: "Kitaplık", correct: "ki-tap-lık", options: ["ki-ta-pılık", "k-itap-lık"] },
+            { word: "Öğretmen", correct: "öğ-ret-men", options: ["ö-ğretmen", "öğret-men"] },
+            { word: "Cumhuriyet", correct: "cum-hu-ri-yet", options: ["cum-hu-riyet", "cumhu-ri-yet"] },
+            { word: "Atatürk", correct: "A-ta-türk", options: ["A-tat-ürk", "A-ta-türük"] },
+            { word: "Bilgisayar", correct: "bil-gi-sa-yar", options: ["bil-gis-ayar", "bil-gi-sayar"] },
+            { word: "Telefon", correct: "te-le-fon", options: ["tel-efon", "t-ele-fon"] },
+            { word: "Papatya", correct: "pa-pat-ya", options: ["pa-pa-tya", "pap-at-ya"] },
+            { word: "Televizyon", correct: "te-le-viz-yon", options: ["te-lev-iz-yon", "tel-evi-zyon"] },
+            { word: "Vatansever", correct: "va-tan-se-ver", options: ["va-tans-e-ver", "va-tanse-ver"] },
+            { word: "Dondurma", correct: "don-dur-ma", options: ["do-ndur-ma", "don-durma"] }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const wordDisplay = document.getElementById('word-display');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackMessage = document.getElementById('feedback-message');
+        const nextButton = document.getElementById('next-button');
+        const finalScoreDiv = document.getElementById('final-score');
+        const gameArea = document.getElementById('game-area');
+
+        // Karıştırma fonksiyonu
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Oyunu başlat
+        function startGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            gameArea.style.display = 'block';
+            finalScoreDiv.style.display = 'none';
+            shuffleArray(questions);
+            showQuestion();
+        }
+
+        // Soruyu göster
+        function showQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                endGame();
+                return;
+            }
+
+            const currentQuestion = questions[currentQuestionIndex];
+            wordDisplay.textContent = currentQuestion.word;
+            optionsContainer.innerHTML = '';
+            feedbackMessage.textContent = '';
+            nextButton.style.display = 'none';
+
+            const allOptions = [...currentQuestion.options, currentQuestion.correct];
+            shuffleArray(allOptions);
+
+            allOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-button');
+                button.addEventListener('click', () => checkAnswer(button, option, currentQuestion.correct));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        // Cevabı kontrol et
+        function checkAnswer(button, selectedOption, correctOption) {
+            const allButtons = document.querySelectorAll('.option-button');
+            allButtons.forEach(btn => btn.classList.add('disabled'));
+
+            if (selectedOption === correctOption) {
+                score++;
+                button.classList.add('correct');
+                feedbackMessage.textContent = 'Doğru!';
+                feedbackMessage.classList.add('feedback-correct');
+                feedbackMessage.classList.remove('feedback-incorrect');
+                nextButton.style.display = 'block';
+            } else {
+                button.classList.add('incorrect');
+                feedbackMessage.textContent = 'Yanlış, tekrar deneyin.';
+                feedbackMessage.classList.add('feedback-incorrect');
+                feedbackMessage.classList.remove('feedback-correct');
+                button.classList.remove('disabled');
+            }
+        }
+
+        // Sonraki soruya geç
+        nextButton.addEventListener('click', () => {
+            currentQuestionIndex++;
+            showQuestion();
+        });
+
+        // Oyunu bitir
+        function endGame() {
+            gameArea.style.display = 'none';
+            finalScoreDiv.textContent = `Oyun bitti! Toplam ${questions.length} kelimeden ${score} tanesini doğru hecelediniz.`;
+            finalScoreDiv.style.display = 'block';
+        }
+
+        // Oyunu başlat
+        startGame();
+
+    </script>
+</body>
+</html>

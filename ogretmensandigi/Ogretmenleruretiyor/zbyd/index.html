@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkçe Eğitim Oyunları</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .main-title {
+            font-size: 3em;
+            color: #4a5568;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .rainbow-line {
+            height: 8px;
+            background: linear-gradient(to right, #ff6b6b, #ffa500, #ffeb3b, #4caf50, #2196f3, #9c27b0);
+            border-radius: 4px;
+            margin: 0 auto;
+            width: 300px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            border: 3px solid transparent;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .game-icon {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 15px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            width: 80px;
+        }
+
+        .game-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 10px;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .game-description {
+            font-size: 0.95em;
+            color: #718096;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Renk temalı ikonlar */
+        .color-theme { background: linear-gradient(135deg, #ff6b6b, #ffa500); }
+        .word-theme { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .animal-theme { background: linear-gradient(135deg, #ffeaa7, #fdcb6e); }
+        .number-theme { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+        .sound-theme { background: linear-gradient(135deg, #fd79a8, #e84393); }
+        .match-theme { background: linear-gradient(135deg, #00b894, #00cec9); }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.2em;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .game-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="main-title">🎮 Türkçe Eğitim Oyunları 🎮</h1>
+            <p class="subtitle">Eğlenerek öğrenin! Renkli ve interaktif oyunlarla Türkçe öğrenmenin keyfini çıkarın.</p>
+            <div class="rainbow-line"></div>
+        </header>
+
+        <div class="games-grid">
+            <a href="001.html" target="_blank" class="game-card">
+                <div class="game-icon sound-theme">🔊</div>
+                <div class="game-title">Sesli Renk Öğrenme Oyunu</div>
+                <div class="game-description">Renkleri sesli olarak öğrenin ve telaffuzlarını dinleyin!</div>
+            </a>
+
+            <a href="002.html" target="_blank" class="game-card">
+                <div class="game-icon word-theme">🔄</div>
+                <div class="game-title">Türkçe Zıt Anlamlı Kelimeler</div>
+                <div class="game-description">Kelimelerin zıt anlamlarını bularak kelime dağarcığınızı geliştirin!</div>
+            </a>
+
+            <a href="003.html" target="_blank" class="game-card">
+                <div class="game-icon match-theme">💭</div>
+                <div class="game-title">Deyim – Anlam Eşleştirme Oyunu</div>
+                <div class="game-description">Türkçe deyimleri anlamlarıyla eşleştirerek öğrenin!</div>
+            </a>
+
+            <a href="004.html" target="_blank" class="game-card">
+                <div class="game-icon animal-theme">🦁</div>
+                <div class="game-title">Renk-Hayvan Eşleştirme Oyunu</div>
+                <div class="game-description">Hayvanları doğru renkleriyle eşleştirin ve öğrenin!</div>
+            </a>
+
+            <a href="005.html" target="_blank" class="game-card">
+                <div class="game-icon word-theme">⚡</div>
+                <div class="game-title">Zıt Anlamlı Kelimeler Oyunu</div>
+                <div class="game-description">Hızlı ve eğlenceli zıt anlamlı kelime oyunu!</div>
+            </a>
+
+            <a href="006.html" target="_blank" class="game-card">
+                <div class="game-icon word-theme">📝</div>
+                <div class="game-title">Doğru Heceleme Oyunu</div>
+                <div class="game-description">Kelimeleri doğru hecelerine ayırma becerisinizi geliştirin!</div>
+            </a>
+
+            <a href="007.html" target="_blank" class="game-card">
+                <div class="game-icon number-theme">🔢</div>
+                <div class="game-title">Rakam Okunuşu Eşleştirme (1-9)</div>
+                <div class="game-description">Rakamları Türkçe okunuşlarıyla eşleştirin!</div>
+            </a>
+
+            <a href="008.html" target="_blank" class="game-card">
+                <div class="game-icon match-theme">🧩</div>
+                <div class="game-title">Kelime Eşleştirme Oyunu</div>
+                <div class="game-description">Benzer anlamlı kelimeleri eşleştirerek öğrenin!</div>
+            </a>
+
+            <a href="009.html" target="_blank" class="game-card">
+                <div class="game-icon word-theme">🎯</div>
+                <div class="game-title">Zıt Anlamlı Kelimeler Oyunu</div>
+                <div class="game-description">Zıt anlamları bulma konusunda ustalaşın!</div>
+            </a>
+
+            <a href="010.html" target="_blank" class="game-card">
+                <div class="game-icon color-theme">🌸</div>
+                <div class="game-title">Renk Eşleştirme Oyunu</div>
+                <div class="game-description">Renkleri tanıyın ve doğru eşleştirmeler yapın!</div>
+            </a>
+
+            <a href="011.html" target="_blank" class="game-card">
+                <div class="game-icon animal-theme">🐾</div>
+                <div class="game-title">Hayvan Sesli Tahmin Oyunu</div>
+                <div class="game-description">Hayvan seslerini dinleyerek doğru hayvanı bulun!</div>
+            </a>
+
+            <a href="012.html" target="_blank" class="game-card">
+                <div class="game-icon word-theme">💫</div>
+                <div class="game-title">Eş Anlamlı Kelimeler Oyunu</div>
+                <div class="game-description">Aynı anlama gelen kelimeleri keşfedin ve eşleştirin!</div>
+            </a>
+
+            <a href="013.html" target="_blank" class="game-card">
+                <div class="game-icon word-theme">🔍</div>
+                <div class="game-title">Zıtlarını Bul!</div>
+                <div class="game-description">Kelimelerin zıt anlamlarını bulmada hızlı olun!</div>
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>✨ Öğrenmenin en eğlenceli yolu! Her oyun yeni bir macera! ✨</p>
+            <p style="margin-top: 10px; font-size: 0.9em; opacity: 0.8;">
+                🎪 Tüm oyunlar yeni sekmede açılır • 🌟 Eğlenceli öğrenme deneyimi
+            </p>
+        </div>
+    </div>
+</body>
+</html>

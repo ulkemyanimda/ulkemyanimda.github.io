@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamlaşma Oyunu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="start-screen" class="screen active">
+            <h1>Selamlaşma Oyunu</h1>
+            <p>Sesi dinle, doğru resmi seç!</p>
+            <button id="start-button">Oyuna Başla</button>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <div id="hud">
+                <div id="score">Puan: 0</div>
+                <div id="timer">Süre: 60</div>
+            </div>
+            <div id="question-area">
+                <button id="play-sound-button">🔊 Sesi Tekrar Dinle</button>
+            </div>
+            <div id="image-choices">
+                <img id="choice1" class="choice-image" alt="Seçenek 1">
+                <img id="choice2" class="choice-image" alt="Seçenek 2">
+            </div>
+            <div id="feedback"></div>
+        </div>
+
+        <div id="end-screen" class="screen">
+            <h1>Oyun Bitti!</h1>
+            <h2 id="final-score"></h2>
+            <button id="restart-button">Tekrar Oyna</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

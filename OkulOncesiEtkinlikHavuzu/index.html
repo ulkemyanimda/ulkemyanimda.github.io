@@ -1,0 +1,2911 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okul Öncesi Etkinlik Havuzu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            position: relative;
+        }
+        .banner {
+            background-image: url('https://ulkemyanimda.github.io/icons/banner.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 200px;
+        }
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .search-container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: 2px solid #6200ea;
+            border-radius: 25px;
+            outline: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+        }
+        .search-box:focus {
+            box-shadow: 0 4px 12px rgba(98, 0, 234, 0.3);
+        }
+        .result-count {
+            text-align: center;
+            margin: 10px 0;
+            color: #666;
+            font-size: 14px;
+        }
+        .sections {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .section {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px;
+            width: 250px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .section:hover {
+            transform: scale(1.05);
+        }
+        .section.hidden {
+            display: none;
+        }
+        .section a {
+            text-decoration: none;
+            color: #6200ea;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .section img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <div class="title"><h1>Okul Öncesi Etkinlik Havuzu</h1></div>
+        </div>
+    </header>
+    
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchInput" placeholder="Etkinlik ara... (örn: İstiklal Marşı)">
+        <div class="result-count" id="resultCount"></div>
+    </div>
+
+    <div class="no-results" id="noResults">
+        Aradığınız kriterlere uygun etkinlik bulunamadı.
+    </div>
+
+    <div class="sections" id="sections">
+
+        <div class="section" data-title="12 Mart İstiklal Marşı’nın Kabulü">
+            <a href="./x/12_mart_istiklal_marsi_nin_kabulu.pdf" target="_blank">
+                <img src="a.jpg" alt="12 Mart İstiklal Marşı’nın Kabulü">
+                <br>12 Mart İstiklal Marşı’nın Kabulü
+            </a>
+        </div>
+
+        <div class="section" data-title="Abimin Bavulu">
+            <a href="./x/abimin_bavulu.pdf" target="_blank">
+                <img src="a.jpg" alt="Abimin Bavulu">
+                <br>Abimin Bavulu
+            </a>
+        </div>
+
+        <div class="section" data-title="Ahtapotun Kolları">
+            <a href="./x/ahtapotun_kollari.pdf" target="_blank">
+                <img src="a.jpg" alt="Ahtapotun Kolları">
+                <br>Ahtapotun Kolları
+            </a>
+        </div>
+
+        <div class="section" data-title="Ailem">
+            <a href="./x/ailem_2.pdf" target="_blank">
+                <img src="a.jpg" alt="Ailem">
+                <br>Ailem
+            </a>
+        </div>
+
+        <div class="section" data-title="Ailem_1">
+            <a href="./x/ailem_1_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Ailem_1">
+                <br>Ailem_1
+            </a>
+        </div>
+
+        <div class="section" data-title="Alakargalar Palamut Arıyor">
+            <a href="./x/alakargalar_palamut_ariyor.pdf" target="_blank">
+                <img src="a.jpg" alt="Alakargalar Palamut Arıyor">
+                <br>Alakargalar Palamut Arıyor
+            </a>
+        </div>
+
+        <div class="section" data-title="Alkışsever Gitar">
+            <a href="./x/alkissever_gitar.pdf" target="_blank">
+                <img src="a.jpg" alt="Alkışsever Gitar">
+                <br>Alkışsever Gitar
+            </a>
+        </div>
+
+        <div class="section" data-title="Alışveriş Zamanı">
+            <a href="./x/alisveris_zamani.pdf" target="_blank">
+                <img src="a.jpg" alt="Alışveriş Zamanı">
+                <br>Alışveriş Zamanı
+            </a>
+        </div>
+
+        <div class="section" data-title="Amfibik Canlılar">
+            <a href="./x/amfibik_canlilar.pdf" target="_blank">
+                <img src="a.jpg" alt="Amfibik Canlılar">
+                <br>Amfibik Canlılar
+            </a>
+        </div>
+
+        <div class="section" data-title="Anlat Bakalım">
+            <a href="./x/anlat_bakalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Anlat Bakalım">
+                <br>Anlat Bakalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Ara Bul">
+            <a href="./x/ara_bul.pdf" target="_blank">
+                <img src="a.jpg" alt="Ara Bul">
+                <br>Ara Bul
+            </a>
+        </div>
+
+        <div class="section" data-title="Arazi Sanatı">
+            <a href="./x/arazi_sanati.pdf" target="_blank">
+                <img src="a.jpg" alt="Arazi Sanatı">
+                <br>Arazi Sanatı
+            </a>
+        </div>
+
+        <div class="section" data-title="Arkadaşlık Bahçesi">
+            <a href="./x/arkadaslik_bahcesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Arkadaşlık Bahçesi">
+                <br>Arkadaşlık Bahçesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Arkadaşım Ayna">
+            <a href="./x/arkadasim_ayna.pdf" target="_blank">
+                <img src="a.jpg" alt="Arkadaşım Ayna">
+                <br>Arkadaşım Ayna
+            </a>
+        </div>
+
+        <div class="section" data-title="Arıların Yolu">
+            <a href="./x/arilarin_yolu.pdf" target="_blank">
+                <img src="a.jpg" alt="Arıların Yolu">
+                <br>Arıların Yolu
+            </a>
+        </div>
+
+        <div class="section" data-title="Atık Sanatı">
+            <a href="./x/atik_sanati.pdf" target="_blank">
+                <img src="a.jpg" alt="Atık Sanatı">
+                <br>Atık Sanatı
+            </a>
+        </div>
+
+        <div class="section" data-title="Aydınlığın Tarihi">
+            <a href="./x/aydinligin_tarihi.pdf" target="_blank">
+                <img src="a.jpg" alt="Aydınlığın Tarihi">
+                <br>Aydınlığın Tarihi
+            </a>
+        </div>
+
+        <div class="section" data-title="Ağaçların Bölümleri">
+            <a href="./x/agaclarin_bolumleri.pdf" target="_blank">
+                <img src="a.jpg" alt="Ağaçların Bölümleri">
+                <br>Ağaçların Bölümleri
+            </a>
+        </div>
+
+        <div class="section" data-title="Ağaçların Bölümleri_1">
+            <a href="./x/agaclarin_bolumleri_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Ağaçların Bölümleri_1">
+                <br>Ağaçların Bölümleri_1
+            </a>
+        </div>
+
+        <div class="section" data-title="Ağaçtan Sanata">
+            <a href="./x/agactan_sanata.pdf" target="_blank">
+                <img src="a.jpg" alt="Ağaçtan Sanata">
+                <br>Ağaçtan Sanata
+            </a>
+        </div>
+
+        <div class="section" data-title="Ağır mı Hafif mi">
+            <a href="./x/agir_mi_hafif_mi.pdf" target="_blank">
+                <img src="a.jpg" alt="Ağır mı Hafif mi">
+                <br>Ağır mı Hafif mi
+            </a>
+        </div>
+
+        <div class="section" data-title="Bahçemin Sesi">
+            <a href="./x/bahcemin_sesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Bahçemin Sesi">
+                <br>Bahçemin Sesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Bahçemizde Kimler Var">
+            <a href="./x/bahcemizde_kimler_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Bahçemizde Kimler Var">
+                <br>Bahçemizde Kimler Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Bahçemizde Kompost Günü">
+            <a href="./x/bahcemizde_kompost_gunu.pdf" target="_blank">
+                <img src="a.jpg" alt="Bahçemizde Kompost Günü">
+                <br>Bahçemizde Kompost Günü
+            </a>
+        </div>
+
+        <div class="section" data-title="Balık Ağı">
+            <a href="./x/balik_agi.pdf" target="_blank">
+                <img src="a.jpg" alt="Balık Ağı">
+                <br>Balık Ağı
+            </a>
+        </div>
+
+        <div class="section" data-title="Balıklar Sabreder Mi">
+            <a href="./x/baliklar_sabreder_mi.pdf" target="_blank">
+                <img src="a.jpg" alt="Balıklar Sabreder Mi">
+                <br>Balıklar Sabreder Mi
+            </a>
+        </div>
+
+        <div class="section" data-title="Bavulumda Ne Var">
+            <a href="./x/bavulumda_ne_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Bavulumda Ne Var">
+                <br>Bavulumda Ne Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Bayrağımı Tanıyorum">
+            <a href="./x/bayragimi_taniyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Bayrağımı Tanıyorum">
+                <br>Bayrağımı Tanıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Başka Ne Olur">
+            <a href="./x/baska_ne_olur.pdf" target="_blank">
+                <img src="a.jpg" alt="Başka Ne Olur">
+                <br>Başka Ne Olur
+            </a>
+        </div>
+
+        <div class="section" data-title="Başkomutan Atatürk">
+            <a href="./x/baskomutan_ataturk.pdf" target="_blank">
+                <img src="a.jpg" alt="Başkomutan Atatürk">
+                <br>Başkomutan Atatürk
+            </a>
+        </div>
+
+        <div class="section" data-title="Ben Bir Balıkçıyım">
+            <a href="./x/ben_bir_balikciyim.pdf" target="_blank">
+                <img src="a.jpg" alt="Ben Bir Balıkçıyım">
+                <br>Ben Bir Balıkçıyım
+            </a>
+        </div>
+
+        <div class="section" data-title="Ben Bir Heykel Olsaydım">
+            <a href="./x/ben_bir_heykel_olsaydim.pdf" target="_blank">
+                <img src="a.jpg" alt="Ben Bir Heykel Olsaydım">
+                <br>Ben Bir Heykel Olsaydım
+            </a>
+        </div>
+
+        <div class="section" data-title="Ben Neredeyim">
+            <a href="./x/ben_neredeyim.pdf" target="_blank">
+                <img src="a.jpg" alt="Ben Neredeyim">
+                <br>Ben Neredeyim
+            </a>
+        </div>
+
+        <div class="section" data-title="Benim Bedenim">
+            <a href="./x/benim_bedenim.pdf" target="_blank">
+                <img src="a.jpg" alt="Benim Bedenim">
+                <br>Benim Bedenim
+            </a>
+        </div>
+
+        <div class="section" data-title="Benim Kitabım">
+            <a href="./x/benim_kitabim.pdf" target="_blank">
+                <img src="a.jpg" alt="Benim Kitabım">
+                <br>Benim Kitabım
+            </a>
+        </div>
+
+        <div class="section" data-title="Benim Vücudum">
+            <a href="./x/benim_vucudum.pdf" target="_blank">
+                <img src="a.jpg" alt="Benim Vücudum">
+                <br>Benim Vücudum
+            </a>
+        </div>
+
+        <div class="section" data-title="Benim Ülkem Türkıye">
+            <a href="./x/benim_ulkem_turkiye.pdf" target="_blank">
+                <img src="a.jpg" alt="Benim Ülkem Türkıye">
+                <br>Benim Ülkem Türkıye
+            </a>
+        </div>
+
+        <div class="section" data-title="Benim-Senin">
+            <a href="./x/benim_senin.pdf" target="_blank">
+                <img src="a.jpg" alt="Benim-Senin">
+                <br>Benim-Senin
+            </a>
+        </div>
+
+        <div class="section" data-title="Benzer Sesler">
+            <a href="./x/benzer_sesler.pdf" target="_blank">
+                <img src="a.jpg" alt="Benzer Sesler">
+                <br>Benzer Sesler
+            </a>
+        </div>
+
+        <div class="section" data-title="Bir Ben Bir O">
+            <a href="./x/bir_ben_bir_o.pdf" target="_blank">
+                <img src="a.jpg" alt="Bir Ben Bir O">
+                <br>Bir Ben Bir O
+            </a>
+        </div>
+
+        <div class="section" data-title="Bir Benek Gördüm Sanki">
+            <a href="./x/bir_benek_gordum_sanki.pdf" target="_blank">
+                <img src="a.jpg" alt="Bir Benek Gördüm Sanki">
+                <br>Bir Benek Gördüm Sanki
+            </a>
+        </div>
+
+        <div class="section" data-title="Bir Elin Nesi Var, İki Elin Sesi Var">
+            <a href="./x/bir_elin_nesi_var_iki_elin_sesi_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Bir Elin Nesi Var, İki Elin Sesi Var">
+                <br>Bir Elin Nesi Var, İki Elin Sesi Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Bir Günün Bölümleri">
+            <a href="./x/bir_gunun_bolumleri.pdf" target="_blank">
+                <img src="a.jpg" alt="Bir Günün Bölümleri">
+                <br>Bir Günün Bölümleri
+            </a>
+        </div>
+
+        <div class="section" data-title="Bir Siyah Bir Beyaz">
+            <a href="./x/bir_siyah_bir_beyaz.pdf" target="_blank">
+                <img src="a.jpg" alt="Bir Siyah Bir Beyaz">
+                <br>Bir Siyah Bir Beyaz
+            </a>
+        </div>
+
+        <div class="section" data-title="Bir Tablo Serüveni">
+            <a href="./x/bir_tablo_seruveni.pdf" target="_blank">
+                <img src="a.jpg" alt="Bir Tablo Serüveni">
+                <br>Bir Tablo Serüveni
+            </a>
+        </div>
+
+        <div class="section" data-title="Bir Yumak Macera">
+            <a href="./x/bir_yumak_macera.pdf" target="_blank">
+                <img src="a.jpg" alt="Bir Yumak Macera">
+                <br>Bir Yumak Macera
+            </a>
+        </div>
+
+        <div class="section" data-title="Biruni">
+            <a href="./x/biruni_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Biruni">
+                <br>Biruni
+            </a>
+        </div>
+
+        <div class="section" data-title="Bitki Kokuları Atölyesi">
+            <a href="./x/bitki_kokulari_atolyesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Bitki Kokuları Atölyesi">
+                <br>Bitki Kokuları Atölyesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Bitkiler Çeşit Çeşit">
+            <a href="./x/bitkiler_cesit_cesit.pdf" target="_blank">
+                <img src="a.jpg" alt="Bitkiler Çeşit Çeşit">
+                <br>Bitkiler Çeşit Çeşit
+            </a>
+        </div>
+
+        <div class="section" data-title="Bitkim Nasıl Büyüyor">
+            <a href="./x/bitkim_nasil_buyuyor.pdf" target="_blank">
+                <img src="a.jpg" alt="Bitkim Nasıl Büyüyor">
+                <br>Bitkim Nasıl Büyüyor
+            </a>
+        </div>
+
+        <div class="section" data-title="Boncuklardan Kolye">
+            <a href="./x/boncuklardan_kolye.pdf" target="_blank">
+                <img src="a.jpg" alt="Boncuklardan Kolye">
+                <br>Boncuklardan Kolye
+            </a>
+        </div>
+
+        <div class="section" data-title="Bu Havada Ne Giyilir">
+            <a href="./x/bu_havada_ne_giyilir.pdf" target="_blank">
+                <img src="a.jpg" alt="Bu Havada Ne Giyilir">
+                <br>Bu Havada Ne Giyilir
+            </a>
+        </div>
+
+        <div class="section" data-title="Bu Mevsimde Neler Giymeliyiz">
+            <a href="./x/bu_mevsimde_neler_giymeliyiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Bu Mevsimde Neler Giymeliyiz">
+                <br>Bu Mevsimde Neler Giymeliyiz
+            </a>
+        </div>
+
+        <div class="section" data-title="Bu İzler Kimin">
+            <a href="./x/bu_izler_kimin.pdf" target="_blank">
+                <img src="a.jpg" alt="Bu İzler Kimin">
+                <br>Bu İzler Kimin
+            </a>
+        </div>
+
+        <div class="section" data-title="Bugün Hava Nasıl">
+            <a href="./x/bugun_hava_nasil.pdf" target="_blank">
+                <img src="a.jpg" alt="Bugün Hava Nasıl">
+                <br>Bugün Hava Nasıl
+            </a>
+        </div>
+
+        <div class="section" data-title="Bugün Jüri Sensin">
+            <a href="./x/bugun_juri_sensin.pdf" target="_blank">
+                <img src="a.jpg" alt="Bugün Jüri Sensin">
+                <br>Bugün Jüri Sensin
+            </a>
+        </div>
+
+        <div class="section" data-title="Buki Japonya’yı Geziyor">
+            <a href="./x/buki_japonya_yi_geziyor.pdf" target="_blank">
+                <img src="a.jpg" alt="Buki Japonya’yı Geziyor">
+                <br>Buki Japonya’yı Geziyor
+            </a>
+        </div>
+
+        <div class="section" data-title="Bulut Gözlemcisi">
+            <a href="./x/bulut_gozlemcisi.pdf" target="_blank">
+                <img src="a.jpg" alt="Bulut Gözlemcisi">
+                <br>Bulut Gözlemcisi
+            </a>
+        </div>
+
+        <div class="section" data-title="Buğday Tanesinden Ekmeğe">
+            <a href="./x/bugday_tanesinden_ekmege.pdf" target="_blank">
+                <img src="a.jpg" alt="Buğday Tanesinden Ekmeğe">
+                <br>Buğday Tanesinden Ekmeğe
+            </a>
+        </div>
+
+        <div class="section" data-title="Böcek Oteli Neden Sessiz">
+            <a href="./x/bocek_oteli_neden_sessiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Böcek Oteli Neden Sessiz">
+                <br>Böcek Oteli Neden Sessiz
+            </a>
+        </div>
+
+        <div class="section" data-title="Böcek Oteli">
+            <a href="./x/bocek_oteli.pdf" target="_blank">
+                <img src="a.jpg" alt="Böcek Oteli">
+                <br>Böcek Oteli
+            </a>
+        </div>
+
+        <div class="section" data-title="Büyük mü, Küçük mü">
+            <a href="./x/buyuk_mu_kucuk_mu.pdf" target="_blank">
+                <img src="a.jpg" alt="Büyük mü, Küçük mü">
+                <br>Büyük mü, Küçük mü
+            </a>
+        </div>
+
+        <div class="section" data-title="Büyükanne Büyükbaba">
+            <a href="./x/buyukanne_buyukbaba.pdf" target="_blank">
+                <img src="a.jpg" alt="Büyükanne Büyükbaba">
+                <br>Büyükanne Büyükbaba
+            </a>
+        </div>
+
+        <div class="section" data-title="Cahit Arf">
+            <a href="./x/cahit_arf.pdf" target="_blank">
+                <img src="a.jpg" alt="Cahit Arf">
+                <br>Cahit Arf
+            </a>
+        </div>
+
+        <div class="section" data-title="Canlı Türlerinin Önemi">
+            <a href="./x/canli_turlerinin_onemi.pdf" target="_blank">
+                <img src="a.jpg" alt="Canlı Türlerinin Önemi">
+                <br>Canlı Türlerinin Önemi
+            </a>
+        </div>
+
+        <div class="section" data-title="Cumhuriyet Marşı">
+            <a href="./x/cumhuriyet_marsi.pdf" target="_blank">
+                <img src="a.jpg" alt="Cumhuriyet Marşı">
+                <br>Cumhuriyet Marşı
+            </a>
+        </div>
+
+        <div class="section" data-title="Cumhuriyet">
+            <a href="./x/cumhuriyet_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Cumhuriyet">
+                <br>Cumhuriyet
+            </a>
+        </div>
+
+        <div class="section" data-title="Daire İle Dans">
+            <a href="./x/daire_ile_dans.pdf" target="_blank">
+                <img src="a.jpg" alt="Daire İle Dans">
+                <br>Daire İle Dans
+            </a>
+        </div>
+
+        <div class="section" data-title="Dal Parçalarıyla Ne Yapalım">
+            <a href="./x/dal_parcalariyla_ne_yapalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Dal Parçalarıyla Ne Yapalım">
+                <br>Dal Parçalarıyla Ne Yapalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Dalgaların Sesi">
+            <a href="./x/dalgalarin_sesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Dalgaların Sesi">
+                <br>Dalgaların Sesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Dans Edelim">
+            <a href="./x/dans_edelim.pdf" target="_blank">
+                <img src="a.jpg" alt="Dans Edelim">
+                <br>Dans Edelim
+            </a>
+        </div>
+
+        <div class="section" data-title="Dans Eden Damla">
+            <a href="./x/dans_eden_damla.pdf" target="_blank">
+                <img src="a.jpg" alt="Dans Eden Damla">
+                <br>Dans Eden Damla
+            </a>
+        </div>
+
+        <div class="section" data-title="Dans Festivali">
+            <a href="./x/dans_festivali.pdf" target="_blank">
+                <img src="a.jpg" alt="Dans Festivali">
+                <br>Dans Festivali
+            </a>
+        </div>
+
+        <div class="section" data-title="Dağınık Sınıfım">
+            <a href="./x/daginik_sinifim.pdf" target="_blank">
+                <img src="a.jpg" alt="Dağınık Sınıfım">
+                <br>Dağınık Sınıfım
+            </a>
+        </div>
+
+        <div class="section" data-title="Denizlerimiz Temiz Olsun!">
+            <a href="./x/denizlerimiz_temiz_olsun.pdf" target="_blank">
+                <img src="a.jpg" alt="Denizlerimiz Temiz Olsun!">
+                <br>Denizlerimiz Temiz Olsun!
+            </a>
+        </div>
+
+        <div class="section" data-title="Deprem Çantası">
+            <a href="./x/deprem_cantasi.pdf" target="_blank">
+                <img src="a.jpg" alt="Deprem Çantası">
+                <br>Deprem Çantası
+            </a>
+        </div>
+
+        <div class="section" data-title="Deprem">
+            <a href="./x/deprem_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Deprem">
+                <br>Deprem
+            </a>
+        </div>
+
+        <div class="section" data-title="Değerlerim En Büyük Hazinelerim">
+            <a href="./x/degerlerim_en_buyuk_hazinelerim.pdf" target="_blank">
+                <img src="a.jpg" alt="Değerlerim En Büyük Hazinelerim">
+                <br>Değerlerim En Büyük Hazinelerim
+            </a>
+        </div>
+
+        <div class="section" data-title="Dinle Ve Tahmin Et">
+            <a href="./x/dinle_ve_tahmin_et.pdf" target="_blank">
+                <img src="a.jpg" alt="Dinle Ve Tahmin Et">
+                <br>Dinle Ve Tahmin Et
+            </a>
+        </div>
+
+        <div class="section" data-title="Dinlemek Neden Önemli">
+            <a href="./x/dinlemek_neden_onemli.pdf" target="_blank">
+                <img src="a.jpg" alt="Dinlemek Neden Önemli">
+                <br>Dinlemek Neden Önemli
+            </a>
+        </div>
+
+        <div class="section" data-title="Dinozor ve Kelebek">
+            <a href="./x/dinozor_ve_kelebek.pdf" target="_blank">
+                <img src="a.jpg" alt="Dinozor ve Kelebek">
+                <br>Dinozor ve Kelebek
+            </a>
+        </div>
+
+        <div class="section" data-title="Dokuma Sanatım">
+            <a href="./x/dokuma_sanatim.pdf" target="_blank">
+                <img src="a.jpg" alt="Dokuma Sanatım">
+                <br>Dokuma Sanatım
+            </a>
+        </div>
+
+        <div class="section" data-title="Dokunarak Bulmayı Dene">
+            <a href="./x/dokunarak_bulmayi_dene.pdf" target="_blank">
+                <img src="a.jpg" alt="Dokunarak Bulmayı Dene">
+                <br>Dokunarak Bulmayı Dene
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğa Dostuyuz">
+            <a href="./x/doga_dostuyuz.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğa Dostuyuz">
+                <br>Doğa Dostuyuz
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğada Büyük-Küçük">
+            <a href="./x/dogada_buyuk_kucuk.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğada Büyük-Küçük">
+                <br>Doğada Büyük-Küçük
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğada Gruplama">
+            <a href="./x/dogada_gruplama.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğada Gruplama">
+                <br>Doğada Gruplama
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğada Neler Oluyor">
+            <a href="./x/dogada_neler_oluyor.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğada Neler Oluyor">
+                <br>Doğada Neler Oluyor
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğadaki Grafik">
+            <a href="./x/dogadaki_grafik.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğadaki Grafik">
+                <br>Doğadaki Grafik
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğadaki Kolajım">
+            <a href="./x/dogadaki_kolajim.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğadaki Kolajım">
+                <br>Doğadaki Kolajım
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğal Afet">
+            <a href="./x/dogal_afet.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğal Afet">
+                <br>Doğal Afet
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğamız İçin Çal">
+            <a href="./x/dogamiz_icin_cal.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğamız İçin Çal">
+                <br>Doğamız İçin Çal
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğanın Fırçaları">
+            <a href="./x/doganin_fircalari.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğanın Fırçaları">
+                <br>Doğanın Fırçaları
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğduk, Büyüyoruz">
+            <a href="./x/dogduk_buyuyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğduk, Büyüyoruz">
+                <br>Doğduk, Büyüyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Doğum Günü">
+            <a href="./x/dogum_gunu.pdf" target="_blank">
+                <img src="a.jpg" alt="Doğum Günü">
+                <br>Doğum Günü
+            </a>
+        </div>
+
+        <div class="section" data-title="Duygu Kartlarım">
+            <a href="./x/duygu_kartlarim.pdf" target="_blank">
+                <img src="a.jpg" alt="Duygu Kartlarım">
+                <br>Duygu Kartlarım
+            </a>
+        </div>
+
+        <div class="section" data-title="Duygu Kolajı">
+            <a href="./x/duygu_kolaji.pdf" target="_blank">
+                <img src="a.jpg" alt="Duygu Kolajı">
+                <br>Duygu Kolajı
+            </a>
+        </div>
+
+        <div class="section" data-title="Duygu Sepeti">
+            <a href="./x/duygu_sepeti.pdf" target="_blank">
+                <img src="a.jpg" alt="Duygu Sepeti">
+                <br>Duygu Sepeti
+            </a>
+        </div>
+
+        <div class="section" data-title="Duygular-1">
+            <a href="./x/duygular_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Duygular-1">
+                <br>Duygular-1
+            </a>
+        </div>
+
+        <div class="section" data-title="Duygular-2">
+            <a href="./x/duygular_2.pdf" target="_blank">
+                <img src="a.jpg" alt="Duygular-2">
+                <br>Duygular-2
+            </a>
+        </div>
+
+        <div class="section" data-title="Duygularım">
+            <a href="./x/duygularim.pdf" target="_blank">
+                <img src="a.jpg" alt="Duygularım">
+                <br>Duygularım
+            </a>
+        </div>
+
+        <div class="section" data-title="Duyguların Dansı">
+            <a href="./x/duygularin_dansi.pdf" target="_blank">
+                <img src="a.jpg" alt="Duyguların Dansı">
+                <br>Duyguların Dansı
+            </a>
+        </div>
+
+        <div class="section" data-title="Duyguların Resmi">
+            <a href="./x/duygularin_resmi.pdf" target="_blank">
+                <img src="a.jpg" alt="Duyguların Resmi">
+                <br>Duyguların Resmi
+            </a>
+        </div>
+
+        <div class="section" data-title="Duyguların İhtiyaçları">
+            <a href="./x/duygularin_ihtiyaclari.pdf" target="_blank">
+                <img src="a.jpg" alt="Duyguların İhtiyaçları">
+                <br>Duyguların İhtiyaçları
+            </a>
+        </div>
+
+        <div class="section" data-title="Dört Mevsim">
+            <a href="./x/dort_mevsim.pdf" target="_blank">
+                <img src="a.jpg" alt="Dört Mevsim">
+                <br>Dört Mevsim
+            </a>
+        </div>
+
+        <div class="section" data-title="E-Atık (Elektronik Atık)">
+            <a href="./x/e_atik_elektronik_atik.pdf" target="_blank">
+                <img src="a.jpg" alt="E-Atık (Elektronik Atık)">
+                <br>E-Atık (Elektronik Atık)
+            </a>
+        </div>
+
+        <div class="section" data-title="Ebru Sanatını Keşfediyoruz">
+            <a href="./x/ebru_sanatini_kesfediyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Ebru Sanatını Keşfediyoruz">
+                <br>Ebru Sanatını Keşfediyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="En Sevilen Renk">
+            <a href="./x/en_sevilen_renk.pdf" target="_blank">
+                <img src="a.jpg" alt="En Sevilen Renk">
+                <br>En Sevilen Renk
+            </a>
+        </div>
+
+        <div class="section" data-title="Evimiz">
+            <a href="./x/evimiz_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Evimiz">
+                <br>Evimiz
+            </a>
+        </div>
+
+        <div class="section" data-title="Ezgiye Göre Tarafını Seç">
+            <a href="./x/ezgiye_gore_tarafini_sec.pdf" target="_blank">
+                <img src="a.jpg" alt="Ezgiye Göre Tarafını Seç">
+                <br>Ezgiye Göre Tarafını Seç
+            </a>
+        </div>
+
+        <div class="section" data-title="Eşli Yürüyüş">
+            <a href="./x/esli_yuruyus.pdf" target="_blank">
+                <img src="a.jpg" alt="Eşli Yürüyüş">
+                <br>Eşli Yürüyüş
+            </a>
+        </div>
+
+        <div class="section" data-title="Eşyaların Sesi">
+            <a href="./x/esyalarin_sesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Eşyaların Sesi">
+                <br>Eşyaların Sesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Farklı Ülkeler, Farklı Bayraklar">
+            <a href="./x/farkli_ulkeler_farkli_bayraklar.pdf" target="_blank">
+                <img src="a.jpg" alt="Farklı Ülkeler, Farklı Bayraklar">
+                <br>Farklı Ülkeler, Farklı Bayraklar
+            </a>
+        </div>
+
+        <div class="section" data-title="Farklılıklarımızla Güzeliz">
+            <a href="./x/farkliliklarimizla_guzeliz.pdf" target="_blank">
+                <img src="a.jpg" alt="Farklılıklarımızla Güzeliz">
+                <br>Farklılıklarımızla Güzeliz
+            </a>
+        </div>
+
+        <div class="section" data-title="Farkımızın Farkındayız">
+            <a href="./x/farkimizin_farkindayiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Farkımızın Farkındayız">
+                <br>Farkımızın Farkındayız
+            </a>
+        </div>
+
+        <div class="section" data-title="Fillerin Ayak Sesi">
+            <a href="./x/fillerin_ayak_sesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Fillerin Ayak Sesi">
+                <br>Fillerin Ayak Sesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Fokurdayan Çaydanlıklar">
+            <a href="./x/fokurdayan_caydanliklar.pdf" target="_blank">
+                <img src="a.jpg" alt="Fokurdayan Çaydanlıklar">
+                <br>Fokurdayan Çaydanlıklar
+            </a>
+        </div>
+
+        <div class="section" data-title="Fotoğraf Çekiyorum">
+            <a href="./x/fotograf_cekiyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Fotoğraf Çekiyorum">
+                <br>Fotoğraf Çekiyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Fotoğraflar da Banyo Yapar">
+            <a href="./x/fotograflar_da_banyo_yapar.pdf" target="_blank">
+                <img src="a.jpg" alt="Fotoğraflar da Banyo Yapar">
+                <br>Fotoğraflar da Banyo Yapar
+            </a>
+        </div>
+
+        <div class="section" data-title="Fırtınada Ne Giyilir">
+            <a href="./x/firtinada_ne_giyilir.pdf" target="_blank">
+                <img src="a.jpg" alt="Fırtınada Ne Giyilir">
+                <br>Fırtınada Ne Giyilir
+            </a>
+        </div>
+
+        <div class="section" data-title="Fırçasız Resim">
+            <a href="./x/fircasiz_resim.pdf" target="_blank">
+                <img src="a.jpg" alt="Fırçasız Resim">
+                <br>Fırçasız Resim
+            </a>
+        </div>
+
+        <div class="section" data-title="Fısıltı Ormanı’nın Şifresi">
+            <a href="./x/fisilti_ormani_nin_sifresi.pdf" target="_blank">
+                <img src="a.jpg" alt="Fısıltı Ormanı’nın Şifresi">
+                <br>Fısıltı Ormanı’nın Şifresi
+            </a>
+        </div>
+
+        <div class="section" data-title="Geleneksel Çocuk Oyunları">
+            <a href="./x/geleneksel_cocuk_oyunlari.pdf" target="_blank">
+                <img src="a.jpg" alt="Geleneksel Çocuk Oyunları">
+                <br>Geleneksel Çocuk Oyunları
+            </a>
+        </div>
+
+        <div class="section" data-title="Geri Dönüşümün Çalgısı">
+            <a href="./x/geri_donusumun_calgisi.pdf" target="_blank">
+                <img src="a.jpg" alt="Geri Dönüşümün Çalgısı">
+                <br>Geri Dönüşümün Çalgısı
+            </a>
+        </div>
+
+        <div class="section" data-title="Geri Döşümden Çalgı Olur Mu">
+            <a href="./x/geri_dosumden_calgi_olur_mu.pdf" target="_blank">
+                <img src="a.jpg" alt="Geri Döşümden Çalgı Olur Mu">
+                <br>Geri Döşümden Çalgı Olur Mu
+            </a>
+        </div>
+
+        <div class="section" data-title="Gez, Gör, Keşfet">
+            <a href="./x/gez_gor_kesfet.pdf" target="_blank">
+                <img src="a.jpg" alt="Gez, Gör, Keşfet">
+                <br>Gez, Gör, Keşfet
+            </a>
+        </div>
+
+        <div class="section" data-title="Geçmişten Geleceğe Köprülerimiz">
+            <a href="./x/gecmisten_gelecege_koprulerimiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Geçmişten Geleceğe Köprülerimiz">
+                <br>Geçmişten Geleceğe Köprülerimiz
+            </a>
+        </div>
+
+        <div class="section" data-title="Gitar Dersi">
+            <a href="./x/gitar_dersi.pdf" target="_blank">
+                <img src="a.jpg" alt="Gitar Dersi">
+                <br>Gitar Dersi
+            </a>
+        </div>
+
+        <div class="section" data-title="Gökyüzünde Bir Kuş Olsam">
+            <a href="./x/gokyuzunde_bir_kus_olsam.pdf" target="_blank">
+                <img src="a.jpg" alt="Gökyüzünde Bir Kuş Olsam">
+                <br>Gökyüzünde Bir Kuş Olsam
+            </a>
+        </div>
+
+        <div class="section" data-title="Gölge Dansı">
+            <a href="./x/golge_dansi.pdf" target="_blank">
+                <img src="a.jpg" alt="Gölge Dansı">
+                <br>Gölge Dansı
+            </a>
+        </div>
+
+        <div class="section" data-title="Gölge Oyunu">
+            <a href="./x/golge_oyunu.pdf" target="_blank">
+                <img src="a.jpg" alt="Gölge Oyunu">
+                <br>Gölge Oyunu
+            </a>
+        </div>
+
+        <div class="section" data-title="Görev Kartları">
+            <a href="./x/gorev_kartlari.pdf" target="_blank">
+                <img src="a.jpg" alt="Görev Kartları">
+                <br>Görev Kartları
+            </a>
+        </div>
+
+        <div class="section" data-title="Görevimi Yapıyorum, Doğamı Koruyorum">
+            <a href="./x/gorevimi_yapiyorum_dogami_koruyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Görevimi Yapıyorum, Doğamı Koruyorum">
+                <br>Görevimi Yapıyorum, Doğamı Koruyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Görevimiz Eğlence">
+            <a href="./x/gorevimiz_eglence.pdf" target="_blank">
+                <img src="a.jpg" alt="Görevimiz Eğlence">
+                <br>Görevimiz Eğlence
+            </a>
+        </div>
+
+        <div class="section" data-title="Görüntüden Örüntüye">
+            <a href="./x/goruntuden_oruntuye.pdf" target="_blank">
+                <img src="a.jpg" alt="Görüntüden Örüntüye">
+                <br>Görüntüden Örüntüye
+            </a>
+        </div>
+
+        <div class="section" data-title="Gün Çiçeği">
+            <a href="./x/gun_cicegi.pdf" target="_blank">
+                <img src="a.jpg" alt="Gün Çiçeği">
+                <br>Gün Çiçeği
+            </a>
+        </div>
+
+        <div class="section" data-title="Güneş Saati">
+            <a href="./x/gunes_saati.pdf" target="_blank">
+                <img src="a.jpg" alt="Güneş Saati">
+                <br>Güneş Saati
+            </a>
+        </div>
+
+        <div class="section" data-title="Günümüzün Şarkısı">
+            <a href="./x/gunumuzun_sarkisi.pdf" target="_blank">
+                <img src="a.jpg" alt="Günümüzün Şarkısı">
+                <br>Günümüzün Şarkısı
+            </a>
+        </div>
+
+        <div class="section" data-title="Hafif Mi Kuvvetli Mi">
+            <a href="./x/hafif_mi_kuvvetli_mi.pdf" target="_blank">
+                <img src="a.jpg" alt="Hafif Mi Kuvvetli Mi">
+                <br>Hafif Mi Kuvvetli Mi
+            </a>
+        </div>
+
+        <div class="section" data-title="Haksızlık">
+            <a href="./x/haksizlik.pdf" target="_blank">
+                <img src="a.jpg" alt="Haksızlık">
+                <br>Haksızlık
+            </a>
+        </div>
+
+        <div class="section" data-title="Halı Dokuma">
+            <a href="./x/hali_dokuma.pdf" target="_blank">
+                <img src="a.jpg" alt="Halı Dokuma">
+                <br>Halı Dokuma
+            </a>
+        </div>
+
+        <div class="section" data-title="Hangi Çalgı">
+            <a href="./x/hangi_calgi.pdf" target="_blank">
+                <img src="a.jpg" alt="Hangi Çalgı">
+                <br>Hangi Çalgı
+            </a>
+        </div>
+
+        <div class="section" data-title="Hareketli Balonlar">
+            <a href="./x/hareketli_balonlar.pdf" target="_blank">
+                <img src="a.jpg" alt="Hareketli Balonlar">
+                <br>Hareketli Balonlar
+            </a>
+        </div>
+
+        <div class="section" data-title="Hareketli Parkur">
+            <a href="./x/hareketli_parkur.pdf" target="_blank">
+                <img src="a.jpg" alt="Hareketli Parkur">
+                <br>Hareketli Parkur
+            </a>
+        </div>
+
+        <div class="section" data-title="Hayal Kurmak Güzeldir">
+            <a href="./x/hayal_kurmak_guzeldir.pdf" target="_blank">
+                <img src="a.jpg" alt="Hayal Kurmak Güzeldir">
+                <br>Hayal Kurmak Güzeldir
+            </a>
+        </div>
+
+        <div class="section" data-title="Haydi Dansa!">
+            <a href="./x/haydi_dansa.pdf" target="_blank">
+                <img src="a.jpg" alt="Haydi Dansa!">
+                <br>Haydi Dansa!
+            </a>
+        </div>
+
+        <div class="section" data-title="Haydi Hep Birlikte Balonları Yakalayalım">
+            <a href="./x/haydi_hep_birlikte_balonlari_yakalayalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Haydi Hep Birlikte Balonları Yakalayalım">
+                <br>Haydi Hep Birlikte Balonları Yakalayalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Haydi Kek Yapalım">
+            <a href="./x/haydi_kek_yapalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Haydi Kek Yapalım">
+                <br>Haydi Kek Yapalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Hayvanlara Yardım Ediyoruz">
+            <a href="./x/hayvanlara_yardim_ediyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Hayvanlara Yardım Ediyoruz">
+                <br>Hayvanlara Yardım Ediyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Hayvanlarla Tanışalım">
+            <a href="./x/hayvanlarla_tanisalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Hayvanlarla Tanışalım">
+                <br>Hayvanlarla Tanışalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Hayvanları Besleyelim">
+            <a href="./x/hayvanlari_besleyelim.pdf" target="_blank">
+                <img src="a.jpg" alt="Hayvanları Besleyelim">
+                <br>Hayvanları Besleyelim
+            </a>
+        </div>
+
+        <div class="section" data-title="Hepimiz Ressamız">
+            <a href="./x/hepimiz_ressamiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Hepimiz Ressamız">
+                <br>Hepimiz Ressamız
+            </a>
+        </div>
+
+        <div class="section" data-title="Her Atık Çöp Değil">
+            <a href="./x/her_atik_cop_degil.pdf" target="_blank">
+                <img src="a.jpg" alt="Her Atık Çöp Değil">
+                <br>Her Atık Çöp Değil
+            </a>
+        </div>
+
+        <div class="section" data-title="Herkesin Bir Yaşı Var">
+            <a href="./x/herkesin_bir_yasi_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Herkesin Bir Yaşı Var">
+                <br>Herkesin Bir Yaşı Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Heykel">
+            <a href="./x/heykel_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Heykel">
+                <br>Heykel
+            </a>
+        </div>
+
+        <div class="section" data-title="Hikâye Taşları">
+            <a href="./x/hikaye_taslari.pdf" target="_blank">
+                <img src="a.jpg" alt="Hikâye Taşları">
+                <br>Hikâye Taşları
+            </a>
+        </div>
+
+        <div class="section" data-title="Hikâyemi Arıyorum">
+            <a href="./x/hikayemi_ariyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Hikâyemi Arıyorum">
+                <br>Hikâyemi Arıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Hikâyeyi Tamamlıyorum">
+            <a href="./x/hikayeyi_tamamliyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Hikâyeyi Tamamlıyorum">
+                <br>Hikâyeyi Tamamlıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Hop Hop Hulahop">
+            <a href="./x/hop_hop_hulahop.pdf" target="_blank">
+                <img src="a.jpg" alt="Hop Hop Hulahop">
+                <br>Hop Hop Hulahop
+            </a>
+        </div>
+
+        <div class="section" data-title="Hulahop Tüneli">
+            <a href="./x/hulahop_tuneli.pdf" target="_blank">
+                <img src="a.jpg" alt="Hulahop Tüneli">
+                <br>Hulahop Tüneli
+            </a>
+        </div>
+
+        <div class="section" data-title="Hızlı Ebe Yavaş Ebe">
+            <a href="./x/hizli_ebe_yavas_ebe.pdf" target="_blank">
+                <img src="a.jpg" alt="Hızlı Ebe Yavaş Ebe">
+                <br>Hızlı Ebe Yavaş Ebe
+            </a>
+        </div>
+
+        <div class="section" data-title="Işık Kirliliği">
+            <a href="./x/isik_kirliligi.pdf" target="_blank">
+                <img src="a.jpg" alt="Işık Kirliliği">
+                <br>Işık Kirliliği
+            </a>
+        </div>
+
+        <div class="section" data-title="Kabuk Avcısı">
+            <a href="./x/kabuk_avcisi.pdf" target="_blank">
+                <img src="a.jpg" alt="Kabuk Avcısı">
+                <br>Kabuk Avcısı
+            </a>
+        </div>
+
+        <div class="section" data-title="Kalbimizdeki Sevgi">
+            <a href="./x/kalbimizdeki_sevgi.pdf" target="_blank">
+                <img src="a.jpg" alt="Kalbimizdeki Sevgi">
+                <br>Kalbimizdeki Sevgi
+            </a>
+        </div>
+
+        <div class="section" data-title="Kale ve Güneş">
+            <a href="./x/kale_ve_gunes.pdf" target="_blank">
+                <img src="a.jpg" alt="Kale ve Güneş">
+                <br>Kale ve Güneş
+            </a>
+        </div>
+
+        <div class="section" data-title="Kamp Şarkısı">
+            <a href="./x/kamp_sarkisi.pdf" target="_blank">
+                <img src="a.jpg" alt="Kamp Şarkısı">
+                <br>Kamp Şarkısı
+            </a>
+        </div>
+
+        <div class="section" data-title="Kanguru ve Kolibri">
+            <a href="./x/kanguru_ve_kolibri.pdf" target="_blank">
+                <img src="a.jpg" alt="Kanguru ve Kolibri">
+                <br>Kanguru ve Kolibri
+            </a>
+        </div>
+
+        <div class="section" data-title="Karınca Minik Yolculukta">
+            <a href="./x/karinca_minik_yolculukta.pdf" target="_blank">
+                <img src="a.jpg" alt="Karınca Minik Yolculukta">
+                <br>Karınca Minik Yolculukta
+            </a>
+        </div>
+
+        <div class="section" data-title="Kayadaki Balık">
+            <a href="./x/kayadaki_balik.pdf" target="_blank">
+                <img src="a.jpg" alt="Kayadaki Balık">
+                <br>Kayadaki Balık
+            </a>
+        </div>
+
+        <div class="section" data-title="Kaç, Dur, Dinlen">
+            <a href="./x/kac_dur_dinlen.pdf" target="_blank">
+                <img src="a.jpg" alt="Kaç, Dur, Dinlen">
+                <br>Kaç, Dur, Dinlen
+            </a>
+        </div>
+
+        <div class="section" data-title="Kağıdın Yolculuğu">
+            <a href="./x/kagidin_yolculugu.pdf" target="_blank">
+                <img src="a.jpg" alt="Kağıdın Yolculuğu">
+                <br>Kağıdın Yolculuğu
+            </a>
+        </div>
+
+        <div class="section" data-title="Kelebek Bahçesi">
+            <a href="./x/kelebek_bahcesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Kelebek Bahçesi">
+                <br>Kelebek Bahçesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Kelebekten Örüntüye">
+            <a href="./x/kelebekten_oruntuye.pdf" target="_blank">
+                <img src="a.jpg" alt="Kelebekten Örüntüye">
+                <br>Kelebekten Örüntüye
+            </a>
+        </div>
+
+        <div class="section" data-title="Kendi Hikâyemi Yazıyorum">
+            <a href="./x/kendi_hikayemi_yaziyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Kendi Hikâyemi Yazıyorum">
+                <br>Kendi Hikâyemi Yazıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Kendi Tiyatromu Oynuyorum">
+            <a href="./x/kendi_tiyatromu_oynuyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Kendi Tiyatromu Oynuyorum">
+                <br>Kendi Tiyatromu Oynuyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Kiki Ormanda">
+            <a href="./x/kiki_ormanda.pdf" target="_blank">
+                <img src="a.jpg" alt="Kiki Ormanda">
+                <br>Kiki Ormanda
+            </a>
+        </div>
+
+        <div class="section" data-title="Kilim Dokuyoruz">
+            <a href="./x/kilim_dokuyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Kilim Dokuyoruz">
+                <br>Kilim Dokuyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Kirlenmesin Havamız, Temiz Kalsın Dünyamız">
+            <a href="./x/kirlenmesin_havamiz_temiz_kalsin_dunyamiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Kirlenmesin Havamız, Temiz Kalsın Dünyamız">
+                <br>Kirlenmesin Havamız, Temiz Kalsın Dünyamız
+            </a>
+        </div>
+
+        <div class="section" data-title="Kitabım Benim Sorumluluğumda">
+            <a href="./x/kitabim_benim_sorumlulugumda.pdf" target="_blank">
+                <img src="a.jpg" alt="Kitabım Benim Sorumluluğumda">
+                <br>Kitabım Benim Sorumluluğumda
+            </a>
+        </div>
+
+        <div class="section" data-title="Kitabımı Yazıyorum">
+            <a href="./x/kitabimi_yaziyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Kitabımı Yazıyorum">
+                <br>Kitabımı Yazıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Kişisel Alanım">
+            <a href="./x/kisisel_alanim.pdf" target="_blank">
+                <img src="a.jpg" alt="Kişisel Alanım">
+                <br>Kişisel Alanım
+            </a>
+        </div>
+
+        <div class="section" data-title="Kodlama">
+            <a href="./x/kodlama_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Kodlama">
+                <br>Kodlama
+            </a>
+        </div>
+
+        <div class="section" data-title="Koku">
+            <a href="./x/koku_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Koku">
+                <br>Koku
+            </a>
+        </div>
+
+        <div class="section" data-title="Kompozisyon">
+            <a href="./x/kompozisyon_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Kompozisyon">
+                <br>Kompozisyon
+            </a>
+        </div>
+
+        <div class="section" data-title="Korna Sesi">
+            <a href="./x/korna_sesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Korna Sesi">
+                <br>Korna Sesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Koşuyorum, Parkuru Tamamlıyorum">
+            <a href="./x/kosuyorum_parkuru_tamamliyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Koşuyorum, Parkuru Tamamlıyorum">
+                <br>Koşuyorum, Parkuru Tamamlıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Kuklalarla Şekil Avı">
+            <a href="./x/kuklalarla_sekil_avi.pdf" target="_blank">
+                <img src="a.jpg" alt="Kuklalarla Şekil Avı">
+                <br>Kuklalarla Şekil Avı
+            </a>
+        </div>
+
+        <div class="section" data-title="Kulaktan Kulağa Nezaket Sözcükleri">
+            <a href="./x/kulaktan_kulaga_nezaket_sozcukleri.pdf" target="_blank">
+                <img src="a.jpg" alt="Kulaktan Kulağa Nezaket Sözcükleri">
+                <br>Kulaktan Kulağa Nezaket Sözcükleri
+            </a>
+        </div>
+
+        <div class="section" data-title="Kumbaramı Yapıyorum">
+            <a href="./x/kumbarami_yapiyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Kumbaramı Yapıyorum">
+                <br>Kumbaramı Yapıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Kutu İçindeki Düğmeler">
+            <a href="./x/kutu_icindeki_dugmeler.pdf" target="_blank">
+                <img src="a.jpg" alt="Kutu İçindeki Düğmeler">
+                <br>Kutu İçindeki Düğmeler
+            </a>
+        </div>
+
+        <div class="section" data-title="Kutudaki Meslek">
+            <a href="./x/kutudaki_meslek.pdf" target="_blank">
+                <img src="a.jpg" alt="Kutudaki Meslek">
+                <br>Kutudaki Meslek
+            </a>
+        </div>
+
+        <div class="section" data-title="Kutudaki “A” Sesi">
+            <a href="./x/kutudaki_a_sesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Kutudaki “A” Sesi">
+                <br>Kutudaki “A” Sesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Kutuplardaki Ev İglu">
+            <a href="./x/kutuplardaki_ev_iglu.pdf" target="_blank">
+                <img src="a.jpg" alt="Kutuplardaki Ev İglu">
+                <br>Kutuplardaki Ev İglu
+            </a>
+        </div>
+
+        <div class="section" data-title="Kuş Gibi, Aslan Gibi">
+            <a href="./x/kus_gibi_aslan_gibi.pdf" target="_blank">
+                <img src="a.jpg" alt="Kuş Gibi, Aslan Gibi">
+                <br>Kuş Gibi, Aslan Gibi
+            </a>
+        </div>
+
+        <div class="section" data-title="Kuş Sarayları">
+            <a href="./x/kus_saraylari.pdf" target="_blank">
+                <img src="a.jpg" alt="Kuş Sarayları">
+                <br>Kuş Sarayları
+            </a>
+        </div>
+
+        <div class="section" data-title="Kâğıttan Hayaller">
+            <a href="./x/kagittan_hayaller.pdf" target="_blank">
+                <img src="a.jpg" alt="Kâğıttan Hayaller">
+                <br>Kâğıttan Hayaller
+            </a>
+        </div>
+
+        <div class="section" data-title="Kültürümü Tanıyorum">
+            <a href="./x/kulturumu_taniyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Kültürümü Tanıyorum">
+                <br>Kültürümü Tanıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Küpleri Dizelim">
+            <a href="./x/kupleri_dizelim.pdf" target="_blank">
+                <img src="a.jpg" alt="Küpleri Dizelim">
+                <br>Küpleri Dizelim
+            </a>
+        </div>
+
+        <div class="section" data-title="Küçük Mimar Sinanlar">
+            <a href="./x/kucuk_mimar_sinanlar.pdf" target="_blank">
+                <img src="a.jpg" alt="Küçük Mimar Sinanlar">
+                <br>Küçük Mimar Sinanlar
+            </a>
+        </div>
+
+        <div class="section" data-title="Kış Geldi">
+            <a href="./x/kis_geldi.pdf" target="_blank">
+                <img src="a.jpg" alt="Kış Geldi">
+                <br>Kış Geldi
+            </a>
+        </div>
+
+        <div class="section" data-title="Kışın Uyuyan Hayvanlar">
+            <a href="./x/kisin_uyuyan_hayvanlar.pdf" target="_blank">
+                <img src="a.jpg" alt="Kışın Uyuyan Hayvanlar">
+                <br>Kışın Uyuyan Hayvanlar
+            </a>
+        </div>
+
+        <div class="section" data-title="Lider Kim">
+            <a href="./x/lider_kim.pdf" target="_blank">
+                <img src="a.jpg" alt="Lider Kim">
+                <br>Lider Kim
+            </a>
+        </div>
+
+        <div class="section" data-title="Mandalinam ve Dilimleri">
+            <a href="./x/mandalinam_ve_dilimleri.pdf" target="_blank">
+                <img src="a.jpg" alt="Mandalinam ve Dilimleri">
+                <br>Mandalinam ve Dilimleri
+            </a>
+        </div>
+
+        <div class="section" data-title="Masa Masa Etkinlik">
+            <a href="./x/masa_masa_etkinlik.pdf" target="_blank">
+                <img src="a.jpg" alt="Masa Masa Etkinlik">
+                <br>Masa Masa Etkinlik
+            </a>
+        </div>
+
+        <div class="section" data-title="Maske Yapalım">
+            <a href="./x/maske_yapalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Maske Yapalım">
+                <br>Maske Yapalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Mavi, Kırmızı ve Sarı ile Kompozisyon">
+            <a href="./x/mavi_kirmizi_ve_sari_ile_kompozisyon.pdf" target="_blank">
+                <img src="a.jpg" alt="Mavi, Kırmızı ve Sarı ile Kompozisyon">
+                <br>Mavi, Kırmızı ve Sarı ile Kompozisyon
+            </a>
+        </div>
+
+        <div class="section" data-title="Mağara Sanatı">
+            <a href="./x/magara_sanati.pdf" target="_blank">
+                <img src="a.jpg" alt="Mağara Sanatı">
+                <br>Mağara Sanatı
+            </a>
+        </div>
+
+        <div class="section" data-title="Mağaranın İçinde Ne Var">
+            <a href="./x/magaranin_icinde_ne_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Mağaranın İçinde Ne Var">
+                <br>Mağaranın İçinde Ne Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Mehmet Âkif Ersoy">
+            <a href="./x/mehmet_akif_ersoy.pdf" target="_blank">
+                <img src="a.jpg" alt="Mehmet Âkif Ersoy">
+                <br>Mehmet Âkif Ersoy
+            </a>
+        </div>
+
+        <div class="section" data-title="Mektubumuz Var">
+            <a href="./x/mektubumuz_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Mektubumuz Var">
+                <br>Mektubumuz Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Mendillerim Tertemiz">
+            <a href="./x/mendillerim_tertemiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Mendillerim Tertemiz">
+                <br>Mendillerim Tertemiz
+            </a>
+        </div>
+
+        <div class="section" data-title="Merak Ettiğim Ülke">
+            <a href="./x/merak_ettigim_ulke.pdf" target="_blank">
+                <img src="a.jpg" alt="Merak Ettiğim Ülke">
+                <br>Merak Ettiğim Ülke
+            </a>
+        </div>
+
+        <div class="section" data-title="Meraklı Yolculuk">
+            <a href="./x/merakli_yolculuk.pdf" target="_blank">
+                <img src="a.jpg" alt="Meraklı Yolculuk">
+                <br>Meraklı Yolculuk
+            </a>
+        </div>
+
+        <div class="section" data-title="Meslekleri Tanıyorum">
+            <a href="./x/meslekleri_taniyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Meslekleri Tanıyorum">
+                <br>Meslekleri Tanıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Mevsim Ağacımız">
+            <a href="./x/mevsim_agacimiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Mevsim Ağacımız">
+                <br>Mevsim Ağacımız
+            </a>
+        </div>
+
+        <div class="section" data-title="Mevsimlerin Sesleri">
+            <a href="./x/mevsimlerin_sesleri.pdf" target="_blank">
+                <img src="a.jpg" alt="Mevsimlerin Sesleri">
+                <br>Mevsimlerin Sesleri
+            </a>
+        </div>
+
+        <div class="section" data-title="Meyve Bahçesi">
+            <a href="./x/meyve_bahcesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Meyve Bahçesi">
+                <br>Meyve Bahçesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Millî Muharebe Uçağı Kaan">
+            <a href="./x/milli_muharebe_ucagi_kaan.pdf" target="_blank">
+                <img src="a.jpg" alt="Millî Muharebe Uçağı Kaan">
+                <br>Millî Muharebe Uçağı Kaan
+            </a>
+        </div>
+
+        <div class="section" data-title="Mimar Sinan">
+            <a href="./x/mimar_sinan.pdf" target="_blank">
+                <img src="a.jpg" alt="Mimar Sinan">
+                <br>Mimar Sinan
+            </a>
+        </div>
+
+        <div class="section" data-title="Misafirimiz Var Bugün">
+            <a href="./x/misafirimiz_var_bugun.pdf" target="_blank">
+                <img src="a.jpg" alt="Misafirimiz Var Bugün">
+                <br>Misafirimiz Var Bugün
+            </a>
+        </div>
+
+        <div class="section" data-title="Mozaik Sanatı">
+            <a href="./x/mozaik_sanati.pdf" target="_blank">
+                <img src="a.jpg" alt="Mozaik Sanatı">
+                <br>Mozaik Sanatı
+            </a>
+        </div>
+
+        <div class="section" data-title="Mozaik Yapıyoruz">
+            <a href="./x/mozaik_yapiyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Mozaik Yapıyoruz">
+                <br>Mozaik Yapıyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Mutluyum, Kuvvetliyim">
+            <a href="./x/mutluyum_kuvvetliyim.pdf" target="_blank">
+                <img src="a.jpg" alt="Mutluyum, Kuvvetliyim">
+                <br>Mutluyum, Kuvvetliyim
+            </a>
+        </div>
+
+        <div class="section" data-title="Müzik Aletim">
+            <a href="./x/muzik_aletim.pdf" target="_blank">
+                <img src="a.jpg" alt="Müzik Aletim">
+                <br>Müzik Aletim
+            </a>
+        </div>
+
+        <div class="section" data-title="Müzik Formları">
+            <a href="./x/muzik_formlari.pdf" target="_blank">
+                <img src="a.jpg" alt="Müzik Formları">
+                <br>Müzik Formları
+            </a>
+        </div>
+
+        <div class="section" data-title="Müzik Kutusundaki Balerin">
+            <a href="./x/muzik_kutusundaki_balerin.pdf" target="_blank">
+                <img src="a.jpg" alt="Müzik Kutusundaki Balerin">
+                <br>Müzik Kutusundaki Balerin
+            </a>
+        </div>
+
+        <div class="section" data-title="Müzik Küpleri">
+            <a href="./x/muzik_kupleri.pdf" target="_blank">
+                <img src="a.jpg" alt="Müzik Küpleri">
+                <br>Müzik Küpleri
+            </a>
+        </div>
+
+        <div class="section" data-title="Müzik Ustası">
+            <a href="./x/muzik_ustasi.pdf" target="_blank">
+                <img src="a.jpg" alt="Müzik Ustası">
+                <br>Müzik Ustası
+            </a>
+        </div>
+
+        <div class="section" data-title="Müziğin Resmi">
+            <a href="./x/muzigin_resmi.pdf" target="_blank">
+                <img src="a.jpg" alt="Müziğin Resmi">
+                <br>Müziğin Resmi
+            </a>
+        </div>
+
+        <div class="section" data-title="Mıknatıs Neleri Çeker">
+            <a href="./x/miknatis_neleri_ceker.pdf" target="_blank">
+                <img src="a.jpg" alt="Mıknatıs Neleri Çeker">
+                <br>Mıknatıs Neleri Çeker
+            </a>
+        </div>
+
+        <div class="section" data-title="Ne Renk Olsun">
+            <a href="./x/ne_renk_olsun.pdf" target="_blank">
+                <img src="a.jpg" alt="Ne Renk Olsun">
+                <br>Ne Renk Olsun
+            </a>
+        </div>
+
+        <div class="section" data-title="Nezaket İle Peksimet">
+            <a href="./x/nezaket_ile_peksimet.pdf" target="_blank">
+                <img src="a.jpg" alt="Nezaket İle Peksimet">
+                <br>Nezaket İle Peksimet
+            </a>
+        </div>
+
+        <div class="section" data-title="Neşeli Ormanda Parti">
+            <a href="./x/neseli_ormanda_parti.pdf" target="_blank">
+                <img src="a.jpg" alt="Neşeli Ormanda Parti">
+                <br>Neşeli Ormanda Parti
+            </a>
+        </div>
+
+        <div class="section" data-title="Noktalama İşaretlerini Keşfediyorum">
+            <a href="./x/noktalama_isaretlerini_kesfediyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Noktalama İşaretlerini Keşfediyorum">
+                <br>Noktalama İşaretlerini Keşfediyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Olimpiyat Parkuru">
+            <a href="./x/olimpiyat_parkuru.pdf" target="_blank">
+                <img src="a.jpg" alt="Olimpiyat Parkuru">
+                <br>Olimpiyat Parkuru
+            </a>
+        </div>
+
+        <div class="section" data-title="Ormandaki Pazar">
+            <a href="./x/ormandaki_pazar.pdf" target="_blank">
+                <img src="a.jpg" alt="Ormandaki Pazar">
+                <br>Ormandaki Pazar
+            </a>
+        </div>
+
+        <div class="section" data-title="Ormandaki Sesler">
+            <a href="./x/ormandaki_sesler.pdf" target="_blank">
+                <img src="a.jpg" alt="Ormandaki Sesler">
+                <br>Ormandaki Sesler
+            </a>
+        </div>
+
+        <div class="section" data-title="Osman Hamdi Bey">
+            <a href="./x/osman_hamdi_bey.pdf" target="_blank">
+                <img src="a.jpg" alt="Osman Hamdi Bey">
+                <br>Osman Hamdi Bey
+            </a>
+        </div>
+
+        <div class="section" data-title="Otoportre">
+            <a href="./x/otoportre_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Otoportre">
+                <br>Otoportre
+            </a>
+        </div>
+
+        <div class="section" data-title="Oyun Sevinci">
+            <a href="./x/oyun_sevinci.pdf" target="_blank">
+                <img src="a.jpg" alt="Oyun Sevinci">
+                <br>Oyun Sevinci
+            </a>
+        </div>
+
+        <div class="section" data-title="Pandomim">
+            <a href="./x/pandomim_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Pandomim">
+                <br>Pandomim
+            </a>
+        </div>
+
+        <div class="section" data-title="Para İle Tanışıyorum">
+            <a href="./x/para_ile_tanisiyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Para İle Tanışıyorum">
+                <br>Para İle Tanışıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Paranın Keşfi">
+            <a href="./x/paranin_kesfi.pdf" target="_blank">
+                <img src="a.jpg" alt="Paranın Keşfi">
+                <br>Paranın Keşfi
+            </a>
+        </div>
+
+        <div class="section" data-title="Parçaları Bulalım">
+            <a href="./x/parcalari_bulalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Parçaları Bulalım">
+                <br>Parçaları Bulalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Parıltılı Top">
+            <a href="./x/pariltili_top.pdf" target="_blank">
+                <img src="a.jpg" alt="Parıltılı Top">
+                <br>Parıltılı Top
+            </a>
+        </div>
+
+        <div class="section" data-title="Piri Reis">
+            <a href="./x/piri_reis.pdf" target="_blank">
+                <img src="a.jpg" alt="Piri Reis">
+                <br>Piri Reis
+            </a>
+        </div>
+
+        <div class="section" data-title="Plastik Şişeler">
+            <a href="./x/plastik_siseler.pdf" target="_blank">
+                <img src="a.jpg" alt="Plastik Şişeler">
+                <br>Plastik Şişeler
+            </a>
+        </div>
+
+        <div class="section" data-title="Ponponlarla Örüntü">
+            <a href="./x/ponponlarla_oruntu.pdf" target="_blank">
+                <img src="a.jpg" alt="Ponponlarla Örüntü">
+                <br>Ponponlarla Örüntü
+            </a>
+        </div>
+
+        <div class="section" data-title="Portremi Çiziyorum">
+            <a href="./x/portremi_ciziyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Portremi Çiziyorum">
+                <br>Portremi Çiziyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Portrenin Yarısı">
+            <a href="./x/portrenin_yarisi.pdf" target="_blank">
+                <img src="a.jpg" alt="Portrenin Yarısı">
+                <br>Portrenin Yarısı
+            </a>
+        </div>
+
+        <div class="section" data-title="Renk Yakalama">
+            <a href="./x/renk_yakalama.pdf" target="_blank">
+                <img src="a.jpg" alt="Renk Yakalama">
+                <br>Renk Yakalama
+            </a>
+        </div>
+
+        <div class="section" data-title="Renklerin Dansı">
+            <a href="./x/renklerin_dansi.pdf" target="_blank">
+                <img src="a.jpg" alt="Renklerin Dansı">
+                <br>Renklerin Dansı
+            </a>
+        </div>
+
+        <div class="section" data-title="Renklerle Oynuyoruz">
+            <a href="./x/renklerle_oynuyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Renklerle Oynuyoruz">
+                <br>Renklerle Oynuyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Renkli Benekler">
+            <a href="./x/renkli_benekler.pdf" target="_blank">
+                <img src="a.jpg" alt="Renkli Benekler">
+                <br>Renkli Benekler
+            </a>
+        </div>
+
+        <div class="section" data-title="Renkli Çizmeler">
+            <a href="./x/renkli_cizmeler.pdf" target="_blank">
+                <img src="a.jpg" alt="Renkli Çizmeler">
+                <br>Renkli Çizmeler
+            </a>
+        </div>
+
+        <div class="section" data-title="Renkli Şekiller">
+            <a href="./x/renkli_sekiller.pdf" target="_blank">
+                <img src="a.jpg" alt="Renkli Şekiller">
+                <br>Renkli Şekiller
+            </a>
+        </div>
+
+        <div class="section" data-title="Ressamımı Tanıyorum">
+            <a href="./x/ressamimi_taniyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Ressamımı Tanıyorum">
+                <br>Ressamımı Tanıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Ritim Yolu">
+            <a href="./x/ritim_yolu.pdf" target="_blank">
+                <img src="a.jpg" alt="Ritim Yolu">
+                <br>Ritim Yolu
+            </a>
+        </div>
+
+        <div class="section" data-title="Ritimli Pazar">
+            <a href="./x/ritimli_pazar.pdf" target="_blank">
+                <img src="a.jpg" alt="Ritimli Pazar">
+                <br>Ritimli Pazar
+            </a>
+        </div>
+
+        <div class="section" data-title="Rölyef Yapıyoruz">
+            <a href="./x/rolyef_yapiyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Rölyef Yapıyoruz">
+                <br>Rölyef Yapıyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Rüzgârgülü">
+            <a href="./x/ruzgargulu.pdf" target="_blank">
+                <img src="a.jpg" alt="Rüzgârgülü">
+                <br>Rüzgârgülü
+            </a>
+        </div>
+
+        <div class="section" data-title="Sabırla Büyüyen Mercimekler">
+            <a href="./x/sabirla_buyuyen_mercimekler.pdf" target="_blank">
+                <img src="a.jpg" alt="Sabırla Büyüyen Mercimekler">
+                <br>Sabırla Büyüyen Mercimekler
+            </a>
+        </div>
+
+        <div class="section" data-title="Sahnedeyiz">
+            <a href="./x/sahnedeyiz_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Sahnedeyiz">
+                <br>Sahnedeyiz
+            </a>
+        </div>
+
+        <div class="section" data-title="Sanal Müze">
+            <a href="./x/sanal_muze.pdf" target="_blank">
+                <img src="a.jpg" alt="Sanal Müze">
+                <br>Sanal Müze
+            </a>
+        </div>
+
+        <div class="section" data-title="Sanat Türlerini Tanıyorum">
+            <a href="./x/sanat_turlerini_taniyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Sanat Türlerini Tanıyorum">
+                <br>Sanat Türlerini Tanıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Sanatsal Kareler">
+            <a href="./x/sanatsal_kareler.pdf" target="_blank">
+                <img src="a.jpg" alt="Sanatsal Kareler">
+                <br>Sanatsal Kareler
+            </a>
+        </div>
+
+        <div class="section" data-title="Sayalım Bakalım">
+            <a href="./x/sayalim_bakalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Sayalım Bakalım">
+                <br>Sayalım Bakalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Sayı Ruloları">
+            <a href="./x/sayi_rulolari.pdf" target="_blank">
+                <img src="a.jpg" alt="Sayı Ruloları">
+                <br>Sayı Ruloları
+            </a>
+        </div>
+
+        <div class="section" data-title="Sayı Trenim">
+            <a href="./x/sayi_trenim.pdf" target="_blank">
+                <img src="a.jpg" alt="Sayı Trenim">
+                <br>Sayı Trenim
+            </a>
+        </div>
+
+        <div class="section" data-title="Sayılarla Oyun">
+            <a href="./x/sayilarla_oyun.pdf" target="_blank">
+                <img src="a.jpg" alt="Sayılarla Oyun">
+                <br>Sayılarla Oyun
+            </a>
+        </div>
+
+        <div class="section" data-title="Sayıyorum, Koşuyorum">
+            <a href="./x/sayiyorum_kosuyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Sayıyorum, Koşuyorum">
+                <br>Sayıyorum, Koşuyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Sağlıklı Besinleri Seçelim">
+            <a href="./x/saglikli_besinleri_secelim.pdf" target="_blank">
+                <img src="a.jpg" alt="Sağlıklı Besinleri Seçelim">
+                <br>Sağlıklı Besinleri Seçelim
+            </a>
+        </div>
+
+        <div class="section" data-title="Sağlıklı Oturuş">
+            <a href="./x/saglikli_oturus.pdf" target="_blank">
+                <img src="a.jpg" alt="Sağlıklı Oturuş">
+                <br>Sağlıklı Oturuş
+            </a>
+        </div>
+
+        <div class="section" data-title="Sebzeleri Tanıyalım">
+            <a href="./x/sebzeleri_taniyalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Sebzeleri Tanıyalım">
+                <br>Sebzeleri Tanıyalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Sedef Kakma Sanatı">
+            <a href="./x/sedef_kakma_sanati.pdf" target="_blank">
+                <img src="a.jpg" alt="Sedef Kakma Sanatı">
+                <br>Sedef Kakma Sanatı
+            </a>
+        </div>
+
+        <div class="section" data-title="Sembollerle Kodlama">
+            <a href="./x/sembollerle_kodlama.pdf" target="_blank">
+                <img src="a.jpg" alt="Sembollerle Kodlama">
+                <br>Sembollerle Kodlama
+            </a>
+        </div>
+
+        <div class="section" data-title="Sence Hangi Hayvan">
+            <a href="./x/sence_hangi_hayvan.pdf" target="_blank">
+                <img src="a.jpg" alt="Sence Hangi Hayvan">
+                <br>Sence Hangi Hayvan
+            </a>
+        </div>
+
+        <div class="section" data-title="Senin Grubun">
+            <a href="./x/senin_grubun.pdf" target="_blank">
+                <img src="a.jpg" alt="Senin Grubun">
+                <br>Senin Grubun
+            </a>
+        </div>
+
+        <div class="section" data-title="Ses Keşfi">
+            <a href="./x/ses_kesfi.pdf" target="_blank">
+                <img src="a.jpg" alt="Ses Keşfi">
+                <br>Ses Keşfi
+            </a>
+        </div>
+
+        <div class="section" data-title="Ses Örüntüsü">
+            <a href="./x/ses_oruntusu.pdf" target="_blank">
+                <img src="a.jpg" alt="Ses Örüntüsü">
+                <br>Ses Örüntüsü
+            </a>
+        </div>
+
+        <div class="section" data-title="Seslerin Ahengi">
+            <a href="./x/seslerin_ahengi.pdf" target="_blank">
+                <img src="a.jpg" alt="Seslerin Ahengi">
+                <br>Seslerin Ahengi
+            </a>
+        </div>
+
+        <div class="section" data-title="Sevgi Ağacımız">
+            <a href="./x/sevgi_agacimiz.pdf" target="_blank">
+                <img src="a.jpg" alt="Sevgi Ağacımız">
+                <br>Sevgi Ağacımız
+            </a>
+        </div>
+
+        <div class="section" data-title="Seçtim, Anlattım, Dinledim">
+            <a href="./x/sectim_anlattim_dinledim.pdf" target="_blank">
+                <img src="a.jpg" alt="Seçtim, Anlattım, Dinledim">
+                <br>Seçtim, Anlattım, Dinledim
+            </a>
+        </div>
+
+        <div class="section" data-title="Sincap Capcap ile Matematik">
+            <a href="./x/sincap_capcap_ile_matematik.pdf" target="_blank">
+                <img src="a.jpg" alt="Sincap Capcap ile Matematik">
+                <br>Sincap Capcap ile Matematik
+            </a>
+        </div>
+
+        <div class="section" data-title="Sirke Anası Yapıyoruz">
+            <a href="./x/sirke_anasi_yapiyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Sirke Anası Yapıyoruz">
+                <br>Sirke Anası Yapıyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Sivri-Küt">
+            <a href="./x/sivri_kut.pdf" target="_blank">
+                <img src="a.jpg" alt="Sivri-Küt">
+                <br>Sivri-Küt
+            </a>
+        </div>
+
+        <div class="section" data-title="Sonbahar">
+            <a href="./x/sonbahar_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Sonbahar">
+                <br>Sonbahar
+            </a>
+        </div>
+
+        <div class="section" data-title="Su Dolu Bardaklar">
+            <a href="./x/su_dolu_bardaklar.pdf" target="_blank">
+                <img src="a.jpg" alt="Su Dolu Bardaklar">
+                <br>Su Dolu Bardaklar
+            </a>
+        </div>
+
+        <div class="section" data-title="Su İçiyorum">
+            <a href="./x/su_iciyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Su İçiyorum">
+                <br>Su İçiyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Suyun Önemi">
+            <a href="./x/suyun_onemi.pdf" target="_blank">
+                <img src="a.jpg" alt="Suyun Önemi">
+                <br>Suyun Önemi
+            </a>
+        </div>
+
+        <div class="section" data-title="Sözcüklerle Oyun">
+            <a href="./x/sozcuklerle_oyun.pdf" target="_blank">
+                <img src="a.jpg" alt="Sözcüklerle Oyun">
+                <br>Sözcüklerle Oyun
+            </a>
+        </div>
+
+        <div class="section" data-title="Sözünde Duran Kahraman">
+            <a href="./x/sozunde_duran_kahraman.pdf" target="_blank">
+                <img src="a.jpg" alt="Sözünde Duran Kahraman">
+                <br>Sözünde Duran Kahraman
+            </a>
+        </div>
+
+        <div class="section" data-title="Sürdürülebilir Yaşamda Ben De Varım">
+            <a href="./x/surdurulebilir_yasamda_ben_de_varim.pdf" target="_blank">
+                <img src="a.jpg" alt="Sürdürülebilir Yaşamda Ben De Varım">
+                <br>Sürdürülebilir Yaşamda Ben De Varım
+            </a>
+        </div>
+
+        <div class="section" data-title="Sınıf Kuralları Pastası">
+            <a href="./x/sinif_kurallari_pastasi.pdf" target="_blank">
+                <img src="a.jpg" alt="Sınıf Kuralları Pastası">
+                <br>Sınıf Kuralları Pastası
+            </a>
+        </div>
+
+        <div class="section" data-title="Sınıfta Konser Var">
+            <a href="./x/sinifta_konser_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Sınıfta Konser Var">
+                <br>Sınıfta Konser Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Sınıfımın Krokisi">
+            <a href="./x/sinifimin_krokisi.pdf" target="_blank">
+                <img src="a.jpg" alt="Sınıfımın Krokisi">
+                <br>Sınıfımın Krokisi
+            </a>
+        </div>
+
+        <div class="section" data-title="Sınıfımızda Dört Mevsim">
+            <a href="./x/sinifimizda_dort_mevsim.pdf" target="_blank">
+                <img src="a.jpg" alt="Sınıfımızda Dört Mevsim">
+                <br>Sınıfımızda Dört Mevsim
+            </a>
+        </div>
+
+        <div class="section" data-title="Sınıfımızdaki Sesler">
+            <a href="./x/sinifimizdaki_sesler.pdf" target="_blank">
+                <img src="a.jpg" alt="Sınıfımızdaki Sesler">
+                <br>Sınıfımızdaki Sesler
+            </a>
+        </div>
+
+        <div class="section" data-title="Sınıfımızın Türküsü">
+            <a href="./x/sinifimizin_turkusu.pdf" target="_blank">
+                <img src="a.jpg" alt="Sınıfımızın Türküsü">
+                <br>Sınıfımızın Türküsü
+            </a>
+        </div>
+
+        <div class="section" data-title="Sırtımdaki Şekil">
+            <a href="./x/sirtimdaki_sekil.pdf" target="_blank">
+                <img src="a.jpg" alt="Sırtımdaki Şekil">
+                <br>Sırtımdaki Şekil
+            </a>
+        </div>
+
+        <div class="section" data-title="Tahmin Et Bakalım">
+            <a href="./x/tahmin_et_bakalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Tahmin Et Bakalım">
+                <br>Tahmin Et Bakalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Taş Baskı Zamanı">
+            <a href="./x/tas_baski_zamani.pdf" target="_blank">
+                <img src="a.jpg" alt="Taş Baskı Zamanı">
+                <br>Taş Baskı Zamanı
+            </a>
+        </div>
+
+        <div class="section" data-title="Taş Kumbaram">
+            <a href="./x/tas_kumbaram.pdf" target="_blank">
+                <img src="a.jpg" alt="Taş Kumbaram">
+                <br>Taş Kumbaram
+            </a>
+        </div>
+
+        <div class="section" data-title="Taşların Dünyası">
+            <a href="./x/taslarin_dunyasi.pdf" target="_blank">
+                <img src="a.jpg" alt="Taşların Dünyası">
+                <br>Taşların Dünyası
+            </a>
+        </div>
+
+        <div class="section" data-title="Taştan Sanata">
+            <a href="./x/tastan_sanata.pdf" target="_blank">
+                <img src="a.jpg" alt="Taştan Sanata">
+                <br>Taştan Sanata
+            </a>
+        </div>
+
+        <div class="section" data-title="Tek Tek Tekerleme">
+            <a href="./x/tek_tek_tekerleme.pdf" target="_blank">
+                <img src="a.jpg" alt="Tek Tek Tekerleme">
+                <br>Tek Tek Tekerleme
+            </a>
+        </div>
+
+        <div class="section" data-title="Telefon">
+            <a href="./x/telefon_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Telefon">
+                <br>Telefon
+            </a>
+        </div>
+
+        <div class="section" data-title="Temiz Bir Çevre İçin Geri Dönüşüm">
+            <a href="./x/temiz_bir_cevre_icin_geri_donusum.pdf" target="_blank">
+                <img src="a.jpg" alt="Temiz Bir Çevre İçin Geri Dönüşüm">
+                <br>Temiz Bir Çevre İçin Geri Dönüşüm
+            </a>
+        </div>
+
+        <div class="section" data-title="Temiz Deniz">
+            <a href="./x/temiz_deniz.pdf" target="_blank">
+                <img src="a.jpg" alt="Temiz Deniz">
+                <br>Temiz Deniz
+            </a>
+        </div>
+
+        <div class="section" data-title="Temiz-Kirli Eller">
+            <a href="./x/temiz_kirli_eller.pdf" target="_blank">
+                <img src="a.jpg" alt="Temiz-Kirli Eller">
+                <br>Temiz-Kirli Eller
+            </a>
+        </div>
+
+        <div class="section" data-title="Temizlik Ekibi">
+            <a href="./x/temizlik_ekibi.pdf" target="_blank">
+                <img src="a.jpg" alt="Temizlik Ekibi">
+                <br>Temizlik Ekibi
+            </a>
+        </div>
+
+        <div class="section" data-title="Temizlik Kahramanları">
+            <a href="./x/temizlik_kahramanlari.pdf" target="_blank">
+                <img src="a.jpg" alt="Temizlik Kahramanları">
+                <br>Temizlik Kahramanları
+            </a>
+        </div>
+
+        <div class="section" data-title="Temizliği Anlatıyorum">
+            <a href="./x/temizligi_anlatiyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Temizliği Anlatıyorum">
+                <br>Temizliği Anlatıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Tezhip Sanatı">
+            <a href="./x/tezhip_sanati.pdf" target="_blank">
+                <img src="a.jpg" alt="Tezhip Sanatı">
+                <br>Tezhip Sanatı
+            </a>
+        </div>
+
+        <div class="section" data-title="Tohum Çimlendirme">
+            <a href="./x/tohum_cimlendirme.pdf" target="_blank">
+                <img src="a.jpg" alt="Tohum Çimlendirme">
+                <br>Tohum Çimlendirme
+            </a>
+        </div>
+
+        <div class="section" data-title="Tohumdan Fidana">
+            <a href="./x/tohumdan_fidana.pdf" target="_blank">
+                <img src="a.jpg" alt="Tohumdan Fidana">
+                <br>Tohumdan Fidana
+            </a>
+        </div>
+
+        <div class="section" data-title="Tohumun Bilmecesi">
+            <a href="./x/tohumun_bilmecesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Tohumun Bilmecesi">
+                <br>Tohumun Bilmecesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Top Kuyruk’un Saklı Blokları">
+            <a href="./x/top_kuyruk_un_sakli_bloklari.pdf" target="_blank">
+                <img src="a.jpg" alt="Top Kuyruk’un Saklı Blokları">
+                <br>Top Kuyruk’un Saklı Blokları
+            </a>
+        </div>
+
+        <div class="section" data-title="Toplardan Ritme">
+            <a href="./x/toplardan_ritme.pdf" target="_blank">
+                <img src="a.jpg" alt="Toplardan Ritme">
+                <br>Toplardan Ritme
+            </a>
+        </div>
+
+        <div class="section" data-title="Topları Taşıyalım">
+            <a href="./x/toplari_tasiyalim.pdf" target="_blank">
+                <img src="a.jpg" alt="Topları Taşıyalım">
+                <br>Topları Taşıyalım
+            </a>
+        </div>
+
+        <div class="section" data-title="Turgut Zaim’den Esinleniyoruz">
+            <a href="./x/turgut_zaim_den_esinleniyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Turgut Zaim’den Esinleniyoruz">
+                <br>Turgut Zaim’den Esinleniyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Tuti’nin Örüntüsü">
+            <a href="./x/tuti_nin_oruntusu.pdf" target="_blank">
+                <img src="a.jpg" alt="Tuti’nin Örüntüsü">
+                <br>Tuti’nin Örüntüsü
+            </a>
+        </div>
+
+        <div class="section" data-title="Tutum, Yatırım ve Türk Malları Haftası">
+            <a href="./x/tutum_yatirim_ve_turk_mallari_haftasi.pdf" target="_blank">
+                <img src="a.jpg" alt="Tutum, Yatırım ve Türk Malları Haftası">
+                <br>Tutum, Yatırım ve Türk Malları Haftası
+            </a>
+        </div>
+
+        <div class="section" data-title="Tırtıldan Kelebeğe">
+            <a href="./x/tirtildan_kelebege.pdf" target="_blank">
+                <img src="a.jpg" alt="Tırtıldan Kelebeğe">
+                <br>Tırtıldan Kelebeğe
+            </a>
+        </div>
+
+        <div class="section" data-title="Ulaşım Araçlarını Tanıyorum">
+            <a href="./x/ulasim_araclarini_taniyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Ulaşım Araçlarını Tanıyorum">
+                <br>Ulaşım Araçlarını Tanıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Uyaklı Kelimeler">
+            <a href="./x/uyakli_kelimeler.pdf" target="_blank">
+                <img src="a.jpg" alt="Uyaklı Kelimeler">
+                <br>Uyaklı Kelimeler
+            </a>
+        </div>
+
+        <div class="section" data-title="Uyaklı Sözcükler">
+            <a href="./x/uyakli_sozcukler.pdf" target="_blank">
+                <img src="a.jpg" alt="Uyaklı Sözcükler">
+                <br>Uyaklı Sözcükler
+            </a>
+        </div>
+
+        <div class="section" data-title="Uykucu Horoz">
+            <a href="./x/uykucu_horoz.pdf" target="_blank">
+                <img src="a.jpg" alt="Uykucu Horoz">
+                <br>Uykucu Horoz
+            </a>
+        </div>
+
+        <div class="section" data-title="Uçan Balonumuz">
+            <a href="./x/ucan_balonumuz.pdf" target="_blank">
+                <img src="a.jpg" alt="Uçan Balonumuz">
+                <br>Uçan Balonumuz
+            </a>
+        </div>
+
+        <div class="section" data-title="Uçan Gazeteler">
+            <a href="./x/ucan_gazeteler.pdf" target="_blank">
+                <img src="a.jpg" alt="Uçan Gazeteler">
+                <br>Uçan Gazeteler
+            </a>
+        </div>
+
+        <div class="section" data-title="Uçurtmamın Temposu">
+            <a href="./x/ucurtmamin_temposu.pdf" target="_blank">
+                <img src="a.jpg" alt="Uçurtmamın Temposu">
+                <br>Uçurtmamın Temposu
+            </a>
+        </div>
+
+        <div class="section" data-title="Vecihi Hürkuş">
+            <a href="./x/vecihi_hurkus.pdf" target="_blank">
+                <img src="a.jpg" alt="Vecihi Hürkuş">
+                <br>Vecihi Hürkuş
+            </a>
+        </div>
+
+        <div class="section" data-title="Vitray Sanatı">
+            <a href="./x/vitray_sanati.pdf" target="_blank">
+                <img src="a.jpg" alt="Vitray Sanatı">
+                <br>Vitray Sanatı
+            </a>
+        </div>
+
+        <div class="section" data-title="Yansımalar">
+            <a href="./x/yansimalar.pdf" target="_blank">
+                <img src="a.jpg" alt="Yansımalar">
+                <br>Yansımalar
+            </a>
+        </div>
+
+        <div class="section" data-title="Yaprak Nasıl Beslenir">
+            <a href="./x/yaprak_nasil_beslenir.pdf" target="_blank">
+                <img src="a.jpg" alt="Yaprak Nasıl Beslenir">
+                <br>Yaprak Nasıl Beslenir
+            </a>
+        </div>
+
+        <div class="section" data-title="Yaprağım ve Ağacı">
+            <a href="./x/yapragim_ve_agaci.pdf" target="_blank">
+                <img src="a.jpg" alt="Yaprağım ve Ağacı">
+                <br>Yaprağım ve Ağacı
+            </a>
+        </div>
+
+        <div class="section" data-title="Yardım Küpü">
+            <a href="./x/yardim_kupu.pdf" target="_blank">
+                <img src="a.jpg" alt="Yardım Küpü">
+                <br>Yardım Küpü
+            </a>
+        </div>
+
+        <div class="section" data-title="Yardımlaşma Perdesi">
+            <a href="./x/yardimlasma_perdesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Yardımlaşma Perdesi">
+                <br>Yardımlaşma Perdesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Yağmur Nasıl Yağar">
+            <a href="./x/yagmur_nasil_yagar.pdf" target="_blank">
+                <img src="a.jpg" alt="Yağmur Nasıl Yağar">
+                <br>Yağmur Nasıl Yağar
+            </a>
+        </div>
+
+        <div class="section" data-title="Yağmur Ormanları">
+            <a href="./x/yagmur_ormanlari.pdf" target="_blank">
+                <img src="a.jpg" alt="Yağmur Ormanları">
+                <br>Yağmur Ormanları
+            </a>
+        </div>
+
+        <div class="section" data-title="Yağmur Ölçer Yağmuru Ölçer Mi">
+            <a href="./x/yagmur_olcer_yagmuru_olcer_mi.pdf" target="_blank">
+                <img src="a.jpg" alt="Yağmur Ölçer Yağmuru Ölçer Mi">
+                <br>Yağmur Ölçer Yağmuru Ölçer Mi
+            </a>
+        </div>
+
+        <div class="section" data-title="Yağmurölçer">
+            <a href="./x/yagmurolcer.pdf" target="_blank">
+                <img src="a.jpg" alt="Yağmurölçer">
+                <br>Yağmurölçer
+            </a>
+        </div>
+
+        <div class="section" data-title="Yaşasın Cumhuriyet">
+            <a href="./x/yasasin_cumhuriyet.pdf" target="_blank">
+                <img src="a.jpg" alt="Yaşasın Cumhuriyet">
+                <br>Yaşasın Cumhuriyet
+            </a>
+        </div>
+
+        <div class="section" data-title="Yemek Masamızı Hazırlıyoruz">
+            <a href="./x/yemek_masamizi_hazirliyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Yemek Masamızı Hazırlıyoruz">
+                <br>Yemek Masamızı Hazırlıyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Yeni Bir Eve Taşınmak">
+            <a href="./x/yeni_bir_eve_tasinmak.pdf" target="_blank">
+                <img src="a.jpg" alt="Yeni Bir Eve Taşınmak">
+                <br>Yeni Bir Eve Taşınmak
+            </a>
+        </div>
+
+        <div class="section" data-title="Yeni Boyalar">
+            <a href="./x/yeni_boyalar.pdf" target="_blank">
+                <img src="a.jpg" alt="Yeni Boyalar">
+                <br>Yeni Boyalar
+            </a>
+        </div>
+
+        <div class="section" data-title="Yeni Mektep">
+            <a href="./x/yeni_mektep.pdf" target="_blank">
+                <img src="a.jpg" alt="Yeni Mektep">
+                <br>Yeni Mektep
+            </a>
+        </div>
+
+        <div class="section" data-title="Yoğurt Mayalıyorum">
+            <a href="./x/yogurt_mayaliyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Yoğurt Mayalıyorum">
+                <br>Yoğurt Mayalıyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Yumurtanın Hikâyesi">
+            <a href="./x/yumurtanin_hikayesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Yumurtanın Hikâyesi">
+                <br>Yumurtanın Hikâyesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Yön Tarifi">
+            <a href="./x/yon_tarifi.pdf" target="_blank">
+                <img src="a.jpg" alt="Yön Tarifi">
+                <br>Yön Tarifi
+            </a>
+        </div>
+
+        <div class="section" data-title="Yükselen Bloklarım">
+            <a href="./x/yukselen_bloklarim.pdf" target="_blank">
+                <img src="a.jpg" alt="Yükselen Bloklarım">
+                <br>Yükselen Bloklarım
+            </a>
+        </div>
+
+        <div class="section" data-title="Yıldızlı Gece">
+            <a href="./x/yildizli_gece.pdf" target="_blank">
+                <img src="a.jpg" alt="Yıldızlı Gece">
+                <br>Yıldızlı Gece
+            </a>
+        </div>
+
+        <div class="section" data-title="Zaman Cetveli">
+            <a href="./x/zaman_cetveli.pdf" target="_blank">
+                <img src="a.jpg" alt="Zaman Cetveli">
+                <br>Zaman Cetveli
+            </a>
+        </div>
+
+        <div class="section" data-title="Zıpla, Dinlen, Dinle">
+            <a href="./x/zipla_dinlen_dinle.pdf" target="_blank">
+                <img src="a.jpg" alt="Zıpla, Dinlen, Dinle">
+                <br>Zıpla, Dinlen, Dinle
+            </a>
+        </div>
+
+        <div class="section" data-title="Zıplayan Tavşanlar">
+            <a href="./x/ziplayan_tavsanlar.pdf" target="_blank">
+                <img src="a.jpg" alt="Zıplayan Tavşanlar">
+                <br>Zıplayan Tavşanlar
+            </a>
+        </div>
+
+        <div class="section" data-title="Zıtlıklarla Oyun">
+            <a href="./x/zitliklarla_oyun.pdf" target="_blank">
+                <img src="a.jpg" alt="Zıtlıklarla Oyun">
+                <br>Zıtlıklarla Oyun
+            </a>
+        </div>
+
+        <div class="section" data-title="Çalgı Sepeti">
+            <a href="./x/calgi_sepeti.pdf" target="_blank">
+                <img src="a.jpg" alt="Çalgı Sepeti">
+                <br>Çalgı Sepeti
+            </a>
+        </div>
+
+        <div class="section" data-title="Çalgım ve Müziğim">
+            <a href="./x/calgim_ve_muzigim.pdf" target="_blank">
+                <img src="a.jpg" alt="Çalgım ve Müziğim">
+                <br>Çalgım ve Müziğim
+            </a>
+        </div>
+
+        <div class="section" data-title="Çamur Müzesi">
+            <a href="./x/camur_muzesi.pdf" target="_blank">
+                <img src="a.jpg" alt="Çamur Müzesi">
+                <br>Çamur Müzesi
+            </a>
+        </div>
+
+        <div class="section" data-title="Çekirdek">
+            <a href="./x/cekirdek.pdf" target="_blank">
+                <img src="a.jpg" alt="Çekirdek">
+                <br>Çekirdek
+            </a>
+        </div>
+
+        <div class="section" data-title="Çemberin İçinde">
+            <a href="./x/cemberin_icinde.pdf" target="_blank">
+                <img src="a.jpg" alt="Çemberin İçinde">
+                <br>Çemberin İçinde
+            </a>
+        </div>
+
+        <div class="section" data-title="Çevre Kirliliği">
+            <a href="./x/cevre_kirliligi.pdf" target="_blank">
+                <img src="a.jpg" alt="Çevre Kirliliği">
+                <br>Çevre Kirliliği
+            </a>
+        </div>
+
+        <div class="section" data-title="Çevremi Koruyorum">
+            <a href="./x/cevremi_koruyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Çevremi Koruyorum">
+                <br>Çevremi Koruyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Çevremi Temiz Tutuyorum">
+            <a href="./x/cevremi_temiz_tutuyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="Çevremi Temiz Tutuyorum">
+                <br>Çevremi Temiz Tutuyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="Çiftlikte Sayım Var">
+            <a href="./x/ciftlikte_sayim_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Çiftlikte Sayım Var">
+                <br>Çiftlikte Sayım Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Çizgileri Takip Et">
+            <a href="./x/cizgileri_takip_et.pdf" target="_blank">
+                <img src="a.jpg" alt="Çizgileri Takip Et">
+                <br>Çizgileri Takip Et
+            </a>
+        </div>
+
+        <div class="section" data-title="Çizgilerin Dünyası">
+            <a href="./x/cizgilerin_dunyasi.pdf" target="_blank">
+                <img src="a.jpg" alt="Çizgilerin Dünyası">
+                <br>Çizgilerin Dünyası
+            </a>
+        </div>
+
+        <div class="section" data-title="Çocuk Hakları">
+            <a href="./x/cocuk_haklari.pdf" target="_blank">
+                <img src="a.jpg" alt="Çocuk Hakları">
+                <br>Çocuk Hakları
+            </a>
+        </div>
+
+        <div class="section" data-title="Çocuk Hakları_1">
+            <a href="./x/cocuk_haklari_1.pdf" target="_blank">
+                <img src="a.jpg" alt="Çocuk Hakları_1">
+                <br>Çocuk Hakları_1
+            </a>
+        </div>
+
+        <div class="section" data-title="Çok Şekiliz">
+            <a href="./x/cok_sekiliz.pdf" target="_blank">
+                <img src="a.jpg" alt="Çok Şekiliz">
+                <br>Çok Şekiliz
+            </a>
+        </div>
+
+        <div class="section" data-title="Çuvalda Neler Var">
+            <a href="./x/cuvalda_neler_var.pdf" target="_blank">
+                <img src="a.jpg" alt="Çuvalda Neler Var">
+                <br>Çuvalda Neler Var
+            </a>
+        </div>
+
+        <div class="section" data-title="Çömlek Nedir Öğreniyoruz">
+            <a href="./x/comlek_nedir_ogreniyoruz.pdf" target="_blank">
+                <img src="a.jpg" alt="Çömlek Nedir Öğreniyoruz">
+                <br>Çömlek Nedir Öğreniyoruz
+            </a>
+        </div>
+
+        <div class="section" data-title="Çöpçü Karga ve Şaşkın Zebra">
+            <a href="./x/copcu_karga_ve_saskin_zebra.pdf" target="_blank">
+                <img src="a.jpg" alt="Çöpçü Karga ve Şaşkın Zebra">
+                <br>Çöpçü Karga ve Şaşkın Zebra
+            </a>
+        </div>
+
+        <div class="section" data-title="Örümcek Ağı">
+            <a href="./x/orumcek_agi.pdf" target="_blank">
+                <img src="a.jpg" alt="Örümcek Ağı">
+                <br>Örümcek Ağı
+            </a>
+        </div>
+
+        <div class="section" data-title="Üçgenler Nerede">
+            <a href="./x/ucgenler_nerede.pdf" target="_blank">
+                <img src="a.jpg" alt="Üçgenler Nerede">
+                <br>Üçgenler Nerede
+            </a>
+        </div>
+
+        <div class="section" data-title="Üçgenlerle Saklambaç">
+            <a href="./x/ucgenlerle_saklambac.pdf" target="_blank">
+                <img src="a.jpg" alt="Üçgenlerle Saklambaç">
+                <br>Üçgenlerle Saklambaç
+            </a>
+        </div>
+
+        <div class="section" data-title="İletişim Oyunu">
+            <a href="./x/iletisim_oyunu.pdf" target="_blank">
+                <img src="a.jpg" alt="İletişim Oyunu">
+                <br>İletişim Oyunu
+            </a>
+        </div>
+
+        <div class="section" data-title="İlkbahar Koleksiyonu">
+            <a href="./x/ilkbahar_koleksiyonu.pdf" target="_blank">
+                <img src="a.jpg" alt="İlkbahar Koleksiyonu">
+                <br>İlkbahar Koleksiyonu
+            </a>
+        </div>
+
+        <div class="section" data-title="İnceden Kalına">
+            <a href="./x/inceden_kalina.pdf" target="_blank">
+                <img src="a.jpg" alt="İnceden Kalına">
+                <br>İnceden Kalına
+            </a>
+        </div>
+
+        <div class="section" data-title="İsim Bilekliğim">
+            <a href="./x/isim_bilekligim.pdf" target="_blank">
+                <img src="a.jpg" alt="İsim Bilekliğim">
+                <br>İsim Bilekliğim
+            </a>
+        </div>
+
+        <div class="section" data-title="İsmimi Heceliyorum">
+            <a href="./x/ismimi_heceliyorum.pdf" target="_blank">
+                <img src="a.jpg" alt="İsmimi Heceliyorum">
+                <br>İsmimi Heceliyorum
+            </a>
+        </div>
+
+        <div class="section" data-title="İsminde Kaç Harf Var">
+            <a href="./x/isminde_kac_harf_var.pdf" target="_blank">
+                <img src="a.jpg" alt="İsminde Kaç Harf Var">
+                <br>İsminde Kaç Harf Var
+            </a>
+        </div>
+
+        <div class="section" data-title="İz Yapalım">
+            <a href="./x/iz_yapalim.pdf" target="_blank">
+                <img src="a.jpg" alt="İz Yapalım">
+                <br>İz Yapalım
+            </a>
+        </div>
+
+        <div class="section" data-title="İzin Al, İzin Ver">
+            <a href="./x/izin_al_izin_ver.pdf" target="_blank">
+                <img src="a.jpg" alt="İzin Al, İzin Ver">
+                <br>İzin Al, İzin Ver
+            </a>
+        </div>
+
+        <div class="section" data-title="İçinde Ne Saklı">
+            <a href="./x/icinde_ne_sakli.pdf" target="_blank">
+                <img src="a.jpg" alt="İçinde Ne Saklı">
+                <br>İçinde Ne Saklı
+            </a>
+        </div>
+
+        <div class="section" data-title="Şapkalı Eğlence Günü">
+            <a href="./x/sapkali_eglence_gunu.pdf" target="_blank">
+                <img src="a.jpg" alt="Şapkalı Eğlence Günü">
+                <br>Şapkalı Eğlence Günü
+            </a>
+        </div>
+
+        <div class="section" data-title="Şapkam Geri Dönüşür">
+            <a href="./x/sapkam_geri_donusur.pdf" target="_blank">
+                <img src="a.jpg" alt="Şapkam Geri Dönüşür">
+                <br>Şapkam Geri Dönüşür
+            </a>
+        </div>
+
+        <div class="section" data-title="Şarkıların Duyguları">
+            <a href="./x/sarkilarin_duygulari.pdf" target="_blank">
+                <img src="a.jpg" alt="Şarkıların Duyguları">
+                <br>Şarkıların Duyguları
+            </a>
+        </div>
+
+        <div class="section" data-title="Şekillerle Kodlama">
+            <a href="./x/sekillerle_kodlama.pdf" target="_blank">
+                <img src="a.jpg" alt="Şekillerle Kodlama">
+                <br>Şekillerle Kodlama
+            </a>
+        </div>
+
+        <div class="section" data-title="Şeritlerin Boyları">
+            <a href="./x/seritlerin_boylari.pdf" target="_blank">
+                <img src="a.jpg" alt="Şeritlerin Boyları">
+                <br>Şeritlerin Boyları
+            </a>
+        </div>
+
+        <div class="section" data-title="“A” Gezegeni">
+            <a href="./x/a_gezegeni.pdf" target="_blank">
+                <img src="a.jpg" alt="“A” Gezegeni">
+                <br>“A” Gezegeni
+            </a>
+        </div>
+
+
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const sections = document.querySelectorAll('.section');
+        const resultCount = document.getElementById('resultCount');
+        const noResults = document.getElementById('noResults');
+
+        function turkishToLower(text) {
+            return text
+                .replace(/İ/g, 'i')
+                .replace(/I/g, 'ı')
+                .replace(/Ş/g, 'ş')
+                .replace(/Ğ/g, 'ğ')
+                .replace(/Ü/g, 'ü')
+                .replace(/Ö/g, 'ö')
+                .replace(/Ç/g, 'ç')
+                .toLowerCase();
+        }
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = turkishToLower(this.value.trim());
+            let visibleCount = 0;
+
+            sections.forEach(section => {
+                // data-title varsa onu kullan, yoksa içerideki metni al
+                let title = section.getAttribute('data-title');
+                if (!title) {
+                    title = section.textContent || section.innerText;
+                }
+                title = turkishToLower(title);
+                
+                if (searchTerm === '' || title.includes(searchTerm)) {
+                    section.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+
+            if (searchTerm === '') {
+                resultCount.textContent = `Toplam ${sections.length} etkinlik`;
+                noResults.style.display = 'none';
+            } else {
+                resultCount.textContent = `${visibleCount} sonuç bulundu`;
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+        });
+
+        // Sayfa yüklendiğinde toplam sayıyı göster
+        resultCount.textContent = `Toplam ${sections.length} etkinlik`;
+    </script>
+</body>
+</html>

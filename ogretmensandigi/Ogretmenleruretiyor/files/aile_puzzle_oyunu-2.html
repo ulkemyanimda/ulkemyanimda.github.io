@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aile Oyunu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        #characterSelection {
+            display: block;
+        }
+
+        .character-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .character {
+            cursor: pointer;
+            transition: transform 0.3s;
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            border: 3px solid #667eea;
+        }
+
+        .character:hover {
+            transform: scale(1.1);
+        }
+
+        .character-icon {
+            font-size: 5em;
+            margin-bottom: 10px;
+        }
+
+        .character-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        #voiceRecognition {
+            display: none;
+        }
+
+        .voice-prompt {
+            font-size: 3em;
+            margin: 30px 0;
+        }
+
+        #micButton {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.5em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px;
+        }
+
+        #micButton:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        #micButton.listening {
+            background: #e74c3c;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .trophy {
+            font-size: 10em;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .message {
+            font-size: 1.5em;
+            margin: 20px 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        #completion {
+            display: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .click-counter {
+            font-size: 1.3em;
+            color: #764ba2;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Bölüm 1: Karakter Seçimi -->
+        <div id="characterSelection">
+            <h1>🎨 Karakterleri Tanı</h1>
+            <p class="message">Karakterlere tıkla ve isimlerini öğren!</p>
+            <div class="character-grid">
+                <div class="character" onclick="speakCharacter('anne')">
+                    <div class="character-icon">👩</div>
+                    <div class="character-name">?</div>
+                </div>
+                <div class="character" onclick="speakCharacter('baba')">
+                    <div class="character-icon">👨</div>
+                    <div class="character-name">?</div>
+                </div>
+                <div class="character" onclick="speakCharacter('çocuk')">
+                    <div class="character-icon">👧</div>
+                    <div class="character-name">?</div>
+                </div>
+            </div>
+            <div class="click-counter">Tıklama: <span id="clickCount">0</span> / 5</div>
+        </div>
+
+        <!-- Bölüm 2: Ses Tanıma -->
+        <div id="voiceRecognition">
+            <h1>🎤 Ses Oyunu</h1>
+            <div class="voice-prompt" id="currentCharacter">👩</div>
+            <p class="message" id="voicePrompt">Mikrofona "Anne" de!</p>
+            <button id="micButton" onclick="toggleListening()">🎤 Başla</button>
+            <p id="recognizedText" style="margin-top: 20px; color: #666;"></p>
+        </div>
+
+        <!-- Bölüm 3: Tamamlanma -->
+        <div id="completion">
+            <h1>🎉 Tebrikler!</h1>
+            <div class="trophy">🏆</div>
+            <p class="message">Oyunu Tamamladın!</p>
+        </div>
+    </div>
+
+    <script>
+        // Ses efektleri
+        let audioContext;
+        let clickCount = 0;
+
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playApplause() {
+            // Alkış efekti kaldırıldı
+        }
+
+        // Karakter tanıma
+        function speakCharacter(name) {
+            initAudio();
+            
+            const utterance = new SpeechSynthesisUtterance(name);
+            utterance.lang = 'tr-TR';
+            utterance.rate = 0.9;
+            speechSynthesis.speak(utterance);
+            
+            event.target.closest('.character').querySelector('.character-name').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+            
+            clickCount++;
+            document.getElementById('clickCount').textContent = clickCount;
+            
+            if (clickCount >= 5) {
+                playApplause();
+                setTimeout(() => {
+                    document.getElementById('characterSelection').classList.add('hidden');
+                    document.getElementById('voiceRecognition').style.display = 'block';
+                    startVoiceGame();
+                }, 1500);
+            }
+        }
+
+        // Ses tanıma oyunu
+        let recognition;
+        let currentStep = 0;
+        const steps = [
+            { char: '👩', name: 'anne' },
+            { char: '👨', name: 'baba' },
+            { char: '👧', name: 'çocuk' }
+        ];
+
+        function startVoiceGame() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = 'tr-TR';
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+                    document.getElementById('recognizedText').textContent = 'Duydum: ' + transcript;
+                    checkVoiceAnswer(transcript);
+                };
+                
+                recognition.onerror = () => {
+                    document.getElementById('micButton').classList.remove('listening');
+                    document.getElementById('recognizedText').textContent = 'Tekrar dene!';
+                };
+                
+                recognition.onend = () => {
+                    document.getElementById('micButton').classList.remove('listening');
+                };
+            }
+            
+            updateVoicePrompt();
+        }
+
+        function toggleListening() {
+            if (!recognition) {
+                alert('Tarayıcınız ses tanımayı desteklemiyor. Lütfen Chrome kullanın.');
+                return;
+            }
+            
+            const btn = document.getElementById('micButton');
+            if (btn.classList.contains('listening')) {
+                recognition.stop();
+                btn.classList.remove('listening');
+            } else {
+                recognition.start();
+                btn.classList.add('listening');
+                document.getElementById('recognizedText').textContent = 'Dinliyorum...';
+            }
+        }
+
+        function updateVoicePrompt() {
+            const step = steps[currentStep];
+            document.getElementById('currentCharacter').textContent = step.char;
+            document.getElementById('voicePrompt').textContent = `Mikrofona "${step.name.charAt(0).toUpperCase() + step.name.slice(1)}" de!`;
+        }
+
+        function checkVoiceAnswer(transcript) {
+            const expected = steps[currentStep].name;
+            
+            if (transcript.includes(expected)) {
+                playApplause();
+                currentStep++;
+                
+                if (currentStep >= steps.length) {
+                    setTimeout(() => {
+                        document.getElementById('voiceRecognition').classList.add('hidden');
+                        document.getElementById('completion').style.display = 'block';
+                        playApplause();
+                    }, 1000);
+                } else {
+                    setTimeout(updateVoicePrompt, 1500);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
