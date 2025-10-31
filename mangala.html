@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Mangala Oyunu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 900px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .lobby {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .player-setup {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .game-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .game-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .game-item:hover {
+            border-color: #667eea;
+        }
+
+        .game-board {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .game-board.active {
+            display: flex;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+
+        .player-info {
+            font-weight: bold;
+        }
+
+        .current-turn {
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .board {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            background: #8b4513;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: inset 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .treasure {
+            width: 80px;
+            height: 400px;
+            background: #654321;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .pits-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .pits {
+            display: flex;
+            gap: 10px;
+            justify-content: space-around;
+        }
+
+        .pit {
+            width: 90px;
+            height: 90px;
+            background: #654321;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .pit:hover:not(.disabled) {
+            transform: scale(1.1);
+            background: #7a5322;
+        }
+
+        .pit.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .pit.active {
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .top-pits {
+            direction: rtl;
+        }
+
+        .waiting-message {
+            text-align: center;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 8px;
+            color: #856404;
+        }
+
+        .winner-message {
+            text-align: center;
+            padding: 30px;
+            background: #d4edda;
+            border-radius: 8px;
+            color: #155724;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 15px;
+            background: #f8d7da;
+            border-radius: 8px;
+            color: #721c24;
+            margin-bottom: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Online Mangala Oyunu</h1>
+        
+        <div id="lobby" class="lobby">
+            <div class="player-setup">
+                <input type="text" id="playerName" placeholder="Adınızı girin..." maxlength="20">
+                <button id="createGame">Oyun Oluştur</button>
+            </div>
+            
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            
+            <h3>Aktif Oyunlar:</h3>
+            <div id="gameList" class="game-list">
+                <div class="loading">Oyunlar yükleniyor...</div>
+            </div>
+        </div>
+
+        <div id="gameBoard" class="game-board">
+            <div class="game-info">
+                <div class="player-info">
+                    <div>👤 <span id="player1Name"></span>: <span id="player1Score">0</span></div>
+                    <div>👤 <span id="player2Name"></span>: <span id="player2Score">0</span></div>
+                </div>
+                <div class="current-turn">Sıra: <span id="currentTurn"></span></div>
+                <button id="leaveGame">Oyundan Çık</button>
+            </div>
+
+            <div id="waitingMessage" class="waiting-message" style="display: none;">
+                Rakip bekleniyor...
+            </div>
+
+            <div id="winnerMessage" class="winner-message" style="display: none;"></div>
+
+            <div class="board">
+                <div class="treasure" id="treasure1">0</div>
+                
+                <div class="pits-container">
+                    <div class="pits top-pits" id="topPits">
+                        <div class="pit" data-pit="7">4</div>
+                        <div class="pit" data-pit="8">4</div>
+                        <div class="pit" data-pit="9">4</div>
+                        <div class="pit" data-pit="10">4</div>
+                        <div class="pit" data-pit="11">4</div>
+                        <div class="pit" data-pit="12">4</div>
+                    </div>
+                    
+                    <div class="pits" id="bottomPits">
+                        <div class="pit" data-pit="1">4</div>
+                        <div class="pit" data-pit="2">4</div>
+                        <div class="pit" data-pit="3">4</div>
+                        <div class="pit" data-pit="4">4</div>
+                        <div class="pit" data-pit="5">4</div>
+                        <div class="pit" data-pit="6">4</div>
+                    </div>
+                </div>
+
+                <div class="treasure" id="treasure2">0</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPlayer = null;
+        let currentGameId = null;
+        let pollInterval = null;
+
+        const lobby = document.getElementById('lobby');
+        const gameBoard = document.getElementById('gameBoard');
+        const playerNameInput = document.getElementById('playerName');
+        const createGameBtn = document.getElementById('createGame');
+        const gameList = document.getElementById('gameList');
+        const leaveGameBtn = document.getElementById('leaveGame');
+        const errorMessage = document.getElementById('errorMessage');
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        async function loadGames() {
+            try {
+                const result = await window.storage.list('game:', true);
+                if (!result) {
+                    gameList.innerHTML = '<div class="loading">Henüz oyun yok</div>';
+                    return;
+                }
+
+                const games = [];
+                for (const key of result.keys) {
+                    try {
+                        const gameResult = await window.storage.get(key, true);
+                        if (gameResult) {
+                            const game = JSON.parse(gameResult.value);
+                            if (game.status === 'waiting') {
+                                games.push({ key, game });
+                            }
+                        }
+                    } catch (e) {
+                        console.log('Oyun anahtarı bulunamadı:', key);
+                    }
+                }
+
+                if (games.length === 0) {
+                    gameList.innerHTML = '<div class="loading">Henüz oyun yok. İlk oyunu siz oluşturun!</div>';
+                    return;
+                }
+
+                gameList.innerHTML = games.map(({ key, game }) => `
+                    <div class="game-item">
+                        <span>🎮 ${game.player1.name} bekliyor...</span>
+                        <button onclick="joinGame('${key}')">Katıl</button>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Oyunlar yüklenirken hata:', error);
+                gameList.innerHTML = '<div class="loading">Oyunlar yüklenemedi</div>';
+            }
+        }
+
+        async function createGame() {
+            const name = playerNameInput.value.trim();
+            if (!name) {
+                showError('Lütfen adınızı girin!');
+                return;
+            }
+
+            currentPlayer = { name, id: Date.now().toString() };
+            currentGameId = `game:${currentPlayer.id}`;
+
+            const gameState = {
+                player1: currentPlayer,
+                player2: null,
+                currentTurn: 1,
+                pits: [0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+                treasures: [0, 0, 0],
+                status: 'waiting',
+                lastUpdate: Date.now()
+            };
+
+            try {
+                await window.storage.set(currentGameId, JSON.stringify(gameState), true);
+                showGame(gameState);
+                startPolling();
+            } catch (error) {
+                showError('Oyun oluşturulamadı!');
+                console.error(error);
+            }
+        }
+
+        async function joinGame(gameKey) {
+            const name = playerNameInput.value.trim();
+            if (!name) {
+                showError('Lütfen adınızı girin!');
+                return;
+            }
+
+            try {
+                const result = await window.storage.get(gameKey, true);
+                if (!result) {
+                    showError('Oyun bulunamadı!');
+                    return;
+                }
+
+                const gameState = JSON.parse(result.value);
+                if (gameState.status !== 'waiting') {
+                    showError('Bu oyun zaten başlamış!');
+                    return;
+                }
+
+                currentPlayer = { name, id: Date.now().toString() };
+                currentGameId = gameKey;
+
+                gameState.player2 = currentPlayer;
+                gameState.status = 'playing';
+                gameState.lastUpdate = Date.now();
+
+                await window.storage.set(currentGameId, JSON.stringify(gameState), true);
+                showGame(gameState);
+                startPolling();
+            } catch (error) {
+                showError('Oyuna katılınamadı!');
+                console.error(error);
+            }
+        }
+
+        function showGame(gameState) {
+            lobby.style.display = 'none';
+            gameBoard.classList.add('active');
+
+            updateBoard(gameState);
+
+            if (gameState.status === 'waiting') {
+                document.getElementById('waitingMessage').style.display = 'block';
+            } else {
+                document.getElementById('waitingMessage').style.display = 'none';
+            }
+        }
+
+        function updateBoard(gameState) {
+            document.getElementById('player1Name').textContent = gameState.player1.name;
+            document.getElementById('player2Name').textContent = gameState.player2 ? gameState.player2.name : '?';
+            document.getElementById('player1Score').textContent = gameState.treasures[1];
+            document.getElementById('player2Score').textContent = gameState.treasures[2];
+            document.getElementById('currentTurn').textContent = 
+                gameState.currentTurn === 1 ? gameState.player1.name : (gameState.player2?.name || '?');
+
+            document.getElementById('treasure1').textContent = gameState.treasures[1];
+            document.getElementById('treasure2').textContent = gameState.treasures[2];
+
+            const allPits = document.querySelectorAll('.pit');
+            allPits.forEach(pit => {
+                const pitNum = parseInt(pit.dataset.pit);
+                pit.textContent = gameState.pits[pitNum];
+                
+                const isMyTurn = (gameState.currentTurn === 1 && currentPlayer.id === gameState.player1.id) ||
+                                (gameState.currentTurn === 2 && gameState.player2 && currentPlayer.id === gameState.player2.id);
+                
+                const isMyPit = (currentPlayer.id === gameState.player1.id && pitNum >= 1 && pitNum <= 6) ||
+                               (gameState.player2 && currentPlayer.id === gameState.player2.id && pitNum >= 7 && pitNum <= 12);
+
+                if (isMyTurn && isMyPit && gameState.pits[pitNum] > 0 && gameState.status === 'playing') {
+                    pit.classList.remove('disabled');
+                } else {
+                    pit.classList.add('disabled');
+                }
+            });
+
+            if (gameState.status === 'finished') {
+                const winner = gameState.treasures[1] > gameState.treasures[2] ? 
+                    gameState.player1.name : gameState.player2.name;
+                document.getElementById('winnerMessage').textContent = `🏆 ${winner} kazandı!`;
+                document.getElementById('winnerMessage').style.display = 'block';
+            }
+        }
+
+        async function makeMove(pitNum) {
+            try {
+                const result = await window.storage.get(currentGameId, true);
+                if (!result) return;
+
+                const gameState = JSON.parse(result.value);
+                
+                const isMyTurn = (gameState.currentTurn === 1 && currentPlayer.id === gameState.player1.id) ||
+                                (gameState.currentTurn === 2 && gameState.player2 && currentPlayer.id === gameState.player2.id);
+                
+                if (!isMyTurn || gameState.status !== 'playing') return;
+
+                let stones = gameState.pits[pitNum];
+                if (stones === 0) return;
+
+                gameState.pits[pitNum] = 0;
+                let currentPit = pitNum;
+                let lastPit = null;
+
+                while (stones > 0) {
+                    currentPit++;
+                    if (currentPit > 12) currentPit = 1;
+
+                    if (gameState.currentTurn === 1) {
+                        if (currentPit === 7) {
+                            gameState.treasures[1]++;
+                            stones--;
+                            lastPit = 'treasure1';
+                            continue;
+                        }
+                    } else {
+                        if (currentPit === 13) {
+                            currentPit = 1;
+                        }
+                        if (currentPit === 1 && stones > 0) {
+                            gameState.treasures[2]++;
+                            stones--;
+                            lastPit = 'treasure2';
+                            if (stones === 0) break;
+                            continue;
+                        }
+                    }
+
+                    if ((gameState.currentTurn === 1 && currentPit >= 7 && currentPit <= 12) ||
+                        (gameState.currentTurn === 2 && currentPit >= 1 && currentPit <= 6)) {
+                        gameState.pits[currentPit]++;
+                        stones--;
+                        lastPit = currentPit;
+                    } else if ((gameState.currentTurn === 1 && currentPit >= 1 && currentPit <= 6) ||
+                              (gameState.currentTurn === 2 && currentPit >= 7 && currentPit <= 12)) {
+                        gameState.pits[currentPit]++;
+                        stones--;
+                        lastPit = currentPit;
+                    }
+                }
+
+                if (lastPit !== 'treasure1' && lastPit !== 'treasure2') {
+                    gameState.currentTurn = gameState.currentTurn === 1 ? 2 : 1;
+                }
+
+                const player1Empty = gameState.pits.slice(1, 7).every(p => p === 0);
+                const player2Empty = gameState.pits.slice(7, 13).every(p => p === 0);
+
+                if (player1Empty || player2Empty) {
+                    for (let i = 1; i <= 6; i++) {
+                        gameState.treasures[1] += gameState.pits[i];
+                        gameState.pits[i] = 0;
+                    }
+                    for (let i = 7; i <= 12; i++) {
+                        gameState.treasures[2] += gameState.pits[i];
+                        gameState.pits[i] = 0;
+                    }
+                    gameState.status = 'finished';
+                }
+
+                gameState.lastUpdate = Date.now();
+                await window.storage.set(currentGameId, JSON.stringify(gameState), true);
+                updateBoard(gameState);
+            } catch (error) {
+                console.error('Hamle yapılamadı:', error);
+            }
+        }
+
+        function startPolling() {
+            if (pollInterval) clearInterval(pollInterval);
+            
+            pollInterval = setInterval(async () => {
+                try {
+                    const result = await window.storage.get(currentGameId, true);
+                    if (!result) {
+                        clearInterval(pollInterval);
+                        showError('Oyun sonlandırıldı!');
+                        leaveGame();
+                        return;
+                    }
+
+                    const gameState = JSON.parse(result.value);
+                    updateBoard(gameState);
+                } catch (error) {
+                    console.log('Polling hatası:', error);
+                }
+            }, 1000);
+        }
+
+        async function leaveGame() {
+            if (pollInterval) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+            }
+
+            if (currentGameId) {
+                try {
+                    await window.storage.delete(currentGameId, true);
+                } catch (error) {
+                    console.error('Oyun silinemedi:', error);
+                }
+            }
+
+            currentPlayer = null;
+            currentGameId = null;
+            lobby.style.display = 'flex';
+            gameBoard.classList.remove('active');
+            document.getElementById('winnerMessage').style.display = 'none';
+            loadGames();
+        }
+
+        document.querySelectorAll('.pit').forEach(pit => {
+            pit.addEventListener('click', () => {
+                if (!pit.classList.contains('disabled')) {
+                    makeMove(parseInt(pit.dataset.pit));
+                }
+            });
+        });
+
+        createGameBtn.addEventListener('click', createGame);
+        leaveGameBtn.addEventListener('click', leaveGame);
+
+        loadGames();
+        setInterval(loadGames, 3000);
+    </script>
+</body>
+</html>
