@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atölyelerimiz</title>
+    <title>Atölye Programı</title>
     <style>
         * {
             margin: 0;
@@ -12,311 +12,270 @@
         }
 
         body {
-            background: linear-gradient(135deg, #FFF4E6 0%, #FFE5CC 50%, #FFDAB3 100%);
-            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
-            padding: 60px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease;
         }
 
-        .main-title {
-            font-size: 3.5em;
-            color: #D2691E;
-            text-shadow: 3px 3px 0px #FFA500, 6px 6px 0px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            animation: titleBounce 2s ease-in-out infinite;
-        }
-
-        @keyframes titleBounce {
-            0%, 100% { transform: translateY(0px) rotate(-2deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
-        }
-
-        .subtitle {
-            font-size: 1.5em;
-            color: #8B4513;
+        .header h1 {
+            color: white;
+            font-size: 3em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
             margin-bottom: 10px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            padding: 20px;
+        .header p {
+            color: #f0f0f0;
+            font-size: 1.3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
-        .workshop-card {
-            position: relative;
+        .atolyeler-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .atolye-card {
             background: white;
             border-radius: 25px;
-            padding: 25px;
-            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.2);
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeInUp 0.6s ease backwards;
+            position: relative;
+        }
+
+        .atolye-card:nth-child(1) { animation-delay: 0.1s; }
+        .atolye-card:nth-child(2) { animation-delay: 0.2s; }
+        .atolye-card:nth-child(3) { animation-delay: 0.3s; }
+        .atolye-card:nth-child(4) { animation-delay: 0.4s; }
+        .atolye-card:nth-child(5) { animation-delay: 0.5s; }
+        .atolye-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .atolye-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .atolye-image {
+            width: 100%;
+            height: 280px;
+            position: relative;
             overflow: hidden;
-            border: 4px solid #F4A460;
+            background: #f0f0f0;
         }
 
-        .workshop-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, 
-                transparent, 
-                rgba(255, 215, 0, 0.3), 
-                transparent);
-            transform: rotate(45deg);
-            transition: all 0.6s ease;
-        }
-
-        .workshop-card:hover::before {
-            left: 100%;
-        }
-
-        .workshop-card:hover {
-            transform: translateY(-15px) rotate(2deg) scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
-            border-color: #FF8C00;
-        }
-
-        .icon-wrapper {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, #FFE4B5 0%, #FFDAB9 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.1),
-                        0 8px 16px rgba(255, 140, 0, 0.3);
-            transition: all 0.4s ease;
-            animation: float 3s ease-in-out infinite;
-            border: 5px solid #FFA500;
-        }
-
-        .icon-wrapper img {
+        .atolye-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: all 0.4s ease;
+            transition: transform 0.4s ease;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(5deg); }
-        }
-
-        .workshop-card:hover .icon-wrapper {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.1),
-                        0 12px 30px rgba(255, 140, 0, 0.5);
-        }
-
-        .workshop-card:hover .icon-wrapper img {
+        .atolye-card:hover .atolye-image img {
             transform: scale(1.1);
         }
 
-        .workshop-title {
+        .atolye-card:hover .atolye-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.2);
+            animation: shimmer 1.5s infinite;
+        }
+
+        .atolye-content {
+            padding: 30px;
             text-align: center;
-            font-size: 1.4em;
-            color: #8B4513;
-            margin-bottom: 12px;
+        }
+
+        .tarih {
+            font-size: 1.1em;
+            color: #667eea;
             font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            display: block;
         }
 
-        .workshop-info {
-            text-align: center;
-            color: #A0522D;
-            font-size: 0.95em;
-            line-height: 1.6;
+        .baslik {
+            font-size: 1.6em;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.3;
         }
 
-        .age-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
-            color: white;
-            padding: 6px 15px;
+        .click-me {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 15px;
             border-radius: 20px;
             font-size: 0.85em;
-            margin-top: 12px;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+            color: #667eea;
+            animation: pulse 2s infinite;
         }
 
-        .sparkle {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: radial-gradient(circle, #FFD700 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: sparkleAnimation 1.5s ease-in-out infinite;
-        }
-
-        @keyframes sparkleAnimation {
-            0%, 100% { 
+        @keyframes fadeInDown {
+            from {
                 opacity: 0;
-                transform: scale(0) rotate(0deg);
+                transform: translateY(-30px);
             }
-            50% { 
+            to {
                 opacity: 1;
-                transform: scale(1.5) rotate(180deg);
+                transform: translateY(0);
             }
         }
 
-        .sparkle:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
-        .sparkle:nth-child(2) { top: 20%; right: 15%; animation-delay: 0.3s; }
-        .sparkle:nth-child(3) { bottom: 15%; left: 20%; animation-delay: 0.6s; }
-        .sparkle:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 0.9s; }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
 
         @media (max-width: 768px) {
-            .main-title {
-                font-size: 2.5em;
+            .header h1 {
+                font-size: 2em;
             }
             
-            .grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 30px;
+            .atolyeler-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .atolye-image {
+                height: 220px;
+            }
+
+            .baslik {
+                font-size: 1.3em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
-    <div class="sparkle"></div>
+    <div class="header">
+        <h1>🎨 ATÖLYE PROGRAMI 🎨</h1>
+        <p>Öğrenmeye Hazır mısın?</p>
+    </div>
 
-    <div class="container">
-        <div class="header">
-            <h1 class="main-title">🎨 Atölyelerimiz 🎨</h1>
-            <p class="subtitle">Renkli Dünyamıza Hoş Geldiniz!</p>
+    <div class="atolyeler-container">
+
+        <div class="atolye-card" onclick="window.open('1.html', '_blank')">
+            <div class="click-me">Tıkla!</div>
+            <div class="atolye-image">
+                <img src="imgs/01.jpg" alt="Atatürk'ü Anma Atölyesi">
+            </div>
+            <div class="atolye-content">
+                <span class="tarih">10 KASIM</span>
+                <div class="baslik">ATATÜRK'Ü ANMA ATÖLYESİ</div>
+            </div>
         </div>
 
-        <div class="grid">
-<div class="workshop-card" onclick="window.open('1.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/01.jpg" alt="Boyama Atölyesi">
-                </div>
-                <h3 class="workshop-title">Boyama Atölyesi</h3>
-                <p class="workshop-info">Renklerle hayal gücünüzü konuşturun!</p>
-    
+    <div class="atolye-card" onclick="window.open('2.html', '_blank')">
+            <div class="click-me">Tıkla!</div>
+            <div class="atolye-image">
+                <img src="imgs/02.jpg" alt="Bilim Atölyesi">
             </div>
-
-<div class="workshop-card" onclick="window.open('2.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/02.jpg" alt="Dijital Kartpostal  Atölyesi">
-                </div>
-                <h3 class="workshop-title">Dijital Kartpostal Atölyesi</h3>
-                <p class="workshop-info">Bir tıkla duygularını gönder, dijitalde iz bırak!</p>
- 
+            <div class="atolye-content">
+                <span class="tarih">11 KASIM</span>
+                <div class="baslik">BİLİM ATÖLYESİ</div>
             </div>
-
-<div class="workshop-card" onclick="window.open('3.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/03.jpg" alt="Çömlek Atölyesi">
-                </div>
-                <h3 class="workshop-title">Çömlek Atölyesi</h3>
-                <p class="workshop-info">Ellerinizle şekil verin hayallerinize</p>
-
+        </div>
+ <div class="atolye-card" onclick="window.open('3.html', '_blank')">
+            <div class="click-me">Tıkla!</div>
+            <div class="atolye-image">
+                <img src="imgs/03.jpg" alt="Satranç Atölyesi">
             </div>
-
-<div class="workshop-card" onclick="window.open('4.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/04.jpg" alt="Drama Atölyesi">
-                </div>
-                <h3 class="workshop-title">Drama Atölyesi</h3>
-                <p class="workshop-info">Sahne senin, duygularını özgür bırak!</p>
-
+            <div class="atolye-content">
+                <span class="tarih">12 KASIM</span>
+                <div class="baslik">SATRANÇ ATÖLYESİ</div>
             </div>
+        </div>
 
-<div class="workshop-card" onclick="window.open('5.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/05.jpg" alt="Müzik Atölyesi">
-                </div>
-                <h3 class="workshop-title">Ebru Atölyesi</h3>
-                <p class="workshop-info">Suyun üstünde dans eden renklerle sanat yarat!</p>
-     
+   <div class="atolye-card" onclick="window.open('4.html', '_blank')">
+            <div class="click-me">Tıkla!</div>
+            <div class="atolye-image">
+                <img src="imgs/04.jpg" alt="Tarih Atölyesi">
             </div>
-
-<div class="workshop-card" onclick="window.open('6.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/06.jpg" alt="Drama Atölyesi">
-                </div>
-                <h3 class="workshop-title">Halk Oyunu Atölyesi</h3>
-                <p class="workshop-info">Adımlarında gelenek, ritminde birlik!</p>
-      
+            <div class="atolye-content">
+                <span class="tarih">13 KASIM</span>
+                <div class="baslik">TARİH ATÖLYESİ</div>
             </div>
+        </div>
 
-<div class="workshop-card" onclick="window.open('7.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/07.jpg" alt="Harita Atölyesi Keşfi">
-                </div>
-                <h3 class="workshop-title">Harita Atölyesi</h3>
-                <p class="workshop-info">Dünyanın sırlarını keşfet!</p>
-
+ <div class="atolye-card" onclick="window.open('5.html', '_blank')">
+            <div class="click-me">Tıkla!</div>
+            <div class="atolye-image">
+                <img src="imgs/05.jpg" alt="Türk Yemekleri Atölyesi">
             </div>
-
-<div class="workshop-card" onclick="window.open('8.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/08.jpg" alt="Mangala  Atölyesi">
-                </div>
-                <h3 class="workshop-title">Mangala Atölyesi </h3>
-                <p class="workshop-info">Zekânı konuştur, stratejini sergile!</p>
- 
+            <div class="atolye-content">
+                <span class="tarih">15 KASIM</span>
+                <div class="baslik">TÜRK YEMEKLERİ ATÖLYESİ</div>
             </div>
+        </div>
 
-<div class="workshop-card" onclick="window.open('9.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/09.jpg" alt="Masal Atölyesi">
-                </div>
-                <h3 class="workshop-title">Masal Atölyesi</h3>
-                <p class="workshop-info">Masallar dünyasında yolculuk yap!</p>
-
+ <div class="atolye-card" onclick="window.open('6.html', '_blank')">
+            <div class="click-me">Tıkla!</div>
+            <div class="atolye-image">
+                <img src="imgs/06.jpg" alt="Drama Atölyesi">
             </div>
-
-      <div class="workshop-card" onclick="window.open('10.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/10.jpg" alt="Dans Atölyesi">
-                </div>
-                <h3 class="workshop-title">Origami Atölyesi</h3>
-                <p class="workshop-info">Kağıtları katlayarak sanat yarat!</p>
-     
-            </div>
-
-     <div class="workshop-card" onclick="window.open('11.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/11.jpg" alt="Satranç Atölyesi">
-                </div>
-                <h3 class="workshop-title">Satranç Atölyesi</h3>
-                <p class="workshop-info">Hamleni düşün, tahtaya izini bırak!</p>
-
-            </div>
-
-<div class="workshop-card" onclick="window.open('12.html', '_blank')">
-                <div class="icon-wrapper">
-                    <img src="./imgs/12.jpg" alt="Yapay Zeka ile 29 Ekim Temalı Görsel Oluşturma Atölyesi">
-                </div>
-                <h3 class="workshop-title">Yapay Zeka ile 29 Ekim Temalı Görsel Oluşturma Atölyesi</h3>
-                <p class="workshop-info">Cumhuriyetin ruhunu teknolojiyle buluştur!</p>
-               
+            <div class="atolye-content">
+                <span class="tarih">16 KASIM</span>
+                <div class="baslik">DRAMA ATÖLYESİ</div>
             </div>
         </div>
     </div>
+
+    <script>
+        function atolyeAc(atolyeAdi) {
+            alert('🎉 ' + atolyeAdi + ' Atölyesi\'ne hoş geldiniz!\n\nYakında başlayacak...');
+        }
+
+        // Kartlara hover efekti için ekstra animasyon
+        document.querySelectorAll('.atolye-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+    </script>
 </body>
 </html>
