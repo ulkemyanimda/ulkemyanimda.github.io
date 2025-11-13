@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Seviye Aracı</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            /* Canlı bir gradient arka plan */
+            background: linear-gradient(135deg, #ece9e6 0%, #ffffff 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #34495e;
+            text-align: center;
+            font-weight: 600;
+        }
+        .container {
+            max-width: 1400px; /* İçeriğin daha rahat sığması için genişletildi */
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            /* Daha belirgin bir gölge */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Buton Stilleri --- */
+        input[type="file"] {
+            display: block;
+            margin: 20px auto;
+            width: 95%;
+            border: 2px dashed #007bff;
+            background-color: #f8f9fa;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        input[type="file"]:hover {
+            background-color: #e9f5ff;
+            border-color: #0056b3;
+        }
+        /* Dosya seçme butonunu özelleştirme (Chrome/Edge/Firefox) */
+        input[type="file"]::file-selector-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 15px;
+            transition: background-color 0.3s;
+        }
+        input[type="file"]::file-selector-button:hover {
+            background-color: #0056b3;
+        }
+
+        button {
+            display: block;
+            margin: 25px auto;
+            padding: 14px 28px;
+            font-size: 17px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #28a745; /* Canlı Yeşil */
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover:not(:disabled) {
+            background-color: #218838; /* Koyu Yeşil */
+            transform: translateY(-2px); /* Hafif kaldırma efekti */
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* --- Tablo Stilleri --- */
+        .table-wrapper {
+            max-height: 70vh; /* Tablo alanı yüksekliği artırıldı */
+            overflow: auto; /* Gerektiğinde kaydırma çubuğu */
+            margin-top: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            border: 1px solid #ddd;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px; /* Daha fazla dolgu */
+            text-align: left;
+            white-space: nowrap; /* Satırların alta kaymasını engelle */
+        }
+        th {
+            /* Başlık için mavi gradient */
+            background: linear-gradient(180deg, #007bff, #0056b3);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 600;
+        }
+        /* Zebra deseni (çift satırlara farklı renk) */
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tbody tr:hover {
+            background-color: #e9ecef; /* Satır üzerine gelince vurgu */
+        }
+
+        /* --- Dropdown Stili --- */
+        select {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            width: 100%;
+            min-width: 280px; /* Dropdown'un geniş olmasını sağla */
+            font-size: 14px;
+            background-color: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0,123,255,0.25);
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎓 Öğrenci Seviye Belirleme Aracı</h1>
+        
+        <input type="file" id="fileInput" accept=".xlsx, .xls, .csv" title="Excel veya CSV dosyanızı seçin">
+        
+        <button id="exportButton" disabled>Seviyelerle Birlikte Excel Olarak Dışa Aktar</button>
+
+        <div class="table-wrapper">
+            <table id="studentTable">
+                <thead>
+                    <tr id="tableHeader">
+                        </tr>
+                </thead>
+                <tbody id="tableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Global değişkenler
+        let studentData = []; 
+        let originalHeaders = [];
+        const fileInput = document.getElementById('fileInput');
+        const exportButton = document.getElementById('exportButton');
+        const tableHeader = document.getElementById('tableHeader');
+        const tableBody = document.getElementById('tableBody');
+
+        // Seviye seçenekleri
+        const seviyeSecenekleri = [
+            "Lütfen seçin...",
+            "Türkçeyi anlayabilir konuşabilir yazabilir",
+            "Türkçeyi anlayabilir konuşabilir fakat yazamaz",
+            "Türkçeyi hiç bilmez",
+            "Türkçeyi anlayabilir fakat konuşamaz"
+        ];
+        
+        // GÖSTERİLMEYECEK SÜTUNLARIN LİSTESİ
+        const columnsToHide = ["Telefon", "Cep telefonu", "Bölüm", "Kurum", "Ülke", "Gruplar"];
+
+        // 1. Dosya Yüklendiğinde
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const sheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[sheetName];
+                    
+                    studentData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    
+                    if (studentData.length > 1) {
+                        originalHeaders = studentData[0]; // İlk satır başlıklar
+                        studentData = XLSX.utils.sheet_to_json(worksheet); // Asıl veriyi al
+                        renderTable(); // Tabloyu oluştur
+                        exportButton.disabled = false;
+                    } else {
+                        alert("Dosya boş veya formatı hatalı.");
+                        resetUI();
+                    }
+                } catch (error) {
+                    console.error("Dosya okuma hatası:", error);
+                    alert("Dosya okunurken bir hata oluştu. Lütfen dosyanın bozuk olmadığını kontrol edin.");
+                    resetUI();
+                }
+            };
+            reader.onerror = () => {
+                alert("Dosya okunamadı.");
+                resetUI();
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        // Arayüzü sıfırlama fonksiyonu
+        function resetUI() {
+            fileInput.value = '';
+            exportButton.disabled = true;
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+            studentData = [];
+            originalHeaders = [];
+        }
+
+        // 2. Tabloyu Oluşturma (GÜNCELLENDİ)
+        function renderTable() {
+            tableHeader.innerHTML = '';
+            tableBody.innerHTML = '';
+            
+            // Sadece görünür başlıkları filtrele
+            const visibleHeaders = originalHeaders.filter(header => !columnsToHide.includes(header));
+
+            // Yeni başlıkları oluştur (Filtrelenmiş + Seviye)
+            visibleHeaders.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                tableHeader.appendChild(th);
+            });
+            const seviyeTh = document.createElement('th');
+            seviyeTh.textContent = "Seviye";
+            seviyeTh.style.minWidth = "300px"; // Dropdown'un rahat sığması için
+            tableHeader.appendChild(seviyeTh);
+
+            // Veri satırlarını ve seviye dropdownlarını oluştur
+            studentData.forEach((student, index) => {
+                const tr = document.createElement('tr');
+                
+                // Filtrelenmiş veriyi hücrelere bas
+                visibleHeaders.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = student[header] || ''; // Boş hücreler için
+                    tr.appendChild(td);
+                });
+
+                // Seviye hücresini oluştur
+                const seviyeTd = document.createElement('td');
+                const select = document.createElement('select');
+                select.id = `seviye-${index}`; 
+
+                seviyeSecenekleri.forEach(seviye => {
+                    const option = document.createElement('option');
+                    option.value = seviye;
+                    option.textContent = seviye;
+                    if (seviye === "Lütfen seçin...") {
+                        option.value = ""; 
+                    }
+                    select.appendChild(option);
+                });
+                
+                seviyeTd.appendChild(select);
+                tr.appendChild(seviyeTd);
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // 3. Dışa Aktarma
+        exportButton.addEventListener('click', () => {
+            if (studentData.length === 0) return;
+            
+            // Seçilen seviyeleri studentData'ya ekle
+            const updatedData = studentData.map((student, index) => {
+                const selectElement = document.getElementById(`seviye-${index}`);
+                // Eğer selectElement bulunamazsa (bir hata durumunda) varsayılan olarak boş ata
+                const secilenSeviye = selectElement ? selectElement.value : "";
+                
+                return {
+                    ...student,
+                    "Seviye": secilenSeviye
+                };
+            });
+
+            const newWorksheet = XLSX.utils.json_to_sheet(updatedData);
+            const newWorkbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(newWorkbook, newWorksheet, "Öğrenci Seviyeleri");
+
+            XLSX.writeFile(newWorkbook, "ogrenci_listesi_seviyeli.xlsx");
+        });
+
+    </script>
+</body>
+</html>
