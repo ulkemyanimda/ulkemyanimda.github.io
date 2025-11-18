@@ -56,8 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sonOgretmenDurum = sonuclar.ogretmenDurum;
 
             // Sonuçları ekrandaki tablolara yazdır
-            renderTable('atama-sonuclari-tablosu', sonAtamalar, ['Ogrenci_YAS', 'Ogrenci_SEVIYE', 'Istenen_Saat', 'Atanan_Ogretmen', 'Ogretmen_Bransi', 'Atama_Turu']);
-            renderTable('atanamayanlar-tablosu', sonAtanamayanlar, ['Ogrenci_YAS', 'Ogrenci_SEVIYE', 'Istenen_Saat', 'Sebep']);
+            // GÜNCELLENDİ: 'Ogrenci_KODU' sütunu eklendi
+            renderTable('atama-sonuclari-tablosu', sonAtamalar, ['Ogrenci_KODU', 'Ogrenci_YAS', 'Ogrenci_SEVIYE', 'Istenen_Saat', 'Atanan_Ogretmen', 'Ogretmen_Bransi', 'Atama_Turu']);
+            // GÜNCELLENDİ: 'Ogrenci_KODU' sütunu eklendi (ve sonAtanamayanlar olarak düzeltildi)
+            renderTable('atanamayanlar-tablosu', sonAtanamayanlar, ['Ogrenci_KODU', 'Ogrenci_YAS', 'Ogrenci_SEVIYE', 'Istenen_Saat', 'Sebep']);
             renderTable('ogretmen-yuku-tablosu', sonOgretmenDurum, ['Ad Soyad', 'Branş', 'Atanan_Ders_Sayisi']);
 
             // Sonuç alanını göster
@@ -185,6 +187,7 @@ function eslestirmeYap(df_ogrenciler, df_ogretmenler) {
 
             atamalar.push({
                 Ogrenci_ID: index,
+                Ogrenci_KODU: ogrenci['Kod'], // EKLENDİ
                 Ogrenci_YAS: ogrenci['YAS'],
                 Ogrenci_SEVIYE: ogrenci['SEVIYE'],
                 Istenen_Saat: musait_saat,
@@ -215,6 +218,7 @@ function eslestirmeYap(df_ogrenciler, df_ogretmenler) {
 
             atamalar.push({
                 Ogrenci_ID: df_ogrenciler.indexOf(ogrenci), // Orijinal indexi bul
+                Ogrenci_KODU: ogrenci['Kod'], // EKLENDİ
                 Ogrenci_YAS: ogrenci['YAS'],
                 Ogrenci_SEVIYE: ogrenci['SEVIYE'],
                 Istenen_Saat: musait_saat,
@@ -223,12 +227,13 @@ function eslestirmeYap(df_ogrenciler, df_ogretmenler) {
                 Atama_Turu: 'Alternatif (Branş Esnetildi)'
             });
 
-            atanacak_ogretmen.Atanan_Ders_Sayisi++;
+            atanacak_ogretmen.Atanan_DERS_Sayisi++;
             atanacak_ogretmen[musait_saat] = 'DOLU';
             ogrenci.Atandi = true;
         } else {
             atanamayan_ogrenciler.push({
                 Ogrenci_ID: df_ogrenciler.indexOf(ogrenci),
+                Ogrenci_KODU: ogrenci['Kod'], // EKLENDİ
                 Ogrenci_YAS: ogrenci['YAS'],
                 Ogrenci_SEVIYE: ogrenci['SEVIYE'],
                 Istenen_Saat: musait_saat,
