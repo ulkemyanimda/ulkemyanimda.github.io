@@ -167,7 +167,7 @@ function eslestirmeYap(df_ogrenciler, df_ogretmenler) {
 
     // --- AŞAMA 1: Öncelikli Eşleştirme ---
     df_ogrenciler.forEach((ogrenci, index) => {
-        const musait_saat = String(ogrenci['saat']).trim();
+        const musait_saat = String(ogrenci['gun_saat_tr']).trim();
         const gereken_brans = bransBelirle(ogrenci);
 
         if (gereken_brans === 'Diğer') return; // continue
@@ -202,7 +202,7 @@ function eslestirmeYap(df_ogrenciler, df_ogretmenler) {
     // --- AŞAMA 2: Alternatif Eşleştirme ---
     const atanmamis_ogrenciler = df_ogrenciler.filter(o => !o.Atandi);
     atanmamis_ogrenciler.forEach((ogrenci, index) => {
-        const musait_saat = String(ogrenci['saat']).trim();
+        const musait_saat = String(ogrenci['gun_saat_tr']).trim();
 
         let uygun_ogretmenler = df_ogretmenler.filter(ogretmen =>
             String(ogretmen[musait_saat]).toLowerCase() === 'x' &&
