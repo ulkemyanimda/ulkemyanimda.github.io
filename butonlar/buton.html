@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butonlar</title>
+    <style>
+        /* Genel sayfa ayarları */
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        /* Butonları yan yana dizmek için kapsayıcı */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap; /* Ekran küçülürse butonlar alt satıra geçer */
+            justify-content: center;
+            gap: 60px; /* Butonlar arası boşluk */
+        }
+
+        /* --- ORİJİNAL LOGO STİLLERİNİZ BURADA --- */
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto; /* Konteyner içinde ortalamak için margin'i düzenledik */
+            background: white;
+            border-radius: 50%;
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: visible;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 200%;
+            animation: shimmer 3s ease infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+            filter: blur(15px);
+        }
+
+        .logo:hover {
+            transform: scale(1.3) rotate(10deg);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .logo:hover::before {
+            opacity: 0.8;
+        }
+
+        .logo:active {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .logo:hover img {
+            filter: drop-shadow(0 8px 16px rgba(102, 126, 234, 0.6));
+            transform: scale(1.1);
+        }
+        
+        /* --- ANİMASYONLARINIZ BURADA --- */
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- YENİ EKLENEN AÇIKLAMA (TOOLTIP) STİLLERİ --- */
+
+        /* Bağlantı etiketini (a) tooltip için hazırlama */
+        .link-wrapper {
+            position: relative; /* Açıklama balonunu buna göre konumlandıracağız */
+            text-decoration: none; /* Link alt çizgisini kaldır */
+        }
+
+        /* Açıklama balonunun kendisi */
+        .link-wrapper::after {
+            content: attr(data-tooltip); /* HTML'deki data-tooltip içeriğini al */
+            position: absolute;
+            bottom: 100%; /* Logonun üstünde görünsün */
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px); /* Ortala ve biraz yukarı taşı */
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap; /* Metnin tek satırda kalmasını sağla */
+            
+            /* Başlangıçta gizli olsun */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+        }
+
+        /* Fare üzerine geldiğinde açıklama balonunu göster */
+        .link-wrapper:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-15px); /* Hafifçe yukarı kayarak gelsin */
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="button-container">
+
+        <a href="https://ulkemyanimda.github.io/posta/index.html" class="link-wrapper" data-tooltip="Uzaklardan Gelen Satırlar | Öğrenci Kartpostalları" target="_blank">
+            <div class="logo">
+                <img src="1.png" alt="Posta Güvercini Logo 1">
+            </div>
+        </a>
+
+        <a href="https://ulkemyanimda.github.io/ogretmensandigi/Ogretmenleruretiyor/files/hece.html" class="link-wrapper" data-tooltip="Türkçe Hece Ayırıcı" target="_blank">
+             <div class="logo">
+                <img src="2.png" alt="Posta Güvercini Logo 2">
+            </div>
+        </a>
+
+        <a href="https://ulkemyanimda.github.io/ara.html" class="link-wrapper" data-tooltip="Kitaplar | Videolar | Oyunlar" target="_blank">
+             <div class="logo">
+                <img src="3.png" alt="Posta Güvercini Logo 3">
+            </div>
+        </a>
+
+    </div>
+
+    <script>
+        // Şu an için JavaScript'e gerek yok, her şey CSS ile halledildi.
+    </script>
+</body>
+</html>
