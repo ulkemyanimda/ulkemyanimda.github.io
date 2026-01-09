@@ -1,121 +1,84 @@
 <title>Fen Bilgisi Eğitim Materyalleri</title>
-<style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        padding: 20px;
-    }
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f0f2f5; 
+            margin: 0; 
+            padding: 20px; 
+        }
 
-    /* Banner Alanı Düzenlemesi */
-    header {
-        display: flex;
-        justify-content: center;
-        /* Yatayda ortalar */
-        align-items: center;
-        margin-bottom: 40px;
-        /* Kartlarla arasındaki boşluk */
-        width: 100%;
-    }
+        /* Banner Alanı Düzenlemesi */
+        header {
+            display: flex;
+            justify-content: center; /* Yatayda ortalar */
+            align-items: center;
+            margin-bottom: 40px; /* Kartlarla arasındaki boşluk */
+            width: 100%;
+        }
 
-    .banner-img {
-        max-width: 100%;
-        /* Ekran küçülürse resim de küçülür */
-        height: auto;
-        max-height: 300px;
-        /* Banner'ın çok devasa olmasını engeller (opsiyonel) */
-        object-fit: cover;
-        border-radius: 15px;
-        /* Kartlarla uyumlu yuvarlak köşeler */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        /* Hafif gölge */
-    }
+        .banner-img {
+            max-width: 100%; /* Ekran küçülürse resim de küçülür */
+            height: auto;
+            max-height: 300px; /* Banner'ın çok devasa olmasını engeller (opsiyonel) */
+            object-fit: cover;
+            border-radius: 15px; /* Kartlarla uyumlu yuvarlak köşeler */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Hafif gölge */
+        }
 
-    .container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-        max-width: 1400px;
-        margin: 0 auto;
-    }
+        .container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 30px; 
+            max-width: 1400px; 
+            margin: 0 auto; 
+        }
 
-    /* Kart Kutusu */
-    .card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        width: 420px;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
+        /* Kart Kutusu */
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 420px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
 
-    /* Kart Hover Animasyonu (Büyüme) */
-    .card:hover {
-        transform: scale(1.05) translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        z-index: 10;
-    }
+        /* Kart Hover Animasyonu (Büyüme) */
+        .card:hover { transform: scale(1.05) translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); z-index: 10; }
 
-    /* Link Kapsayıcısı (Resim ve Başlık için) */
-    .card-link-wrapper {
-        text-decoration: none;
-        color: inherit;
-        flex-grow: 1;
-    }
+        /* Link Kapsayıcısı (Resim ve Başlık için) */
+        .card-link-wrapper { text-decoration: none; color: inherit; flex-grow: 1; }
 
-    .card-img {
-        width: 420px;
-        height: 276px;
-        object-fit: cover;
-        border-bottom: 4px solid #3498db;
-        display: block;
-    }
+        .card-img { width: 420px; height: 276px; object-fit: cover; border-bottom: 4px solid #3498db; display: block; }
+        
+        .card-body { padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        
+        .card-title { font-size: 1.4rem; color: #333; margin: 0; font-weight: 600; }
 
-    .card-body {
-        padding: 20px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .card-title {
-        font-size: 1.4rem;
-        color: #333;
-        margin: 0;
-        font-weight: 600;
-    }
-
-    /* İndir Butonu Tasarımı */
-    .btn-indir {
-        background-color: #27ae60;
-        color: white;
-        padding: 10px 25px;
-        text-decoration: none;
-        border-radius: 25px;
-        font-weight: bold;
-        transition: background-color 0.3s;
-        display: inline-block;
-        margin-bottom: 15px;
-        /* Alttan boşluk */
-    }
-
-    .btn-indir:hover {
-        background-color: #219150;
-    }
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        /* İndir Butonu Tasarımı */
+        .btn-indir {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            display: inline-block;
+            margin-bottom: 15px; /* Alttan boşluk */
+        }
+        
+        .btn-indir:hover { background-color: #219150; }
+    </style>
 </head>
-
 <body>
 
     <header>
-        <img src="banner.jpg" alt="Eğitim Banner" class="banner-img">
+        <img src="banner.jpg" alt="Eğitim Banner" class="banner-img">      
     </header>
     <div class="container">
 
@@ -130,7 +93,7 @@
                 <a href="./zips/number-pairs_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/models-of-the-hydrogen-atom_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/models-of-the-hydrogen-atom-420.png" alt="Hidrojen Atomu Modelleri" class="card-img">
@@ -142,7 +105,7 @@
                 <a href="./zips/models-of-the-hydrogen-atom_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/buoyancy-basics_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/buoyancy-basics-420.png" alt="Kaldırma Kuvveti: Basit" class="card-img">
@@ -154,7 +117,7 @@
                 <a href="./zips/buoyancy-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/buoyancy_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/buoyancy-420.png" alt="Kaldırma Kuvveti" class="card-img">
@@ -166,7 +129,7 @@
                 <a href="./zips/buoyancy_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/mean-share-and-balance_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/mean-share-and-balance-420.png" alt="Ortalama: Paylaş ve Dengele" class="card-img">
@@ -178,7 +141,7 @@
                 <a href="./zips/mean-share-and-balance_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/generator_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/generator-420.png" alt="Jeneratör" class="card-img">
@@ -190,11 +153,10 @@
                 <a href="./zips/generator_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/magnets-and-electromagnets_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/magnets-and-electromagnets-420.png" alt="Mıknatıslar ve Elektromıknatıslar"
-                    class="card-img">
+                <img src="./icons/magnets-and-electromagnets-420.png" alt="Mıknatıslar ve Elektromıknatıslar" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Mıknatıslar ve Elektromıknatıslar</div>
                 </div>
@@ -203,7 +165,7 @@
                 <a href="./zips/magnets-and-electromagnets_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/magnet-and-compass_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/magnet-and-compass-420.png" alt="Mıknatıs ve Pusula" class="card-img">
@@ -215,11 +177,10 @@
                 <a href="./zips/magnet-and-compass_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/faradays-electromagnetic-lab_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/faradays-electromagnetic-lab-420.png" alt="Faraday'ın Elektromanyetik Laboratuvarı"
-                    class="card-img">
+                <img src="./icons/faradays-electromagnetic-lab-420.png" alt="Faraday'ın Elektromanyetik Laboratuvarı" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Faraday'ın Elektromanyetik Laboratuvarı</div>
                 </div>
@@ -228,7 +189,7 @@
                 <a href="./zips/faradays-electromagnetic-lab_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/projectile-data-lab_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/projectile-data-lab-420.png" alt="Atışların Veri Laboratuvar" class="card-img">
@@ -240,11 +201,10 @@
                 <a href="./zips/projectile-data-lab_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/center-and-variability_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/center-and-variability-420.png" alt="Merkezi Eğilim ve Yayılım Ölçüleri"
-                    class="card-img">
+                <img src="./icons/center-and-variability-420.png" alt="Merkezi Eğilim ve Yayılım Ölçüleri" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Merkezi Eğilim ve Yayılım Ölçüleri</div>
                 </div>
@@ -253,7 +213,7 @@
                 <a href="./zips/center-and-variability_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/build-a-nucleus_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/build-a-nucleus-420.png" alt="Çekirdek Oluştur" class="card-img">
@@ -265,7 +225,7 @@
                 <a href="./zips/build-a-nucleus_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/keplers-laws_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/keplers-laws-420.png" alt="Kepler Kanunları" class="card-img">
@@ -277,7 +237,7 @@
                 <a href="./zips/keplers-laws_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/sound-waves_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/sound-waves-420.png" alt="Ses Dalgaları" class="card-img">
@@ -289,7 +249,7 @@
                 <a href="./zips/sound-waves_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/quadrilateral_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/quadrilateral-420.png" alt="Dörtgen" class="card-img">
@@ -301,7 +261,7 @@
                 <a href="./zips/quadrilateral_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/my-solar-system_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/my-solar-system-420.png" alt="Güneş Sistemim" class="card-img">
@@ -313,7 +273,7 @@
                 <a href="./zips/my-solar-system_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/calculus-grapher_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/calculus-grapher-420.png" alt="Garfik Hesaplamaları" class="card-img">
@@ -325,7 +285,7 @@
                 <a href="./zips/calculus-grapher_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/number-compare_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/number-compare-420.png" alt="Number Compare" class="card-img">
@@ -337,7 +297,7 @@
                 <a href="./zips/number-compare_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/number-play_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/number-play-420.png" alt="Sayı Oyunu" class="card-img">
@@ -349,7 +309,7 @@
                 <a href="./zips/number-play_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/greenhouse-effect_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/greenhouse-effect-420.png" alt="Sera Etkisi" class="card-img">
@@ -361,7 +321,7 @@
                 <a href="./zips/greenhouse-effect_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/geometric-optics-basics_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/geometric-optics-basics-420.png" alt="Geometrik Optik: Başlangıç" class="card-img">
@@ -373,7 +333,7 @@
                 <a href="./zips/geometric-optics-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/geometric-optics_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/geometric-optics-420.png" alt="Geometrik Optik" class="card-img">
@@ -385,7 +345,7 @@
                 <a href="./zips/geometric-optics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/density_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/density-420.png" alt="Özkütle" class="card-img">
@@ -397,7 +357,7 @@
                 <a href="./zips/density_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/circuit-construction-kit-ac_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/circuit-construction-kit-ac-420.png" alt="Devre Yapım : AC" class="card-img">
@@ -409,22 +369,19 @@
                 <a href="./zips/circuit-construction-kit-ac_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
-            <a href="./deneys/circuit-construction-kit-ac-virtual-lab_tr.html" target="_blank"
-                class="card-link-wrapper">
-                <img src="./icons/circuit-construction-kit-ac-virtual-lab-420.png"
-                    alt="Devre Yapımı: AC - Sanal Labaratuvar" class="card-img">
+            <a href="./deneys/circuit-construction-kit-ac-virtual-lab_tr.html" target="_blank" class="card-link-wrapper">
+                <img src="./icons/circuit-construction-kit-ac-virtual-lab-420.png" alt="Devre Yapımı: AC - Sanal Labaratuvar" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Devre Yapımı: AC - Sanal Labaratuvar</div>
                 </div>
             </a>
             <div style="text-align: center;">
-                <a href="./zips/circuit-construction-kit-ac-virtual-lab_tr.zip" class="btn-indir" download>⬇ SCORM
-                    İndir</a>
+                <a href="./zips/circuit-construction-kit-ac-virtual-lab_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/normal-modes_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/normal-modes-420.png" alt="Normal Modlar" class="card-img">
@@ -436,7 +393,7 @@
                 <a href="./zips/normal-modes_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/fourier-making-waves_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/fourier-making-waves-420.png" alt="Fourier: Dalga Oluştur" class="card-img">
@@ -448,7 +405,7 @@
                 <a href="./zips/fourier-making-waves_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/number-line-distance_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/number-line-distance-420.png" alt="Sayı Doğrusu: Mesafe" class="card-img">
@@ -460,7 +417,7 @@
                 <a href="./zips/number-line-distance_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/ratio-and-proportion_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/ratio-and-proportion-420.png" alt="Oran ve Orantı" class="card-img">
@@ -472,7 +429,7 @@
                 <a href="./zips/ratio-and-proportion_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/collision-lab_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/collision-lab-420.png" alt="Çarpışma Laboratuvarı" class="card-img">
@@ -484,7 +441,7 @@
                 <a href="./zips/collision-lab_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/number-line-operations_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/number-line-operations-420.png" alt="Sayı Doğrusu: İşlemler" class="card-img">
@@ -496,7 +453,7 @@
                 <a href="./zips/number-line-operations_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/energy-skate-park_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/energy-skate-park-420.png" alt="Enerji - Kaykay Parkı" class="card-img">
@@ -508,7 +465,7 @@
                 <a href="./zips/energy-skate-park_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/build-a-molecule_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/build-a-molecule-420.png" alt="Molekül Oluştur" class="card-img">
@@ -520,7 +477,7 @@
                 <a href="./zips/build-a-molecule_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/natural-selection_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/natural-selection-420.png" alt="Doğal Seleksiyon" class="card-img">
@@ -532,7 +489,7 @@
                 <a href="./zips/natural-selection_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/number-line-integers_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/number-line-integers-420.png" alt="Sayı Doğrusu: Tam Sayılar" class="card-img">
@@ -544,7 +501,7 @@
                 <a href="./zips/number-line-integers_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/vector-addition-equations_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/vector-addition-equations-420.png" alt="Vektör Ekleme: Denklemler" class="card-img">
@@ -556,7 +513,7 @@
                 <a href="./zips/vector-addition-equations_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/vector-addition_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/vector-addition-420.png" alt="Vektör Ekleme" class="card-img">
@@ -568,7 +525,7 @@
                 <a href="./zips/vector-addition_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/curve-fitting_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/curve-fitting-420.png" alt="Eğri Çizimi" class="card-img">
@@ -580,11 +537,10 @@
                 <a href="./zips/curve-fitting_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/gravity-force-lab-basics_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/gravity-force-lab-basics-420.png" alt="Kütle Çekim Kuvveti Laboratuvarı:Temel"
-                    class="card-img">
+                <img src="./icons/gravity-force-lab-basics-420.png" alt="Kütle Çekim Kuvveti Laboratuvarı:Temel" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Kütle Çekim Kuvveti Laboratuvarı:Temel</div>
                 </div>
@@ -593,7 +549,7 @@
                 <a href="./zips/gravity-force-lab-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/waves-intro_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/waves-intro-420.png" alt="Dalgalar: Giriş" class="card-img">
@@ -605,7 +561,7 @@
                 <a href="./zips/waves-intro_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/diffusion_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/diffusion-420.png" alt="Difüzyon" class="card-img">
@@ -617,7 +573,7 @@
                 <a href="./zips/diffusion_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/gases-intro_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/gases-intro-420.png" alt="Gazlar: Giriş" class="card-img">
@@ -629,7 +585,7 @@
                 <a href="./zips/gases-intro_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/gas-properties_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/gas-properties-420.png" alt="Gazların Özellikleri" class="card-img">
@@ -641,7 +597,7 @@
                 <a href="./zips/gas-properties_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/blackbody-spectrum_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/blackbody-spectrum-420.png" alt="Kara Cisim Işıması" class="card-img">
@@ -653,7 +609,7 @@
                 <a href="./zips/blackbody-spectrum_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/masses-and-springs-basics_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/masses-and-springs-basics-420.png" alt="Kütleler ve Yaylar : Temel" class="card-img">
@@ -665,11 +621,10 @@
                 <a href="./zips/masses-and-springs-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/energy-forms-and-changes_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/energy-forms-and-changes-420.png" alt="Enerji Çeşitleri ve Dönüşümleri"
-                    class="card-img">
+                <img src="./icons/energy-forms-and-changes-420.png" alt="Enerji Çeşitleri ve Dönüşümleri" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Enerji Çeşitleri ve Dönüşümleri</div>
                 </div>
@@ -678,7 +633,7 @@
                 <a href="./zips/energy-forms-and-changes_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/wave-interference_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/wave-interference-420.png" alt="Dalgalarda Girişim ve Kırınım" class="card-img">
@@ -690,7 +645,7 @@
                 <a href="./zips/wave-interference_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/fractions-mixed-numbers_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/fractions-mixed-numbers-420.png" alt="Kesirler: Tam Sayılı" class="card-img">
@@ -702,7 +657,7 @@
                 <a href="./zips/fractions-mixed-numbers_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/fractions-intro_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/fractions-intro-420.png" alt="Kesirler: Giriş" class="card-img">
@@ -714,7 +669,7 @@
                 <a href="./zips/fractions-intro_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/build-a-fraction_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/build-a-fraction-420.png" alt="Kesir Oluştur" class="card-img">
@@ -726,7 +681,7 @@
                 <a href="./zips/build-a-fraction_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/fractions-equality_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/fractions-equality-420.png" alt="Kesirler: Denklik" class="card-img">
@@ -738,7 +693,7 @@
                 <a href="./zips/fractions-equality_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/coulombs-law_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/coulombs-law-420.png" alt="Coulomb Kanunu" class="card-img">
@@ -750,11 +705,10 @@
                 <a href="./zips/coulombs-law_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/graphing-quadratics_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/graphing-quadratics-420.png" alt="İkinci Dereceden Denklem Grafikleri"
-                    class="card-img">
+                <img src="./icons/graphing-quadratics-420.png" alt="İkinci Dereceden Denklem Grafikleri" class="card-img">
                 <div class="card-body">
                     <div class="card-title">İkinci Dereceden Denklem Grafikleri</div>
                 </div>
@@ -763,7 +717,7 @@
                 <a href="./zips/graphing-quadratics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/masses-and-springs_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/masses-and-springs-420.png" alt="Kütleler ve Yaylar" class="card-img">
@@ -775,11 +729,10 @@
                 <a href="./zips/masses-and-springs_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/equality-explorer-two-variables_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/equality-explorer-two-variables-420.png" alt="Eşitlik Gezgini: İki Değişkenli"
-                    class="card-img">
+                <img src="./icons/equality-explorer-two-variables-420.png" alt="Eşitlik Gezgini: İki Değişkenli" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Eşitlik Gezgini: İki Değişkenli</div>
                 </div>
@@ -788,11 +741,10 @@
                 <a href="./zips/equality-explorer-two-variables_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/equality-explorer-basics_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/equality-explorer-basics-420.png" alt="Eşitlik Gezgini: Temel Bilgiler"
-                    class="card-img">
+                <img src="./icons/equality-explorer-basics-420.png" alt="Eşitlik Gezgini: Temel Bilgiler" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Eşitlik Gezgini: Temel Bilgiler</div>
                 </div>
@@ -801,7 +753,7 @@
                 <a href="./zips/equality-explorer-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/equality-explorer_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/equality-explorer-420.png" alt="Eşitlik Gezgini" class="card-img">
@@ -813,7 +765,7 @@
                 <a href="./zips/equality-explorer_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/area-model-algebra_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/area-model-algebra-420.png" alt="Alan Modeli İle Cebir" class="card-img">
@@ -825,11 +777,10 @@
                 <a href="./zips/area-model-algebra_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/area-model-decimals_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/area-model-decimals-420.png" alt="Alan Modelinde Çarpma İşlemi (Ondalık)"
-                    class="card-img">
+                <img src="./icons/area-model-decimals-420.png" alt="Alan Modelinde Çarpma İşlemi (Ondalık)" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Alan Modelinde Çarpma İşlemi (Ondalık)</div>
                 </div>
@@ -838,11 +789,10 @@
                 <a href="./zips/area-model-decimals_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/area-model-multiplication_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/area-model-multiplication-420.png" alt="Alan Modelinde Çarpma İşlemi"
-                    class="card-img">
+                <img src="./icons/area-model-multiplication-420.png" alt="Alan Modelinde Çarpma İşlemi" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Alan Modelinde Çarpma İşlemi</div>
                 </div>
@@ -851,7 +801,7 @@
                 <a href="./zips/area-model-multiplication_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/area-model-introduction_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/area-model-introduction-420.png" alt="Alan Modeline Giriş" class="card-img">
@@ -863,11 +813,10 @@
                 <a href="./zips/area-model-introduction_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/gene-expression-essentials_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/gene-expression-essentials-420.png" alt="Kalıtsal İfadenin Temelleri"
-                    class="card-img">
+                <img src="./icons/gene-expression-essentials-420.png" alt="Kalıtsal İfadenin Temelleri" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Kalıtsal İfadenin Temelleri</div>
                 </div>
@@ -876,11 +825,10 @@
                 <a href="./zips/gene-expression-essentials_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/capacitor-lab-basics_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/capacitor-lab-basics-420.png" alt="Sığa (Kapasitans) deneyi: Temel Öğeler"
-                    class="card-img">
+                <img src="./icons/capacitor-lab-basics-420.png" alt="Sığa (Kapasitans) deneyi: Temel Öğeler" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Sığa (Kapasitans) deneyi: Temel Öğeler</div>
                 </div>
@@ -889,22 +837,19 @@
                 <a href="./zips/capacitor-lab-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
-            <a href="./deneys/circuit-construction-kit-dc-virtual-lab_tr.html" target="_blank"
-                class="card-link-wrapper">
-                <img src="./icons/circuit-construction-kit-dc-virtual-lab-420.png"
-                    alt="Devre Yapısı Kiti - DC- Sanal Laboratuvar" class="card-img">
+            <a href="./deneys/circuit-construction-kit-dc-virtual-lab_tr.html" target="_blank" class="card-link-wrapper">
+                <img src="./icons/circuit-construction-kit-dc-virtual-lab-420.png" alt="Devre Yapısı Kiti - DC- Sanal Laboratuvar" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Devre Yapısı Kiti - DC- Sanal Laboratuvar</div>
                 </div>
             </a>
             <div style="text-align: center;">
-                <a href="./zips/circuit-construction-kit-dc-virtual-lab_tr.zip" class="btn-indir" download>⬇ SCORM
-                    İndir</a>
+                <a href="./zips/circuit-construction-kit-dc-virtual-lab_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/circuit-construction-kit-dc_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/circuit-construction-kit-dc-420.png" alt="Devre Kurulum Aracı: DC" class="card-img">
@@ -916,7 +861,7 @@
                 <a href="./zips/circuit-construction-kit-dc_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/pendulum-lab_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/pendulum-lab-420.png" alt="Sarkaç Laboratuvarı" class="card-img">
@@ -928,7 +873,7 @@
                 <a href="./zips/pendulum-lab_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/projectile-motion_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/projectile-motion-420.png" alt="Mermi Hareketi" class="card-img">
@@ -940,7 +885,7 @@
                 <a href="./zips/projectile-motion_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/molecule-polarity_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/molecule-polarity-420.png" alt="Molekül Polaritesi" class="card-img">
@@ -952,7 +897,7 @@
                 <a href="./zips/molecule-polarity_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/expression-exchange_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/expression-exchange-420.png" alt="İfade Değişimi" class="card-img">
@@ -964,7 +909,7 @@
                 <a href="./zips/expression-exchange_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/graphing-slope-intercept_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/graphing-slope-intercept-420.png" alt="Eğim-Kesişim Çizimi" class="card-img">
@@ -976,11 +921,10 @@
                 <a href="./zips/graphing-slope-intercept_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/function-builder-basics_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/function-builder-basics-420.png" alt="Fonksiyon Oluştur: Temel Düzey"
-                    class="card-img">
+                <img src="./icons/function-builder-basics-420.png" alt="Fonksiyon Oluştur: Temel Düzey" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Fonksiyon Oluştur: Temel Düzey</div>
                 </div>
@@ -989,7 +933,7 @@
                 <a href="./zips/function-builder-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/proportion-playground_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/proportion-playground-420.png" alt="Orantılama Oyunu" class="card-img">
@@ -1001,7 +945,7 @@
                 <a href="./zips/proportion-playground_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/unit-rates_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/unit-rates-420.png" alt="Birim Oranları" class="card-img">
@@ -1013,7 +957,7 @@
                 <a href="./zips/unit-rates_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/make-a-ten_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/make-a-ten-420.png" alt="Onluk Yap" class="card-img">
@@ -1025,11 +969,10 @@
                 <a href="./zips/make-a-ten_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/states-of-matter-basics_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/states-of-matter-basics-420.png" alt="Maddenin Halleri: Temel Bilgiler"
-                    class="card-img">
+                <img src="./icons/states-of-matter-basics-420.png" alt="Maddenin Halleri: Temel Bilgiler" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Maddenin Halleri: Temel Bilgiler</div>
                 </div>
@@ -1038,7 +981,7 @@
                 <a href="./zips/states-of-matter-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/states-of-matter_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/states-of-matter-420.png" alt="Maddenin Halleri" class="card-img">
@@ -1050,7 +993,7 @@
                 <a href="./zips/states-of-matter_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/gravity-and-orbits_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/gravity-and-orbits-420.png" alt="Yerçekimi ve Yörüngeler" class="card-img">
@@ -1062,7 +1005,7 @@
                 <a href="./zips/gravity-and-orbits_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/plinko-probability_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/plinko-probability-420.png" alt="Plinko Olasılık" class="card-img">
@@ -1074,7 +1017,7 @@
                 <a href="./zips/plinko-probability_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/atomic-interactions_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/atomic-interactions-420.png" alt="Atomik Etkileşimler" class="card-img">
@@ -1086,7 +1029,7 @@
                 <a href="./zips/atomic-interactions_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/charges-and-fields_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/charges-and-fields-420.png" alt="Elektrik Yükleri ve Alanları" class="card-img">
@@ -1098,7 +1041,7 @@
                 <a href="./zips/charges-and-fields_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/rutherford-scattering_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/rutherford-scattering-420.png" alt="Rutherford Saçılması" class="card-img">
@@ -1110,7 +1053,7 @@
                 <a href="./zips/rutherford-scattering_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/function-builder_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/function-builder-420.png" alt="Fonksiyon Oluştur" class="card-img">
@@ -1122,7 +1065,7 @@
                 <a href="./zips/function-builder_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/isotopes-and-atomic-mass_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/isotopes-and-atomic-mass-420.png" alt="İzotoplar ve Atomik Kütle" class="card-img">
@@ -1134,7 +1077,7 @@
                 <a href="./zips/isotopes-and-atomic-mass_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/neuron_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/neuron-420.png" alt="Nöron" class="card-img">
@@ -1146,7 +1089,7 @@
                 <a href="./zips/neuron_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/trig-tour_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/trig-tour-420.png" alt="Trigonometri Turu" class="card-img">
@@ -1158,7 +1101,7 @@
                 <a href="./zips/trig-tour_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/bending-light_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/bending-light-420.png" alt="Bükülen Işık" class="card-img">
@@ -1170,7 +1113,7 @@
                 <a href="./zips/bending-light_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/arithmetic_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/arithmetic-420.png" alt="Aritmetik" class="card-img">
@@ -1182,7 +1125,7 @@
                 <a href="./zips/arithmetic_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/hookes-law_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/hookes-law-420.png" alt="Hooke Kanunu" class="card-img">
@@ -1194,7 +1137,7 @@
                 <a href="./zips/hookes-law_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/molecules-and-light_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/molecules-and-light-420.png" alt="Moleküller ve Işık" class="card-img">
@@ -1206,7 +1149,7 @@
                 <a href="./zips/molecules-and-light_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/least-squares-regression_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/least-squares-regression-420.png" alt="En Küçük Kareler Regresyonu" class="card-img">
@@ -1218,7 +1161,7 @@
                 <a href="./zips/least-squares-regression_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/molecule-shapes_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/molecule-shapes-420.png" alt="Molekül Şekilleri" class="card-img">
@@ -1230,7 +1173,7 @@
                 <a href="./zips/molecule-shapes_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/molecule-shapes-basics_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/molecule-shapes-basics-420.png" alt="Molekül Şekilleri: Temel" class="card-img">
@@ -1242,11 +1185,10 @@
                 <a href="./zips/molecule-shapes-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/reactants-products-and-leftovers_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/reactants-products-and-leftovers-420.png"
-                    alt="Reaksiyona Girenler, Ürünler ve Kalanlar" class="card-img">
+                <img src="./icons/reactants-products-and-leftovers-420.png" alt="Reaksiyona Girenler, Ürünler ve Kalanlar" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Reaksiyona Girenler, Ürünler ve Kalanlar</div>
                 </div>
@@ -1255,7 +1197,7 @@
                 <a href="./zips/reactants-products-and-leftovers_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/energy-skate-park-basics_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/energy-skate-park-basics-420.png" alt="Enerji Kaykay Parkı: Temel" class="card-img">
@@ -1267,7 +1209,7 @@
                 <a href="./zips/energy-skate-park-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/faradays-law_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/faradays-law-420.png" alt="Faraday Kanunu" class="card-img">
@@ -1279,7 +1221,7 @@
                 <a href="./zips/faradays-law_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/ph-scale-basics_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/ph-scale-basics-420.png" alt="pH Cetveli: Temel" class="card-img">
@@ -1291,7 +1233,7 @@
                 <a href="./zips/ph-scale-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/area-builder_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/area-builder-420.png" alt="Alan Oluşturucu" class="card-img">
@@ -1303,7 +1245,7 @@
                 <a href="./zips/area-builder_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/wave-on-a-string_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/wave-on-a-string-420.png" alt="Telde Dalga Hareketi" class="card-img">
@@ -1315,7 +1257,7 @@
                 <a href="./zips/wave-on-a-string_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/color-vision_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/color-vision-420.png" alt="Işık ve Renkler" class="card-img">
@@ -1327,7 +1269,7 @@
                 <a href="./zips/color-vision_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/ph-scale_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/ph-scale-420.png" alt="pH Ölçeği" class="card-img">
@@ -1339,11 +1281,10 @@
                 <a href="./zips/ph-scale_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/balancing-chemical-equations_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/balancing-chemical-equations-420.png" alt="Kimyasal Tepkimeleri Denkleştirme"
-                    class="card-img">
+                <img src="./icons/balancing-chemical-equations-420.png" alt="Kimyasal Tepkimeleri Denkleştirme" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Kimyasal Tepkimeleri Denkleştirme</div>
                 </div>
@@ -1352,7 +1293,7 @@
                 <a href="./zips/balancing-chemical-equations_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/graphing-lines_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/graphing-lines-420.png" alt="Grafik Doğruları" class="card-img">
@@ -1364,7 +1305,7 @@
                 <a href="./zips/graphing-lines_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/fraction-matcher_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/fraction-matcher-420.png" alt="Kesir Eşleştiricisi" class="card-img">
@@ -1376,7 +1317,7 @@
                 <a href="./zips/fraction-matcher_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/balancing-act_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/balancing-act-420.png" alt="Denge Hareketi" class="card-img">
@@ -1388,7 +1329,7 @@
                 <a href="./zips/balancing-act_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/acid-base-solutions_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/acid-base-solutions-420.png" alt="Asit-Baz Çözeltileri" class="card-img">
@@ -1400,7 +1341,7 @@
                 <a href="./zips/acid-base-solutions_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/under-pressure_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/under-pressure-420.png" alt="Basınç" class="card-img">
@@ -1412,7 +1353,7 @@
                 <a href="./zips/under-pressure_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/friction_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/friction-420.png" alt="Sürtünme" class="card-img">
@@ -1424,11 +1365,10 @@
                 <a href="./zips/friction_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/forces-and-motion-basics_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/forces-and-motion-basics-420.png" alt="Kuvvet ve Hareket: Temel Prensipler"
-                    class="card-img">
+                <img src="./icons/forces-and-motion-basics-420.png" alt="Kuvvet ve Hareket: Temel Prensipler" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Kuvvet ve Hareket: Temel Prensipler</div>
                 </div>
@@ -1437,7 +1377,7 @@
                 <a href="./zips/forces-and-motion-basics_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/john-travoltage_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/john-travoltage-420.png" alt="Elektrikli Travolta (Statik Elektrik)" class="card-img">
@@ -1449,7 +1389,7 @@
                 <a href="./zips/john-travoltage_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/concentration_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/concentration-420.png" alt="Derişim" class="card-img">
@@ -1461,7 +1401,7 @@
                 <a href="./zips/concentration_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/gravity-force-lab_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/gravity-force-lab-420.png" alt="Kütle Çekim Kuvveti Laboratuvarı" class="card-img">
@@ -1473,11 +1413,10 @@
                 <a href="./zips/gravity-force-lab_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/balloons-and-static-electricity_tr.html" target="_blank" class="card-link-wrapper">
-                <img src="./icons/balloons-and-static-electricity-420.png" alt="Balonlar ve Durgun Elektrik"
-                    class="card-img">
+                <img src="./icons/balloons-and-static-electricity-420.png" alt="Balonlar ve Durgun Elektrik" class="card-img">
                 <div class="card-body">
                     <div class="card-title">Balonlar ve Durgun Elektrik</div>
                 </div>
@@ -1486,7 +1425,7 @@
                 <a href="./zips/balloons-and-static-electricity_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/beers-law-lab_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/beers-law-lab-420.png" alt="Beer's Kanunu Laboratuvarı" class="card-img">
@@ -1498,7 +1437,7 @@
                 <a href="./zips/beers-law-lab_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/molarity_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/molarity-420.png" alt="Molarite" class="card-img">
@@ -1510,7 +1449,7 @@
                 <a href="./zips/molarity_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/ohms-law_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/ohms-law-420.png" alt="Ohm Kanunu" class="card-img">
@@ -1522,7 +1461,7 @@
                 <a href="./zips/ohms-law_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/resistance-in-a-wire_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/resistance-in-a-wire-420.png" alt="Bir telin direnci" class="card-img">
@@ -1534,7 +1473,7 @@
                 <a href="./zips/resistance-in-a-wire_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
         <div class="card">
             <a href="./deneys/build-an-atom_tr.html" target="_blank" class="card-link-wrapper">
                 <img src="./icons/build-an-atom-420.png" alt="Atom Oluştur" class="card-img">
@@ -1546,58 +1485,7 @@
                 <a href="./zips/build-an-atom_tr.zip" class="btn-indir" download>⬇ SCORM İndir</a>
             </div>
         </div>
-
+                
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const buttons = document.querySelectorAll('.btn-indir');
-
-            buttons.forEach(button => {
-                button.addEventListener('click', async (event) => {
-                    event.preventDefault(); // Varsayılan indirme işlemini engelle
-
-                    const card = button.closest('.card');
-                    const linkWrapper = card.querySelector('.card-link-wrapper');
-                    const experimentUrl = linkWrapper.getAttribute('href');
-                    const downloadFileName = experimentUrl.split('/').pop().replace('.html', '.zip');
-
-                    try {
-                        // 1. Orijinal deney HTML dosyasını çek
-                        const htmlResponse = await fetch(experimentUrl);
-                        if (!htmlResponse.ok) throw new Error('HTML dosyası alınamadı.');
-                        const htmlContent = await htmlResponse.text();
-
-                        // 2. Base ZIP dosyasını çek (files/default.zip)
-                        const zipResponse = await fetch('files/default.zip');
-                        if (!zipResponse.ok) throw new Error('ZIP şablonu alınamadı.');
-                        const zipBuffer = await zipResponse.arrayBuffer();
-
-                        // 3. JSZip ile ZIP'i aç ve index.html'i değiştir
-                        const zip = new JSZip();
-                        const zipContent = await zip.loadAsync(zipBuffer);
-
-                        // Yeni içeriği index.html olarak kaydet
-                        zip.file('index.html', htmlContent);
-
-                        // 4. Yeni ZIP dosyasını oluştur
-                        const updatedZip = await zip.generateAsync({ type: 'blob' });
-
-                        // 5. İndirme işlemini başlat
-                        const downloadLink = document.createElement('a');
-                        downloadLink.href = URL.createObjectURL(updatedZip);
-                        downloadLink.download = downloadFileName;
-                        document.body.appendChild(downloadLink);
-                        downloadLink.click();
-                        document.body.removeChild(downloadLink);
-
-                    } catch (error) {
-                        console.error('Hata:', error);
-                        alert('Dosya oluşturulurken bir hata oluştu: ' + error.message);
-                    }
-                });
-            });
-        });
-    </script>
 </body>
-
 </html>
