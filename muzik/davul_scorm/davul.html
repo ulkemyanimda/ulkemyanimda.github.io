@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İnteraktif Bateri Seti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #2c1810, #1a0f08);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .drum-kit {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            padding: 20px;
+            perspective: 1000px;
+        }
+
+        .drum-layout {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            transform: rotateX(15deg);
+        }
+
+        .drum {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .drum:hover {
+            transform: scale(1.05) translateZ(10px);
+            filter: brightness(1.2);
+        }
+
+        .drum.playing {
+            transform: scale(1.1) translateZ(15px);
+            animation: drumHit 0.3s ease-out;
+        }
+
+        @keyframes drumHit {
+            0% { transform: scale(1) translateZ(0px); }
+            50% { transform: scale(1.15) translateZ(20px); filter: brightness(1.4); }
+            100% { transform: scale(1.1) translateZ(15px); }
+        }
+
+        /* Kick Drum */
+        .kick {
+            width: 180px;
+            height: 180px;
+            left: 50%;
+            top: 65%;
+            transform: translateX(-50%);
+            background: radial-gradient(ellipse at center, #2c2c2c 0%, #1a1a1a 40%, #000 100%);
+            border-radius: 50%;
+            border: 8px solid #444;
+            box-shadow: 
+                inset 0 0 30px rgba(0, 0, 0, 0.8),
+                0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .kick::before {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, #333 0%, transparent 70%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Snare Drum */
+        .snare {
+            width: 120px;
+            height: 80px;
+            left: 40%;
+            top: 45%;
+            transform: translateX(-50%) rotateX(-10deg);
+            background: linear-gradient(to bottom, #e8e8e8 0%, #c0c0c0 50%, #888 100%);
+            border-radius: 50%;
+            border: 4px solid #666;
+            box-shadow: 
+                inset 0 -10px 20px rgba(0, 0, 0, 0.3),
+                0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .snare::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background: #444;
+            left: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 
+                15px 0 #444,
+                30px 0 #444,
+                45px 0 #444,
+                60px 0 #444,
+                75px 0 #444,
+                90px 0 #444;
+        }
+
+        /* Hi-Hat */
+        .hihat {
+            width: 90px;
+            height: 15px;
+            left: 25%;
+            top: 35%;
+            transform: translateX(-50%);
+            background: linear-gradient(to bottom, #ffd700 0%, #daa520 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 -2px 10px rgba(255, 215, 0, 0.6),
+                0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .hihat::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to bottom, #ffec8c 0%, #daa520 100%);
+            border-radius: 50%;
+            top: -6px;
+            box-shadow: 0 -2px 5px rgba(255, 215, 0, 0.8);
+        }
+
+        /* Toms */
+        .tom1 {
+            width: 100px;
+            height: 70px;
+            left: 55%;
+            top: 25%;
+            transform: translateX(-50%) rotateX(-15deg);
+            background: linear-gradient(to bottom, #8B0000 0%, #DC143C 50%, #8B0000 100%);
+            border-radius: 50%;
+            border: 4px solid #654321;
+            box-shadow: 
+                inset 0 -10px 15px rgba(0, 0, 0, 0.4),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tom2 {
+            width: 110px;
+            height: 75px;
+            left: 70%;
+            top: 35%;
+            transform: translateX(-50%) rotateX(-15deg);
+            background: linear-gradient(to bottom, #8B0000 0%, #DC143C 50%, #8B0000 100%);
+            border-radius: 50%;
+            border: 4px solid #654321;
+            box-shadow: 
+                inset 0 -10px 15px rgba(0, 0, 0, 0.4),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Floor Tom */
+        .floor-tom {
+            width: 130px;
+            height: 85px;
+            left: 75%;
+            top: 55%;
+            transform: translateX(-50%) rotateX(-10deg);
+            background: linear-gradient(to bottom, #8B0000 0%, #DC143C 50%, #8B0000 100%);
+            border-radius: 50%;
+            border: 4px solid #654321;
+            box-shadow: 
+                inset 0 -10px 15px rgba(0, 0, 0, 0.4),
+                0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Crash Cymbal */
+        .crash {
+            width: 120px;
+            height: 12px;
+            left: 15%;
+            top: 20%;
+            transform: translateX(-50%) rotateZ(-15deg);
+            background: linear-gradient(to right, #ffd700 0%, #ffec8c 50%, #daa520 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 -3px 15px rgba(255, 215, 0, 0.8),
+                0 8px 20px rgba(0, 0, 0, 0.4);
+            overflow: visible;
+        }
+
+        .crash::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse, transparent 30%, rgba(255, 215, 0, 0.3) 60%, transparent 100%);
+            border-radius: 50%;
+            animation: cymbalShimmer 3s ease-in-out infinite;
+        }
+
+        /* Ride Cymbal */
+        .ride {
+            width: 140px;
+            height: 14px;
+            right: 10%;
+            top: 15%;
+            background: linear-gradient(to right, #b8860b 0%, #daa520 50%, #cd853f 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 -3px 15px rgba(184, 134, 11, 0.6),
+                0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .ride::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #8b7355 0%, #654321 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+        }
+
+        @keyframes cymbalShimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .drum-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 10;
+        }
+
+        .key-hint {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            z-index: 20;
+        }
+
+        .controls {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .volume-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 20px;
+        }
+
+        .volume-control input[type="range"] {
+            width: 120px;
+            height: 5px;
+            background: #34495e;
+            outline: none;
+            border-radius: 5px;
+        }
+
+        .volume-control input[type="range"]::-webkit-slider-thumb {
+            width: 15px;
+            height: 15px;
+            background: #ff6b6b;
+            cursor: pointer;
+            border-radius: 50%;
+            -webkit-appearance: none;
+        }
+
+        .instructions {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .drum-layout {
+                width: 100vw;
+                height: 80vh;
+                transform: rotateX(5deg) scale(0.7);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Çubuk efektleri */
+        .stick-effect {
+            position: absolute;
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(to bottom, #8B4513, #D2691E);
+            border-radius: 50px;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 100;
+        }
+
+        .drum.playing .stick-effect {
+            opacity: 1;
+            animation: stickHit 0.3s ease-out;
+        }
+
+        @keyframes stickHit {
+            0% { 
+                transform: translateY(-20px) rotateZ(45deg); 
+                opacity: 0; 
+            }
+            50% { 
+                transform: translateY(0px) rotateZ(0deg); 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(10px) rotateZ(-10deg); 
+                opacity: 0; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🥁 İnteraktif Bateri Seti</h1>
+        <p>Gerçek bateri deneyimi! Davulları tıklayın veya klavye tuşlarını kullanın</p>
+    </div>
+
+    <div class="drum-kit">
+        <div class="drum-layout">
+            <!-- Crash Cymbal -->
+            <div class="drum crash" data-key="q" data-sound="crash">
+                <div class="key-hint">Q</div>
+                <div class="drum-label">Crash</div>
+                <div class="stick-effect"></div>
+            </div>
+            
+            <!-- Hi-Hat -->
+            <div class="drum hihat" data-key="w" data-sound="hihat">
+                <div class="key-hint">W</div>
+                <div class="drum-label">Hi-Hat</div>
+                <div class="stick-effect"></div>
+            </div>
+            
+            <!-- Ride Cymbal -->
+            <div class="drum ride" data-key="e" data-sound="ride">
+                <div class="key-hint">E</div>
+                <div class="drum-label">Ride</div>
+                <div class="stick-effect"></div>
+            </div>
+            
+            <!-- Tom 1 -->
+            <div class="drum tom1" data-key="r" data-sound="tom1">
+                <div class="key-hint">R</div>
+                <div class="drum-label">Tom 1</div>
+                <div class="stick-effect"></div>
+            </div>
+            
+            <!-- Tom 2 -->
+            <div class="drum tom2" data-key="t" data-sound="tom2">
+                <div class="key-hint">T</div>
+                <div class="drum-label">Tom 2</div>
+                <div class="stick-effect"></div>
+            </div>
+            
+            <!-- Floor Tom -->
+            <div class="drum floor-tom" data-key="y" data-sound="floortom">
+                <div class="key-hint">Y</div>
+                <div class="drum-label">Floor Tom</div>
+                <div class="stick-effect"></div>
+            </div>
+            
+            <!-- Snare -->
+            <div class="drum snare" data-key="a" data-sound="snare">
+                <div class="key-hint">A</div>
+                <div class="drum-label">Snare</div>
+                <div class="stick-effect"></div>
+            </div>
+            
+            <!-- Kick -->
+            <div class="drum kick" data-key=" " data-sound="kick">
+                <div class="key-hint">⎵</div>
+                <div class="drum-label">Kick</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="volume-control">
+            <span>🔊 Ses:</span>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.7">
+            <span id="volumeValue">70%</span>
+        </div>
+        
+        <div class="instructions">
+            <h3>🎵 Nasıl Kullanılır:</h3>
+            <p><strong>Fare ile:</strong> Davulları tıklayın</p>
+            <p><strong>Klavye ile:</strong> Q(Crash), W(Hi-Hat), E(Ride), R(Tom1), T(Tom2), Y(Floor Tom), A(Snare), Boşluk(Kick)</p>
+            <p><strong>Mobil:</strong> Davullara dokunun</p>
+        </div>
+    </div>
+
+    <!-- Ses dosyaları (gizli) -->
+    <audio id="kickAudio" preload="auto">
+        <source src="KickSound.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="crashAudio" preload="auto">
+        <source src="CrashSound.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="rideAudio" preload="auto">
+        <source src="RideSound.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="hihatAudio" preload="auto">
+        <source src="hi-hat-open-acoustic-sample-455284.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="tom1Audio" preload="auto">
+        <source src="Tom 1.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="tom2Audio" preload="auto">
+        <source src="Tom 2.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="floortomAudio" preload="auto">
+        <source src="Floor Tom.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        class DrumKit {
+            constructor() {
+                this.volume = 0.7;
+                this.audioElements = {
+                    'kick': document.getElementById('kickAudio'),
+                    'crash': document.getElementById('crashAudio'),
+                    'ride': document.getElementById('rideAudio'),
+                    'hihat': document.getElementById('hihatAudio'),
+                    'tom1': document.getElementById('tom1Audio'),
+                    'tom2': document.getElementById('tom2Audio'),
+                    'floortom': document.getElementById('floortomAudio')
+                };
+                this.audioContext = null;
+                this.init();
+            }
+
+            init() {
+                // Audio context'i oluştur (synth sesler için)
+
+                
+                this.setupEventListeners();
+                this.setupVolumeControl();
+                console.log('Bateri seti başlatıldı');
+            }
+            ensureAudioContext() {
+                if (this.audioContext) return;
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                this.audioContext = new AudioContext();
+            }
+
+
+            // Snare sound generator
+            generateSnareSound() {
+                                this.ensureAudioContext();
+const sampleRate = this.audioContext.sampleRate;
+                const duration = 0.25;
+                const buffer = this.audioContext.createBuffer(1, duration * sampleRate, sampleRate);
+                const data = buffer.getChannelData(0);
+
+                for (let i = 0; i < data.length; i++) {
+                    const t = i / sampleRate;
+                    const noise = (Math.random() * 2 - 1) * Math.exp(-t * 12);
+                    const tone1 = Math.sin(2 * Math.PI * 200 * t) * Math.exp(-t * 8);
+                    const tone2 = Math.sin(2 * Math.PI * 400 * t) * Math.exp(-t * 10);
+                    data[i] = (noise * 0.7 + tone1 * 0.2 + tone2 * 0.1) * 0.9;
+                }
+                return buffer;
+            }
+
+            // Sesi çal
+            playSound(soundName) {
+                try {
+                    // MP3 sesler
+                    if (soundName === 'kick' || soundName === 'crash' || soundName === 'ride' || soundName === 'hihat' || soundName === 'tom1' || soundName === 'tom2' || soundName === 'floortom') {
+                        const audio = this.audioElements[soundName];
+                        if (audio) {
+                            audio.currentTime = 0;
+                            audio.volume = this.volume;
+                            const playPromise = audio.play();
+                            if (playPromise !== undefined) {
+                                playPromise.catch(error => {
+                                    console.log('Ses çalma hatası:', error);
+                                });
+                            }
+                        }
+                    } else {
+                        // Web Audio API ile sentez sesler
+                                        this.ensureAudioContext();
+                if (this.audioContext.state === 'suspended') { this.audioContext.resume(); }
+let buffer;
+                        switch(soundName) {
+                            case 'snare':
+                                buffer = this.generateSnareSound();
+                                break;
+                            default:
+                                console.log('Bilinmeyen ses:', soundName);
+                                return;
+                        }
+
+                        const source = this.audioContext.createBufferSource();
+                        const gainNode = this.audioContext.createGain();
+                        
+                        source.buffer = buffer;
+                        gainNode.gain.setValueAtTime(this.volume, this.audioContext.currentTime);
+                        
+                        source.connect(gainNode);
+                        gainNode.connect(this.audioContext.destination);
+                        source.start(0);
+                    }
+                    
+                } catch (error) {
+                    console.error('Ses çalma hatası:', error);
+                }
+            }
+
+            setupEventListeners() {
+                // Fare tıklaması
+                document.querySelectorAll('.drum').forEach(drum => {
+                    drum.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.playDrum(drum);
+                    });
+                });
+
+                // Klavye
+                document.addEventListener('keydown', (e) => {
+                    const key = e.key.toLowerCase();
+                    let drum;
+                    
+                    if (key === ' ') {
+                        e.preventDefault();
+                        drum = document.querySelector('[data-key=" "]');
+                    } else {
+                        drum = document.querySelector(`[data-key="${key}"]`);
+                    }
+                    
+                    if (drum && !e.repeat) {
+                        this.playDrum(drum);
+                    }
+                });
+
+                // Dokunma
+                document.querySelectorAll('.drum').forEach(drum => {
+                    drum.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        this.playDrum(drum);
+                    });
+                });
+            }
+
+            setupVolumeControl() {
+                const volumeSlider = document.getElementById('volumeSlider');
+                const volumeValue = document.getElementById('volumeValue');
+
+                if (volumeSlider) {
+                    volumeSlider.addEventListener('input', (e) => {
+                        this.volume = parseFloat(e.target.value);
+                        volumeValue.textContent = Math.round(this.volume * 100) + '%';
+                        
+                        // Tüm audio elementlerin volumeunu güncelle
+                        Object.values(this.audioElements).forEach(audio => {
+                            audio.volume = this.volume;
+                        });
+                    });
+                }
+            }
+
+            playDrum(drumElement) {
+                                if (this.audioContext && this.audioContext.state === 'suspended') { this.audioContext.resume(); }
+const soundName = drumElement.getAttribute('data-sound');
+                this.playSound(soundName);
+                
+                drumElement.classList.remove('playing');
+                setTimeout(() => drumElement.classList.add('playing'), 10);
+                setTimeout(() => drumElement.classList.remove('playing'), 300);
+            }
+        }
+
+        // Sayfaya yüklendiğinde başlat
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                window.drumKit = new DrumKit();
+            });
+        } else {
+            window.drumKit = new DrumKit();
+        }
+    </script>
+</body>
+</html>
