@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Müzik Keşif Alanı</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Segoe UI;
+    background:linear-gradient(135deg,#1d2671,#c33764);
+}
+.header{
+    color:white;
+    text-align:center;
+    padding:2rem;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:2rem;
+    padding:2rem;
+}
+.card{
+    background:white;
+    border-radius:20px;
+    padding:1.5rem;
+    text-align:center;
+}
+.card img{
+    width:130px;
+}
+.btn{
+    display:inline-block;
+    margin-top:1rem;
+    padding:.8rem 1.5rem;
+    background:#ff5e62;
+    color:white;
+    border-radius:12px;
+    text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>🎵 Müzik Keşif Alanı</h1>
+<p>Bongo, Davul ve Piyano</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<img src="muzik/bongo.png">
+<h2>Bongo</h2>
+<a class="btn" href="muzik/bongo/index.html">Etkinliği Aç</a>
+</div>
+
+<div class="card">
+<img src="muzik/davul.png">
+<h2>Davul</h2>
+<a class="btn" href="muzik/davul/index.html">Etkinliği Aç</a>
+</div>
+
+<div class="card">
+<img src="muzik/piyano.png">
+<h2>Piyano</h2>
+<a class="btn" href="muzik/piyano/index.html">Etkinliği Aç</a>
+</div>
+
+</div>
+
+</body>
+</html>
