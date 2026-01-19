@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,7 +64,7 @@
             background: white;
             border-radius: 50%;
             padding: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,7 +92,7 @@
 
         .logo:hover {
             transform: scale(1.3) rotate(10deg);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
         .logo:hover::before {
@@ -107,24 +108,39 @@
             height: 100%;
             object-fit: contain;
             transition: all 0.4s ease;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
         .logo:hover img {
             filter: drop-shadow(0 8px 16px rgba(102, 126, 234, 0.6));
             transform: scale(1.1);
         }
-        
+
         /* --- ANİMASYONLAR --- */
         @keyframes shimmer {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         /* --- TOOLTIP VE İNDİR BUTONU STİLLERİ (DÜZENLENDİ) --- */
@@ -136,9 +152,11 @@
         /* Bilgi kartı - GÜNCELLENDİ */
         .tooltip-box {
             position: absolute;
-            top: 100%; /* DEĞİŞTİ: Artık butonun altından başlıyor */
+            top: 100%;
+            /* DEĞİŞTİ: Artık butonun altından başlıyor */
             left: 50%;
-            transform: translateX(-50%) translateY(10px); /* DEĞİŞTİ: Başlangıç pozisyonu aşağıda */
+            transform: translateX(-50%) translateY(10px);
+            /* DEĞİŞTİ: Başlangıç pozisyonu aşağıda */
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 15px 20px;
@@ -147,7 +165,7 @@
             line-height: 1.6;
             max-width: 280px;
             width: max-content;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -160,157 +178,237 @@
         .tooltip-box::after {
             content: '';
             position: absolute;
-            bottom: 100%; /* DEĞİŞTİ: Ok artık kutunun üstünde */
+            bottom: 100%;
+            /* DEĞİŞTİ: Ok artık kutunun üstünde */
             left: 50%;
             transform: translateX(-50%);
             border: 8px solid transparent;
-            border-bottom-color: #667eea; /* DEĞİŞTİ: Ok aşağıyı değil, yukarıyı gösteriyor (rengi de gradient başlangıcı) */
+            border-bottom-color: #667eea;
+            /* DEĞİŞTİ: Ok aşağıyı değil, yukarıyı gösteriyor (rengi de gradient başlangıcı) */
         }
 
         /* Fare üzerine geldiğinde bilgi kartını göster - GÜNCELLENDİ */
         .link-wrapper:hover .tooltip-box {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(20px); /* DEĞİŞTİ: Aşağı doğru açılma animasyonu */
+            transform: translateX(-50%) translateY(20px);
+            /* DEĞİŞTİ: Aşağı doğru açılma animasyonu */
         }
 
-       .download-btn {
-    display: inline-flex;                /* inline-flex: satırda kalır, ama içerik flex olur */
-    align-items: center;                 /* dikeyde ortala */
-    justify-content: center;             /* yatayda ortala */
-    text-align: center;                  /* metin ortalansın */
-    padding: 12px 30px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    text-decoration: none;
-}
+        .download-btn {
+            display: inline-flex;
+            /* inline-flex: satırda kalır, ama içerik flex olur */
+            align-items: center;
+            /* dikeyde ortala */
+            justify-content: center;
+            /* yatayda ortala */
+            text-align: center;
+            /* metin ortalansın */
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            text-decoration: none;
+        }
 
-.download-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-}
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
 
-.download-btn:active {
-    transform: translateY(-1px);
-}
+        .download-btn:active {
+            transform: translateY(-1px);
+        }
 
-/* Tarih ve Öğretmen Bilgileri Çerçevesi */
-.info-box {
-    border: 2px solid #667eea;
-    border-radius: 10px;
-    padding: 12px 18px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-    color: #333;
-    font-weight: 600;
-    font-size: 14px;
-    text-align: center;
-    min-width: 200px;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    transition: all 0.3s ease;
-}
+        /* Tarih ve Öğretmen Bilgileri Çerçevesi */
+        .info-box {
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
 
-.info-box:hover {
-    border-color: #764ba2;
-    box-shadow: 0 6px 18px rgba(118, 75, 162, 0.3);
-    transform: translateY(-2px);
-}
+        .info-box:hover {
+            border-color: #764ba2;
+            box-shadow: 0 6px 18px rgba(118, 75, 162, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Modal Stilleri */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .info-box {
+            cursor: pointer;
+            /* Tıklanabilir olduğunu göster */
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
+
 <body>
-    
+
     <div class="main-container">
 
         <div class="category-section">
             <h2 class="category-title">11-16 Anlar-Konuşur-Yazar✨</h2>
             <div class="button-container">
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_NjM2NTZlOWUtYjhmNS00MTA4LThmYzktNDE4MGE4ZmU1YzE5%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%25224b472221-7bd7-43ef-ac2b-9237fd2540a2%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=2dcd0894-6b00-49e8-b5b3-8b0307c00331&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Söz ve yazı dünyasında yolculuk yapalım!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo"> 
-        </div>
-    </a>
-    <div class="info-box">27 Ocak Salı<br>Fadime Yaşa</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_NjM2NTZlOWUtYjhmNS00MTA4LThmYzktNDE4MGE4ZmU1YzE5%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%25224b472221-7bd7-43ef-ac2b-9237fd2540a2%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=2dcd0894-6b00-49e8-b5b3-8b0307c00331&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Söz ve yazı dünyasında yolculuk yapalım!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-1">27
+                        Ocak Salı<br>Fadime Yaşa</div>
+                </div>
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fmeet%2F3965814060040%3Fp%3DjvXih6Cp8mq4ostem5%26anon%3Dtrue&type=meet&deeplinkId=2c3b5882-146a-4466-9c04-2fc99a0c2605&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Söz ve yazı dünyasında yolculuk yapalım!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo"> 
-        </div>
-    </a>
-    <div class="info-box">1 Şubat Pazar<br>Hayri Yıldız</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fmeet%2F3965814060040%3Fp%3DjvXih6Cp8mq4ostem5%26anon%3Dtrue&type=meet&deeplinkId=2c3b5882-146a-4466-9c04-2fc99a0c2605&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Söz ve yazı dünyasında yolculuk yapalım!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-2">1
+                        Şubat Pazar<br>Hayri Yıldız</div>
+                </div>
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_NTYyNGFiOGMtNzY4ZC00MzhlLTlkNmQtNTc4ZmEzYmJhODJh%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%25220c3a7acc-2d22-4827-87cd-7e38e7f3ba24%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=522fd187-9ff9-45ee-a395-4a1451da83ea&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Söz ve yazı dünyasında yolculuk yapalım!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo"> 
-        </div>
-    </a>
-    <div class="info-box">28 Ocak Çarşamba<br>Ali Rıza Öztürk</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_NTYyNGFiOGMtNzY4ZC00MzhlLTlkNmQtNTc4ZmEzYmJhODJh%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%25220c3a7acc-2d22-4827-87cd-7e38e7f3ba24%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=522fd187-9ff9-45ee-a395-4a1451da83ea&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Söz ve yazı dünyasında yolculuk yapalım!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-3">
+                        28 Ocak Çarşamba<br>Ali Rıza Öztürk</div>
+                </div>
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_NDhjZGI1ZTItYWE5Yi00OWRjLWFiZDEtYjJhMWVkNWY2NWM3%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%25222908a788-de26-424d-8d3a-f007a76a2cf0%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=c856db83-eaa5-46a1-9cc8-19f3e361d7d9&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Söz ve yazı dünyasında yolculuk yapalım!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo"> 
-        </div>
-    </a>
-    <div class="info-box">29 Ocak Perşembe<br>Nilüfer Balaban</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_NDhjZGI1ZTItYWE5Yi00OWRjLWFiZDEtYjJhMWVkNWY2NWM3%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%25222908a788-de26-424d-8d3a-f007a76a2cf0%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=c856db83-eaa5-46a1-9cc8-19f3e361d7d9&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Söz ve yazı dünyasında yolculuk yapalım!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-4">
+                        29 Ocak Perşembe<br>Nilüfer Balaban</div>
+                </div>
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_M2NkYjQ2YTAtMjM2ZC00MmE0LTlhYTYtNDg4YTIxNzExNTFl%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%2522f54cb674-5f37-49b7-b045-76a8b46fcadc%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=14442bed-ed23-49fd-8aec-79140f40bcce&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Söz ve yazı dünyasında yolculuk yapalım!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo"> 
-        </div>
-    </a>
-    <div class="info-box">31 Ocak Cumartesi<br>Nurcan Akbulut</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_M2NkYjQ2YTAtMjM2ZC00MmE0LTlhYTYtNDg4YTIxNzExNTFl%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%2522f54cb674-5f37-49b7-b045-76a8b46fcadc%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=14442bed-ed23-49fd-8aec-79140f40bcce&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Söz ve yazı dünyasında yolculuk yapalım!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 11-16 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="11-16 Anlar-Konuşur-Yazar Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-5">
+                        31 Ocak Cumartesi<br>Nurcan Akbulut</div>
+                </div>
 
             </div>
         </div>
@@ -322,5 +420,327 @@
     <script>
         // Gerekirse burada JavaScript eklemeleri yapabilirsiniz
     </script>
+    <!-- POPUP İÇERİKLERİ BURAYA GİRİLECEK -->
+    <div id="popup-contents" style="display: none;">
+
+        <div id="info-1">
+            <h3>27 Ocak Salı - Fadime Yaşa</h3>
+            <h3>❄️ BU ATÖLYEDE</h3>
+
+            <ul>
+                <li>
+                    📖 Kış temalı bir hikâyeyi dinleyerek ana fikir ve olay sırasını anlamayı
+                </li>
+
+                <li>
+                    💭 Hikâyedeki karakterlerin duygu ve düşüncelerini fark etmeyi
+                </li>
+
+                <li>
+                    🧠 Yeni kelimeler öğrenerek kelime dağarcığımızı geliştirmeyi
+                </li>
+
+                <li>
+                    ✍️ Akrostiş şiirin ne olduğunu öğrenip kendi akrostiş şiirimizi yazmayı
+                </li>
+
+                <li>
+                    🌟 Hayal gücümüzü kullanarak yazma ve kendimizi ifade etme
+                    becerilerimizi güçlendirmeyi
+                </li>
+            </ul>
+
+            <a href="./files/yazar/1.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+
+            <a href="https://cdn.eba.gov.tr/temel-egitim/materyaller/2025-01-07_aratatil_ilkokul/mobile/index.html"
+                target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+
+        </div>
+
+        <div id="info-2">
+            <h3>1 Şubat Pazar - Hayri Yıldız</h3>
+            <h3>🧩 BU ATÖLYEDE</h3>
+
+            <ul>
+                <li>
+                    🖼️🔤 Resim ve harfleri birleştirerek kelime oluşturmayı öğreneceğiz.
+                </li>
+
+                <li>
+                    👀 Görsel ipuçlarını doğru yorumlamayı ve anlam çıkarmayı geliştireceğiz.
+                </li>
+
+                <li>
+                    🧠 Dikkat, odaklanma ve problem çözme becerilerimizi güçlendireceğiz.
+                </li>
+
+                <li>
+                    📚 Kelime dağarcığımızı eğlenceli bir şekilde artıracağız.
+                </li>
+
+                <li>
+                    🤝💬 Düşüncelerimizi paylaşarak birlikte öğrenmenin keyfini yaşayacağız.
+                </li>
+            </ul>
+
+            <a href="./files/yazar/2.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+
+            <a href="./files/yazar/22.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+        </div>
+
+        <div id="info-3">
+            <h3>28 Ocak Çarşamba - Ali Rıza Öztürk</h3>
+            <h3>🗺️ BU ATÖLYEDE</h3>
+
+            <ul>
+                <li>
+                    🇹🇷🌍 Türkiye’deki ve dünyadaki bazı şehir adlarını tanımayı
+                </li>
+
+                <li>
+                    🔍 Şehir adlarının nereden geldiğini ve ne anlama geldiğini keşfetmeyi
+                </li>
+
+                <li>
+                    🧭 Şehirleri harita üzerinde bularak yön ve konum bilgisi kazanmayı
+                </li>
+
+                <li>
+                    🏞️🏛️ Şehirlerle ilgili kültürel ve doğal özellikleri öğrenmeyi
+                </li>
+
+                <li>
+                    🗣️✏️ Sevdiğimiz bir şehirle ilgili kısa anlatımlar yaparak
+                    kendimizi ifade etmeyi
+                </li>
+            </ul>
+
+            <p><strong>öğreneceğiz.</strong></p>
+
+
+            <a href="./files/yazar/3.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+
+            <a href="https://ders.eba.gov.tr/ders/proxy/VCollabPlayer_v0.0.1064/index.html" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+        </div>
+
+        <div id="info-4">
+            <h3>29 Ocak Perşembe - Nilüfer Balaban</h3>
+            <h3>🏺 Bu Atölyede Neler Öğreneceğiz?</h3>
+
+            <ol>
+                <li>
+                    🇹🇷 Türk kültürünü oluşturan gelenek, görenek ve değerleri tanımayı
+                </li>
+
+                <li>
+                    💃🎨 Halk oyunları, el sanatları ve geleneksel sanatların
+                    kültürümüzdeki yerini keşfetmeyi
+                </li>
+
+                <li>
+                    🤝🍽️ Misafirperverlik ve paylaşmanın kültürümüzde
+                    neden önemli olduğunu öğrenmeyi
+                </li>
+
+                <li>
+                    🌍🎤 Kültür elçisi olmanın ne anlama geldiğini ve
+                    kültürümüzü nasıl tanıtabileceğimizi
+                </li>
+
+                <li>
+                    🗣️✨ Öğrendiklerimizi paylaşarak kendimizi ifade etme
+                    ve kültürel farkındalık geliştirmeyi
+                </li>
+            </ol>
+
+            <p><strong>öğreneceğiz.</strong></p>
+
+            <a href="./files/yazar/4.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+        </div>
+
+        <div id="info-5">
+            <h3>31 Ocak Cumartesi - Nurcan Akbulut</h3>
+            <h3>👨‍👩‍👧‍👦 Bu Atölyede Neler Öğreneceğiz?</h3>
+
+            <ol>
+                <li>
+                    🏠 Ailenin neden toplumun en güçlü yapı taşı olduğunu anlamayı
+                </li>
+
+                <li>
+                    ❤️🤝 Sevgi, saygı, paylaşma ve dayanışmanın aile içindeki
+                    önemini keşfetmeyi
+                </li>
+
+                <li>
+                    ⏰👶 Aileyle birlikte geçirilen zamanın çocuklar için
+                    neden değerli olduğunu fark etmeyi
+                </li>
+
+                <li>
+                    🍽️🎲 Günlük hayattaki küçük anların (sohbet, yemek, oyun)
+                    aile bağlarını nasıl güçlendirdiğini öğrenmeyi
+                </li>
+
+                <li>
+                    💬✍️ Ailemize karşı sorumluluklarımızı düşünerek
+                    duygu ve düşüncelerimizi ifade etmeyi
+                </li>
+            </ol>
+
+            <a href="./files/yazar/5.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Modal Yapısı -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalText"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal işlemleri
+        var modal = document.getElementById("infoModal");
+        var span = document.getElementsByClassName("close")[0];
+        var modalText = document.getElementById("modalText");
+
+        // Tüm info-box elemanlarını seç
+        var infoBoxes = document.querySelectorAll('.info-box');
+
+        infoBoxes.forEach(function (box) {
+            box.addEventListener('click', function () {
+                var targetId = this.getAttribute('data-target');
+                var contentDiv = document.getElementById(targetId);
+
+                if (contentDiv) {
+                    modalText.innerHTML = contentDiv.innerHTML;
+                } else {
+                    modalText.innerHTML = "İçerik bulunamadı.";
+                }
+
+                modal.style.display = "block";
+            });
+        });
+
+        // Çarpı işaretine basınca kapat
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Modal dışına tıklayınca kapat
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
+
 </html>
