@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel to VCF Dönüştürücü</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- SheetJS for Excel processing -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Excel to VCF</h1>
+            <p class="subtitle">Rehberinizi kolayca telefonunuza aktarın</p>
+        </header>
+
+        <main>
+            <!-- Step 1: Template -->
+            <div class="card">
+                <div class="step-title"><span>1</span> Hazırlık</div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">
+                    Kişilerinizi doğru formatta hazırlamak için örnek şablonu indirin.
+                </p>
+                <button id="downloadTemplateBtn" class="btn btn-secondary">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Örnek Excel İndir
+                </button>
+            </div>
+
+            <!-- Step 2: Upload & Convert -->
+            <div class="card">
+                <div class="step-title"><span>2</span> Dönüştürme</div>
+                
+                <div class="file-upload-wrapper" id="dropZone">
+                    <input type="file" id="fileInput" accept=".xlsx, .xls">
+                    <div class="icon-upload">
+                        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                    </div>
+                    <div id="fileName" class="file-name">Dosyayı buraya sürükleyin veya seçin</div>
+                </div>
+
+                <button id="convertBtn" class="btn btn-primary" disabled>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                    </svg>
+                    Dönüştür ve İndir
+                </button>
+            </div>
+
+            <div id="status"></div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

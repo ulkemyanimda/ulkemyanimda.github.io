@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çömlek Atölyesi</title>
+    <title>5-10 Yaş Atölyesi</title>
     <style>
         /* Genel sayfa ayarları */
         body {
@@ -63,7 +64,7 @@
             background: white;
             border-radius: 50%;
             padding: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -91,7 +92,7 @@
 
         .logo:hover {
             transform: scale(1.3) rotate(10deg);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
         .logo:hover::before {
@@ -107,24 +108,39 @@
             height: 100%;
             object-fit: contain;
             transition: all 0.4s ease;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
         .logo:hover img {
             filter: drop-shadow(0 8px 16px rgba(102, 126, 234, 0.6));
             transform: scale(1.1);
         }
-        
+
         /* --- ANİMASYONLAR --- */
         @keyframes shimmer {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         /* --- TOOLTIP VE İNDİR BUTONU STİLLERİ (DÜZENLENDİ) --- */
@@ -136,9 +152,11 @@
         /* Bilgi kartı - GÜNCELLENDİ */
         .tooltip-box {
             position: absolute;
-            top: 100%; /* DEĞİŞTİ: Artık butonun altından başlıyor */
+            top: 100%;
+            /* DEĞİŞTİ: Artık butonun altından başlıyor */
             left: 50%;
-            transform: translateX(-50%) translateY(10px); /* DEĞİŞTİ: Başlangıç pozisyonu aşağıda */
+            transform: translateX(-50%) translateY(10px);
+            /* DEĞİŞTİ: Başlangıç pozisyonu aşağıda */
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 15px 20px;
@@ -147,7 +165,7 @@
             line-height: 1.6;
             max-width: 280px;
             width: max-content;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -160,174 +178,250 @@
         .tooltip-box::after {
             content: '';
             position: absolute;
-            bottom: 100%; /* DEĞİŞTİ: Ok artık kutunun üstünde */
+            bottom: 100%;
+            /* DEĞİŞTİ: Ok artık kutunun üstünde */
             left: 50%;
             transform: translateX(-50%);
             border: 8px solid transparent;
-            border-bottom-color: #667eea; /* DEĞİŞTİ: Ok aşağıyı değil, yukarıyı gösteriyor (rengi de gradient başlangıcı) */
+            border-bottom-color: #667eea;
+            /* DEĞİŞTİ: Ok aşağıyı değil, yukarıyı gösteriyor (rengi de gradient başlangıcı) */
         }
 
         /* Fare üzerine geldiğinde bilgi kartını göster - GÜNCELLENDİ */
         .link-wrapper:hover .tooltip-box {
             opacity: 1;
             visibility: visible;
-            transform: translateX(-50%) translateY(20px); /* DEĞİŞTİ: Aşağı doğru açılma animasyonu */
+            transform: translateX(-50%) translateY(20px);
+            /* DEĞİŞTİ: Aşağı doğru açılma animasyonu */
         }
 
-       .download-btn {
-    display: inline-flex;                /* inline-flex: satırda kalır, ama içerik flex olur */
-    align-items: center;                 /* dikeyde ortala */
-    justify-content: center;             /* yatayda ortala */
-    text-align: center;                  /* metin ortalansın */
-    padding: 12px 30px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    border-radius: 25px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    text-decoration: none;
-}
+        .download-btn {
+            display: inline-flex;
+            /* inline-flex: satırda kalır, ama içerik flex olur */
+            align-items: center;
+            /* dikeyde ortala */
+            justify-content: center;
+            /* yatayda ortala */
+            text-align: center;
+            /* metin ortalansın */
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            text-decoration: none;
+        }
 
-.download-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-}
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
 
-.download-btn:active {
-    transform: translateY(-1px);
-}
+        .download-btn:active {
+            transform: translateY(-1px);
+        }
 
-/* Tarih ve Öğretmen Bilgileri Çerçevesi */
-.info-box {
-    border: 2px solid #667eea;
-    border-radius: 10px;
-    padding: 12px 18px;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-    color: #333;
-    font-weight: 600;
-    font-size: 14px;
-    text-align: center;
-    min-width: 200px;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-    transition: all 0.3s ease;
-}
+        /* Tarih ve Öğretmen Bilgileri Çerçevesi */
+        .info-box {
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
 
-.info-box:hover {
-    border-color: #764ba2;
-    box-shadow: 0 6px 18px rgba(118, 75, 162, 0.3);
-    transform: translateY(-2px);
-}
+        .info-box:hover {
+            border-color: #764ba2;
+            box-shadow: 0 6px 18px rgba(118, 75, 162, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Modal Stilleri */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .info-box {
+            cursor: pointer;
+            /* Tıklanabilir olduğunu göster */
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+            text-align: center;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
+
 <body>
-    
+
     <div class="main-container">
 
         <div class="category-section">
             <h2 class="category-title">5-10 Yaş✨</h2>
             <div class="button-container">
 
-<!-- 5-10 Yaş Grubu -->
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_MjYzODI3ZWMtNzJkNy00YzFhLTg1NjgtNTIzYzU4ZTU1NGY4%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%2522ca05c527-0d61-4ffb-a953-bd91bf39c2e1%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=4c31e7ea-11cf-44f8-bd81-1baa9aee3864&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Toprağın şekline hayat verelim!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="Posta Güvercini Logo"> 
-        </div>
-    </a>
-    <div class="info-box">1 Şubat Pazar<br>Gülper Akpınar</div>
-</div>
+                <!-- 5-10 Yaş Grubu -->
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_ZDIyOWY3M2QtOWFkNi00NzQyLTk0ZTUtMzBmZjI1Y2RiNzNk%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%252202f63307-f684-40bc-94ae-124f5e85376c%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=7f52a3d5-6897-4d09-ab74-d1697b0e5a18&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Toprağın şekline hayat verelim!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="Posta Güvercini Logo"> 
-        </div>
-    </a>
-    <div class="info-box">27 Ocak Salı<br>Fatma NÜKTE</div>
-</div>
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_NzRkYTFjNWItOThjMi00MmE4LWFlOTUtNDY5NDEyYjNiYjFj%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%25223115bd11-050d-4856-92c8-8c8b3da26b9d%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=a577b234-e3c3-4e22-be39-7dea8fe672cf&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Toprağın şekline hayat verelim!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="Posta Güvercini Logo"> 
-        </div>
-    </a>
-    <div class="info-box">28 Ocak Çarşamba<br>Leyla MEŞHUR</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_ZDIyOWY3M2QtOWFkNi00NzQyLTk0ZTUtMzBmZjI1Y2RiNzNk%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%252202f63307-f684-40bc-94ae-124f5e85376c%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=7f52a3d5-6897-4d09-ab74-d1697b0e5a18&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Toprağın şekline hayat verelim!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="Posta Güvercini Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-2">27 Ocak Salı | 20.00 (TR Saati)<br> Seslerin Dünyası<br>Fatma NÜKTE</div>
+                </div>
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_ZmZkNmE4YTYtOTFmNi00MWIxLTg4MDktOGViMDc1MGRkMGVj%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%2522f4d79ec5-c660-4285-8c02-ed271de51bb5%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=45314b03-51d5-4a0a-a293-36de6617abfa&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Toprağın şekline hayat verelim!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="Posta Güvercini Logo"> 
-        </div>
-    </a>
-    <div class="info-box">29 Ocak Perşembe<br>Demir Aypek</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_NzRkYTFjNWItOThjMi00MmE4LWFlOTUtNDY5NDEyYjNiYjFj%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%25223115bd11-050d-4856-92c8-8c8b3da26b9d%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=a577b234-e3c3-4e22-be39-7dea8fe672cf&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Toprağın şekline hayat verelim!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="Posta Güvercini Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-3">28 Ocak Çarşamba | 20.00 (TR Saati)<br> Renklerin Gizemi<br>Leyla MEŞHUR</div>
+                </div>
 
-<div class="button-wrapper">
-    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_ZjNmNDcxZjktZWVjNC00NTI0LWFhNjYtMTlhNTUxYmJkNTli%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%252249ae16a1-375c-45fc-b6da-f7ab0383437e%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=10dce64d-87c9-4ad7-a94f-91fad123416d&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Toprağın şekline hayat verelim!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="Posta Güvercini Logo"> 
-        </div>
-    </a>
-    <div class="info-box">31 Ocak Cumartesi<br>Makbule COŞKUN</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWJjOTUxODgtZDhhNy00NDcyLWI1NjYtOTIyYTQyZmQyMmEy%40thread.v2/0?context=%7b%22Tid%22%3a%222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%22%2c%22Oid%22%3a%228a1d058c-505e-4579-9ef9-916d3e7e1f71%22%7d"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Toprağın şekline hayat verelim!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="Posta Güvercini Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-4">29 Ocak Perşembe | 20.00 (TR Saati) <br> Eşsiz Kar Taneleri<br>Ayşe Kanat</div>
+                </div>
 
-<div class="button-wrapper">
-    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
-        <div class="tooltip-box">
-            Toprağın şekline hayat verelim!
-            <br>
-            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
-            <br><br>
-            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
-        </div>
-        <div class="logo">
-            <img src="1/ason.png" alt="Posta Güvercini Logo"> 
-        </div>
-    </a>
-    <div class="info-box">e-Book<br>(Her bir gün için atölye için oluşturulan kursa yüklenecek)</div>
-</div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_ZjNmNDcxZjktZWVjNC00NTI0LWFhNjYtMTlhNTUxYmJkNTli%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%252249ae16a1-375c-45fc-b6da-f7ab0383437e%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=10dce64d-87c9-4ad7-a94f-91fad123416d&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Toprağın şekline hayat verelim!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="Posta Güvercini Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-5">31 Ocak Cumartesi | 20.00 (TR Saati) <br> Doğa Dedektifliği<br>Makbule COŞKUN</div>
+                </div>
+                <div class="button-wrapper">
+                    <a href="https://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fl%2Fmeetup-join%2F19%3Ameeting_MjYzODI3ZWMtNzJkNy00YzFhLTg1NjgtNTIzYzU4ZTU1NGY4%40thread.v2%2F0%3Fcontext%3D%257b%2522Tid%2522%253a%25222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%2522%252c%2522Oid%2522%253a%2522ca05c527-0d61-4ffb-a953-bd91bf39c2e1%2522%257d%26anon%3Dtrue&type=meetup-join&deeplinkId=4c31e7ea-11cf-44f8-bd81-1baa9aee3864&directDl=true&msLaunch=true&enableMobilePage=true&suppressPrompt=true"
+                        class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Toprağın şekline hayat verelim!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="Posta Güvercini Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-1">1 Şubat Pazar | 20.00 (TR Saati)<br> Buzullar ve İklim<br>Gülper Akpınar</div>
+                </div>
+                <div class="button-wrapper">
+                    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+                        <div class="tooltip-box">
+                            Toprağın şekline hayat verelim!
+                            <br>
+                            <strong>Hedef Yaş Grubu:</strong> 5-10 yaş
+                            <br><br>
+                            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen
+                                velilerimizin kameralarını kapatmaları rica olunur.</em>
+                        </div>
+                        <div class="logo">
+                            <img src="1/ason.png" alt="Posta Güvercini Logo">
+                        </div>
+                    </a>
+                    <div class="info-box" data-target="info-ebook">e-Kitap<br></div>
+                </div>
 
             </div>
         </div>
@@ -339,5 +433,299 @@
     <script>
         // Gerekirse burada JavaScript eklemeleri yapabilirsiniz
     </script>
+    <!-- POPUP İÇERİKLERİ BURAYA GİRİLECEK -->
+    <!-- style="display: none;" sayesinde sayfada görünmezler, sadece popup açılınca görünürler -->
+    <div id="popup-contents" style="display: none;">
+
+
+
+        <div id="info-2">
+            <h3>27 Ocak Salı - Fatma NÜKTE</h3>
+            <h3>🎯 Bu Atölyede Neler Öğreneceksiniz?</h3>
+
+            <ol>
+                <li>🎵 Farklı sesleri dinlemeyi ve ayırt etmeyi</li>
+                <li>🥁 Çalgı seslerini tanımayı ve adlandırmayı</li>
+                <li>👂 Dikkatle dinlemeyi ve sırayla katılmayı</li>
+                <li>🕺 Müzik eşliğinde hareket etmeyi ve ritim tutmayı</li>
+                <li>🤝 Oyun oynarken birlikte hareket etmeyi</li>
+            </ol>
+
+            <a href="./files/510/2.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+        </div>
+
+        <div id="info-3">
+            <h3>28 Ocak Çarşamba - Leyla MEŞHUR</h3>
+            <h3>🎯 Bu Atölyede Neler Öğreneceksiniz?</h3>
+
+            <ul>
+                <li class="renkler">
+                    🎨 <strong>Renklerin Sihirli Dünyası:</strong>
+                    Sarı, kırmızı ve mavi gibi ana renkleri birbirine karıştırarak
+                    turuncu, yeşil ve mor gibi ara renkleri kendi ellerimizle nasıl
+                    oluşturacağımızı keşfedeceğiz.
+                </li>
+
+                <li class="kelimeler">
+                    🧠 <strong>Kelimelerin Gizli Anlamları:</strong>
+                    “Al” ve “narenciye” kelimelerinin ne anlama geldiğini öğrenip
+                    kelime sandığımızı dolduracağız.
+                </li>
+
+                <li class="doga">
+                    🌿 <strong>Doğanın Renkli Yüzü:</strong>
+                    Açık havada bir keşfe çıkarak doğadaki farklı renkleri gözlemleyecek
+                    ve bulduğumuz renkli hazinelerin resimlerini çizeceğiz.
+                </li>
+
+                <li class="meyveler">
+                    🍊 <strong>Vitamini Deposu Meyveler:</strong>
+                    Portakal, mandalina ve limon gibi narenciyelerin özelliklerini tanıyacak,
+                    mis kokulu meyve kabuklarından kendimize özel bir
+                    <em>“koku dönencesi”</em> tasarlayacağız.
+                </li>
+
+                <li class="deney">
+                    🔬 <strong>Şaşırtıcı Fen Deneyi:</strong>
+                    Limon suyunun ve kabuğundaki özel yağların bir balonu nasıl saniyeler
+                    içinde patlatabildiğini görerek bilimin eğlenceli dünyasına adım atacağız.
+                </li>
+            </ul>
+
+            <a href="./files/510/3.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+        </div>
+
+        <div id="info-4">
+            <h3>29 Ocak Perşembe - Ayşe Kanat</h3>
+            <h3>❄️ Bu Atölyede Ne Yapacağız?</h3>
+
+            <ul>
+                <li>
+                    🧣 <strong>Sözcük Sandığını Açıyoruz:</strong><br>
+                    “Bere” kelimesinin ne anlama geldiğini öğrenecek, evimizdeki farklı
+                    şapkaları ve bereleri birbirimizle paylaşacağız.
+                </li>
+
+                <li>
+                    ⛄ <strong>Kardan Adamla Eğleniyoruz:</strong><br>
+                    “Kardan Adam” tekerlemesini hep birlikte söyleyecek, kar yağarken
+                    beresinin başına neler geldiğini keşfedeceğiz.
+                </li>
+
+                <li>
+                    ❄️ <strong>Kar Tanelerinin Gizemini Çözüyoruz:</strong><br>
+                    Kar tanelerinin neden saydam olduğunu, gökyüzünde nasıl oluştuklarını
+                    ve neden birbirlerine hiç benzemediğini öğreneceğiz.
+                </li>
+
+                <li>
+                    💃 <strong>Hareketli Oyunla Isınıyoruz:</strong><br>
+                    Yağmur, fırtına ve kar sözcüklerine özel hareketlerle hazırladığımız
+                    <em>“Üç Sözcük, Üç Hareket”</em> oyununu hep beraber oynayacağız.
+                </li>
+
+                <li>
+                    🔍 <strong>Küçük Birer Bilim İnsanı Oluyoruz:</strong><br>
+                    Kar tanelerini bir büyüteç gibi inceleyecek, kollarını sayacak ve
+                    kendi <em>“Keşif Defterimize”</em> en güzel kar kristallerini çizeceğiz.
+                </li>
+            </ul>
+            <a href="./files/510/4.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+        </div>
+
+        <div id="info-5">
+            <h3>31 Ocak Cumartesi - Makbule COŞKUN</h3>
+            <h3>🐿️ Atölye Duyuru Metni: Sincap Panpi ve Saklı Hazineler</h3>
+
+            <h4>Bu Atölyede Ne Yapacağız?</h4>
+
+            <ul>
+                <li>
+                    🐿️ <strong>Sincapların Dünyasına Yolculuk:</strong><br>
+                    Sincapların kışın karnı acıkınca ne yediklerini ve yiyeceklerini
+                    nasıl sakladıklarını öğreneceğiz.
+                </li>
+
+                <li>
+                    🌰 <strong>Sözcük Sandığını Açıyoruz:</strong><br>
+                    Meşe ağacının meyvesi olan “Palamut” kelimesiyle tanışacak ve
+                    bu sert meyvenin özelliklerini keşfedeceğiz.
+                </li>
+
+                <li>
+                    🧩 <strong>Bilmece ve Labirent Macerası:</strong><br>
+                    Sincabımızı palamutlara ulaştırmak için eğlenceli bilmeceleri çözecek
+                    ve saklı yolları bulacağız.
+                </li>
+
+                <li>
+                    🔎 <strong>Doğa Dedektifliği ve Örüntü Oyunu:</strong><br>
+                    Doğadaki nesneleri (kozalak, taş, dal) kullanarak nasıl düzenli
+                    dizilimler (örüntü) oluşturabileceğimizi öğreneceğiz.
+                </li>
+
+                <li>
+                    🌳 <strong>Unutkan Sincabın Hediyesi:</strong><br>
+                    Sincapların saklayıp unuttuğu palamutların nasıl kocaman meşe
+                    ağaçlarına dönüştüğünü keşfedecek ve kendi ağacımızı çizeceğiz.
+                </li>
+            </ul>
+
+            <a href="./files/510/5.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+        </div>
+        <div id="info-1">
+            <h3>1 Şubat Pazar - Gülper Akpınar</h3>
+            <h3>🌍 Atölye Duyuru Metni: Buzullar Erimesin, Kurabiyeler Dizilsin!</h3>
+
+            <h4>Bu Atölyede Ne Yapacağız?</h4>
+            <ul>
+                <li><strong>Buzulların Dünyası:</strong> Kutup bölgelerindeki dev buz kütleleri olan “Buzul” kavramını
+                    öğrenecek, iklimlerin neden değiştiğini keşfedeceğiz.</li>
+                <li><strong>Eriyen Buz Deneyi:</strong> Ilık ve soğuk su kullanarak buzların ne kadar hızlı eridiğini
+                    canlı yayında hep birlikte gözlemleyeceğiz.</li>
+                <li><strong>Kutupta Yaşam Oyunu:</strong> Alanımız daraldıkça neler hissettiğimizi anlamak için
+                    eğlenceli ve düşündürücü bir “Buzul Dansı” yapacağız.</li>
+                <li><strong>İklim Şarkısı ve Doğa Kutusu:</strong> Dünyamızı korumak için şarkılar söyleyecek ve doğadan
+                    topladığımız hazinelerle kendi “Kış Kutumuzu” nasıl hazırlayacağımızı konuşacağız.</li>
+                <li><strong>Kurabiye Sudoku:</strong> Mantığımızı kullanarak lezzetli kurabiye görsellerini doğru
+                    kutucuklara yerleştirecek, boşlukları zekice dolduracağız.</li>
+            </ul>
+            <a href="./files/510/1.pdf" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 Atölye Materyallerini Görüntüle (PDF)
+            </a>
+
+        </div>
+        <div id="info-ebook">
+            <h3>e-Kitap Bilgilendirme</h3>
+            <p>Bir Tatil Öyküsü isimli e-kitaba erişmek için tıklayınız</p>
+
+
+            <a href="https://cdn.eba.gov.tr/temel-egitim/materyaller/2025-01-14_ooarattl_3/" target="_blank" style="
+       display: inline-block;
+       margin-top: 12px;
+       padding: 10px 16px;
+       background-color: #2a9d8f;
+       color: #ffffff;
+       text-decoration: none;
+       border-radius: 6px;
+       font-weight: 600;
+       font-size: 14px;
+       transition: background-color 0.2s ease;
+   " onmouseover="this.style.backgroundColor='#21867a'" onmouseout="this.style.backgroundColor='#2a9d8f'">
+                📄 E-kitap
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Modal Yapısı -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalText"></div>
+        </div>
+    </div>
+
+    <script>
+        // Modal işlemleri
+        var modal = document.getElementById("infoModal");
+        var span = document.getElementsByClassName("close")[0];
+        var modalText = document.getElementById("modalText");
+
+        // Tüm info-box elemanlarını seç
+        var infoBoxes = document.querySelectorAll('.info-box');
+
+        infoBoxes.forEach(function (box) {
+            box.addEventListener('click', function () {
+                var targetId = this.getAttribute('data-target');
+                var contentDiv = document.getElementById(targetId);
+
+                if (contentDiv) {
+                    modalText.innerHTML = contentDiv.innerHTML;
+                } else {
+                    modalText.innerHTML = "İçerik bulunamadı.";
+                }
+
+                modal.style.display = "block";
+            });
+        });
+
+        // Çarpı işaretine basınca kapat
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Modal dışına tıklayınca kapat
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
+
 </html>
