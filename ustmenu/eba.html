@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBA Hızlı Erişim - Ülkem Yanımda</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            /* Softer background */
+            margin: 0;
+            padding: 40px;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 40px 20px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+            color: #fff;
+        }
+
+        .card h2 {
+            font-size: 1.6rem;
+            margin: 0;
+            font-weight: 600;
+            z-index: 1;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hover effect: simple lift, no shine shift */
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Matte, colorful but soft palette */
+        .card:nth-child(1) {
+            background-color: #5DADE2;
+        }
+
+        /* Soft Blue */
+        .card:nth-child(2) {
+            background-color: #48C9B0;
+        }
+
+        /* Soft Teal */
+        .card:nth-child(3) {
+            background-color: #58D68D;
+        }
+
+        /* Soft Green */
+        .card:nth-child(4) {
+            background-color: #F5B041;
+        }
+
+        /* Soft Orange */
+        .card:nth-child(5) {
+            background-color: #AF7AC5;
+        }
+
+        /* Soft Purple */
+        .card:nth-child(6) {
+            background-color: #EC7063;
+        }
+
+        /* Soft Red */
+        .card:nth-child(7) {
+            background-color: #566573;
+        }
+
+        /* Soft Navy/Grey */
+        .card:nth-child(8) {
+            background-color: #F4D03F;
+        }
+
+        /* Soft Gold */
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .card {
+                min-height: 150px;
+                padding: 30px 15px;
+            }
+
+            .card h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>EBA Hızlı Erişim</h1>
+        <p>Üye girişi olmadan erişilebilecek materyal ve eğitim kaynakları</p>
+    </div>
+
+    <div class="container">
+        <!-- Card 1 -->
+        <a href="https://www.eba.gov.tr/trt-ebatv" class="card" target="_blank">
+            <h2>TRT EBA TV</h2>
+        </a>
+
+        <!-- Card 2 -->
+        <a href="https://www.eba.gov.tr/dijital-teknolojiler" class="card" target="_blank">
+            <h2>Dijital Teknolojiler Alanı</h2>
+        </a>
+
+        <!-- Card 3 -->
+        <a href="https://www.eba.gov.tr/surdurulebilir-dunya" class="card" target="_blank">
+            <h2>Sürdürülebilir Dünya Alanı</h2>
+        </a>
+
+        <!-- Card 4 -->
+        <a href="https://www.eba.gov.tr/teneffus" class="card" target="_blank">
+            <h2>Teneffüs Zamanı</h2>
+        </a>
+
+        <!-- Card 5 -->
+        <a href="https://www.eba.gov.tr/dil-ogrenimi" class="card" target="_blank">
+            <h2>Dil Öğrenim Portalı</h2>
+        </a>
+
+        <!-- Card 6 -->
+        <a href="https://www.eba.gov.tr/etkinlik-havuzu" class="card" target="_blank">
+            <h2>Etkinlik Havuzu</h2>
+        </a>
+
+        <!-- Card 7 -->
+        <a href="https://www.eba.gov.tr/dogm" class="card" target="_blank">
+            <h2>Din Öğretim Materyali</h2>
+        </a>
+
+        <!-- Card 8 -->
+        <a href="https://ogmmateryal.eba.gov.tr/" class="card" target="_blank">
+            <h2>Orta Öğretim Materyali</h2>
+        </a>
+    </div>
+
+</body>
+
+</html>
