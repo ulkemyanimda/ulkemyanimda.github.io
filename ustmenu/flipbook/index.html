@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bir Dil, Bir Tohum, Bir Yuva - Veli Rehberi</title>
+    
+    <style>
+        body {
+            background-color: #f0ede5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .header { margin-bottom: 20px; text-align: center; color: #2d5a27; }
+
+        #flipbook-container {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        #flipbook {
+            width: 800px;
+            height: 565px; /* Standart A4 yatay oranına yakın */
+        }
+
+        .page {
+            width: 400px;
+            height: 565px;
+            background-color: white;
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .controls {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #2d5a27;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: opacity 0.3s;
+        }
+
+        button:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>Ülkem Yanımda: Veli Rehberi</h2>
+        <p>Evdeki Sesimiz, Gelecekteki İzimiz</p>
+    </div>
+
+    <div id="flipbook-container">
+        <div id="flipbook">
+            </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn">Geri</button>
+        <button id="nextBtn">İleri</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            const totalPages = 14;
+            const flipbook = $("#flipbook");
+
+            // Sayfaları dinamik olarak ekle
+            for (let i = 1; i <= totalPages; i++) {
+                const pageDiv = $('<div class="page"></div>');
+                pageDiv.css('background-image', `url('${i}.jpg')`);
+                flipbook.append(pageDiv);
+            }
+
+            // Flipbook'u başlat
+            flipbook.turn({
+                width: 800,
+                height: 565,
+                autoCenter: true,
+                acceleration: true,
+                gradients: true,
+                elevation: 50,
+                when: {
+                    turning: function(event, page, view) {
+                        // Sayfa çevirme animasyonu başladığında yapılacaklar
+                    }
+                }
+            });
+
+            // Buton Kontrolleri
+            $("#prevBtn").click(function() {
+                flipbook.turn("previous");
+            });
+
+            $("#nextBtn").click(function() {
+                flipbook.turn("next");
+            });
+
+            // Klavye Kontrolleri
+            $(window).bind('keydown', function(e) {
+                if (e.keyCode == 37) flipbook.turn('previous');
+                else if (e.keyCode == 39) flipbook.turn('next');
+            });
+        });
+    </script>
+</body>
+</html>
