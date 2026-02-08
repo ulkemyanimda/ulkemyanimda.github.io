@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipbook</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .flipbook-container {
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .page-display {
+            width: 100%;
+            aspect-ratio: 1.414 / 1;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .page-display img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #999;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .keyboard-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .keyboard-hint kbd {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin: 0 3px;
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) {
+            .keyboard-hint {
+                display: none;
+            }
+            
+            .controls {
+                padding: 15px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Tam Ekran">⛶</button>
+
+    <div class="keyboard-hint">
+        <kbd>←</kbd> Önceki | <kbd>→</kbd> Sonraki | <kbd>Home</kbd> İlk Sayfa | <kbd>End</kbd> Son Sayfa
+    </div>
+
+    <div class="header">
+        <h1>📖 Bir Dil, Bir Tohum, Bir Yuva</h1>
+        <p>İnteraktif Flipbook</p>
+    </div>
+
+    <div class="flipbook-container">
+        <div class="page-display" id="pageDisplay">
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Yükleniyor...</p>
+            </div>
+            <img id="pageImage" style="display: none;" alt="Sayfa">
+            <div class="page-number" id="pageNumber" style="display: none;">
+                Sayfa <span id="currentPageNum">1</span> / <span id="totalPagesNum">14</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="prevBtn" onclick="previousPage()">
+                ← Önceki
+            </button>
+            <div class="page-info">
+                <span id="pageCounter">Sayfa 1 / 14</span>
+            </div>
+            <button class="btn" id="nextBtn" onclick="nextPage()">
+                Sonraki →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL_PAGES = 14;
+        let currentPage = 1;
+
+        const pageImage = document.getElementById('pageImage');
+        const loading = document.getElementById('loading');
+        const pageNumber = document.getElementById('pageNumber');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageCounter = document.getElementById('pageCounter');
+        const currentPageNum = document.getElementById('currentPageNum');
+        const totalPagesNum = document.getElementById('totalPagesNum');
+
+        // İlk sayfayı yükle
+        loadPage(1);
+
+        function loadPage(pageNum) {
+            // Loading göster
+            loading.style.display = 'block';
+            pageImage.style.display = 'none';
+            pageNumber.style.display = 'none';
+
+            // Yeni resmi yükle
+            const img = new Image();
+            img.onload = function() {
+                pageImage.src = img.src;
+                pageImage.classList.add('fade-in');
+                pageImage.style.display = 'block';
+                pageNumber.style.display = 'block';
+                loading.style.display = 'none';
+                
+                // Animasyonu temizle
+                setTimeout(() => {
+                    pageImage.classList.remove('fade-in');
+                }, 300);
+            };
+
+            img.onerror = function() {
+                loading.innerHTML = `<div class="error-msg">❌ ${pageNum}.jpg dosyası bulunamadı!</div>`;
+            };
+
+            img.src = `${pageNum}.jpg`;
+            
+            // Sayfa numarasını güncelle
+            updatePageInfo();
+        }
+
+        function updatePageInfo() {
+            currentPageNum.textContent = currentPage;
+            totalPagesNum.textContent = TOTAL_PAGES;
+            pageCounter.textContent = `Sayfa ${currentPage} / ${TOTAL_PAGES}`;
+
+            // Buton durumları
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === TOTAL_PAGES;
+        }
+
+        function nextPage() {
+            if (currentPage < TOTAL_PAGES) {
+                currentPage++;
+                loadPage(currentPage);
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadPage(currentPage);
+            }
+        }
+
+        function goToFirstPage() {
+            if (currentPage !== 1) {
+                currentPage = 1;
+                loadPage(currentPage);
+            }
+        }
+
+        function goToLastPage() {
+            if (currentPage !== TOTAL_PAGES) {
+                currentPage = TOTAL_PAGES;
+                loadPage(currentPage);
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Klavye kontrolleri
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowRight':
+                case ' ':
+                    e.preventDefault();
+                    nextPage();
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    previousPage();
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    goToFirstPage();
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    goToLastPage();
+                    break;
+            }
+        });
+
+        // Swipe desteği (mobil)
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('pageDisplay').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('pageDisplay').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchEndX < touchStartX - swipeThreshold) {
+                nextPage();
+            }
+            if (touchEndX > touchStartX + swipeThreshold) {
+                previousPage();
+            }
+        }
+
+        // Mouse wheel desteği
+        document.getElementById('pageDisplay').addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY > 0) {
+                nextPage();
+            } else {
+                previousPage();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
