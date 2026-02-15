@@ -1,0 +1,44 @@
+SELECT 
+    u.id,
+    u.firstname,
+    u.lastname,
+    u.email,
+    c.fullname AS course_name,
+    FROM_UNIXTIME(c.timemodified) AS course_last_modified,
+    FROM_UNIXTIME((
+        SELECT MAX(l.timecreated)
+        FROM {logstore_standard_log} l
+        WHERE l.userid = u.id
+        AND l.courseid = c.id
+        AND l.eventname IN (
+            '\\core\\event\\course_module_created',
+            '\\core\\event\\course_module_updated'
+        )
+    )) AS teacher_last_activity
+FROM 
+    {user} u
+JOIN 
+    {role_assignments} ra ON ra.userid = u.id
+JOIN 
+    {context} ctx ON ctx.id = ra.contextid
+JOIN 
+    {course} c ON c.id = ctx.instanceid
+JOIN
+    {role} r ON r.id = ra.roleid
+WHERE 
+    ctx.contextlevel = 50
+    AND r.shortname = 'editingteacher'
+    AND c.id <> 1
+    AND NOT EXISTS (
+        SELECT 1
+        FROM {logstore_standard_log} l
+        WHERE l.userid = u.id
+        AND l.courseid = c.id
+        AND l.timecreated > UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 7 DAY))
+        AND l.eventname IN (
+            '\\core\\event\\course_module_created',
+            '\\core\\event\\course_module_updated'
+        )
+    )
+ORDER BY 
+    c.fullname, u.lastname
