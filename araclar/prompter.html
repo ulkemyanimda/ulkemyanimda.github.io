@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğretmenler İçin Etkileşimli İçerik Prompt Oluşturucu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .step-card {
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .game-type-card.selected {
+            border-color: #4f46e5;
+            background-color: #eef2ff;
+            box-shadow: 0 0 0 2px #4f46e5;
+        }
+
+        /* Custom scrollbar for preview */
+        #previewContainer::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #previewContainer::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #previewContainer::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        #previewContainer::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <i class="fas fa-chalkboard-teacher text-3xl"></i>
+                <div>
+                    <h1 class="text-2xl font-bold">Etkileşimli İçerik Sihirbazı</h1>
+                    <p class="text-xs opacity-80 hidden md:block">Öğretmenler İçin Yapay Zeka Prompt Oluşturucu</p>
+                </div>
+            </div>
+            <div>
+                <button onclick="resetForm()"
+                    class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition text-sm font-medium">
+                    <i class="fas fa-rotate-right mr-2"></i>Sıfırla
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left Column: Settings Form -->
+        <div class="lg:col-span-7 space-y-6">
+
+            <!-- Step 1: Content Type -->
+            <section class="bg-white rounded-xl shadow-md p-6 step-card border border-gray-100">
+                <div class="flex items-center mb-4 text-indigo-700">
+                    <span
+                        class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold mr-3">1</span>
+                    <h2 class="text-xl font-bold">Etkinlik Türünü Seçin</h2>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- Game Type Cards -->
+                    <div class="game-type-card cursor-pointer border rounded-lg p-4 text-center hover:bg-gray-50 transition"
+                        onclick="selectGameType('match_game', this)">
+                        <div class="text-3xl mb-2 text-blue-500"><i class="fas fa-puzzle-piece"></i></div>
+                        <h3 class="font-semibold text-sm">Eşleştirme Oyunu</h3>
+                        <p class="text-xs text-gray-500 mt-1">Kartları eşleştir</p>
+                    </div>
+
+                    <div class="game-type-card cursor-pointer border rounded-lg p-4 text-center hover:bg-gray-50 transition"
+                        onclick="selectGameType('drag_drop', this)">
+                        <div class="text-3xl mb-2 text-green-500"><i class="fas fa-hand-pointer"></i></div>
+                        <h3 class="font-semibold text-sm">Sürükle & Bırak</h3>
+                        <p class="text-xs text-gray-500 mt-1">Görselleri yerleştir</p>
+                    </div>
+
+                    <div class="game-type-card cursor-pointer border rounded-lg p-4 text-center hover:bg-gray-50 transition"
+                        onclick="selectGameType('listen_select', this)">
+                        <div class="text-3xl mb-2 text-purple-500"><i class="fas fa-headphones"></i></div>
+                        <h3 class="font-semibold text-sm">Dinle & Seç</h3>
+                        <p class="text-xs text-gray-500 mt-1">Sesi duy, resmi bul</p>
+                    </div>
+
+                    <div class="game-type-card cursor-pointer border rounded-lg p-4 text-center hover:bg-gray-50 transition"
+                        onclick="selectGameType('true_false', this)">
+                        <div class="text-3xl mb-2 text-red-500"><i class="fas fa-check-circle"></i></div>
+                        <h3 class="font-semibold text-sm">Doğru / Yanlış</h3>
+                        <p class="text-xs text-gray-500 mt-1">Hızlı karar verme</p>
+                    </div>
+
+                    <div class="game-type-card cursor-pointer border rounded-lg p-4 text-center hover:bg-gray-50 transition"
+                        onclick="selectGameType('flashcards', this)">
+                        <div class="text-3xl mb-2 text-yellow-500"><i class="fas fa-clone"></i></div>
+                        <h3 class="font-semibold text-sm">Flashcards</h3>
+                        <p class="text-xs text-gray-500 mt-1">Kelime kartları</p>
+                    </div>
+
+                    <div class="game-type-card cursor-pointer border rounded-lg p-4 text-center hover:bg-gray-50 transition"
+                        onclick="selectGameType('quiz', this)">
+                        <div class="text-3xl mb-2 text-teal-500"><i class="fas fa-question-circle"></i></div>
+                        <h3 class="font-semibold text-sm">Çoktan Seçmeli</h3>
+                        <p class="text-xs text-gray-500 mt-1">Klasik test</p>
+                    </div>
+                </div>
+                <!-- Hidden input to store selection -->
+                <input type="hidden" id="selectedGameType" value="">
+            </section>
+
+            <!-- Step 2: File Settings -->
+            <section class="bg-white rounded-xl shadow-md p-6 step-card border border-gray-100">
+                <div class="flex items-center mb-4 text-indigo-700">
+                    <span
+                        class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold mr-3">2</span>
+                    <h2 class="text-xl font-bold">Dosya ve Varlık Bilgileri</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Kaç Adet Soru/Varlık Var?</label>
+                        <input type="number" id="itemCount"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            value="10" min="1" max="50">
+                        <p class="text-xs text-gray-500 mt-1">Örn: 10 adet resim-ses çifti.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Dosyalama Sistemi</label>
+                        <select id="namingConvention"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="numbered">Sıralı (1.jpg, 2.jpg)</option>
+                            <option value="named">İsimlendirilmiş (kedi.jpg, kopek.jpg)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Resim/Görsel Tipi</label>
+                        <select id="imageFormat"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="jpg">.jpg Dosyası</option>
+                            <option value="png">.png Dosyası</option>
+                            <option value="webp">.webp Dosyası</option>
+                            <option value="gif">.gif Dosyası</option>
+                            <option value="icon">FontAwesome İkonu (Kod ile)</option>
+                            <option value="emoji">Emoji (metin olarak)</option>
+                            <option value="yok">Görsel Yok</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ses Tipi</label>
+                        <select id="audioFormat"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="mp3">.mp3 Dosyası</option>
+                            <option value="wav">.wav Dosyası</option>
+                            <option value="m4a">.m4a Dosyası</option>
+                            <option value="tts">Yapay Zeka Okuması (TTS)</option>
+                            <option value="yok">Ses Yok</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3: Pedagogical Features -->
+            <section class="bg-white rounded-xl shadow-md p-6 step-card border border-gray-100">
+                <div class="flex items-center mb-4 text-indigo-700">
+                    <span
+                        class="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 font-bold mr-3">3</span>
+                    <h2 class="text-xl font-bold">Özellikler ve Kurallar</h2>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" id="feat_scoring"
+                            class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" checked>
+                        <span class="text-sm font-medium">Puan Sistemi</span>
+                    </label>
+
+                    <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" id="feat_feedback"
+                            class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" checked>
+                        <span class="text-sm font-medium">Geri Bildirim (Ses/Pop-up)</span>
+                    </label>
+
+                    <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" id="feat_timer"
+                            class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
+                        <span class="text-sm font-medium">Geri Sayım/Süre</span>
+                    </label>
+
+                    <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" id="feat_lives"
+                            class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500">
+                        <span class="text-sm font-medium">Can Hakkı (Örn: 3 hak)</span>
+                    </label>
+
+                    <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" id="feat_progress"
+                            class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" checked>
+                        <span class="text-sm font-medium">İlerleme Çubuğu</span>
+                    </label>
+
+                    <label class="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" id="feat_replay"
+                            class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500" checked>
+                        <span class="text-sm font-medium">Tekrar Oyna Butonu</span>
+                    </label>
+                </div>
+
+                <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Ekstra Talimatlar</label>
+                    <textarea id="extraNotes"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        rows="3"
+                        placeholder="Örn: Arka plan uzay temalı olsun, doğru cevapta konfetiler patlasın..."></textarea>
+                </div>
+            </section>
+
+            <!-- Generate Button -->
+            <button onclick="generatePrompt()"
+                class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 rounded-xl shadow-lg transform transition active:scale-95 text-lg">
+                <i class="fas fa-magic mr-2"></i> Prompt Oluştur
+            </button>
+
+        </div>
+
+        <!-- Right Column: Results -->
+        <div class="lg:col-span-5">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 sticky top-24">
+                <div class="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
+                    <h2 class="font-bold text-lg"><i class="fas fa-code mr-2"></i>Oluşturulan Prompt</h2>
+                    <span class="text-xs bg-gray-700 px-2 py-1 rounded">Claude/ChatGPT İçin</span>
+                </div>
+
+                <div class="p-0 relative">
+                    <textarea id="outputPrompt"
+                        class="w-full h-96 p-6 bg-gray-50 text-gray-800 font-mono text-sm resize-none focus:outline-none"
+                        readonly
+                        placeholder="Prompt burada görünecek... Lütfen sol taraftan seçimlerinizi yapıp 'Prompt Oluştur' butonuna basın."></textarea>
+
+                    <div class="absolute bottom-4 right-4 flex space-x-2">
+                        <button onclick="copyToClipboard()"
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition flex items-center">
+                            <i class="fas fa-copy mr-2"></i> Kopyala
+                        </button>
+                    </div>
+                </div>
+
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <h3 class="font-bold text-gray-700 text-sm mb-2">Nasıl Kullanılır?</h3>
+                    <ul class="text-xs text-gray-600 space-y-1 list-disc list-inside">
+                        <li>Yukarıdaki "Kopyala" butonuna basın.</li>
+                        <li>ChatGPT, Claude veya Gemini'yi açın.</li>
+                        <li>Metni yapıştırın ve gönderin.</li>
+                        <li>Yapay zeka size hazır bir "index.html" kodu verecektir.</li>
+                        <li>Bu kodu bilgisayarınızda bir metin belgesine yapıştırıp adını "oyun.html" yaparak kaydedin.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast"
+        class="fixed bottom-5 right-5 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-xl transform translate-y-20 transition-transform duration-300 flex items-center z-50">
+        <i class="fas fa-check-circle text-green-400 mr-3"></i>
+        <span>Kopyalandı!</span>
+    </div>
+
+    <script>
+        // State
+        let selectedType = '';
+
+        // Game Definitions
+        const gameDescriptions = {
+            'match_game': 'Eşleştirme Oyunu (Memory Game)',
+            'drag_drop': 'Sürükle ve Bırak Eşleştirme',
+            'listen_select': 'Dinle ve Doğru Resmi Seç',
+            'true_false': 'Doğru / Yanlış Karar Oyunu',
+            'flashcards': 'Etkileşimli Flashcard Çalışması',
+            'quiz': 'Görsel/İşitsel Destekli Çoktan Seçmeli Test'
+        };
+
+        const gameRulesTemplate = {
+            'match_game': 'Klasik hafıza oyunu mantığı. Kartlar kapalı başlar. Tıklanınca açılır. Eşleşenler açık kalır, eşleşmeyenler kapanır.',
+            'drag_drop': 'Kullanıcı nesneleri (resim veya metin etiketlerini) doğru hedeflerin üzerine sürükleyip bırakmalıdır. Yanlışsa geri döner.',
+            'listen_select': 'Bir ses çalınır ve ekranda seçenekler belirir. Kullanıcı duyduğu sese ait olan resmi seçmelidir.',
+            'true_false': 'Ekrana bir resim ve ses/metin gelir. Kullanıcı bu eşleşmenin "Doğru" mu "Yanlış" mı olduğuna butonlarla karar verir.'
+        };
+
+        function selectGameType(type, element) {
+            // Remove active class from all
+            document.querySelectorAll('.game-type-card').forEach(el => {
+                el.classList.remove('selected');
+            });
+
+            // Add to clicked
+            element.classList.add('selected');
+            selectedType = type;
+            document.getElementById('selectedGameType').value = type;
+
+            // Optional: Auto-adjust inputs based on type
+            if (type === 'listen_select') {
+                // If not already TTS, set to mp3 default
+                const currentAudio = document.getElementById('audioFormat').value;
+                if (currentAudio === 'yok') document.getElementById('audioFormat').value = 'mp3';
+            }
+        }
+
+        function generatePrompt() {
+            if (!selectedType) {
+                alert('Lütfen önce bir etkinlik türü seçin (Adım 1).');
+                return;
+            }
+
+            const itemCount = document.getElementById('itemCount').value;
+            const naming = document.getElementById('namingConvention').value;
+            const imgFmt = document.getElementById('imageFormat').value;
+            const audFmt = document.getElementById('audioFormat').value;
+            const specificNotes = document.getElementById('extraNotes').value;
+
+            // Features
+            const features = [];
+            if (document.getElementById('feat_scoring').checked) features.push('Puanlama Sistemi');
+            if (document.getElementById('feat_feedback').checked) features.push('Görsel/İşitsel Geri Bildirimler');
+            if (document.getElementById('feat_timer').checked) features.push('Zaman Sayacı');
+            if (document.getElementById('feat_lives').checked) features.push('Can Hakkı Sistemi');
+            if (document.getElementById('feat_progress').checked) features.push('İlerleme Göstergesi');
+            if (document.getElementById('feat_replay').checked) features.push('Yeniden Başlat Butonu');
+
+            // --- Logic for TTS & Icons ---
+            let assetInstructions = `- Toplam Soru/Öğe Sayısı: ${itemCount} adet.\n`;
+
+            // Image Logic
+            if (imgFmt === 'yok') {
+                assetInstructions += '- Görsel kullanılmayacak.\n';
+            } else if (imgFmt === 'icon') {
+                assetInstructions += '- GÖRSEL YERİNE İKON: FontAwesome 6 ikonları kullanılacak. JavaScript dizisi içinde (örneğin ["fa-solid fa-cat", "fa-solid fa-dog"...]) ikon sınıflarını tanımla. Rastgele ikon seç.\n';
+            } else if (imgFmt === 'emoji') {
+                assetInstructions += '- GÖRSEL YERİNE EMOJİ: Dosya yerine doğrudan Emoji karakterleri kullanılacak. JavaScript dizisi içinde (örneğin ["🍎", "🚗", "🐶"...]) emojileri tanımla.\n';
+            } else {
+                assetInstructions += `- Görseller: Klasörde "1.${imgFmt}" (veya benzeri) formatında resim dosyaları var kabul et.\n`;
+            }
+
+            // Audio Logic
+            if (audFmt === 'yok') {
+                assetInstructions += '- Ses dosyası kullanılmayacak.\n';
+            } else if (audFmt === 'tts') {
+                assetInstructions += '- SES DOSYASI YOK (TTS): "window.speechSynthesis" API kullanılarak metinler tarayıcı tarafından seslendirilecek. JavaScript dizisi içinde okunacak kelimeleri/cümleleri tanımla.\n';
+            } else {
+                assetInstructions += `- Sesler: Klasörde "1.${audFmt}" formatında ses dosyaları var kabul et.\n`;
+            }
+
+            if (naming === 'numbered' && imgFmt !== 'icon' && imgFmt !== 'emoji' && audFmt !== 'tts') {
+                assetInstructions += '- Dosya yapısı sıralı numaralandırılmıştır (1, 2, 3...).\n';
+            }
+
+            let prompt = `Sen uzman bir Web Geliştiricisi ve Eğitim Teknoloğusun. Aşağıdaki özelliklere sahip, tarayıcıda doğrudan çalışacak TEK BİR HTML DOSYASI (HTML + CSS + JS iç içe) yazmanı istiyorum.
+
+Proje: ${gameDescriptions[selectedType]}
+Hedef Kitle: Öğrenciler / Eğitim Amaçlı
+
+---
+1. İÇERİK VE VARLIKLAR:
+${assetInstructions}
+
+2. OYUN MEKANİĞİ (${gameDescriptions[selectedType]}):
+${gameRulesTemplate[selectedType] || 'Standart eğitim oyunu kuralları geçerlidir.'}
+- Tüm sorular/sorular bitene kadar oyun devam etmeli.
+- Sorular her açılışta rastgele sıralanmalı (Randomize).
+
+3. İSTENEN ÖZELLİKLER:
+${features.map(f => `- ${f}`).join('\n')}
+
+4. TEKNİK VE TASARIM GEREKSİNİMLERİ:
+- Modern, temiz ve çocuk dostu bir UI tasarımı yap (CSS Flexbox/Grid kullan).
+- Renk paleti canlı ve ilgi çekici olsun.
+- Mobil uyumlu (Responsive) olsun.
+- Harici kütüphane olarak sadece FontAwesome kullan (ikonlar için). Her şeyi Pure JS (Vanilla JavaScript) ile yaz.
+- Kodun içine, kullanıcıların metinleri/ikonları kolayca değiştirebileceği bir "DATA" dizisi (array) ekle ve yorum satırıyla belirt.
+
+5. EKSTRA NOTLAR:
+${specificNotes}
+
+Lütfen kodu, kopyalayıp direkt "index.html" olarak kaydedip çalıştırabileceğim şekilde, eksiksiz ve yorum satırları ile açıklanmış olarak ver.`;
+
+            document.getElementById('outputPrompt').value = prompt;
+        }
+
+        function copyToClipboard() {
+            const copyText = document.getElementById("outputPrompt");
+            if (!copyText.value) return;
+
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+
+            showToast();
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.classList.remove("translate-y-20");
+            setTimeout(() => {
+                toast.classList.add("translate-y-20");
+            }, 3000);
+        }
+
+        function resetForm() {
+            location.reload();
+        }
+
+        // Initialize with first type selected for UX
+        document.addEventListener('DOMContentLoaded', () => {
+            // Optional: select first one by default?
+            // selectGameType('match_game', document.querySelector('.game-type-card'));
+        });
+    </script>
+</body>
+
+</html>
