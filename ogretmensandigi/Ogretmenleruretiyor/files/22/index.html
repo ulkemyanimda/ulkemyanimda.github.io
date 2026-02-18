@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doğru mu? Yanlış mı? Sesli Oyun</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        #game-card {
+            background: white;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 8px solid #FFD93D;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .image-container {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid #eee;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #score-board {
+            font-size: 24px;
+            color: #6C5CE7;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .btn-play-audio {
+            background: #6C5CE7;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .btn-play-audio:hover { transform: scale(1.1); }
+
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .btn-choice {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            flex: 1;
+            transition: 0.2s;
+        }
+
+        #btn-true { background-color: #26de81; }
+        #btn-false { background-color: #eb3b5a; }
+        .btn-choice:active { transform: scale(0.9); }
+
+        #feedback {
+            position: fixed;
+            top: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            opacity: 0;
+            transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="score-board">Puan: <span id="score">0</span></div>
+
+    <div id="feedback">Tebrikler! 🌟</div>
+
+    <div id="game-card">
+        <div class="image-container">
+            <img id="current-img" src="" alt="Resim">
+        </div>
+
+        <button class="btn-play-audio" onclick="playCurrentAudio()">
+            🔊 Sesi Dinle
+        </button>
+
+        <div class="controls">
+            <button id="btn-true" class="btn-choice" onclick="checkAnswer(true)">DOĞRU ✅</button>
+            <button id="btn-false" class="btn-choice" onclick="checkAnswer(false)">YANLIŞ ❌</button>
+        </div>
+    </div>
+
+    <audio id="game-audio"></audio>
+
+    <script>
+        let score = 0;
+        let currentImgId = 0;
+        let currentAudioId = 0;
+        const totalFiles = 12;
+
+        function nextRound() {
+            // Rastgele bir resim seç
+            currentImgId = Math.floor(Math.random() * totalFiles) + 1;
+            
+            // %50 ihtimalle doğru eşleşme gelsin, %50 ihtimalle yanlış
+            const isMatch = Math.random() > 0.5;
+            
+            if (isMatch) {
+                currentAudioId = currentImgId; // Eşleşen ses
+            } else {
+                // Eşleşmeyen farklı bir ses seç
+                do {
+                    currentAudioId = Math.floor(Math.random() * totalFiles) + 1;
+                } while (currentAudioId === currentImgId);
+            }
+
+            // Arayüzü güncelle
+            document.getElementById('current-img').src = `${currentImgId}.jpg`;
+            document.getElementById('game-audio').src = `${currentAudioId}.m4a`;
+            
+            // Yeni tur başladığında sesi otomatik çal (isteğe bağlı)
+            setTimeout(playCurrentAudio, 500);
+        }
+
+        function playCurrentAudio() {
+            const audio = document.getElementById('game-audio');
+            audio.play();
+        }
+
+        function checkAnswer(userChoice) {
+            const actualTruth = (currentImgId === currentAudioId);
+            const feedback = document.getElementById('feedback');
+
+            if (userChoice === actualTruth) {
+                // DOĞRU BİLDİ
+                score += 10;
+                showFeedback("HARİKA! 🌟", "#26de81");
+            } else {
+                // YANLIŞ BİLDİ
+                score = Math.max(0, score - 5);
+                showFeedback("DİKKAT ET! 🎈", "#eb3b5a");
+            }
+
+            document.getElementById('score').innerText = score;
+            nextRound();
+        }
+
+        function showFeedback(text, color) {
+            const fb = document.getElementById('feedback');
+            fb.innerText = text;
+            fb.style.color = color;
+            fb.style.opacity = '1';
+            fb.style.top = '40px';
+            
+            setTimeout(() => {
+                fb.style.opacity = '0';
+                fb.style.top = '20px';
+            }, 800);
+        }
+
+        // Oyunu Başlat
+        window.onload = nextRound;
+    </script>
+</body>
+</html>
