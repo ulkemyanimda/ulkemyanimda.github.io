@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesli Bilgi Yarışması</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f9ff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .container { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 800px; width: 90%; }
+        h1 { color: #2c3e50; }
+        .score-board { font-size: 24px; font-weight: bold; margin-bottom: 20px; color: #27ae60; }
+        .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 20px; }
+        .option-card { border: 4px solid #eee; border-radius: 15px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; overflow: hidden; }
+        .option-card:hover { transform: scale(1.05); border-color: #3498db; }
+        .option-card img { width: 100%; height: 140px; object-fit: cover; display: block; }
+        button { background: #3498db; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 50px; cursor: pointer; margin-top: 20px; transition: background 0.3s; }
+        button:hover { background: #2980b9; }
+        .feedback { margin-top: 15px; font-size: 20px; font-weight: bold; height: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="game-container">
+    <h1>Sesli Tahmin Oyunu</h1>
+    <div class="score-board">Puan: <span id="score">0</span></div>
+    
+    <div id="quiz-area">
+        <button onclick="playAudio()">🔊 Soruyu Dinle</button>
+        <div class="feedback" id="feedback"></div>
+        <div class="options-grid" id="options-grid">
+            </div>
+    </div>
+</div>
+
+<script>
+    let score = 0;
+    let currentQuestion = 0;
+    let totalQuestions = 12;
+    let questions = [];
+
+    // 1'den 12'ye kadar sayıları karıştırıp soru sırasını belirleyelim
+    function initGame() {
+        questions = Array.from({length: totalQuestions}, (_, i) => i + 1);
+        questions.sort(() => Math.random() - 0.5);
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if (currentQuestion >= totalQuestions) {
+            document.getElementById('quiz-area').innerHTML = `<h2>Tebrikler! Oyun Bitti.</h2><h3>Toplam Puanın: ${score}</h3><button onclick="location.reload()">Tekrar Oyna</button>`;
+            return;
+        }
+
+        const correctId = questions[currentQuestion];
+        const feedback = document.getElementById('feedback');
+        const grid = document.getElementById('options-grid');
+        
+        feedback.innerText = "";
+        grid.innerHTML = "";
+
+        // Yanlış seçenekleri oluştur (Doğru olan hariç rastgele 4 tane)
+        let options = [correctId];
+        while (options.length < 5) {
+            let randomId = Math.floor(Math.random() * 12) + 1;
+            if (!options.includes(randomId)) {
+                options.push(randomId);
+            }
+        }
+        
+        // Seçenekleri karıştır
+        options.sort(() => Math.random() - 0.5);
+
+        // Arayüze ekle
+        options.forEach(id => {
+            const card = document.createElement('div');
+            card.className = 'option-card';
+            card.innerHTML = `<img src="${id}.jpg" alt="Seçenek">`;
+            card.onclick = () => checkAnswer(id, correctId);
+            grid.appendChild(card);
+        });
+    }
+
+    function playAudio() {
+        const audioId = questions[currentQuestion];
+        const audio = new Audio(`${audioId}.m4a`);
+        audio.play();
+    }
+
+    function checkAnswer(selectedId, correctId) {
+        const feedback = document.getElementById('feedback');
+        
+        if (selectedId === correctId) {
+            score += 10;
+            document.getElementById('score').innerText = score;
+            feedback.style.color = "#27ae60";
+            feedback.innerText = "Harika! Doğru Bildin. 🎉";
+            
+            // 1.5 saniye sonra sonraki soruya geç
+            setTimeout(() => {
+                currentQuestion++;
+                loadQuestion();
+            }, 1500);
+        } else {
+            feedback.style.color = "#e74c3c";
+            feedback.innerText = "Tekrar Dene! 😕";
+        }
+    }
+
+    initGame();
+</script>
+
+</body>
+</html>
