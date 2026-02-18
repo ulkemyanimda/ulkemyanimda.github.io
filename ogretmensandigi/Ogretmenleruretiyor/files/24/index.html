@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ses ve Resim Eşleştirme Oyunu</title>
+    <style>
+        :root {
+            --primary-color: #FF6B6B;
+            --secondary-color: #4ECDC4;
+            --bg-color: #F7FFF7;
+            --correct-color: #45B649;
+            --wrong-color: #FF416C;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+            user-select: none;
+        }
+
+        .header { text-align: center; margin-bottom: 20px; }
+        #scoreboard {
+            font-size: 28px;
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            color: var(--primary-color);
+            border: 3px solid var(--secondary-color);
+        }
+
+        .game-area {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.8);
+            border-radius: 25px;
+            border: 4px dashed #ccc;
+        }
+
+        .image-card {
+            width: 110px;
+            height: 110px;
+            border-radius: 15px;
+            cursor: grab;
+            object-fit: cover;
+            border: 4px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: #fff;
+        }
+
+        .audio-box {
+            width: 110px;
+            height: 110px;
+            background: #eee;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #bdc3c7;
+            transition: all 0.3s ease;
+        }
+
+        .audio-box.drag-over {
+            background: #ffeaa7;
+            transform: scale(1.1);
+            border-color: #fdcb6e;
+        }
+
+        .play-btn {
+            background: var(--secondary-color);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 0 #3bb3a9;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .matched {
+            background: var(--correct-color) !important;
+            border-color: #2d8a2f !important;
+        }
+
+        .matched .play-btn { display: none; }
+        .matched::after { content: "✅"; font-size: 40px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Sesini Bul, Resmi Kondur! 🎨</h1>
+        <div id="scoreboard">Puan: <span id="score">0</span></div>
+    </div>
+
+    <div class="game-area">
+        <div class="column" id="images-container"></div>
+        
+        <div class="column" id="slots-container"></div>
+    </div>
+
+    <script>
+        const total = 12;
+        let score = 0;
+        let matches = 0;
+
+        const imgCont = document.getElementById('images-container');
+        const slotCont = document.getElementById('slots-container');
+        const scoreDisp = document.getElementById('score');
+
+        const ids = Array.from({length: total}, (_, i) => i + 1);
+        const shuffledImgIds = [...ids].sort(() => Math.random() - 0.5);
+        const shuffledSlotIds = [...ids].sort(() => Math.random() - 0.5);
+
+        // RESİMLERİ OLUŞTUR
+        shuffledImgIds.forEach(num => {
+            const img = document.createElement('img');
+            img.src = `${num}.jpg`;
+            img.className = 'image-card';
+            img.id = `img-${num}`;
+            img.draggable = true;
+            
+            img.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', num); // Sadece rakamı gönderiyoruz
+            });
+
+            imgCont.appendChild(img);
+        });
+
+        // SES KUTULARINI OLUŞTUR
+        shuffledSlotIds.forEach(num => {
+            const box = document.createElement('div');
+            box.className = 'audio-box';
+            box.dataset.targetId = num; // Hedef ID'yi sakla
+
+            const btn = document.createElement('button');
+            btn.className = 'play-btn';
+            btn.innerHTML = '🔊';
+            
+            const audio = new Audio(`${num}.m4a`);
+            btn.onclick = () => audio.play();
+
+            box.appendChild(btn);
+            slotCont.appendChild(box);
+
+            // Sürükleme Olayları
+            box.addEventListener('dragover', (e) => {
+                e.preventDefault(); // Drop'un çalışması için şart
+                box.classList.add('drag-over');
+            });
+
+            box.addEventListener('dragleave', () => {
+                box.classList.remove('drag-over');
+            });
+
+            box.addEventListener('drop', (e) => {
+                e.preventDefault();
+                box.classList.remove('drag-over');
+                
+                const draggedId = e.dataTransfer.getData('text/plain'); // Sürüklenen resmin nosu
+                const targetId = box.dataset.targetId; // Kutunun beklediği no
+
+                if (draggedId === targetId) {
+                    // DOĞRU
+                    box.classList.add('matched');
+                    document.getElementById(`img-${draggedId}`).style.visibility = 'hidden';
+                    score += 10;
+                    matches++;
+                    scoreDisp.innerText = score;
+                    if(matches === total) alert("Harikasın! Hepsini buldun! 🎉");
+                } else {
+                    // YANLIŞ
+                    box.style.background = 'var(--wrong-color)';
+                    setTimeout(() => box.style.background = '#eee', 500);
+                    score = Math.max(0, score - 5);
+                    scoreDisp.innerText = score;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
