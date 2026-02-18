@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Yunus Emre: Gönül Yolculuğu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #0f766e; /* Teal 700 */
+            --secondary: #d97706; /* Amber 600 */
+            --bg-color: #fdfbf7;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .hand-font {
+            font-family: 'Patrick Hand', cursive;
+        }
+
+        /* Modern Card Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            border-radius: 24px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .section-transition {
+            animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Wood Game Styles */
+        .wood-piece {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.2s, filter 0.2s;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            user-select: none;
+        }
+        
+        .wood-piece:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.15));
+            z-index: 10;
+        }
+
+        .wood-straight {
+            background: linear-gradient(90deg, #8B4513, #A0522D);
+            border-radius: 4px;
+        }
+
+        .wood-crooked {
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="20" viewBox="0 0 100 20" xmlns="http://www.w3.org/2000/svg"><path d="M0,10 Q25,20 50,10 T100,10" fill="none" stroke="%238B4513" stroke-width="12"/></svg>');
+            background-size: cover;
+            height: 20px; 
+            width: 120px;
+        }
+
+        /* Verse Game Styles */
+        .word-option {
+            transition: all 0.2s;
+        }
+        .word-option:active {
+            transform: scale(0.95);
+        }
+
+        .correct-anim {
+            animation: bounce 0.5s;
+            background-color: #10b981 !important; /* Green */
+            color: white !important;
+        }
+
+        .wrong-anim {
+            animation: shake 0.4s;
+            background-color: #ef4444 !important; /* Red */
+            color: white !important;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Logo Positioning */
+        .brand-logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 60;
+            width: 150px;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 pt-20 md:pt-4">
+
+    <!-- Logo -->
+    <img src="image_626d7b.png" alt="Ülkem Yanımda" class="brand-logo">
+
+    <!-- Progress Indicator -->
+    <div class="fixed top-0 left-0 w-full h-2 bg-gray-200 z-50">
+        <div id="progress-bar" class="h-full bg-teal-600 transition-all duration-500 ease-out" style="width: 0%"></div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="snd-tik" src="tik.mp3" preload="auto"></audio>
+    <audio id="snd-dong" src="dong.mp3" preload="auto"></audio>
+    <audio id="snd-cinlama" src="cinlama.mp3" preload="auto"></audio>
+
+    <div class="max-w-4xl w-full relative mt-8 md:mt-0">
+        
+        <!-- Header / Logo Area -->
+        <header class="text-center mb-8 section-transition" id="header-area">
+            <div class="inline-block p-3 rounded-full bg-teal-100 text-teal-700 mb-3 animate-bounce">
+                <i class="fas fa-heart text-2xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-800 hand-font mb-2">Bizim Yunus</h1>
+            <p class="text-gray-500 font-medium">Bir Sevgi Yolculuğu</p>
+        </header>
+
+        <!-- Container for Dynamic Content -->
+        <main id="game-container" class="w-full relative min-h-[500px]">
+            
+            <!-- STAGE 0: Intro & Video -->
+            <div id="stage-0" class="section-transition glass-card p-6 md:p-8">
+                <div class="relative w-full rounded-2xl overflow-hidden shadow-xl bg-black mb-6 group">
+                    <video 
+                        id="main-video"
+                        class="w-full h-auto max-h-[60vh] mx-auto rounded-xl"
+                        controls
+                        poster="https://img.youtube.com/vi/2gCnSa5esIA/maxresdefault.jpg">
+                        <source src="2_320__Yunusemre.mp4" type="video/mp4">
+                        Tarayıcınız video etiketini desteklemiyor.
+                    </video>
+                </div>
+                
+                <div class="text-center space-y-4">
+                    <h2 class="text-2xl font-bold text-gray-800">Hoş Geldin Yolcu!</h2>
+                    <p class="text-gray-600">Bu videoyu dikkatlice izle. Yunus Emre'nin hayatındaki sırlar birazdan senin karşına çıkacak.</p>
+                    <button onclick="nextStage()" class="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-full font-bold text-lg shadow-lg transform transition hover:-translate-y-1 inline-flex items-center gap-2">
+                        Yolculuğa Başla <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STAGE 1: The Choice (Interactive Narrative) -->
+            <div id="stage-1" class="hidden section-transition">
+                <div class="glass-card p-8 text-center">
+                    <div class="mb-8">
+                        <span class="inline-block bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm font-bold mb-4">Seçim Zamanı</span>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Hacı Bektaş'ın Kapısında</h2>
+                        <p class="text-lg text-gray-600">Hacı Bektaş Veli sordu: <br>"Sana buğday mı verelim, yoksa nefes (himmet) mi?"</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                        <!-- Option A -->
+                        <div onclick="handleChoice('wheat')" class="cursor-pointer group relative overflow-hidden rounded-2xl border-2 border-yellow-200 hover:border-yellow-400 bg-yellow-50 p-6 transition-all hover:shadow-xl">
+                            <div class="text-6xl mb-4 transform group-hover:scale-110 transition-transform">🌾</div>
+                            <h3 class="text-xl font-bold text-gray-800">Buğday İsterim</h3>
+                            <p class="text-sm text-gray-500 mt-2">Karnım aç, köyümde kıtlık var.</p>
+                            <div id="wheat-result" class="hidden absolute inset-0 bg-white/90 flex items-center justify-center p-4 text-center">
+                                <p class="text-orange-700 font-bold">Yunus buğdayı aldı ama yolda pişman oldu. "Buğday biter ama himmet bitmez" dedi.</p>
+                            </div>
+                        </div>
+
+                        <!-- Option B -->
+                        <div onclick="handleChoice('himmet')" class="cursor-pointer group relative overflow-hidden rounded-2xl border-2 border-teal-200 hover:border-teal-400 bg-teal-50 p-6 transition-all hover:shadow-xl">
+                            <div class="text-6xl mb-4 transform group-hover:scale-110 transition-transform">✨</div>
+                            <h3 class="text-xl font-bold text-gray-800">Himmet İsterim</h3>
+                            <p class="text-sm text-gray-500 mt-2">Gönlüm aç, ruhum doysun.</p>
+                            <div id="himmet-result" class="hidden absolute inset-0 bg-white/90 flex items-center justify-center p-4 text-center">
+                                <p class="text-teal-700 font-bold">Doğru yol! Kalıcı olan manevi hazinedir.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="stage-1-next" class="mt-8 hidden">
+                         <button onclick="nextStage()" class="bg-teal-600 text-white px-8 py-3 rounded-full font-bold shadow-lg animate-bounce">
+                            Dergaha Git <i class="fas fa-walking ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 2: Wood Collection Game (Interactive Area) -->
+            <div id="stage-2" class="hidden section-transition h-full">
+                <div class="glass-card p-4 relative min-h-[600px] flex flex-col">
+                    <div class="text-center mb-4 z-10">
+                        <h2 class="text-2xl font-bold text-gray-800">Taptuk Emre'nin Dergahı</h2>
+                        <p class="text-gray-600">"Bu kapıdan içeri odunun eğrisi bile giremez."</p>
+                        <div class="flex justify-center items-center gap-4 mt-2">
+                            <div class="bg-gray-100 px-4 py-2 rounded-lg font-mono">
+                                Toplanan: <span id="score-counter" class="text-teal-600 font-bold text-xl">0</span> / 5
+                            </div>
+                            <div class="text-sm text-orange-500 animate-pulse">
+                                <i class="fas fa-mouse-pointer"></i> Sadece düz odunları topla!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game Area -->
+                    <div id="wood-game-area" class="flex-grow bg-amber-50 rounded-xl border-2 border-amber-100 relative overflow-hidden cursor-crosshair">
+                        <!-- Woods will be spawned here via JS -->
+                        <div id="basket" class="absolute bottom-4 right-4 w-24 h-24 bg-contain bg-no-repeat opacity-50 pointer-events-none z-0" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23a16207\'><path d=\'M2 20h20v2H2v-2zm2-8h2v7H4v-7zm4 0h2v7H8v-7zm4 0h2v7h-2v-7zm4 0h2v7h-2v-7z\'/></svg>');"></div>
+                    </div>
+
+                    <div id="stage-2-success" class="absolute inset-0 bg-white/95 z-20 hidden flex-col items-center justify-center rounded-2xl">
+                        <i class="fas fa-check-circle text-6xl text-teal-500 mb-4"></i>
+                        <h3 class="text-3xl font-bold text-gray-800 mb-2">Harikasın!</h3>
+                        <p class="text-gray-600 mb-6 text-center max-w-md">Doğru olanı seçtin. Dürüstlük, en büyük erdemdir.</p>
+                        <button onclick="nextStage()" class="bg-teal-600 text-white px-8 py-3 rounded-full font-bold shadow-lg">
+                            Sonraki Görev <i class="fas fa-chevron-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 3: Verse Completion (Language/Culture) -->
+            <div id="stage-3" class="hidden section-transition">
+                <div class="glass-card p-8">
+                    <div class="text-center mb-8">
+                        <span class="text-4xl">📜</span>
+                        <h2 class="text-3xl font-bold text-gray-800 mt-2">Yunus'un Sözleri</h2>
+                        <p class="text-gray-600">Dizelerdeki boşlukları kalbinin sesiyle tamamla.</p>
+                    </div>
+
+                    <div class="space-y-8" id="verses-container">
+                        <!-- Verse 1 -->
+                        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm verse-card" data-index="0">
+                            <p class="text-xl md:text-2xl font-serif text-center mb-6 text-gray-800 leading-relaxed">
+                                "Gelin tanış olalım,<br>
+                                İşi kolay kılalım,<br>
+                                Sevelim sevilelim,<br>
+                                Dünya <span class="target-slot inline-block w-32 border-b-2 border-teal-500 text-teal-600 font-bold text-center">?</span> kalmaz."
+                            </p>
+                            <div class="flex justify-center gap-3 flex-wrap">
+                                <button onclick="checkVerse(this, 0, 'bize')" class="word-option bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">bize</button>
+                                <button onclick="checkVerse(this, 0, 'kimseye')" class="word-option bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">kimseye</button>
+                                <button onclick="checkVerse(this, 0, 'sana')" class="word-option bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">sana</button>
+                            </div>
+                        </div>
+
+                        <!-- Verse 2 -->
+                        <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm verse-card opacity-50 pointer-events-none" data-index="1">
+                            <p class="text-xl md:text-2xl font-serif text-center mb-6 text-gray-800 leading-relaxed">
+                                "Yaratılanı severim,<br>
+                                <span class="target-slot inline-block w-32 border-b-2 border-teal-500 text-teal-600 font-bold text-center">?</span> ötürü."
+                            </p>
+                            <div class="flex justify-center gap-3 flex-wrap">
+                                <button onclick="checkVerse(this, 1, 'Yaradan\'dan')" class="word-option bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">Yaradan'dan</button>
+                                <button onclick="checkVerse(this, 1, 'İnsandan')" class="word-option bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">İnsandan</button>
+                                <button onclick="checkVerse(this, 1, 'Dünyadan')" class="word-option bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium">Dünyadan</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="stage-3-complete" class="hidden text-center mt-8">
+                        <button onclick="nextStage()" class="bg-teal-600 text-white px-8 py-3 rounded-full font-bold shadow-lg animate-bounce">
+                            Sonucu Gör <i class="fas fa-star ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 4: Final Screen -->
+            <div id="stage-4" class="hidden section-transition">
+                <div class="glass-card p-10 text-center">
+                    <div class="mb-6 animate-pulse">
+                        <i class="fas fa-award text-6xl text-yellow-400"></i>
+                    </div>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4 hand-font">Gönül Dostu Oldun!</h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        Yunus Emre'nin sevgi, dürüstlük ve barış mesajını kalbine koydun.<br>
+                        Artık sen de bir "Gönül Mimarı"sın.
+                    </p>
+                    
+                    <div class="bg-teal-50 p-6 rounded-xl border border-teal-100 inline-block mb-8">
+                        <p class="italic text-teal-800 font-medium">"Biz gelmedik davi (kavga) için,<br>Bizim işimiz sevi (sevgi) için."</p>
+                    </div>
+
+                    <div>
+                        <button onclick="location.reload()" class="bg-gray-800 text-white px-8 py-3 rounded-full font-bold hover:bg-gray-900 transition-colors">
+                            <i class="fas fa-redo mr-2"></i> Yeniden Başla
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Sound System
+        const sounds = {
+            tik: document.getElementById('snd-tik'),
+            dong: document.getElementById('snd-dong'),
+            cinlama: document.getElementById('snd-cinlama')
+        };
+
+        function playSound(name) {
+            try {
+                if(sounds[name]) {
+                    sounds[name].currentTime = 0;
+                    sounds[name].play().catch(e => console.log('Audio play error:', e));
+                }
+            } catch(e) {
+                console.log("Ses oynatılamadı", e);
+            }
+        }
+
+        // State Management
+        const state = {
+            currentStage: 0,
+            woodScore: 0,
+            versesCompleted: 0
+        };
+
+        const config = {
+            totalWoodTargets: 5,
+            totalVerses: 2,
+            woodAreaHeight: 500,
+            woodAreaWidth: 0 // Will be set on init
+        };
+
+        // DOM Elements
+        const progressBar = document.getElementById('progress-bar');
+        const stages = [
+            document.getElementById('stage-0'),
+            document.getElementById('stage-1'),
+            document.getElementById('stage-2'),
+            document.getElementById('stage-3'),
+            document.getElementById('stage-4')
+        ];
+
+        // --- Navigation Logic ---
+        function nextStage() {
+            playSound('cinlama'); // Geçiş sesi
+
+            // Hide current
+            stages[state.currentStage].classList.add('hidden');
+            stages[state.currentStage].classList.remove('flex'); // Just in case
+
+            // Increment
+            state.currentStage++;
+            
+            // Show next
+            const next = stages[state.currentStage];
+            next.classList.remove('hidden');
+            
+            // Progress Bar
+            const progress = (state.currentStage / (stages.length - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // Stage Specific Init
+            if (state.currentStage === 0) {
+                 // Stop video if leaving stage 0
+                 const vid = document.getElementById('main-video');
+                 if(vid) vid.pause();
+            }
+            if (state.currentStage === 2) initWoodGame();
+            if (state.currentStage === 4) fireConfetti();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- Stage 1: Choice Logic ---
+        function handleChoice(choice) {
+            const resultWheat = document.getElementById('wheat-result');
+            const resultHimmet = document.getElementById('himmet-result');
+            const nextBtn = document.getElementById('stage-1-next');
+
+            if (choice === 'wheat') {
+                playSound('dong');
+                resultWheat.classList.remove('hidden');
+                // Simulate Yunus realizing mistake
+                setTimeout(() => {
+                    nextBtn.classList.remove('hidden');
+                }, 1500);
+            } else {
+                playSound('tik');
+                resultHimmet.classList.remove('hidden');
+                setTimeout(() => {
+                    fireConfetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+                    nextBtn.classList.remove('hidden');
+                }, 800);
+            }
+        }
+
+        // --- Stage 2: Wood Game Logic ---
+        function initWoodGame() {
+            const area = document.getElementById('wood-game-area');
+            area.innerHTML = ''; // Clear
+            
+            // Get dimensions
+            const rect = area.getBoundingClientRect();
+            const w = rect.width;
+            const h = rect.height || 400;
+
+            // Add background basket
+            const basket = document.createElement('div');
+            basket.id = 'basket';
+            basket.className = 'absolute bottom-4 right-4 w-24 h-24 bg-contain bg-no-repeat opacity-50 pointer-events-none z-0';
+            basket.style.backgroundImage = "url('data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 24 24\\' fill=\\'%23a16207\\'><path d=\\'M2 20h20v2H2v-2zm2-8h2v7H4v-7zm4 0h2v7H8v-7zm4 0h2v7h-2v-7zm4 0h2v7h-2v-7z\\'/></svg>')";
+            area.appendChild(basket);
+
+            const totalPieces = 15; // Mix of straight and crooked
+            const straightCount = 5;
+
+            // Generate Straight
+            for(let i=0; i<straightCount; i++) createWood(area, true, w, h);
+            // Generate Crooked
+            for(let i=0; i<totalPieces - straightCount; i++) createWood(area, false, w, h);
+        }
+
+        function createWood(container, isStraight, w, h) {
+            const el = document.createElement('div');
+            el.className = `wood-piece ${isStraight ? 'wood-straight' : 'wood-crooked'}`;
+            
+            // Random Position & Rotation
+            const angle = Math.random() * 360;
+            const left = Math.random() * (w - 100);
+            const top = Math.random() * (h - 100);
+
+            if(isStraight) {
+                el.style.width = '100px';
+                el.style.height = '16px';
+            }
+
+            el.style.left = `${left}px`;
+            el.style.top = `${top}px`;
+            el.style.transform = `rotate(${angle}deg)`;
+
+            // Click Handler
+            el.onclick = function(e) {
+                e.stopPropagation();
+                if(isStraight) {
+                    // Success logic
+                    collectWood(el);
+                } else {
+                    // Fail logic
+                    shakeElement(el);
+                }
+            };
+
+            container.appendChild(el);
+        }
+
+        function collectWood(el) {
+            playSound('tik'); // Doğru ses
+
+            // Animate flying to basket (simplified as fade out for now)
+            el.style.transform = 'scale(0.1) rotate(0deg)';
+            el.style.opacity = '0';
+            setTimeout(() => el.remove(), 300);
+
+            state.woodScore++;
+            document.getElementById('score-counter').innerText = state.woodScore;
+
+            if(state.woodScore >= config.totalWoodTargets) {
+                setTimeout(() => {
+                    document.getElementById('stage-2-success').classList.remove('hidden');
+                    document.getElementById('stage-2-success').classList.add('flex');
+                    fireConfetti();
+                }, 500);
+            }
+        }
+
+        function shakeElement(el) {
+            playSound('dong'); // Yanlış ses
+
+            // Visual feedback for wrong choice
+            el.style.filter = 'sepia(1) hue-rotate(-50deg) saturate(3)'; // Turn red-ish
+            let currentTransform = el.style.transform;
+            el.style.transform = currentTransform + ' translateX(5px)';
+            setTimeout(() => {
+                el.style.transform = currentTransform;
+                el.style.filter = '';
+            }, 200);
+        }
+
+        // --- Stage 3: Verse Logic ---
+        const answers = {
+            0: 'kimseye',
+            1: 'Yaradan\'dan'
+        };
+
+        function checkVerse(btn, index, selectedWord) {
+            const card = document.querySelector(`.verse-card[data-index="${index}"]`);
+            const slot = card.querySelector('.target-slot');
+            
+            if(selectedWord === answers[index]) {
+                // Correct
+                playSound('tik');
+                btn.classList.add('correct-anim');
+                slot.innerText = selectedWord;
+                slot.classList.remove('text-teal-600');
+                slot.classList.add('text-green-600');
+                
+                // Disable siblings
+                const siblings = btn.parentElement.children;
+                for(let sib of siblings) {
+                    sib.disabled = true;
+                    if(sib !== btn) sib.classList.add('opacity-50');
+                }
+
+                state.versesCompleted++;
+
+                // Unlock next or finish
+                if(index < config.totalVerses - 1) {
+                    const nextCard = document.querySelector(`.verse-card[data-index="${index+1}"]`);
+                    nextCard.classList.remove('opacity-50', 'pointer-events-none');
+                } else {
+                    document.getElementById('stage-3-complete').classList.remove('hidden');
+                    fireConfetti();
+                }
+
+            } else {
+                // Wrong
+                playSound('dong');
+                btn.classList.add('wrong-anim');
+                setTimeout(() => btn.classList.remove('wrong-anim'), 400);
+            }
+        }
+
+        // --- Utils ---
+        function fireConfetti(opts) {
+            const defaults = { origin: { y: 0.7 } };
+            confetti({ ...defaults, ...opts });
+        }
+    </script>
+</body>
+</html>
