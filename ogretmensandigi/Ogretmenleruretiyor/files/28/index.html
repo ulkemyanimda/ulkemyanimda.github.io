@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Zıt Anlamı Eşleştirme Oyunu</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.top-info {
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.stars {
+    color: gold;
+    font-size: 24px;
+}
+
+.game {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.column {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.column h2 {
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.item {
+    border: 3px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 5px;
+    background: #eee;
+}
+
+.item img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.selected { border-color: orange; }
+.correct { border-color: green; }
+.wrong { border-color: red; }
+.hidden { visibility: hidden; }
+
+.message {
+    text-align: center;
+    font-size: 22px;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎯 Zıt Anlamını Bul</h1>
+
+<div class="top-info">
+    <div>⏱ Süre: <span id="time">0</span> sn</div>
+    <div>🏆 Puan: <span id="score">0</span></div>
+    <div class="stars" id="stars">☆☆☆</div>
+</div>
+
+<div class="game">
+    <div class="column">
+        <h2>Grup 1</h2>
+        <div id="gifGrid" class="grid"></div>
+    </div>
+
+    <div class="column">
+        <h2>Grup 2</h2>
+        <div id="imgGrid" class="grid"></div>
+    </div>
+</div>
+
+<div id="message" class="message"></div>
+
+<!-- SESLER -->
+<audio id="successSound" src="aferin.mp3"></audio>
+<audio id="failSound" src="yanlis.mp3"></audio>
+
+<script>
+const TOTAL = 10;
+let selectedGif = null;
+let score = 0;
+let matched = 0;
+let time = 0;
+let timerStarted = false;
+
+const gifGrid = document.getElementById("gifGrid");
+const imgGrid = document.getElementById("imgGrid");
+const scoreEl = document.getElementById("score");
+const timeEl = document.getElementById("time");
+const messageEl = document.getElementById("message");
+const starsEl = document.getElementById("stars");
+
+const successSound = document.getElementById("successSound");
+const failSound = document.getElementById("failSound");
+
+setInterval(() => {
+    if (timerStarted) {
+        time++;
+        timeEl.textContent = time;
+    }
+}, 1000);
+
+function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+}
+
+function createGame() {
+    let nums = shuffle([...Array(TOTAL).keys()].map(i => i + 1));
+
+    nums.forEach(n => {
+        const d = document.createElement("div");
+        d.className = "item";
+        d.dataset.num = n;
+        d.innerHTML = `<img src="${n}.gif">`;
+        d.onclick = () => selectGif(d);
+        gifGrid.appendChild(d);
+    });
+
+    nums = shuffle([...Array(TOTAL).keys()].map(i => i + 1));
+
+    nums.forEach(n => {
+        const d = document.createElement("div");
+        d.className = "item";
+        d.dataset.num = n;
+        d.innerHTML = `<img src="${n}.jpg">`;
+        d.onclick = () => selectImg(d);
+        imgGrid.appendChild(d);
+    });
+}
+
+function selectGif(gif) {
+    if (!timerStarted) timerStarted = true;
+
+    document.querySelectorAll("#gifGrid .item")
+        .forEach(i => i.classList.remove("selected"));
+
+    gif.classList.add("selected");
+    selectedGif = gif;
+    messageEl.textContent = "Eşleşen resmi seç";
+}
+
+function selectImg(img) {
+    if (!selectedGif) return;
+
+    if (selectedGif.dataset.num === img.dataset.num) {
+        successSound.play();
+        score += 10;
+        matched++;
+
+        selectedGif.classList.add("correct");
+        img.classList.add("correct");
+
+        setTimeout(() => {
+            selectedGif.classList.add("hidden");
+            img.classList.add("hidden");
+        }, 400);
+
+        messageEl.textContent = "👏 Aferin!";
+    } else {
+        failSound.play();
+        selectedGif.classList.add("wrong");
+        img.classList.add("wrong");
+
+        setTimeout(() => {
+            selectedGif.classList.remove("wrong", "selected");
+            img.classList.remove("wrong");
+        }, 600);
+
+        messageEl.textContent = "❌ Yanlış, tekrar dene";
+    }
+
+    scoreEl.textContent = score;
+    selectedGif = null;
+
+    if (matched === TOTAL) finishGame();
+}
+
+function finishGame() {
+    timerStarted = false;
+
+    let stars = "⭐";
+    if (time <= 40) stars = "⭐⭐⭐";
+    else if (time <= 70) stars = "⭐⭐";
+
+    starsEl.textContent = stars;
+    messageEl.textContent =
+        `🎉 Oyun bitti! Süre: ${time} sn | Puan: ${score}`;
+}
+
+createGame();
+</script>
+
+</body>
+</html>
