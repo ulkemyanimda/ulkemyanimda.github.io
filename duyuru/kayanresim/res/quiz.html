@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İnteraktif Video Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0e0f13;--accent:#f5b301;--btn:#f5b301;--surface:#16181f;--surface2:#1e2029;--border:rgba(255,255,255,.08);--text:#e8e9f0;--muted:#7a7d8e;--success:#4caf50;--danger:#f44336;--radius:14px;--font:'DM Sans', sans-serif}
+body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:24px 16px}
+h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);margin-bottom:6px;text-align:center}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:20px;text-align:center}
+.player-wrap{position:relative;width:100%;max-width:800px;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.timeline{width:100%;max-width:800px;margin-top:12px;position:relative;height:6px;background:#1e2029;border-radius:99px}
+.tl-progress{height:100%;background:var(--accent);border-radius:99px;width:0%;transition:width .5s linear}
+.tl-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);cursor:pointer}
+.info-row{display:flex;justify-content:space-between;width:100%;max-width:800px;margin-top:6px;font-size:12px;color:var(--muted)}
+.score-area{display:flex;align-items:center;gap:12px;background:#16181f;border:1px solid var(--border);border-radius:10px;padding:10px 16px;width:100%;max-width:800px;margin-top:10px}
+.score-label{font-size:11px;color:var(--muted)}
+.score-val{font-size:20px;font-weight:800;font-family:'Syne',sans-serif;color:var(--accent)}
+.score-track{flex:1;height:6px;background:#0a0b0e;border-radius:99px;overflow:hidden}
+.score-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .5s ease}
+.overlay{position:absolute;inset:0;background:rgba(10,10,16,.9);display:flex;align-items:center;justify-content:center;z-index:20;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.show{opacity:1;pointer-events:all}
+.ov-card{background:#16181f;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px;max-width:460px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.ov-label{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:8px}
+.ov-text{font-size:15px;font-weight:600;line-height:1.5;margin-bottom:16px}
+.opt-btn{display:block;width:100%;text-align:left;padding:10px 14px;background:#1e2029;border:1px solid rgba(255,255,255,.08);border-radius:9px;color:#e8e9f0;cursor:pointer;font-size:13px;margin-bottom:7px;transition:.2s;font-family:var(--font)}
+.opt-btn:hover{border-color:var(--accent);color:var(--accent)}
+.opt-btn.correct{background:rgba(76,175,80,.2);border-color:#4caf50;color:#4caf50}
+.opt-btn.wrong{background:rgba(244,67,54,.2);border-color:#f44336;color:#f44336}
+.open-wrap{display:flex;gap:8px;margin-top:4px}
+textarea{flex:1;background:#1e2029;border:1px solid rgba(255,255,255,.08);border-radius:8px;color:#e8e9f0;font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;resize:vertical;min-height:70px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:9px;border:none;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:500;transition:.2s}
+.btn-p{background:var(--btn);color:#000}
+.btn-p:hover{filter:brightness(1.1)}
+.btn-s{background:#1e2029;color:#e8e9f0;border:1px solid rgba(255,255,255,.08);margin-top:10px}
+.feedback{margin-top:12px;padding:9px 13px;border-radius:9px;font-size:13px;font-weight:500;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(76,175,80,.18);color:#4caf50}
+.feedback.err{background:rgba(244,67,54,.18);color:#f44336}
+</style>
+</head>
+<body>
+<h1>İnteraktif Video Quiz</h1>
+<p class="subtitle">Video oynarken sorular otomatik olarak karşınıza çıkacaktır.</p>
+
+<div class="player-wrap" id="pw">
+  <div id="player"></div>
+  <div class="overlay" id="ov">
+    <div class="ov-card">
+      <div class="ov-label">📌 Soru</div>
+      <div class="ov-text" id="ov-text"></div>
+      <div id="ov-opts"></div>
+      <div id="ov-open" style="display:none">
+        <div class="open-wrap">
+          <textarea id="ov-ta" placeholder="Cevabınızı yazın..."></textarea>
+        </div>
+        <button class="btn btn-p" style="margin-top:8px" onclick="submitOpen()">Gönder</button>
+      </div>
+      <div class="feedback" id="ov-fb"></div>
+      <button class="btn btn-s" id="cont-btn" style="display:none" onclick="cont()">▶ Devam Et</button>
+    </div>
+  </div>
+</div>
+
+<div class="timeline" id="tl"><div class="tl-progress" id="tl-p"></div></div>
+<div class="info-row"><span id="t-cur">0:00</span><span id="t-tot">0:00</span></div>
+<div class="score-area">
+  <div><div class="score-label">Puan</div><div class="score-val" id="sc">0</div></div>
+  <div class="score-track"><div class="score-fill" id="sf" style="width:0%"></div></div>
+  <span style="font-size:12px;color:#7a7d8e" id="sd">0 / 0 soru</span>
+</div>
+
+<script>
+var QUESTIONS=[{"id":"mls7mogf257bd8ijzku","text":"selam","time":17,"type":"mc","options":["q","q","a","d","d"],"correctIdx":0}];
+var VID="dj40L4Tdxb8";
+var player,timer;
+var score=0,answered=0,answered_ids=new Set();
+
+window.onYouTubeIframeAPIReady=function(){
+  player=new YT.Player('player',{videoId:VID,playerVars:{rel:0,modestbranding:1},events:{onReady:function(){
+    renderDots();
+    timer=setInterval(poll,500);
+  }}});
+};
+
+function fmt(s){s=Math.floor(s||0);return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
+
+function poll(){
+  if(!player||typeof player.getCurrentTime!=='function')return;
+  var c=player.getCurrentTime(),d=player.getDuration()||1;
+  document.getElementById('tl-p').style.width=(c/d*100)+'%';
+  document.getElementById('t-cur').textContent=fmt(c);
+  document.getElementById('t-tot').textContent=fmt(d);
+  if(player.getPlayerState()===1){
+    QUESTIONS.forEach(function(q){
+      if(!answered_ids.has(q.id)&&Math.abs(c-q.time)<0.8){player.pauseVideo();showQ(q);}
+    });
+  }
+}
+
+function renderDots(){
+  var dur=player.getDuration()||1;
+  var tl=document.getElementById('tl');
+  document.querySelectorAll('.tl-dot').forEach(function(d){d.remove();});
+  QUESTIONS.forEach(function(q){
+    var d=document.createElement('div');
+    d.className='tl-dot';
+    d.style.left=(q.time/dur*100)+'%';
+    d.title=q.text.slice(0,40);
+    d.onclick=function(){player.seekTo(q.time-1,true);};
+    tl.appendChild(d);
+  });
+}
+
+function showQ(q){
+  document.getElementById('ov-text').textContent=q.text;
+  document.getElementById('ov-fb').className='feedback';
+  document.getElementById('cont-btn').style.display='none';
+  var opts=document.getElementById('ov-opts');
+  var op=document.getElementById('ov-open');
+  opts.innerHTML='';op.style.display='none';
+  document.getElementById('ov-ta').value='';
+  if(q.type==='mc'){
+    q.options.forEach(function(o,i){
+      var b=document.createElement('button');
+      b.className='opt-btn';b.textContent=o;
+      b.onclick=function(){checkA(q,i,b);};
+      opts.appendChild(b);
+    });
+  } else { op.style.display='block'; }
+  document.getElementById('ov').classList.add('show');
+}
+
+function checkA(q,i,btn){
+  document.querySelectorAll('.opt-btn').forEach(function(b){b.style.pointerEvents='none';});
+  var fb=document.getElementById('ov-fb');
+  if(i===q.correctIdx){btn.classList.add('correct');fb.textContent='✅ Doğru!';fb.className='feedback show ok';score+=10;}
+  else{btn.classList.add('wrong');document.querySelectorAll('.opt-btn')[q.correctIdx].classList.add('correct');fb.textContent='❌ Yanlış. Doğru: '+q.options[q.correctIdx];fb.className='feedback show err';}
+  answered++;answered_ids.add(q.id);updateScore();
+  document.getElementById('cont-btn').style.display='inline-flex';
+}
+
+function submitOpen(){
+  var v=document.getElementById('ov-ta').value.trim();
+  if(!v)return;
+  var fb=document.getElementById('ov-fb');fb.textContent='✅ Kaydedildi.';fb.className='feedback show ok';
+  score+=5;answered++;
+  var cq=QUESTIONS.find(function(q){return !answered_ids.has(q.id)&&q.type==='open';});
+  if(cq)answered_ids.add(cq.id);
+  updateScore();document.getElementById('cont-btn').style.display='inline-flex';
+}
+
+function cont(){document.getElementById('ov').classList.remove('show');player.playVideo();}
+
+function updateScore(){
+  document.getElementById('sc').textContent=score;
+  document.getElementById('sf').style.width=(QUESTIONS.length?(answered/QUESTIONS.length*100):0)+'%';
+  document.getElementById('sd').textContent=answered+' / '+QUESTIONS.length+' soru';
+}
+
+var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
+</script>
+</body>
+</html>
