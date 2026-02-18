@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduFrame – İnteraktif Video Soru Oluşturucu</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & VARIABLES ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0e0f13;
+  --surface:   #16181f;
+  --surface2:  #1e2029;
+  --border:    rgba(255,255,255,.07);
+  --accent:    #f5b301;
+  --accent2:   #ff7043;
+  --text:      #e8e9f0;
+  --muted:     #7a7d8e;
+  --success:   #4caf50;
+  --danger:    #f44336;
+  --radius:    14px;
+  --shadow:    0 8px 32px rgba(0,0,0,.45);
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: .22s cubic-bezier(.4,0,.2,1);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── TYPOGRAPHY ────────────────────────────────────────────────── */
+h1, h2, h3, h4 { font-family: var(--font-head); }
+
+/* ── SCROLLBAR ─────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+/* ── LAYOUT ────────────────────────────────────────────────────── */
+.app-shell { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+
+/* ── SIDEBAR ───────────────────────────────────────────────────── */
+.sidebar {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.brand {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.brand h1 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.3px;
+  color: var(--accent);
+}
+.brand p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.sidebar-nav { padding: 12px 10px; flex: 1; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  transition: var(--transition);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  user-select: none;
+}
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active { background: rgba(245,179,1,.12); color: var(--accent); }
+.nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── MAIN CONTENT ──────────────────────────────────────────────── */
+.main { overflow-y: auto; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+  backdrop-filter: blur(12px);
+}
+.topbar h2 { font-size: 18px; font-weight: 700; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 9px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+.btn-primary   { background: var(--accent); color: #000; }
+.btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger    { background: rgba(244,67,54,.15); color: var(--danger); border: 1px solid rgba(244,67,54,.25); }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+.btn-sm { padding: 5px 11px; font-size: 12px; }
+.btn-icon { padding: 7px; aspect-ratio: 1; justify-content: center; }
+
+/* ── PANELS ────────────────────────────────────────────────────── */
+.panel { display: none; padding: 28px 32px; animation: fadeIn .3s ease; }
+.panel.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ── CARDS ─────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  margin-bottom: 16px;
+}
+
+/* ── FORM ELEMENTS ─────────────────────────────────────────────── */
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+
+input[type=text], input[type=number], input[type=url],
+input[type=color], textarea, select {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color var(--transition);
+}
+input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+textarea { resize: vertical; min-height: 70px; }
+select option { background: var(--surface2); }
+
+input[type=color] { padding: 3px 6px; height: 36px; cursor: pointer; }
+
+.row { display: grid; gap: 14px; }
+.row-2 { grid-template-columns: 1fr 1fr; }
+.row-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+/* ── VIDEO SECTION ─────────────────────────────────────────────── */
+.video-wrapper {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16/9;
+}
+#yt-player { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+/* ── TIMELINE ──────────────────────────────────────────────────── */
+.timeline-track {
+  position: relative;
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 99px;
+  margin: 14px 0 8px;
+  overflow: visible;
+}
+.timeline-progress {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 99px;
+  transition: width .5s linear;
+  pointer-events: none;
+}
+.timeline-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid #000;
+  cursor: pointer;
+  transition: transform var(--transition);
+  z-index: 5;
+}
+.timeline-dot:hover { transform: translate(-50%, -50%) scale(1.4); }
+.timeline-dot .dot-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.timeline-dot:hover .dot-tooltip { opacity: 1; }
+
+/* ── QUESTION OVERLAY ──────────────────────────────────────────── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,10,16,.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.overlay.show { opacity: 1; pointer-events: all; }
+
+.overlay-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  max-width: 480px;
+  width: 90%;
+  box-shadow: var(--shadow);
+}
+.overlay-card .q-label {
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.overlay-card .q-text { font-size: 16px; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
+
+.option-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 11px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 13px;
+  margin-bottom: 8px;
+  transition: var(--transition);
+}
+.option-btn:hover { border-color: var(--accent); color: var(--accent); }
+.option-btn.correct { background: rgba(76,175,80,.2); border-color: var(--success); color: var(--success); }
+.option-btn.wrong   { background: rgba(244,67,54,.2); border-color: var(--danger);  color: var(--danger); }
+
+.open-answer-area { display: flex; gap: 8px; }
+.open-answer-area textarea { flex: 1; }
+
+.feedback-msg {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  display: none;
+}
+.feedback-msg.show { display: block; }
+.feedback-msg.ok   { background: rgba(76,175,80,.18); color: var(--success); }
+.feedback-msg.err  { background: rgba(244,67,54,.18); color: var(--danger); }
+
+/* ── QUESTION LIST ─────────────────────────────────────────────── */
+.q-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  transition: var(--transition);
+}
+.q-item:hover { border-color: rgba(245,179,1,.3); }
+.q-item-left  { flex: 1; }
+.q-item-time  { font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+.q-item-text  { font-size: 13px; }
+.q-item-type  { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.q-item-actions { display: flex; gap: 6px; }
+
+/* ── SCORE BAR ─────────────────────────────────────────────────── */
+.score-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface2);
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+.score-bar .score-label { font-size: 12px; color: var(--muted); }
+.score-bar .score-val   { font-size: 18px; font-weight: 800; font-family: var(--font-head); color: var(--accent); }
+.score-progress-track   { flex: 1; height: 6px; background: var(--surface); border-radius: 99px; overflow: hidden; }
+.score-progress-fill    { height: 100%; background: var(--accent); border-radius: 99px; transition: width .5s ease; }
+
+/* ── THEME PREVIEW ─────────────────────────────────────────────── */
+.theme-preview {
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  transition: all .3s;
+}
+.theme-preview h3 { font-size: 18px; margin-bottom: 8px; }
+.theme-preview p  { font-size: 13px; opacity: .8; }
+
+/* ── OUTPUT PANEL ──────────────────────────────────────────────── */
+.code-block {
+  background: #0a0b0e;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #7ec8e3;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  white-space: pre;
+  line-height: 1.7;
+}
+
+/* ── BADGE ─────────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.badge-open { background: rgba(255,112,67,.15); color: var(--accent2); }
+.badge-mc   { background: rgba(245,179,1,.15);  color: var(--accent); }
+
+/* ── RESPONSIVE ────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar { height: auto; position: relative; flex-direction: row; flex-wrap: wrap; }
+  .sidebar-nav { display: flex; flex-wrap: wrap; padding: 8px; }
+  .nav-item { width: auto; }
+  .sidebar-footer { display: none; }
+  .panel { padding: 16px; }
+  .topbar { padding: 14px 16px; }
+  .row-2, .row-3 { grid-template-columns: 1fr; }
+}
+
+/* ── UTILITIES ─────────────────────────────────────────────────── */
+.flex { display: flex; }
+.gap-8 { gap: 8px; }
+.mt-8  { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.text-muted { color: var(--muted); font-size: 12px; }
+.empty-state { text-align: center; color: var(--muted); padding: 40px 20px; }
+.empty-state .empty-icon { font-size: 36px; margin-bottom: 10px; }
+.empty-state p { font-size: 13px; }
+
+/* Options editor */
+.option-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.option-row input[type=radio] { accent-color: var(--accent); flex-shrink: 0; }
+.option-row input[type=text]  { flex: 1; }
+.divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ═══════════════════════════ SIDEBAR ═══════════════════════════ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>⬡ EduFrame</h1>
+      <p>İnteraktif Video Soru Oluşturucu</p>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-panel="panel-video">
+        <span class="nav-icon">▶</span> Video
+      </button>
+      <button class="nav-item" data-panel="panel-questions">
+        <span class="nav-icon">❓</span> Sorular
+      </button>
+      <button class="nav-item" data-panel="panel-preview">
+        <span class="nav-icon">👁</span> Önizleme
+      </button>
+      <button class="nav-item" data-panel="panel-theme">
+        <span class="nav-icon">🎨</span> Tema
+      </button>
+      <button class="nav-item" data-panel="panel-output">
+        <span class="nav-icon">📦</span> Çıktı Al
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <p class="text-muted">v1.0 — EduFrame Builder</p>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════ MAIN ═══════════════════════════ -->
+  <main class="main">
+
+    <div class="topbar">
+      <h2 id="topbar-title">Video</h2>
+      <div class="flex gap-8">
+        <button class="btn btn-secondary btn-sm" onclick="App.clearAll()">🗑 Temizle</button>
+        <button class="btn btn-primary btn-sm" onclick="App.switchPanel('panel-output')">📦 Çıktı Al</button>
+      </div>
+    </div>
+
+    <!-- ─── 1. VIDEO PANELİ ─────────────────────────────────────── -->
+    <section id="panel-video" class="panel active">
+      <div class="card">
+        <div class="card-title">YouTube Video URL'si</div>
+        <div class="field">
+          <label>Video URL veya ID</label>
+          <div class="flex gap-8">
+            <input type="url" id="video-url" placeholder="https://www.youtube.com/watch?v=..." />
+            <button class="btn btn-primary" onclick="App.loadVideo()">Yükle</button>
+          </div>
+        </div>
+        <p class="text-muted">Desteklenen formatlar: youtube.com/watch?v=ID • youtu.be/ID • youtube.com/embed/ID</p>
+      </div>
+
+      <div class="card" id="video-container" style="display:none">
+        <div class="card-title">Video Önizleme</div>
+        <div class="video-wrapper" id="player-wrapper">
+          <div id="yt-player"></div>
+          <!-- Soru Overlay -->
+          <div class="overlay" id="q-overlay">
+            <div class="overlay-card">
+              <div class="q-label">📌 Soru</div>
+              <div class="q-text" id="q-text"></div>
+              <div id="q-options"></div>
+              <div id="q-open" style="display:none">
+                <div class="open-answer-area">
+                  <textarea id="open-answer" placeholder="Cevabınızı yazın..."></textarea>
+                </div>
+                <button class="btn btn-primary mt-8" onclick="App.submitOpen()">Gönder</button>
+              </div>
+              <div class="feedback-msg" id="q-feedback"></div>
+              <button class="btn btn-secondary mt-8" id="q-continue-btn" style="display:none" onclick="App.continueVideo()">▶ Devam Et</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline-track" id="timeline-track">
+          <div class="timeline-progress" id="timeline-progress" style="width:0%"></div>
+        </div>
+        <div class="flex" style="justify-content:space-between">
+          <span class="text-muted" id="time-current">0:00</span>
+          <span class="text-muted" id="time-total">0:00</span>
+        </div>
+
+        <!-- Skor -->
+        <div class="score-bar mt-12">
+          <div>
+            <div class="score-label">Puan</div>
+            <div class="score-val" id="score-display">0</div>
+          </div>
+          <div class="score-progress-track">
+            <div class="score-progress-fill" id="score-fill" style="width:0%"></div>
+          </div>
+          <div class="text-muted" id="score-detail">0 / 0 soru</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 2. SORU EKLEME PANELİ ──────────────────────────────── -->
+    <section id="panel-questions" class="panel">
+      <div class="row row-2" style="align-items:start">
+
+        <!-- SOL: Form -->
+        <div>
+          <div class="card">
+            <div class="card-title">Yeni Soru Ekle</div>
+
+            <div class="field">
+              <label>Soru Metni</label>
+              <textarea id="q-form-text" placeholder="Soruyu buraya yazın..."></textarea>
+            </div>
+            <div class="row row-2">
+              <div class="field">
+                <label>Başlangıç Saniyesi</label>
+                <input type="number" id="q-form-time" placeholder="örn. 30" min="0" />
+              </div>
+              <div class="field">
+                <label>Soru Tipi</label>
+                <select id="q-form-type" onchange="App.toggleQuestionType()">
+                  <option value="open">Açık Uçlu</option>
+                  <option value="mc">Çoktan Seçmeli</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Çoktan Seçmeli Ayarları -->
+            <div id="mc-section" style="display:none">
+              <hr class="divider">
+              <div class="field">
+                <label>Seçenek Sayısı</label>
+                <select id="q-form-opt-count" onchange="App.renderOptionInputs()">
+                  <option value="2">2</option>
+                  <option value="3" selected>3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Seçenekler (● Doğru cevabı işaretleyin)</label>
+                <div id="option-inputs"></div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%" onclick="App.addQuestion()">+ Soru Ekle</button>
+          </div>
+        </div>
+
+        <!-- SAĞ: Liste -->
+        <div>
+          <div class="card">
+            <div class="card-title">Eklenen Sorular <span id="q-count-badge"></span></div>
+            <div id="q-list">
+              <div class="empty-state">
+                <div class="empty-icon">📋</div>
+                <p>Henüz soru eklenmedi.<br>Sol formu doldurup ekleyin.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 3. ÖNİZLEME PANELİ ────────────────────────────────── -->
+    <section id="panel-preview" class="panel">
+      <div class="card">
+        <div class="card-title">Canlı Test Önizlemesi</div>
+        <p class="text-muted" style="margin-bottom:14px">Video panelinde yüklü videoya geçin ve oynatın. Soru saniyelerine gelince otomatik duracak.</p>
+        <p class="text-muted">Toplam soru: <strong id="preview-q-count" style="color:var(--text)">0</strong></p>
+        <button class="btn btn-primary mt-12" onclick="App.switchPanel('panel-video')">▶ Video Paneline Git</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Soru Özeti</div>
+        <div id="preview-list">
+          <div class="empty-state"><p>Henüz soru yok.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 4. TEMA PANELİ ─────────────────────────────────────── -->
+    <section id="panel-theme" class="panel">
+      <div class="row row-2" style="align-items:start">
+        <div>
+          <div class="card">
+            <div class="card-title">Tema Ayarları</div>
+            <div class="field">
+              <label>Sayfa Başlığı</label>
+              <input type="text" id="theme-title" value="İnteraktif Video Quiz" oninput="App.updateThemePreview()" />
+            </div>
+            <div class="field">
+              <label>Ana Renk</label>
+              <input type="color" id="theme-primary" value="#f5b301" oninput="App.updateThemePreview()" />
+            </div>
+            <div class="field">
+              <label>Arka Plan Rengi</label>
+              <input type="color" id="theme-bg" value="#0e0f13" oninput="App.updateThemePreview()" />
+            </div>
+            <div class="field">
+              <label>Buton Rengi</label>
+              <input type="color" id="theme-btn" value="#f5b301" oninput="App.updateThemePreview()" />
+            </div>
+            <div class="field">
+              <label>Yazı Tipi</label>
+              <select id="theme-font" onchange="App.updateThemePreview()">
+                <option value="'DM Sans', sans-serif">DM Sans (Varsayılan)</option>
+                <option value="'Georgia', serif">Georgia</option>
+                <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                <option value="'Courier New', monospace">Courier New</option>
+                <option value="'Tahoma', sans-serif">Tahoma</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">Canlı Önizleme</div>
+            <div class="theme-preview" id="theme-preview-box">
+              <h3 id="prev-title">İnteraktif Video Quiz</h3>
+              <p id="prev-desc">Öğrenmeyi keşfet, sorularla ilerle.</p>
+              <button class="btn btn-primary mt-12" id="prev-btn" style="pointer-events:none">Başla</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 5. ÇIKTI PANELİ ────────────────────────────────────── -->
+    <section id="panel-output" class="panel">
+      <div class="card">
+        <div class="card-title">HTML Dosyası Oluştur</div>
+        <p class="text-muted" style="margin-bottom:16px">Tüm ayarlar, video ve sorular tek bir taşınabilir HTML dosyası olarak dışa aktarılır.</p>
+        <div class="flex gap-8">
+          <button class="btn btn-primary" onclick="App.generateOutput()">🛠 HTML Oluştur</button>
+          <button class="btn btn-secondary" onclick="App.downloadOutput()" id="dl-btn" style="display:none">⬇ İndir</button>
+          <button class="btn btn-secondary" onclick="App.copyOutput()" id="copy-btn" style="display:none">📋 Kopyala</button>
+        </div>
+      </div>
+      <div id="output-result" style="display:none">
+        <div class="card">
+          <div class="card-title">Oluşturulan HTML Kodu</div>
+          <div class="code-block" id="output-code"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ════════════════════════ JAVASCRIPT ════════════════════════════ -->
+<script>
+'use strict';
+
+// ── YouTube IFrame API ──────────────────────────────────────────────
+const YT_SCRIPT = document.createElement('script');
+YT_SCRIPT.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(YT_SCRIPT);
+
+let ytPlayer       = null;   // YouTube Player instance
+let ytReady        = false;  // API hazır mı?
+let pollTimer      = null;   // setInterval referansı
+
+// YouTube API hazır olduğunda çağrılır (global olmalı)
+window.onYouTubeIframeAPIReady = function () {
+  ytReady = true;
+};
+
+// ── Uygulama Durumu ─────────────────────────────────────────────────
+const State = {
+  videoId    : '',
+  videoUrl   : '',
+  questions  : [],   // [{id, text, time, type, options, correctIdx}]
+  score      : 0,
+  answered   : 0,
+  total      : 0,
+  answered_ids: new Set(),  // hangi sorular cevaplandı
+  theme: {
+    title   : 'İnteraktif Video Quiz',
+    primary : '#f5b301',
+    bg      : '#0e0f13',
+    btn     : '#f5b301',
+    font    : "'DM Sans', sans-serif"
+  }
+};
+
+let generatedHTML = '';
+
+// ── Yardımcı Fonksiyonlar ───────────────────────────────────────────
+function extractVideoId(url) {
+  // Desteklenen formatları parse et
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/)([A-Za-z0-9_-]{11})/,
+    /^([A-Za-z0-9_-]{11})$/
+  ];
+  for (const pat of patterns) {
+    const m = url.trim().match(pat);
+    if (m) return m[1];
+  }
+  return null;
+}
+
+function fmtTime(sec) {
+  sec = Math.floor(sec || 0);
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2);
+}
+
+function notify(msg, type = 'ok') {
+  // Basit toast
+  const d = document.createElement('div');
+  d.textContent = msg;
+  Object.assign(d.style, {
+    position: 'fixed', bottom: '24px', right: '24px',
+    background: type === 'ok' ? 'var(--success)' : 'var(--danger)',
+    color: '#fff', padding: '10px 18px', borderRadius: '10px',
+    fontFamily: 'var(--font-body)', fontSize: '13px',
+    zIndex: '9999', boxShadow: '0 4px 20px rgba(0,0,0,.4)',
+    animation: 'fadeIn .3s ease'
+  });
+  document.body.appendChild(d);
+  setTimeout(() => d.remove(), 2800);
+}
+
+// ── Ana Uygulama Nesnesi ────────────────────────────────────────────
+const App = {
+
+  /* ─── Panel Yönetimi ─── */
+  switchPanel(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelector(`[data-panel="${id}"]`).classList.add('active');
+
+    const titles = {
+      'panel-video'     : 'Video',
+      'panel-questions' : 'Sorular',
+      'panel-preview'   : 'Önizleme',
+      'panel-theme'     : 'Tema',
+      'panel-output'    : 'Çıktı Al'
+    };
+    document.getElementById('topbar-title').textContent = titles[id] || '';
+
+    if (id === 'panel-preview') this.refreshPreview();
+  },
+
+  /* ─── Video Yükleme ─── */
+  loadVideo() {
+    const url = document.getElementById('video-url').value.trim();
+    if (!url) return notify('URL girin.', 'err');
+
+    const vid = extractVideoId(url);
+    if (!vid) return notify('Geçersiz YouTube URL\'si.', 'err');
+
+    State.videoId = vid;
+    State.videoUrl = `https://www.youtube.com/watch?v=${vid}`;
+
+    document.getElementById('video-container').style.display = 'block';
+
+    if (!ytReady) {
+      notify('YouTube API yükleniyor, lütfen bekleyin...', 'ok');
+      setTimeout(() => this.createPlayer(), 1500);
+    } else {
+      this.createPlayer();
+    }
+  },
+
+  createPlayer() {
+    // Eski oynatıcıyı temizle
+    if (ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+
+    // Skor sıfırla
+    State.score = 0; State.answered = 0;
+    State.answered_ids = new Set();
+    this.updateScoreUI();
+
+    // Player konteynerini temizle
+    const wrapper = document.getElementById('yt-player');
+    wrapper.innerHTML = '';
+    const div = document.createElement('div');
+    div.id = 'yt-player-inner';
+    wrapper.appendChild(div);
+
+    ytPlayer = new YT.Player('yt-player-inner', {
+      videoId: State.videoId,
+      playerVars: { rel: 0, modestbranding: 1 },
+      events: {
+        onReady: () => {
+          notify('Video yüklendi! ▶', 'ok');
+          this.startPolling();
+          this.renderTimelineDots();
+        }
+      }
+    });
+  },
+
+  /* ─── Polling: Zaman Takibi ─── */
+  startPolling() {
+    if (pollTimer) clearInterval(pollTimer);
+    pollTimer = setInterval(() => {
+      if (!ytPlayer || typeof ytPlayer.getCurrentTime !== 'function') return;
+
+      const cur  = ytPlayer.getCurrentTime();
+      const dur  = ytPlayer.getDuration() || 1;
+      const pct  = (cur / dur) * 100;
+
+      document.getElementById('timeline-progress').style.width = pct + '%';
+      document.getElementById('time-current').textContent = fmtTime(cur);
+      document.getElementById('time-total').textContent   = fmtTime(dur);
+
+      // Soru tetikleyici
+      const state = ytPlayer.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        for (const q of State.questions) {
+          if (!State.answered_ids.has(q.id) && Math.abs(cur - q.time) < 0.8) {
+            ytPlayer.pauseVideo();
+            this.showQuestion(q);
+            break;
+          }
+        }
+      }
+    }, 500);
+  },
+
+  /* ─── Timeline Noktaları ─── */
+  renderTimelineDots() {
+    // Önceki noktaları temizle
+    document.querySelectorAll('.timeline-dot').forEach(d => d.remove());
+    const track = document.getElementById('timeline-track');
+    const dur   = (ytPlayer && typeof ytPlayer.getDuration === 'function') ? ytPlayer.getDuration() : 0;
+    if (!dur) return;
+
+    for (const q of State.questions) {
+      const dot = document.createElement('div');
+      dot.className = 'timeline-dot';
+      dot.style.left = ((q.time / dur) * 100) + '%';
+      dot.title = q.text.slice(0, 40);
+      const tip = document.createElement('div');
+      tip.className = 'dot-tooltip';
+      tip.textContent = `${fmtTime(q.time)} – ${q.text.slice(0, 30)}`;
+      dot.appendChild(tip);
+      dot.addEventListener('click', () => {
+        if (ytPlayer) ytPlayer.seekTo(q.time - 1, true);
+      });
+      track.appendChild(dot);
+    }
+  },
+
+  /* ─── Soru Göster ─── */
+  showQuestion(q) {
+    document.getElementById('q-text').textContent = q.text;
+    document.getElementById('q-feedback').className = 'feedback-msg';
+    document.getElementById('q-feedback').textContent = '';
+    document.getElementById('q-continue-btn').style.display = 'none';
+
+    const optEl  = document.getElementById('q-options');
+    const openEl = document.getElementById('q-open');
+    optEl.innerHTML = '';
+    openEl.style.display = 'none';
+    document.getElementById('open-answer').value = '';
+
+    if (q.type === 'mc') {
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => this.checkAnswer(q, i, btn));
+        optEl.appendChild(btn);
+      });
+    } else {
+      openEl.style.display = 'block';
+    }
+
+    document.getElementById('q-overlay').classList.add('show');
+    State.total = Math.max(State.total, State.questions.filter(x => !State.answered_ids.has(x.id)).length + State.answered);
+  },
+
+  checkAnswer(q, idx, btnEl) {
+    // Tüm butonları deaktive et
+    document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+
+    const fb = document.getElementById('q-feedback');
+    if (idx === q.correctIdx) {
+      btnEl.classList.add('correct');
+      fb.textContent = '✅ Doğru cevap!';
+      fb.className = 'feedback-msg show ok';
+      State.score += 10;
+    } else {
+      btnEl.classList.add('wrong');
+      // Doğruyu göster
+      document.querySelectorAll('.option-btn')[q.correctIdx].classList.add('correct');
+      fb.textContent = `❌ Yanlış. Doğru cevap: ${q.options[q.correctIdx]}`;
+      fb.className = 'feedback-msg show err';
+    }
+
+    State.answered++;
+    State.answered_ids.add(q.id);
+    this.updateScoreUI();
+    document.getElementById('q-continue-btn').style.display = 'inline-flex';
+  },
+
+  submitOpen() {
+    const val = document.getElementById('open-answer').value.trim();
+    if (!val) return notify('Cevap boş bırakılamaz.', 'err');
+
+    // Açık uçlu her zaman kabul edilir
+    const fb = document.getElementById('q-feedback');
+    fb.textContent = '✅ Cevabınız kaydedildi.';
+    fb.className = 'feedback-msg show ok';
+    State.score += 5;
+    State.answered++;
+
+    // Şu an gösterilen soruyu bul
+    const curQ = State.questions.find(q => !State.answered_ids.has(q.id) && q.type === 'open');
+    if (curQ) State.answered_ids.add(curQ.id);
+
+    this.updateScoreUI();
+    document.getElementById('q-continue-btn').style.display = 'inline-flex';
+  },
+
+  continueVideo() {
+    document.getElementById('q-overlay').classList.remove('show');
+    if (ytPlayer) ytPlayer.playVideo();
+  },
+
+  updateScoreUI() {
+    document.getElementById('score-display').textContent = State.score;
+    const total = State.questions.length;
+    const pct   = total ? (State.answered / total) * 100 : 0;
+    document.getElementById('score-fill').style.width = pct + '%';
+    document.getElementById('score-detail').textContent = `${State.answered} / ${total} soru`;
+  },
+
+  /* ─── Soru Ekleme ─── */
+  toggleQuestionType() {
+    const t = document.getElementById('q-form-type').value;
+    document.getElementById('mc-section').style.display = t === 'mc' ? 'block' : 'none';
+    if (t === 'mc') this.renderOptionInputs();
+  },
+
+  renderOptionInputs() {
+    const n = parseInt(document.getElementById('q-form-opt-count').value);
+    const container = document.getElementById('option-inputs');
+    container.innerHTML = '';
+    for (let i = 0; i < n; i++) {
+      const row = document.createElement('div');
+      row.className = 'option-row';
+      row.innerHTML = `
+        <input type="radio" name="correct-opt" value="${i}" ${i === 0 ? 'checked' : ''} />
+        <input type="text" placeholder="Seçenek ${i + 1}" id="opt-text-${i}" />
+      `;
+      container.appendChild(row);
+    }
+  },
+
+  addQuestion() {
+    const text = document.getElementById('q-form-text').value.trim();
+    const time = parseInt(document.getElementById('q-form-time').value);
+    const type = document.getElementById('q-form-type').value;
+
+    if (!text)        return notify('Soru metni boş olamaz.', 'err');
+    if (isNaN(time) || time < 0) return notify('Geçerli bir saniye girin.', 'err');
+
+    const q = { id: uid(), text, time, type, options: [], correctIdx: 0 };
+
+    if (type === 'mc') {
+      const n = parseInt(document.getElementById('q-form-opt-count').value);
+      for (let i = 0; i < n; i++) {
+        const v = document.getElementById(`opt-text-${i}`).value.trim();
+        if (!v) return notify(`Seçenek ${i+1} boş olamaz.`, 'err');
+        q.options.push(v);
+      }
+      const sel = document.querySelector('input[name="correct-opt"]:checked');
+      q.correctIdx = sel ? parseInt(sel.value) : 0;
+    }
+
+    State.questions.push(q);
+    State.questions.sort((a, b) => a.time - b.time);
+
+    this.renderQuestionList();
+    this.clearQuestionForm();
+    this.renderTimelineDots();
+    notify('Soru eklendi!', 'ok');
+  },
+
+  clearQuestionForm() {
+    document.getElementById('q-form-text').value = '';
+    document.getElementById('q-form-time').value = '';
+    document.getElementById('q-form-type').value = 'open';
+    document.getElementById('mc-section').style.display = 'none';
+  },
+
+  renderQuestionList() {
+    const container = document.getElementById('q-list');
+    container.innerHTML = '';
+    document.getElementById('q-count-badge').textContent = `(${State.questions.length})`;
+
+    if (!State.questions.length) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><p>Henüz soru eklenmedi.</p></div>';
+      return;
+    }
+
+    State.questions.forEach((q, idx) => {
+      const div = document.createElement('div');
+      div.className = 'q-item';
+      div.innerHTML = `
+        <div class="q-item-left">
+          <div class="q-item-time">⏱ ${fmtTime(q.time)}</div>
+          <div class="q-item-text">${q.text}</div>
+          <div class="q-item-type">
+            <span class="badge ${q.type === 'open' ? 'badge-open' : 'badge-mc'}">
+              ${q.type === 'open' ? 'Açık Uçlu' : `Çoktan Seçmeli – ${q.options.length} seçenek`}
+            </span>
+          </div>
+        </div>
+        <div class="q-item-actions">
+          <button class="btn btn-danger btn-sm btn-icon" title="Sil" onclick="App.deleteQuestion('${q.id}')">🗑</button>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  },
+
+  deleteQuestion(id) {
+    State.questions = State.questions.filter(q => q.id !== id);
+    this.renderQuestionList();
+    this.renderTimelineDots();
+    notify('Soru silindi.', 'err');
+  },
+
+  /* ─── Önizleme ─── */
+  refreshPreview() {
+    document.getElementById('preview-q-count').textContent = State.questions.length;
+    const list = document.getElementById('preview-list');
+    list.innerHTML = '';
+
+    if (!State.questions.length) {
+      list.innerHTML = '<div class="empty-state"><p>Henüz soru yok.</p></div>';
+      return;
+    }
+
+    State.questions.forEach(q => {
+      const d = document.createElement('div');
+      d.className = 'q-item';
+      d.innerHTML = `
+        <div class="q-item-left">
+          <div class="q-item-time">⏱ ${fmtTime(q.time)}</div>
+          <div class="q-item-text">${q.text}</div>
+          ${q.type === 'mc' ? `<div class="q-item-type">${q.options.map((o,i) => `<span style="margin-right:8px">${i === q.correctIdx ? '✅' : '○'} ${o}</span>`).join('')}</div>` : '<div class="q-item-type text-muted">Açık uçlu</div>'}
+        </div>
+      `;
+      list.appendChild(d);
+    });
+  },
+
+  /* ─── Tema ─── */
+  updateThemePreview() {
+    const t = State.theme;
+    t.title   = document.getElementById('theme-title').value;
+    t.primary = document.getElementById('theme-primary').value;
+    t.bg      = document.getElementById('theme-bg').value;
+    t.btn     = document.getElementById('theme-btn').value;
+    t.font    = document.getElementById('theme-font').value;
+
+    const box = document.getElementById('theme-preview-box');
+    box.style.background = t.bg;
+    box.style.fontFamily = t.font;
+    document.getElementById('prev-title').textContent = t.title;
+    document.getElementById('prev-title').style.color = t.primary;
+    document.getElementById('prev-desc').style.color  = t.bg === '#0e0f13' ? '#ccc' : '#444';
+    document.getElementById('prev-btn').style.background = t.btn;
+    document.getElementById('prev-btn').style.color = '#000';
+  },
+
+  /* ─── Çıktı ─── */
+  generateOutput() {
+    if (!State.videoId) return notify('Önce bir video yükleyin.', 'err');
+
+    const t = State.theme;
+    const qs = JSON.stringify(State.questions);
+
+    generatedHTML = `<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${t.title}</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:${t.bg};--accent:${t.primary};--btn:${t.btn};--surface:#16181f;--surface2:#1e2029;--border:rgba(255,255,255,.08);--text:#e8e9f0;--muted:#7a7d8e;--success:#4caf50;--danger:#f44336;--radius:14px;--font:${t.font}}
+body{background:var(--bg);color:var(--text);font-family:var(--font);display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:24px 16px}
+h1{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);margin-bottom:6px;text-align:center}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:20px;text-align:center}
+.player-wrap{position:relative;width:100%;max-width:800px;aspect-ratio:16/9;background:#000;border-radius:14px;overflow:hidden}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.timeline{width:100%;max-width:800px;margin-top:12px;position:relative;height:6px;background:#1e2029;border-radius:99px}
+.tl-progress{height:100%;background:var(--accent);border-radius:99px;width:0%;transition:width .5s linear}
+.tl-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);cursor:pointer}
+.info-row{display:flex;justify-content:space-between;width:100%;max-width:800px;margin-top:6px;font-size:12px;color:var(--muted)}
+.score-area{display:flex;align-items:center;gap:12px;background:#16181f;border:1px solid var(--border);border-radius:10px;padding:10px 16px;width:100%;max-width:800px;margin-top:10px}
+.score-label{font-size:11px;color:var(--muted)}
+.score-val{font-size:20px;font-weight:800;font-family:'Syne',sans-serif;color:var(--accent)}
+.score-track{flex:1;height:6px;background:#0a0b0e;border-radius:99px;overflow:hidden}
+.score-fill{height:100%;background:var(--accent);border-radius:99px;transition:width .5s ease}
+.overlay{position:absolute;inset:0;background:rgba(10,10,16,.9);display:flex;align-items:center;justify-content:center;z-index:20;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .3s}
+.overlay.show{opacity:1;pointer-events:all}
+.ov-card{background:#16181f;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:24px;max-width:460px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.ov-label{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:8px}
+.ov-text{font-size:15px;font-weight:600;line-height:1.5;margin-bottom:16px}
+.opt-btn{display:block;width:100%;text-align:left;padding:10px 14px;background:#1e2029;border:1px solid rgba(255,255,255,.08);border-radius:9px;color:#e8e9f0;cursor:pointer;font-size:13px;margin-bottom:7px;transition:.2s;font-family:var(--font)}
+.opt-btn:hover{border-color:var(--accent);color:var(--accent)}
+.opt-btn.correct{background:rgba(76,175,80,.2);border-color:#4caf50;color:#4caf50}
+.opt-btn.wrong{background:rgba(244,67,54,.2);border-color:#f44336;color:#f44336}
+.open-wrap{display:flex;gap:8px;margin-top:4px}
+textarea{flex:1;background:#1e2029;border:1px solid rgba(255,255,255,.08);border-radius:8px;color:#e8e9f0;font-family:var(--font);font-size:13px;padding:9px 12px;outline:none;resize:vertical;min-height:70px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:9px;border:none;cursor:pointer;font-family:var(--font);font-size:13px;font-weight:500;transition:.2s}
+.btn-p{background:var(--btn);color:#000}
+.btn-p:hover{filter:brightness(1.1)}
+.btn-s{background:#1e2029;color:#e8e9f0;border:1px solid rgba(255,255,255,.08);margin-top:10px}
+.feedback{margin-top:12px;padding:9px 13px;border-radius:9px;font-size:13px;font-weight:500;display:none}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(76,175,80,.18);color:#4caf50}
+.feedback.err{background:rgba(244,67,54,.18);color:#f44336}
+</style>
+</head>
+<body>
+<h1>${t.title}</h1>
+<p class="subtitle">Video oynarken sorular otomatik olarak karşınıza çıkacaktır.</p>
+
+<div class="player-wrap" id="pw">
+  <div id="player"></div>
+  <div class="overlay" id="ov">
+    <div class="ov-card">
+      <div class="ov-label">📌 Soru</div>
+      <div class="ov-text" id="ov-text"></div>
+      <div id="ov-opts"></div>
+      <div id="ov-open" style="display:none">
+        <div class="open-wrap">
+          <textarea id="ov-ta" placeholder="Cevabınızı yazın..."></textarea>
+        </div>
+        <button class="btn btn-p" style="margin-top:8px" onclick="submitOpen()">Gönder</button>
+      </div>
+      <div class="feedback" id="ov-fb"></div>
+      <button class="btn btn-s" id="cont-btn" style="display:none" onclick="cont()">▶ Devam Et</button>
+    </div>
+  </div>
+</div>
+
+<div class="timeline" id="tl"><div class="tl-progress" id="tl-p"></div></div>
+<div class="info-row"><span id="t-cur">0:00</span><span id="t-tot">0:00</span></div>
+<div class="score-area">
+  <div><div class="score-label">Puan</div><div class="score-val" id="sc">0</div></div>
+  <div class="score-track"><div class="score-fill" id="sf" style="width:0%"></div></div>
+  <span style="font-size:12px;color:#7a7d8e" id="sd">0 / 0 soru</span>
+</div>
+
+<script>
+var QUESTIONS=${qs};
+var VID="${State.videoId}";
+var player,timer;
+var score=0,answered=0,answered_ids=new Set();
+
+window.onYouTubeIframeAPIReady=function(){
+  player=new YT.Player('player',{videoId:VID,playerVars:{rel:0,modestbranding:1},events:{onReady:function(){
+    renderDots();
+    timer=setInterval(poll,500);
+  }}});
+};
+
+function fmt(s){s=Math.floor(s||0);return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
+
+function poll(){
+  if(!player||typeof player.getCurrentTime!=='function')return;
+  var c=player.getCurrentTime(),d=player.getDuration()||1;
+  document.getElementById('tl-p').style.width=(c/d*100)+'%';
+  document.getElementById('t-cur').textContent=fmt(c);
+  document.getElementById('t-tot').textContent=fmt(d);
+  if(player.getPlayerState()===1){
+    QUESTIONS.forEach(function(q){
+      if(!answered_ids.has(q.id)&&Math.abs(c-q.time)<0.8){player.pauseVideo();showQ(q);}
+    });
+  }
+}
+
+function renderDots(){
+  var dur=player.getDuration()||1;
+  var tl=document.getElementById('tl');
+  document.querySelectorAll('.tl-dot').forEach(function(d){d.remove();});
+  QUESTIONS.forEach(function(q){
+    var d=document.createElement('div');
+    d.className='tl-dot';
+    d.style.left=(q.time/dur*100)+'%';
+    d.title=q.text.slice(0,40);
+    d.onclick=function(){player.seekTo(q.time-1,true);};
+    tl.appendChild(d);
+  });
+}
+
+function showQ(q){
+  document.getElementById('ov-text').textContent=q.text;
+  document.getElementById('ov-fb').className='feedback';
+  document.getElementById('cont-btn').style.display='none';
+  var opts=document.getElementById('ov-opts');
+  var op=document.getElementById('ov-open');
+  opts.innerHTML='';op.style.display='none';
+  document.getElementById('ov-ta').value='';
+  if(q.type==='mc'){
+    q.options.forEach(function(o,i){
+      var b=document.createElement('button');
+      b.className='opt-btn';b.textContent=o;
+      b.onclick=function(){checkA(q,i,b);};
+      opts.appendChild(b);
+    });
+  } else { op.style.display='block'; }
+  document.getElementById('ov').classList.add('show');
+}
+
+function checkA(q,i,btn){
+  document.querySelectorAll('.opt-btn').forEach(function(b){b.style.pointerEvents='none';});
+  var fb=document.getElementById('ov-fb');
+  if(i===q.correctIdx){btn.classList.add('correct');fb.textContent='✅ Doğru!';fb.className='feedback show ok';score+=10;}
+  else{btn.classList.add('wrong');document.querySelectorAll('.opt-btn')[q.correctIdx].classList.add('correct');fb.textContent='❌ Yanlış. Doğru: '+q.options[q.correctIdx];fb.className='feedback show err';}
+  answered++;answered_ids.add(q.id);updateScore();
+  document.getElementById('cont-btn').style.display='inline-flex';
+}
+
+function submitOpen(){
+  var v=document.getElementById('ov-ta').value.trim();
+  if(!v)return;
+  var fb=document.getElementById('ov-fb');fb.textContent='✅ Kaydedildi.';fb.className='feedback show ok';
+  score+=5;answered++;
+  var cq=QUESTIONS.find(function(q){return !answered_ids.has(q.id)&&q.type==='open';});
+  if(cq)answered_ids.add(cq.id);
+  updateScore();document.getElementById('cont-btn').style.display='inline-flex';
+}
+
+function cont(){document.getElementById('ov').classList.remove('show');player.playVideo();}
+
+function updateScore(){
+  document.getElementById('sc').textContent=score;
+  document.getElementById('sf').style.width=(QUESTIONS.length?(answered/QUESTIONS.length*100):0)+'%';
+  document.getElementById('sd').textContent=answered+' / '+QUESTIONS.length+' soru';
+}
+
+var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
+<\/script>
+</body>
+</html>`;
+
+    document.getElementById('output-result').style.display = 'block';
+    document.getElementById('output-code').textContent = generatedHTML;
+    document.getElementById('dl-btn').style.display   = 'inline-flex';
+    document.getElementById('copy-btn').style.display = 'inline-flex';
+    notify('HTML oluşturuldu!', 'ok');
+  },
+
+  downloadOutput() {
+    if (!generatedHTML) return notify('Önce HTML oluşturun.', 'err');
+    const blob = new Blob([generatedHTML], { type: 'text/html' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'quiz.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    notify('Dosya indiriliyor...', 'ok');
+  },
+
+  copyOutput() {
+    if (!generatedHTML) return notify('Önce HTML oluşturun.', 'err');
+    navigator.clipboard.writeText(generatedHTML)
+      .then(() => notify('Panoya kopyalandı!', 'ok'))
+      .catch(() => notify('Kopyalama başarısız.', 'err'));
+  },
+
+  clearAll() {
+    if (!confirm('Tüm veriler silinsin mi?')) return;
+    State.questions = [];
+    State.videoId   = '';
+    State.score     = 0;
+    State.answered  = 0;
+    State.answered_ids = new Set();
+    document.getElementById('video-url').value = '';
+    document.getElementById('video-container').style.display = 'none';
+    if (ytPlayer) { ytPlayer.destroy(); ytPlayer = null; }
+    if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+    this.renderQuestionList();
+    notify('Temizlendi.', 'err');
+  }
+};
+
+// ── Nav: Panel geçişleri ─────────────────────────────────────────────
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => App.switchPanel(btn.dataset.panel));
+});
+
+// ── İlk soru form render ─────────────────────────────────────────────
+App.renderOptionInputs();
+</script>
+</body>
+</html>
