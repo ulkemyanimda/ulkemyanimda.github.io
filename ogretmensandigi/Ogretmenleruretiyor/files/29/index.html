@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>TAZOF Mangala - Kararlı Sürüm</title>
+    <style>
+        :root {
+            --ahsap: #4e2a14;
+            --zemin: #b08d57;
+            --altin: #ffd700;
+        }
+
+        body {
+            background-color: #1a0f0a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #sira-uyari {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--altin);
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000;
+            height: 35px;
+        }
+
+        .mangal-tahtasi {
+            display: flex;
+            background: var(--zemin);
+            padding: 30px;
+            border-radius: 40px;
+            border: 12px solid var(--ahsap);
+            gap: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            align-items: center;
+        }
+
+        .hazine {
+            width: 100px;
+            height: 320px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            justify-content: center;
+            padding: 10px;
+            box-shadow: inset 0 0 20px #000;
+            position: relative;
+        }
+
+        .hazine-etiket {
+            position: absolute;
+            bottom: -40px;
+            width: 120%;
+            text-align: center;
+            font-weight: bold;
+            color: var(--altin);
+            font-size: 18px;
+        }
+
+        .kuyular-alani {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .kuyu-sirasi {
+            display: flex;
+            gap: 15px;
+        }
+
+        .kuyu-kap {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .kuyu {
+            width: 85px;
+            height: 85px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 50%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            cursor: pointer;
+            box-shadow: inset 0 0 15px #000;
+            transition: 0.2s;
+            overflow: hidden; /* Taşlar dışarı taşmasın */
+        }
+
+        .kuyu:hover { background: rgba(255,215,0,0.1); }
+
+        .tas-sayisi-etiket {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: white;
+            font-size: 18px;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        .tas {
+            width: 18px;
+            height: 18px;
+            background: radial-gradient(circle at 35% 35%, #ffffff, #a0a0a0);
+            border-radius: 50%;
+            margin: 1px;
+            box-shadow: 1px 2px 3px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+
+        button {
+            margin-top: 60px;
+            padding: 10px 30px;
+            background: var(--ahsap);
+            color: var(--altin);
+            border: 2px solid var(--altin);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* Konfeti */
+        .konfeti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            z-index: 999;
+            animation: konfetiDusme 3s linear forwards;
+        }
+        @keyframes konfetiDusme { to { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+<audio id="alkis-sesi" src="alkis.mp3"></audio>
+
+<div id="sira-uyari">Sıra Sizde</div>
+
+<div class="mangal-tahtasi">
+    <div id="hazine-13" class="hazine">
+        <div class="hazine-etiket">Bilgisayar: <span id="skor-13">0</span></div>
+    </div>
+
+    <div class="kuyular-alani">
+        <div class="kuyu-sirasi">
+            <script>
+                for(let i=12; i>=7; i--) {
+                    document.write(`
+                        <div class="kuyu-kap">
+                            <div class="tas-sayisi-etiket" id="sayi-${i}">4</div>
+                            <div class="kuyu" id="kuyu-${i}"></div>
+                        </div>
+                    `);
+                }
+            </script>
+        </div>
+
+        <div class="kuyu-sirasi">
+            <script>
+                for(let i=0; i<=5; i++) {
+                    document.write(`
+                        <div class="kuyu-kap">
+                            <div class="kuyu" id="kuyu-${i}" onclick="hamleBaslat(${i})"></div>
+                            <div class="tas-sayisi-etiket" id="sayi-${i}">4</div>
+                        </div>
+                    `);
+                }
+            </script>
+        </div>
+    </div>
+
+    <div id="hazine-6" class="hazine">
+        <div class="hazine-etiket">Siz: <span id="skor-6">0</span></div>
+    </div>
+</div>
+
+<button onclick="yeniOyun()">OYUNU SIFIRLA</button>
+
+<script>
+    let tahta = [4,4,4,4,4,4, 0, 4,4,4,4,4,4, 0];
+    let siraOyuncuda = true;
+    let hamleAktif = false;
+
+    function taslariCiz() {
+        for (let i = 0; i < 14; i++) {
+            const isHazine = (i === 6 || i === 13);
+            const kuyuDiv = document.getElementById(isHazine ? `hazine-${i}` : `kuyu-${i}`);
+            
+            // Sayıları güncelle
+            if (!isHazine) {
+                document.getElementById(`sayi-${i}`).innerText = tahta[i];
+            } else {
+                document.getElementById(`skor-${i}`).innerText = tahta[i];
+            }
+
+            // Kuyuyu temizle (etiketleri bozmadan sadece taşları sil)
+            const mevcutTaslar = kuyuDiv.querySelectorAll('.tas');
+            mevcutTaslar.forEach(t => t.remove());
+
+            // Taşları ekle
+            for (let t = 0; t < tahta[i]; t++) {
+                const tas = document.createElement('div');
+                tas.className = 'tas';
+                kuyuDiv.appendChild(tas);
+            }
+        }
+    }
+
+    async function hamleBaslat(index) {
+        if (!siraOyuncuda || hamleAktif || tahta[index] === 0) return;
+        await yurutHamle(index);
+    }
+
+    async function yurutHamle(index) {
+        hamleAktif = true;
+        let elde = tahta[index];
+        tahta[index] = 0;
+        taslariCiz();
+        await new Promise(r => setTimeout(r, 400));
+
+        let suanki = index;
+
+        // TAZOF Dağıtma Mantığı
+        if (elde === 1) {
+            suanki = (suanki + 1) % 14;
+            tahta[suanki]++;
+            taslariCiz();
+            await new Promise(r => setTimeout(r, 400));
+        } else {
+            tahta[suanki] = 1;
+            elde--;
+            taslariCiz();
+            await new Promise(r => setTimeout(r, 400));
+
+            while (elde > 0) {
+                suanki = (suanki + 1) % 14;
+                if (siraOyuncuda && suanki === 13) suanki = 0;
+                if (!siraOyuncuda && suanki === 6) suanki = 7;
+                
+                tahta[suanki]++;
+                elde--;
+                taslariCiz();
+                await new Promise(r => setTimeout(r, 400));
+            }
+        }
+
+        // KURALLAR
+        let siraDegissin = true;
+        if ((siraOyuncuda && suanki === 6) || (!siraOyuncuda && suanki === 13)) siraDegissin = false;
+        
+        // Çiftleme (Rakip sahada)
+        else if (siraOyuncuda && suanki >= 7 && suanki <= 12 && tahta[suanki] % 2 === 0) {
+            tahta[6] += tahta[suanki]; tahta[suanki] = 0;
+        } else if (!siraOyuncuda && suanki >= 0 && suanki <= 5 && tahta[suanki] % 2 === 0) {
+            tahta[13] += tahta[suanki]; tahta[suanki] = 0;
+        }
+        // Boş Kuyu (Kendi sahasında)
+        else if (siraOyuncuda && suanki >= 0 && suanki <= 5 && tahta[suanki] === 1) {
+            let karsi = 12 - suanki;
+            if (tahta[karsi] > 0) {
+                tahta[6] += tahta[suanki] + tahta[karsi];
+                tahta[suanki] = 0; tahta[karsi] = 0;
+            }
+        } else if (!siraOyuncuda && suanki >= 7 && suanki <= 12 && tahta[suanki] === 1) {
+            let karsi = 12 - suanki;
+            if (tahta[karsi] > 0) {
+                tahta[13] += tahta[suanki] + tahta[karsi];
+                tahta[suanki] = 0; tahta[karsi] = 0;
+            }
+        }
+
+        taslariCiz();
+        if (siraDegissin) siraOyuncuda = !siraOyuncuda;
+
+        document.getElementById('sira-uyari').innerText = siraOyuncuda ? "Sizin Sıranız" : "Bilgisayar Oynuyor...";
+        hamleAktif = false;
+
+        if (bitisKontrol()) return;
+        if (!siraOyuncuda) { setTimeout(bilgisayarHamlesi, 1000); }
+    }
+
+    function bilgisayarHamlesi() {
+        let hamleler = [7,8,9,10,11,12].filter(i => tahta[i] > 0);
+        if (hamleler.length === 0) return;
+        let secim = hamleler[Math.floor(Math.random() * hamleler.length)];
+        yurutHamle(secim);
+    }
+
+    function bitisKontrol() {
+        let p1B = tahta.slice(0,6).every(t => t === 0);
+        let p2B = tahta.slice(7,13).every(t => t === 0);
+        if (p1B || p2B) {
+            for(let i=0; i<6; i++) { tahta[6] += tahta[i]; tahta[i] = 0; }
+            for(let i=7; i<13; i++) { tahta[13] += tahta[i]; tahta[i] = 0; }
+            taslariCiz();
+            if (tahta[6] >= tahta[13]) { kutlama(); }
+            else { alert("Oyun Bitti! Bilgisayar Kazandı."); }
+            return true;
+        }
+        return false;
+    }
+
+    function kutlama() {
+        document.getElementById('sira-uyari').innerText = "TEBRİKLER! KAZANDINIZ";
+        try { document.getElementById('alkis-sesi').play(); } catch(e) {}
+        for (let i = 0; i < 50; i++) {
+            const k = document.createElement('div');
+            k.className = 'konfeti';
+            k.style.left = Math.random() * 100 + 'vw';
+            k.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+            k.style.top = '-10px';
+            document.body.appendChild(k);
+        }
+    }
+
+    function yeniOyun() {
+        tahta = [4,4,4,4,4,4, 0, 4,4,4,4,4,4, 0];
+        siraOyuncuda = true;
+        hamleAktif = false;
+        document.getElementById('sira-uyari').innerText = "Sizin Sıranız";
+        taslariCiz();
+    }
+
+    taslariCiz();
+</script>
+</body>
+</html>
