@@ -3,183 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yerel İnteraktif Video Oluşturucu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+    <title>Lokal Video İnteraktif Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #4f46e5;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --accent-color: #eab308;
+        :root { --primary: #4f46e5; --bg: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 1000px; width: 100%; display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        video { width: 100%; border-radius: 8px; background: #000; }
+        .video-wrapper { position: relative; }
+        #overlay-preview {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); color: white; display: none;
+            flex-direction: column; align-items: center; justify-content: center; border-radius: 8px;
         }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0; padding: 20px;
-            display: flex; justify-content: center;
-        }
-
-        .container {
-            max-width: 1100px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 380px;
-            gap: 25px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        .video-container {
-            position: relative;
-            width: 100%;
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            line-height: 0;
-        }
-
-        video {
-            width: 100%;
-            height: auto;
-        }
-
-        #question-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.95);
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            padding: 30px;
-            z-index: 10;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        .timeline-markers {
-            height: 10px;
-            background: #e2e8f0;
-            margin: 15px 0;
-            position: relative;
-            border-radius: 5px;
-        }
-
-        .marker {
-            position: absolute;
-            width: 12px; height: 12px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            top: -1px;
-            transform: translateX(-50%);
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
-
-        button {
-            cursor: pointer;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            background: var(--primary-color);
-            color: white;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn-red { background: #ef4444; }
-        .btn-green { background: #10b981; }
-        
-        #preview-title { font-family: 'Poppins', sans-serif; margin-top: 0; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; }
+        button { cursor: pointer; border: none; padding: 12px; border-radius: 6px; font-weight: 600; background: var(--primary); color: white; width: 100%; }
+        .q-item { font-size: 12px; border-bottom: 1px solid #eee; padding: 5px 0; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="main-content">
+    <div class="main">
         <div class="card">
-            <h2 id="preview-title">Video Önizleme</h2>
-            <div class="video-container">
+            <h2 id="title-prev">Ders Başlığı</h2>
+            <div class="video-wrapper">
                 <video id="main-video" controls></video>
-                <div id="question-overlay">
-                    <h3 id="overlay-q-text">Soru?</h3>
-                    <div id="overlay-options" style="display: grid; gap: 10px; width: 100%;"></div>
-                </div>
+                <div id="overlay-preview">Soru Önizleme Alanı</div>
             </div>
-            <div class="timeline-markers" id="marker-container"></div>
         </div>
     </div>
 
     <div class="sidebar">
         <div class="card">
-            <h3>⚙️ Yapılandırma</h3>
-            <input type="text" id="config-title" placeholder="Eğitim Başlığı" oninput="updateUI()">
-            <label style="font-size: 12px; color: #64748b;">Video Dosyası Seç:</label>
-            <input type="file" id="video-file" accept="video/*" onchange="handleFileSelect(event)">
-            <div style="display: flex; gap: 10px;">
-                <div><small>Ana Renk</small><input type="color" id="config-primary" value="#4f46e5" oninput="updateUI()"></div>
-            </div>
+            <h3>📂 Video ve Tema</h3>
+            <input type="text" id="video-filename" placeholder="Video dosya adı (örn: ders1.mp4)" oninput="updateVideoSrc()">
+            <input type="text" id="config-title" placeholder="Ders Başlığı" oninput="document.getElementById('title-prev').innerText = this.value">
+            <input type="color" id="config-color" value="#4f46e5">
         </div>
 
         <div class="card">
             <h3>❓ Soru Ekle</h3>
-            <input type="number" id="q-time" placeholder="Saniye (örn: 5)">
-            <textarea id="q-text" placeholder="Soru metni..."></textarea>
-            <select id="q-type" onchange="toggleOptions(this.value)">
-                <option value="open">Bilgi Notu (Durdurur)</option>
-                <option value="multiple">Çoktan Seçmeli</option>
+            <input type="number" id="q-time" placeholder="Saniye">
+            <textarea id="q-text" placeholder="Soru metni"></textarea>
+            <select id="q-type" onchange="document.getElementById('options-div').style.display = this.value=='choice'?'block':'none'">
+                <option value="text">Açık Uçlu</option>
+                <option value="choice">Çoktan Seçmeli</option>
             </select>
-            
-            <div id="opt-section" style="display:none; border-left: 3px solid #ddd; padding-left: 10px;">
-                <input type="text" class="o-in" placeholder="Seçenek 1">
-                <input type="text" class="o-in" placeholder="Seçenek 2">
-                <input type="number" id="correct-idx" placeholder="Doğru Cevap No" min="1">
+            <div id="options-div" style="display:none">
+                <input type="text" class="opt" placeholder="Seçenek 1">
+                <input type="text" class="opt" placeholder="Seçenek 2">
+                <input type="text" class="opt" placeholder="Seçenek 3">
+                <input type="number" id="q-correct" placeholder="Doğru Şık (1-3)">
             </div>
             <button onclick="addQuestion()">Listeye Ekle</button>
         </div>
 
-        <div id="q-list"></div>
-        
-        <button class="btn-green" onclick="generateHTML()" style="padding: 20px;">💾 ETKİLEŞİMLİ VİDEOYU İNDİR</button>
+        <div class="card" id="q-list">
+            <h3>Sorular</h3>
+        </div>
+
+        <button onclick="exportHTML()" style="background: #10b981; padding: 20px;">🚀 HTML OLARAK DIŞA AKTAR</button>
     </div>
 </div>
 
 <script>
     let questions = [];
-    const videoNode = document.getElementById('main-video');
 
-    function handleFileSelect(event) {
-        const file = event.target.files[0];
-        const url = URL.createObjectURL(file);
-        videoNode.src = url;
-    }
-
-    function toggleOptions(val) {
-        document.getElementById('opt-section').style.display = val === 'multiple' ? 'block' : 'none';
-    }
-
-    function updateUI() {
-        const p = document.getElementById('config-primary').value;
-        document.documentElement.style.setProperty('--primary-color', p);
-        document.getElementById('preview-title').innerText = document.getElementById('config-title').value || "Video Önizleme";
+    function updateVideoSrc() {
+        const name = document.getElementById('video-filename').value;
+        if(name) document.getElementById('main-video').src = name;
     }
 
     function addQuestion() {
@@ -187,133 +81,121 @@
             time: parseInt(document.getElementById('q-time').value),
             text: document.getElementById('q-text').value,
             type: document.getElementById('q-type').value,
-            options: Array.from(document.querySelectorAll('.o-in')).map(i => i.value).filter(v => v),
-            correct: parseInt(document.getElementById('correct-idx').value) - 1
+            options: Array.from(document.querySelectorAll('.opt')).map(i => i.value).filter(v => v),
+            correct: parseInt(document.getElementById('q-correct').value) - 1
         };
         questions.push(q);
-        questions.sort((a,b) => a.time - b.time);
         renderList();
-        renderMarkers();
     }
 
     function renderList() {
-        const list = document.getElementById('q-list');
-        list.innerHTML = '<h3>Sorular</h3>';
+        const div = document.getElementById('q-list');
+        div.innerHTML = '<h3>Sorular</h3>';
         questions.forEach((q, i) => {
-            list.innerHTML += `<div class="card" style="padding:10px; font-size:13px;">
-                <b>${q.time}s:</b> ${q.text} 
-                <button class="btn-red" style="padding:2px 5px; width:auto; float:right" onclick="questions.splice(${i},1);renderList();renderMarkers();">Sil</button>
-            </div>`;
+            div.innerHTML += `<div class="q-item"><span>${q.time}s - ${q.text.slice(0,15)}...</span> <button style="width:auto; padding:2px 5px; background:red;" onclick="questions.splice(${i},1);renderList()">Sil</button></div>`;
         });
     }
 
-    function renderMarkers() {
-        const container = document.getElementById('marker-container');
-        container.innerHTML = '';
-        const dur = videoNode.duration || 100;
-        questions.forEach(q => {
-            const m = document.createElement('div');
-            m.className = 'marker';
-            m.style.left = (q.time / dur * 100) + '%';
-            container.appendChild(m);
-        });
-    }
+    function exportHTML() {
+        const title = document.getElementById('config-title').value || "İnteraktif Video";
+        const vName = document.getElementById('video-filename').value;
+        const color = document.getElementById('config-color').value;
 
-    function generateHTML() {
-        const title = document.getElementById('config-title').value || "İnteraktif Eğitim";
-        const primary = document.getElementById('config-primary').value;
+        if(!vName) return alert("Lütfen video dosya adını girin!");
 
-        const template = `<!DOCTYPE html>
-<html lang="tr">
+        const finalCode = `<!DOCTYPE html>
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>\${title}</title>
+    <title>${title}</title>
     <style>
         body { font-family: sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
-        .box { max-width: 900px; width:100%; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .v-wrap { position: relative; width:100%; background: #000; border-radius: 8px; overflow: hidden; line-height: 0;}
+        .player-box { max-width: 900px; width: 100%; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .v-container { position: relative; border-radius: 10px; overflow: hidden; background: #000; line-height: 0; }
         video { width: 100%; }
-        #overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); display:none; flex-direction: column; align-items:center; justify-content:center; color:white; padding: 20px; text-align: center; box-sizing: border-box; line-height: 1.5;}
-        button { background: ${primary}; color:white; border:none; padding:12px 25px; border-radius: 8px; cursor:pointer; margin: 5px; font-weight: bold; }
-        .score-box { margin-top: 15px; font-weight: bold; color: ${primary}; }
+        #overlay {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.9); color: white; display:none;
+            flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; box-sizing: border-box;
+        }
+        button { background: ${color}; color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; margin: 10px; font-weight: bold; }
+        .progress-bar { height: 10px; background: #eee; border-radius: 5px; margin: 15px 0; overflow: hidden; }
+        #fill { height: 100%; background: ${color}; width: 0%; transition: 0.3s; }
     </style>
 </head>
 <body>
-    <div class="box">
+    <div class="player-box">
         <h2>${title}</h2>
-        <p style="color: #666; font-size: 0.9em;">Lütfen video dosyasını seçerek başlayın (Güvenlik gereği yerel dosyalar otomatik yüklenemez).</p>
-        <input type="file" id="local-video" accept="video/*" style="margin-bottom: 20px;">
-        
-        <div class="v-wrap">
-            <video id="vid" controls></video>
+        <div class="v-container">
+            <video id="vid" src="${vName}" controls></video>
             <div id="overlay">
-                <h3 id="q-txt"></h3>
+                <h2 id="q-txt"></h2>
                 <div id="opts"></div>
             </div>
         </div>
-        <div class="score-box">Puan: <span id="score">0</span> / ${questions.length}</div>
+        <div class="progress-bar"><div id="fill"></div></div>
+        <p><b>İlerleme:</b> <span id="score">0</span> / ${questions.length} Soru Cevaplandı</p>
     </div>
 
     <script>
         const qs = ${JSON.stringify(questions)};
-        let score = 0, answered = new Set();
         const vid = document.getElementById('vid');
         const overlay = document.getElementById('overlay');
-
-        document.getElementById('local-video').onchange = (e) => {
-            vid.src = URL.createObjectURL(e.target.files[0]);
-        };
+        let answered = new Set();
 
         vid.ontimeupdate = () => {
             const now = Math.floor(vid.currentTime);
             const q = qs.find(x => x.time === now && !answered.has(now));
             if(q) {
                 vid.pause();
-                show(q);
+                if (document.exitPointerLock) document.exitPointerLock(); // Opsiyonel
+                showQ(q);
             }
         };
 
-        function show(q) {
+        function showQ(q) {
             overlay.style.display = 'flex';
             document.getElementById('q-txt').innerText = q.text;
             const optDiv = document.getElementById('opts');
             optDiv.innerHTML = '';
 
-            if(q.type === 'multiple') {
+            if(q.type === 'choice') {
                 q.options.forEach((o, i) => {
-                    const b = document.createElement('button');
-                    b.innerText = o;
-                    b.onclick = () => {
-                        if(i === q.correct) { score++; alert('Doğru!'); }
-                        else { alert('Yanlış! Doğru cevap: ' + q.options[q.correct]); }
-                        done(q.time);
+                    const btn = document.createElement('button');
+                    btn.innerText = o;
+                    btn.onclick = () => {
+                        if(i === q.correct) alert('Doğru Cevap!');
+                        else alert('Yanlış! Doğru cevap: ' + q.options[q.correct]);
+                        closeQ(q.time);
                     };
-                    optDiv.appendChild(b);
+                    optDiv.appendChild(btn);
                 });
             } else {
-                const b = document.createElement('button');
-                b.innerText = 'Devam Et';
-                b.onclick = () => done(q.time);
-                optDiv.appendChild(b);
+                const btn = document.createElement('button');
+                btn.innerText = 'Devam Et';
+                btn.onclick = () => closeQ(q.time);
+                optDiv.appendChild(btn);
             }
         }
 
-        function done(t) {
+        function closeQ(t) {
             answered.add(t);
             overlay.style.display = 'none';
-            document.getElementById('score').innerText = score;
+            document.getElementById('score').innerText = answered.size;
+            document.getElementById('fill').style.width = (answered.size / ${questions.length} * 100) + '%';
             vid.play();
         }
     <\/script>
 </body>
 </html>`;
 
-        const blob = new Blob([template], { type: 'text/html' });
+        const blob = new Blob([finalCode], { type: 'text/html' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = "yerel-interaktif-egitim.html";
+        a.download = "interaktif_ders.html";
         a.click();
     }
 </script>
+
 </body>
 </html>
