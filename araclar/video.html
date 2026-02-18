@@ -1,99 +1,569 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index Page</title>
+    <title>İnteraktif Video Oluşturucu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4f46e5;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --accent-color: #eab308; /* Soru noktaları için sarı */
+        }
+
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        header {
-            position: relative;
-        }
-        .banner {
-            background-image: url('https://ulkemyanimda.github.io/icons/banner.jpg');
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 200px; /* Banner yüksekliği ayarlandı */
-        }
-        .title {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            text-align: center;
-        }
-        .sections {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            padding: 20px;
-        }
-        .section {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            margin: 10px;
-            width: 250px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
-        .section:hover {
-            transform: scale(1.05);
-        }
-        .section a {
-            text-decoration: none;
-            color: #6200ea;
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-            height: 100%;
-            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            padding: 20px;
         }
-        .section img {
-            width: 200px;
-            height: 200px;
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+        }
+
+        /* Video Area */
+        .video-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+
+        /* Question Overlay */
+        #question-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            z-index: 10;
+            animation: fadeIn 0.4s;
+        }
+
+        /* Marker UI */
+        .timeline-markers {
+            height: 8px;
+            background: #e2e8f0;
+            margin-top: 10px;
+            position: relative;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .marker {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            top: -2px;
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px var(--accent-color);
+        }
+
+        /* Sidebar Forms */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        h2, h3 { margin-top: 0; font-family: 'Poppins', sans-serif; }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            background: var(--primary-color);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .btn-delete { background: #ef4444; margin-top: 5px; padding: 5px; font-size: 12px; }
+
+        .question-list-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; } to { opacity: 1; }
+        }
+
+        /* Feedback Styles */
+        .feedback {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="banner">
-            <div class="title"> <h1>ARAÇLAR</h1></div>
-        </div>
-    </header>
 
-    <div class="sections">
-
-        <div class="section">
-            <a href="https://ulkemyanimda.github.io/scorm.html"target="_blank">
-                <img src="icons/scorm.png" alt="    Scorm Üretici Icon">
-                <br>Scorm Üretici
-            </a>
-        </div>
-		
-		
-        <div class="section">
-            <a href="https://ulkemyanimda.github.io/scorm.html"target="_blank">
-                <img src="icons/scorm.png" alt="    Scorm Üretici Icon">
-                <br>Scorm Üretici
-            </a>
+<div class="container">
+    <div class="video-section">
+        <h2 id="preview-title">İnteraktif Eğitim Videosu</h2>
+        
+        <div class="video-container" id="player-wrapper">
+            <div id="player"></div>
+            <div id="question-overlay">
+                <h3 id="overlay-q-text">Soru metni buraya gelecek?</h3>
+                <div id="overlay-options" style="width: 100%; max-width: 400px;"></div>
+                <div id="feedback-area" class="feedback"></div>
+                <button id="submit-answer-btn" style="max-width: 200px;">Cevabı Onayla</button>
+            </div>
         </div>
 
+        <div class="timeline-markers" id="marker-container"></div>
+        
+        <div style="margin-top: 20px;">
+            <h3>İlerleme ve Puan</h3>
+            <div style="background: #e2e8f0; border-radius: 10px; height: 10px;">
+                <div id="progress-bar" style="width: 0%; height: 100%; background: var(--primary-color); border-radius: 10px;"></div>
+            </div>
+            <p>Puan: <span id="score-display">0</span> / <span id="total-q-display">0</span></p>
+        </div>
     </div>
+
+    <div class="sidebar">
+        <div class="card">
+            <h3>🎨 Tema & Başlık</h3>
+            <input type="text" id="config-title" placeholder="Sayfa Başlığı" oninput="updateTheme()">
+            <label>Ana Renk</label>
+            <input type="color" id="config-primary" value="#4f46e5" oninput="updateTheme()">
+            <label>Arka Plan</label>
+            <input type="color" id="config-bg" value="#f8fafc" oninput="updateTheme()">
+        </div>
+
+        <div class="card">
+            <h3>🔗 Video Kaynağı</h3>
+            <input type="text" id="video-url" placeholder="YouTube URL (örn: https://youtu.be/...)" onchange="loadVideo()">
+        </div>
+
+        <div class="card">
+            <h3>❓ Soru Ekle</h3>
+            <textarea id="q-text" placeholder="Soru nedir?"></textarea>
+            <input type="number" id="q-time" placeholder="Saniye (örn: 15)">
+            <select id="q-type" onchange="toggleOptionInputs()">
+                <option value="open">Açık Uçlu</option>
+                <option value="multiple">Çoktan Seçmeli</option>
+            </select>
+            
+            <div id="options-config" style="display:none;">
+                <div id="options-list">
+                    <input type="text" class="opt-input" placeholder="Seçenek 1">
+                    <input type="text" class="opt-input" placeholder="Seçenek 2">
+                </div>
+                <button type="button" onclick="addOptionField()" style="background:#64748b; font-size: 12px;">+ Seçenek Ekle</button>
+                <input type="number" id="correct-opt" placeholder="Doğru Seçenek No (1-5)" min="1" max="5">
+            </div>
+
+            <button onclick="addQuestion()">Listeye Ekle</button>
+        </div>
+
+        <div class="card">
+            <h3>📋 Sorular</h3>
+            <div id="question-list-ui"></div>
+            <button onclick="generateHTML()" style="background: #10b981; margin-top: 20px;">🚀 EĞİTİMİ OLUŞTUR (HTML)</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- GLOBAL DEĞİŞKENLER ---
+    let player;
+    let questions = [];
+    let currentQuestionIndex = -1;
+    let score = 0;
+    let answeredQuestions = new Set();
+
+    // --- YOUTUBE API ---
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            height: '360',
+            width: '640',
+            videoId: 'dQw4w9WgXcQ', // Default video
+            events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+        startTimer();
+    }
+
+    function loadVideo() {
+        const url = document.getElementById('video-url').value;
+        const videoId = extractVideoID(url);
+        if (videoId) {
+            player.loadVideoById(videoId);
+        }
+    }
+
+    function extractVideoID(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+    }
+
+    // --- SORU YÖNETİMİ ---
+    function toggleOptionInputs() {
+        const type = document.getElementById('q-type').value;
+        document.getElementById('options-config').style.display = (type === 'multiple') ? 'block' : 'none';
+    }
+
+    function addOptionField() {
+        const list = document.getElementById('options-list');
+        if (list.children.length < 5) {
+            const input = document.createElement('input');
+            input.className = 'opt-input';
+            input.placeholder = `Seçenek ${list.children.length + 1}`;
+            list.appendChild(input);
+        }
+    }
+
+    function addQuestion() {
+        const text = document.getElementById('q-text').value;
+        const time = parseInt(document.getElementById('q-time').value);
+        const type = document.getElementById('q-type').value;
+        
+        let options = [];
+        let correct = null;
+
+        if (type === 'multiple') {
+            const optInputs = document.querySelectorAll('.opt-input');
+            optInputs.forEach(i => { if(i.value) options.push(i.value); });
+            correct = parseInt(document.getElementById('correct-opt').value) - 1;
+        }
+
+        if (!text || isNaN(time)) return alert("Lütfen soru ve zamanı girin!");
+
+        questions.push({ text, time, type, options, correct });
+        questions.sort((a, b) => a.time - b.time);
+        
+        renderQuestionList();
+        renderMarkers();
+        clearForm();
+    }
+
+    function clearForm() {
+        document.getElementById('q-text').value = '';
+        document.getElementById('q-time').value = '';
+        document.getElementById('options-list').innerHTML = '<input type="text" class="opt-input" placeholder="Seçenek 1"><input type="text" class="opt-input" placeholder="Seçenek 2">';
+    }
+
+    function renderQuestionList() {
+        const container = document.getElementById('question-list-ui');
+        container.innerHTML = '';
+        questions.forEach((q, index) => {
+            const div = document.createElement('div');
+            div.className = 'question-list-item';
+            div.innerHTML = `
+                <strong>${q.time}s:</strong> ${q.text.substring(0,20)}...
+                <button class="btn-delete" onclick="removeQuestion(${index})">Sil</button>
+            `;
+            container.appendChild(div);
+        });
+        document.getElementById('total-q-display').innerText = questions.length;
+    }
+
+    function removeQuestion(index) {
+        questions.splice(index, 1);
+        renderQuestionList();
+        renderMarkers();
+    }
+
+    function renderMarkers() {
+        const container = document.getElementById('marker-container');
+        container.innerHTML = '';
+        const duration = player.getDuration() || 100; // API henüz yüklenmediyse varsayılan
+        questions.forEach(q => {
+            const percent = (q.time / duration) * 100;
+            const marker = document.createElement('div');
+            marker.className = 'marker';
+            marker.style.left = percent + '%';
+            container.appendChild(marker);
+        });
+    }
+
+    // --- OYNATMA KONTROLÜ ---
+    function startTimer() {
+        setInterval(() => {
+            if (player && player.getPlayerState() === 1) { // 1 = Playing
+                const currentTime = Math.floor(player.getCurrentTime());
+                const question = questions.find(q => q.time === currentTime && !answeredQuestions.has(currentTime));
+                
+                if (question) {
+                    showQuestion(question);
+                }
+            }
+        }, 1000);
+    }
+
+    function showQuestion(q) {
+        player.pauseVideo();
+        currentQuestionIndex = q.time;
+        const overlay = document.getElementById('question-overlay');
+        const qText = document.getElementById('overlay-q-text');
+        const qOptions = document.getElementById('overlay-options');
+        const feedback = document.getElementById('feedback-area');
+        
+        qText.innerText = q.text;
+        qOptions.innerHTML = '';
+        feedback.style.display = 'none';
+        overlay.style.display = 'flex';
+
+        if (q.type === 'multiple') {
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.style.background = '#334155';
+                btn.onclick = () => checkAnswer(idx, q.correct);
+                qOptions.appendChild(btn);
+            });
+            document.getElementById('submit-answer-btn').style.display = 'none';
+        } else {
+            const input = document.createElement('textarea');
+            input.id = "open-answer";
+            input.placeholder = "Cevabınızı buraya yazın...";
+            qOptions.appendChild(input);
+            const subBtn = document.getElementById('submit-answer-btn');
+            subBtn.style.display = 'block';
+            subBtn.onclick = () => checkAnswer(null, null);
+        }
+    }
+
+    function checkAnswer(selected, correct) {
+        const feedback = document.getElementById('feedback-area');
+        feedback.style.display = 'block';
+        
+        let isCorrect = true;
+        if (selected !== null) {
+            isCorrect = (selected === correct);
+        }
+
+        if (isCorrect) {
+            feedback.innerText = "✅ Harika! Doğru cevap.";
+            feedback.style.background = "#059669";
+            score++;
+        } else {
+            feedback.innerText = "❌ Yanlış cevap. Doğrusu: " + questions.find(q=>q.time === currentQuestionIndex).options[correct];
+            feedback.style.background = "#dc2626";
+        }
+
+        document.getElementById('score-display').innerText = score;
+        answeredQuestions.add(currentQuestionIndex);
+        updateProgress();
+
+        setTimeout(() => {
+            document.getElementById('question-overlay').style.display = 'none';
+            player.playVideo();
+        }, 2000);
+    }
+
+    function updateProgress() {
+        const percent = (answeredQuestions.size / questions.length) * 100;
+        document.getElementById('progress-bar').style.width = percent + '%';
+    }
+
+    function updateTheme() {
+        const primary = document.getElementById('config-primary').value;
+        const bg = document.getElementById('config-bg').value;
+        const title = document.getElementById('config-title').value;
+
+        document.documentElement.style.setProperty('--primary-color', primary);
+        document.documentElement.style.setProperty('--bg-color', bg);
+        if(title) document.getElementById('preview-title').innerText = title;
+    }
+
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING) {
+            renderMarkers(); // Süre bilgisi için tekrar çiz
+        }
+    }
+
+    // --- DIŞA AKTARMA (GENERATE HTML) ---
+    function generateHTML() {
+        const config = {
+            title: document.getElementById('config-title').value || "İnteraktif Eğitim",
+            primary: document.getElementById('config-primary').value,
+            bg: document.getElementById('config-bg').value,
+            videoId: extractVideoID(document.getElementById('video-url').value),
+            questions: questions
+        };
+
+        if(!config.videoId) return alert("Lütfen geçerli bir video yükleyin!");
+
+        // Bu kısım, üretilecek olan dosyanın şablonudur.
+        const outputHTML = `
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>\${config.title}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --p: \${config.primary}; --bg: \${config.bg}; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; }
+        .wrapper { max-width: 800px; width:100%; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .v-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000; }
+        .v-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        #overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px; text-align: center; z-index: 100; }
+        button { background: var(--p); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        .progress-box { margin-top: 15px; }
+        .bar-bg { background: #eee; height: 10px; border-radius: 5px; }
+        .bar-fill { background: var(--p); height: 100%; width: 0%; border-radius: 5px; transition: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>\${config.title}</h2>
+        <div class="v-container">
+            <div id="player"></div>
+            <div id="overlay">
+                <h3 id="q-text"></h3>
+                <div id="options"></div>
+                <p id="feedback"></p>
+            </div>
+        </div>
+        <div class="progress-box">
+            <div class="bar-bg"><div id="fill" class="bar-fill"></div></div>
+            <p>Puan: <span id="score">0</span> / \${config.questions.length}</p>
+        </div>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"><\/script>
+    <script>
+        const data = \${JSON.stringify(config.questions)};
+        let player, score = 0, answered = new Set();
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                videoId: '\${config.videoId}',
+                events: { 'onStateChange': onState }
+            });
+        }
+
+        function onState(e) {
+            if(e.data == 1) {
+                setInterval(() => {
+                    const now = Math.floor(player.getCurrentTime());
+                    const q = data.find(item => item.time === now && !answered.has(now));
+                    if(q) showQ(q);
+                }, 1000);
+            }
+        }
+
+        function showQ(q) {
+            player.pauseVideo();
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = 'flex';
+            document.getElementById('q-text').innerText = q.text;
+            const optDiv = document.getElementById('options');
+            optDiv.innerHTML = '';
+            
+            if(q.type === 'multiple') {
+                q.options.forEach((o, i) => {
+                    const btn = document.createElement('button');
+                    btn.innerText = o;
+                    btn.onclick = () => {
+                        if(i === q.correct) { score++; alert('Doğru!'); }
+                        else { alert('Yanlış! Doğru cevap: ' + q.options[q.correct]); }
+                        closeQ(q.time);
+                    };
+                    optDiv.appendChild(btn);
+                });
+            } else {
+                const btn = document.createElement('button');
+                btn.innerText = 'Devam Et';
+                btn.onclick = () => closeQ(q.time);
+                optDiv.appendChild(btn);
+            }
+        }
+
+        function closeQ(t) {
+            answered.add(t);
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('score').innerText = score;
+            document.getElementById('fill').style.width = (answered.size / data.length * 100) + '%';
+            player.playVideo();
+        }
+    <\/script>
+</body>
+</html>`;
+
+        const blob = new Blob([outputHTML], { type: 'text/html' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = "interaktif-ders.html";
+        link.click();
+    }
+</script>
+
 </body>
 </html>
