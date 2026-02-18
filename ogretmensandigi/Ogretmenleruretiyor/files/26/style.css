@@ -1,0 +1,94 @@
+:root {
+    --bg: #f8fafc;
+    --glass: rgba(255, 255, 255, 0.8);
+    --primary: #6366f1;
+    --secondary: #a855f7;
+    --text: #0f172a;
+    --success: #10b981;
+    --error: #ef4444;
+}
+
+* { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body {
+    margin: 0;
+    background-color: var(--bg);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.background-blobs .blob {
+    position: absolute; filter: blur(80px); z-index: -1; border-radius: 50%;
+}
+.blob-1 { width: 500px; height: 500px; background: #e0e7ff; top: -10%; left: -5%; }
+.blob-2 { width: 400px; height: 400px; background: #f3e8ff; bottom: -5%; right: 5%; }
+
+.container {
+    display: flex; width: 98vw; height: 95vh;
+    background: var(--glass); backdrop-filter: blur(20px);
+    border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); overflow: hidden;
+}
+
+/* Sidebar */
+.glass-sidebar {
+    width: 260px; background: rgba(255, 255, 255, 0.4);
+    border-right: 1px solid rgba(0,0,0,0.05);
+    display: flex; flex-direction: column; padding: 20px;
+}
+
+.brand { margin-bottom: 20px; }
+.user-name { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin: 0; }
+.title-spacer { height: 10px; }
+.app-title { font-size: 0.8rem; color: var(--primary); font-weight: 600; text-transform: uppercase; }
+
+.audio-scroll-area { flex: 1; overflow-y: auto; }
+.audio-btn {
+    background: white; border: none; padding: 12px; border-radius: 12px;
+    margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+    cursor: pointer; transition: 0.2s; width: 100%; font-size: 0.85rem; font-weight: 600;
+}
+.audio-btn.active { background: var(--primary); color: white; }
+
+/* Oyun Alanı */
+.main-content { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
+#currentQuestion { font-size: 1.4rem; font-weight: 600; color: #1e293b; margin-bottom: 15px; }
+.score-board { background: var(--primary); color: white; padding: 8px 20px; border-radius: 50px; font-weight: bold; width: fit-content; }
+
+/* 16 Kartlık Izgara */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.card {
+    background: white; border-radius: 20px; padding: 15px;
+    text-align: center; cursor: pointer; border: 4px solid transparent;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05); transition: 0.3s;
+}
+
+.card:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.1); }
+
+/* Resim Yüksekliği Artırıldı */
+.card img { 
+    width: 100%; 
+    height: 140px; /* Görsel yüksekliği artırıldı */
+    object-fit: contain; 
+    margin-bottom: 10px; 
+}
+
+.card-title { font-weight: 700; font-size: 0.9rem; color: var(--text); border-top: 1px solid #eee; padding-top: 10px; }
+
+.card.correct { border-color: var(--success); background: #f0fdf4; }
+.card.wrong { border-color: var(--error); animation: shake 0.5s; }
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
