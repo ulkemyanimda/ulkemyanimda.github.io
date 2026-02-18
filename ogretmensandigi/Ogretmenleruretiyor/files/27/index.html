@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çiğdem Şakır | Alfabe Avcısı</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="container">
+        <aside class="glass-sidebar">
+            <div class="logo">
+                <div class="brand">
+                    <h1 class="user-name">Çiğdem Şakır</h1>
+                    <div class="title-spacer"></div>
+                    <small class="app-title">Alfabe Avcısı</small>
+                </div>
+            </div>
+            <div class="audio-scroll-area" id="audioList">
+                </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="game-info">
+                <div class="instruction-box">
+                    <span id="hint">LÜTFEN BİR HARF SEÇİN:</span>
+                    <h2 id="currentQuestion">Hangi harfi bulmak istersin?</h2>
+                    <div class="score-board">Puan: <span id="score">0</span></div>
+                </div>
+            </header>
+
+            <section class="card-grid" id="cardGrid">
+                </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
