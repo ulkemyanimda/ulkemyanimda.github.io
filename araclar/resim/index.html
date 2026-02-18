@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Prompt Builder for Teachers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --bg: #f5f0eb;
+      --surface: #fdf9f5;
+      --surface2: #fff;
+      --border: #e8ddd3;
+      --text: #2c2018;
+      --text-muted: #8b7355;
+      --accent: #d4713a;
+      --accent-light: #f5e0ce;
+      --accent2: #5b7fa6;
+      --accent2-light: #dce8f3;
+      --green: #4a7c59;
+      --green-light: #d9ede0;
+      --shadow-sm: 0 2px 8px rgba(44, 32, 24, 0.07);
+      --shadow-md: 0 6px 24px rgba(44, 32, 24, 0.10);
+      --shadow-lg: 0 16px 48px rgba(44, 32, 24, 0.13);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a1410;
+      --surface: #231c16;
+      --surface2: #2c2318;
+      --border: #3d3025;
+      --text: #f0e8df;
+      --text-muted: #a08868;
+      --accent: #e8894a;
+      --accent-light: #3a2515;
+      --accent2: #7ba8d4;
+      --accent2-light: #1a2a3d;
+      --green: #6ab882;
+      --green-light: #1a3025;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background var(--transition), color var(--transition);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ===== BACKGROUND TEXTURE ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(212, 113, 58, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(91, 127, 166, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== LAYOUT ===== */
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+      position: relative;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(212, 113, 58, 0.2);
+    }
+
+    .header-badge .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+      }
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .header-desc {
+      color: var(--text-muted);
+      font-size: 16px;
+      max-width: 520px;
+      margin: 0 auto;
+      font-weight: 300;
+    }
+
+    /* ===== DARK MODE TOGGLE ===== */
+    .header-controls {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .toggle-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+    }
+
+    .toggle-btn:hover {
+      background: var(--accent-light);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .card-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title .step {
+      background: var(--accent);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ===== PILL SELECTORS ===== */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+      box-shadow: 0 2px 12px rgba(212, 113, 58, 0.3);
+    }
+
+    /* ===== FREE TEXT ===== */
+    .free-text-wrapper {
+      margin-top: 12px;
+    }
+
+    .free-text-label {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      transition: border-color var(--transition);
+      outline: none;
+      resize: vertical;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(212, 113, 58, 0.1);
+    }
+
+    input[type="text"]::placeholder,
+    textarea::placeholder {
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    /* ===== CHECKBOX GROUP ===== */
+    .checkbox-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 12px 16px;
+      background: var(--surface2);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+      user-select: none;
+    }
+
+    .checkbox-item:hover {
+      border-color: var(--accent2);
+      background: var(--accent2-light);
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      display: none;
+    }
+
+    .checkbox-item .check-box {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 5px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+    }
+
+    .checkbox-item input[type="checkbox"]:checked~.check-label {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .checkbox-item input[type="checkbox"]:checked~.check-box,
+    .checkbox-item:has(input:checked) .check-box {
+      background: var(--accent2);
+      border-color: var(--accent2);
+    }
+
+    .checkbox-item:has(input:checked) {
+      border-color: var(--accent2);
+      background: var(--accent2-light);
+    }
+
+    .checkbox-item:has(input:checked) .check-label {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .check-box::after {
+      content: '';
+      width: 5px;
+      height: 9px;
+      border: 2px solid white;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg) translateY(-1px);
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .checkbox-item:has(input:checked) .check-box::after {
+      opacity: 1;
+    }
+
+    .check-label {
+      font-size: 13.5px;
+      color: var(--text);
+      transition: color var(--transition);
+    }
+
+    /* ===== TWO COLUMN GRID ===== */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== ACTION BUTTONS ===== */
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 32px 0 24px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 2px solid transparent;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 4px 20px rgba(212, 113, 58, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: #c05e28;
+      box-shadow: 0 6px 28px rgba(212, 113, 58, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent2);
+      color: var(--accent2);
+      background: var(--accent2-light);
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 4px 20px rgba(74, 124, 89, 0.3);
+    }
+
+    .btn-green:hover {
+      background: #3d6849;
+      transform: translateY(-1px);
+    }
+
+    /* ===== OUTPUT AREA ===== */
+    .output-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      transition: all var(--transition);
+      display: none;
+    }
+
+    .output-card.visible {
+      display: block;
+      animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .output-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .output-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 13px;
+      border-radius: 100px;
+    }
+
+    #prompt-output {
+      min-height: 120px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--surface2);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+
+    /* ===== PREVIEW PILL ===== */
+    .live-preview {
+      background: var(--accent-light);
+      border: 1px dashed rgba(212, 113, 58, 0.3);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 20px;
+      min-height: 52px;
+      transition: all var(--transition);
+      line-height: 1.6;
+    }
+
+    .live-preview strong {
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-style: normal;
+      display: block;
+    }
+
+    /* ===== TOAST NOTIFICATION ===== */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--text);
+      color: var(--bg);
+      padding: 12px 24px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== DIVIDER ===== */
+    .section-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0 20px;
+      opacity: 0.5;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .page-wrapper {
+        padding: 24px 16px 60px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .header-controls {
+        position: static;
+        margin-bottom: 20px;
+        justify-content: flex-end;
+      }
+
+      .actions {
+        gap: 8px;
+      }
+
+      .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+    }
+
+    /* ===== IMAGE PREVIEW ===== */
+    #imagePreviewContainer {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 150px;
+      height: 150px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      z-index: 900;
+      display: none;
+      /* Hidden by default */
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #imagePreviewContainer.visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #previewImage {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header>
+      <div class="header-controls">
+        <button class="toggle-btn" id="darkToggle" onclick="toggleDark()">
+          <span id="darkIcon">🌙</span> <span id="darkLabel">Dark Mode</span>
+        </button>
+      </div>
+
+      <div class="header-badge">
+        <span class="dot"></span>
+        For Educators
+      </div>
+
+      <h1>AI Prompt Builder<br><em>for Teachers</em></h1>
+      <p class="header-desc">Seçenekleri işaretleyin, otomatik İngilizce prompt oluşsun. Teknik bilgi gerekmez.</p>
+    </header>
+
+    <!-- LIVE PREVIEW -->
+    <div class="live-preview" id="livePreview">
+      <span class="preview-label">✦ Live Preview</span>
+      <span id="previewText">Seçimleriniz burada görünecek...</span>
+    </div>
+
+    <!-- 1. KONU -->
+    <div class="card" style="margin-top:20px;">
+      <div class="card-title">
+        <span class="step">1</span>
+        Konu — <em style="font-family:'Fraunces',serif;font-weight:400;color:var(--text-muted);">Subject</em>
+      </div>
+      <div class="pill-group" id="subjectGroup">
+        <div class="pill" data-value="a cheerful children's book character">🧒 Çocuk kitabı karakteri</div>
+        <div class="pill" data-value="a vibrant classroom learning environment">🏫 Sınıf ortamı</div>
+        <div class="pill" data-value="a Ramadan themed scene with lanterns and crescent moon">🌙 Ramazan teması</div>
+        <div class="pill" data-value="children conducting a science experiment">🔬 Bilim deneyi</div>
+        <div class="pill" data-value="a historical scene from ancient civilizations">🏛️ Tarihi sahne</div>
+        <div class="pill" data-value="a breathtaking nature landscape">🌿 Doğa manzarası</div>
+      </div>
+      <div class="free-text-wrapper">
+        <span class="free-text-label">✏️ Kendi konunuzu yazın (isteğe bağlı):</span>
+        <input type="text" id="customSubject" placeholder="Örn: a young astronaut on the moon..."
+          oninput="updatePreview()">
+      </div>
+    </div>
+
+    <!-- 2. STİL & 3. ORTAM -->
+    <div class="two-col">
+      <!-- STİL -->
+      <div class="card">
+        <div class="card-title">
+          <span class="step">2</span>
+          Stil — <em style="font-family:'Fraunces',serif;font-weight:400;color:var(--text-muted);">Style</em>
+        </div>
+        <div class="pill-group" id="styleGroup">
+          <div class="pill" data-value="cartoon">🎨 Cartoon</div>
+          <div class="pill active" data-value="Pixar style">✨ Pixar style</div>
+          <div class="pill" data-value="watercolor">💧 Watercolor</div>
+          <div class="pill" data-value="realistic">📷 Realistic</div>
+          <div class="pill" data-value="flat illustration">📐 Flat illustration</div>
+          <div class="pill" data-value="anime">🌸 Anime</div>
+          <div class="pill" data-value="3D render">🎲 3D render</div>
+          <div class="pill" data-value="minimalist">⬜ Minimalist</div>
+        </div>
+      </div>
+
+      <!-- ORTAM -->
+      <div class="card">
+        <div class="card-title">
+          <span class="step">3</span>
+          Ortam — <em style="font-family:'Fraunces',serif;font-weight:400;color:var(--text-muted);">Ambiance</em>
+        </div>
+        <div class="pill-group" id="ambianceGroup">
+          <div class="pill" data-value="warm and cozy">🕯️ Warm and cozy</div>
+          <div class="pill active" data-value="bright and cheerful classroom">☀️ Bright classroom</div>
+          <div class="pill" data-value="night scene with stars">🌙 Night scene</div>
+          <div class="pill" data-value="golden sunset lighting">🌅 Sunset lighting</div>
+          <div class="pill" data-value="magical and enchanting atmosphere">🪄 Magical atmosphere</div>
+          <div class="pill" data-value="futuristic and modern">🚀 Futuristic</div>
+          <div class="pill" data-value="traditional cultural setting">🏮 Traditional cultural</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. RENK & 5. KAMERA -->
+    <div class="two-col">
+      <!-- RENK -->
+      <div class="card">
+        <div class="card-title">
+          <span class="step">4</span>
+          Renk — <em style="font-family:'Fraunces',serif;font-weight:400;color:var(--text-muted);">Color Palette</em>
+        </div>
+        <div class="pill-group" id="colorGroup">
+          <div class="pill active" data-value="soft pastel tones">🎀 Pastel tones</div>
+          <div class="pill" data-value="vibrant and bold colors">🌈 Vibrant colors</div>
+          <div class="pill" data-value="earthy and natural tones">🍂 Earth tones</div>
+          <div class="pill" data-value="monochrome with subtle gradients">⚫ Monochrome</div>
+          <div class="pill" data-value="soft warm colors">🧡 Soft warm colors</div>
+          <div class="pill" data-value="high contrast dramatic colors">⚡ High contrast</div>
+        </div>
+      </div>
+
+      <!-- KAMERA -->
+      <div class="card">
+        <div class="card-title">
+          <span class="step">5</span>
+          Kamera — <em style="font-family:'Fraunces',serif;font-weight:400;color:var(--text-muted);">Composition</em>
+        </div>
+        <div class="pill-group" id="cameraGroup">
+          <div class="pill" data-value="wide angle establishing shot">🏞️ Wide angle</div>
+          <div class="pill active" data-value="close-up detailed view">🔍 Close-up</div>
+          <div class="pill" data-value="isometric perspective view">📦 Isometric view</div>
+          <div class="pill" data-value="bird's eye top-down view">⬇️ Top view</div>
+          <div class="pill" data-value="cinematic widescreen shot">🎬 Cinematic shot</div>
+          <div class="pill" data-value="portrait framing">🖼️ Portrait framing</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. EKSTRA DETAYLAR -->
+    <div class="card">
+      <div class="card-title">
+        <span class="step">6</span>
+        Ekstra Detaylar — <em style="font-family:'Fraunces',serif;font-weight:400;color:var(--text-muted);">Extra
+          Details</em>
+      </div>
+      <div class="checkbox-group" id="extrasGroup">
+        <label class="checkbox-item">
+          <input type="checkbox" value="highly detailed" checked onchange="updatePreview()">
+          <span class="check-box"></span>
+          <span class="check-label">✦ Highly detailed</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" value="soft shadows" onchange="updatePreview()">
+          <span class="check-box"></span>
+          <span class="check-label">🌫️ Soft shadows</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" value="depth of field" onchange="updatePreview()">
+          <span class="check-box"></span>
+          <span class="check-label">📸 Depth of field</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" value="4K ultra resolution" checked onchange="updatePreview()">
+          <span class="check-box"></span>
+          <span class="check-label">🖥️ 4K</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" value="ultra realistic lighting" onchange="updatePreview()">
+          <span class="check-box"></span>
+          <span class="check-label">💡 Ultra realistic lighting</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" value="studio lighting" onchange="updatePreview()">
+          <span class="check-box"></span>
+          <span class="check-label">🎙️ Studio lighting</span>
+        </label>
+        <label class="checkbox-item">
+          <input type="checkbox" value="storybook illustration style" checked onchange="updatePreview()">
+          <span class="check-box"></span>
+          <span class="check-label">📖 Storybook illustration</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="actions">
+      <button class="btn btn-primary" onclick="generatePrompt()">
+        ✨ Prompt Oluştur
+      </button>
+      <button class="btn btn-secondary" onclick="randomizeAll()">
+        🎲 Rastgele Oluştur
+      </button>
+      <button class="btn btn-secondary" onclick="resetAll()">
+        ↺ Sıfırla
+      </button>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="output-card" id="outputCard">
+      <div class="output-header">
+        <div class="output-title">📋 Oluşturulan Prompt</div>
+        <div class="output-actions">
+          <button class="btn btn-secondary btn-small" onclick="copyPrompt()">📋 Kopyala</button>
+          <button class="btn btn-green btn-small" onclick="exportJSON()">⬇️ JSON</button>
+        </div>
+      </div>
+      <textarea id="prompt-output" rows="6" readonly placeholder="Prompt burada görünecek..."></textarea>
+    </div>
+
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- IMAGE PREVIEW CONTAINER -->
+  <div id="imagePreviewContainer">
+    <img id="previewImage" src="" alt="Preview">
+  </div>
+
+  <script>
+    /* ===== STATE ===== */
+    const state = {
+      subject: '',
+      style: 'Pixar style',
+      ambiance: 'bright and cheerful classroom',
+      color: 'soft pastel tones',
+      camera: 'close-up detailed view',
+      extras: ['highly detailed', '4K ultra resolution', 'storybook illustration style'],
+      customSubject: ''
+    };
+
+    /* ===== IMAGE MAPPING ===== */
+    const imageMapping = {
+      // STİL
+      'cartoon': 'stil/cartoon.jpg',
+      'Pixar style': 'stil/pixar.jpg',
+      'watercolor': 'stil/watercolor.jpg',
+      'realistic': 'stil/realistic.jpg',
+      'flat illustration': 'stil/flat.jpg',
+      'anime': 'stil/anime.jpg',
+      '3D render': 'stil/3d.jpg',
+      'minimalist': 'stil/minimalist.jpg',
+
+      // ORTAM
+      'warm and cozy': 'ortam/warm_and_cozy.jpg',
+      'bright and cheerful classroom': 'ortam/bright_classroom.jpg',
+      'night scene with stars': 'ortam/night_scene.jpg',
+      'golden sunset lighting': 'ortam/Sunset_lighting.jpg',
+      'magical and enchanting atmosphere': 'ortam/magical_atmosphere.jpg',
+      'futuristic and modern': 'ortam/futuristic.jpg',
+      'traditional cultural setting': 'ortam/traditional_cultural.jpg',
+
+      // RENK
+      'soft pastel tones': 'renk/softpastel.jpg',
+      'vibrant and bold colors': 'renk/vibrantandbold.jpg',
+      'earthy and natural tones': 'renk/earthyandnatural.jpg',
+      'monochrome with subtle gradients': 'renk/monochrome.jpg',
+      'soft warm colors': 'renk/softwarm.jpg',
+      'high contrast dramatic colors': 'renk/highcontrast.jpg',
+
+      // KAMERA
+      'wide angle establishing shot': 'kamera/wideangle.jpg',
+      'close-up detailed view': 'kamera/closeup.jpg',
+      'isometric perspective view': 'kamera/isometric.jpg',
+      "bird's eye top-down view": 'kamera/topview.jpg',
+      'cinematic widescreen shot': 'kamera/cinematic.jpg',
+      'portrait framing': 'kamera/portrait.jpg'
+    };
+
+    /* ===== PREVIEW LOGIC ===== */
+    function showImagePreview(value) {
+      const container = document.getElementById('imagePreviewContainer');
+      const img = document.getElementById('previewImage');
+
+      if (imageMapping[value]) {
+        img.src = imageMapping[value];
+        container.classList.add('visible');
+      } else {
+        container.classList.remove('visible');
+      }
+    }
+
+    /* ===== PILL CLICK HANDLERS ===== */
+    // Initialize all pill groups
+    document.querySelectorAll('.pill-group').forEach(group => {
+      const groupId = group.id;
+      const stateKey = {
+        subjectGroup: 'subject',
+        styleGroup: 'style',
+        ambianceGroup: 'ambiance',
+        colorGroup: 'color',
+        cameraGroup: 'camera'
+      }[groupId];
+
+      group.querySelectorAll('.pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          // Deselect all in group
+          group.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+
+          // Toggle current
+          if (state[stateKey] === pill.dataset.value) {
+            // Deselect (allow empty)
+            state[stateKey] = '';
+            // Hide preview if deselected
+            document.getElementById('imagePreviewContainer').classList.remove('visible');
+          } else {
+            pill.classList.add('active');
+            state[stateKey] = pill.dataset.value;
+            // Show preview
+            showImagePreview(pill.dataset.value);
+          }
+          updatePreview();
+        });
+      });
+    });
+
+    /* ===== EXTRAS SYNC ===== */
+    function syncExtras() {
+      state.extras = [];
+      document.querySelectorAll('#extrasGroup input[type="checkbox"]:checked').forEach(cb => {
+        state.extras.push(cb.value);
+      });
+    }
+
+    /* ===== BUILD PROMPT ===== */
+    function buildPrompt() {
+      // Get subject
+      const subject = state.customSubject.trim() || state.subject || 'a cheerful learning scene';
+      const style = state.style || 'Pixar style';
+      const ambiance = state.ambiance || 'warm and cozy';
+      const color = state.color || 'soft pastel tones';
+      const camera = state.camera || 'wide angle';
+
+      syncExtras();
+      const extras = state.extras.length > 0 ? state.extras.join(', ') : 'highly detailed, professional lighting';
+
+      const prompt = `A ${style} illustration of ${subject}, set in a ${ambiance} environment, using ${color}, ${camera}, ${extras}, vibrant and expressive, perfect for educational content, award-winning digital art.`;
+
+      return prompt;
+    }
+
+    /* ===== LIVE PREVIEW ===== */
+    function updatePreview() {
+      state.customSubject = document.getElementById('customSubject').value;
+      syncExtras();
+      const prompt = buildPrompt();
+
+      // Truncate for preview
+      const short = prompt.length > 140 ? prompt.substring(0, 140) + '...' : prompt;
+      document.getElementById('previewText').innerHTML =
+        `<strong>${short}</strong>`;
+    }
+
+    /* ===== GENERATE ===== */
+    function generatePrompt() {
+      state.customSubject = document.getElementById('customSubject').value;
+      const prompt = buildPrompt();
+
+      const outputCard = document.getElementById('outputCard');
+      const output = document.getElementById('prompt-output');
+
+      output.value = prompt;
+      outputCard.classList.add('visible');
+      outputCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Animate
+      output.style.opacity = '0';
+      setTimeout(() => {
+        output.style.transition = 'opacity 0.4s';
+        output.style.opacity = '1';
+      }, 100);
+    }
+
+    /* ===== COPY ===== */
+    function copyPrompt() {
+      const text = document.getElementById('prompt-output').value;
+      if (!text) return showToast('Önce prompt oluşturun!');
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('✓ Prompt panoya kopyalandı!');
+      }).catch(() => {
+        // Fallback
+        const el = document.getElementById('prompt-output');
+        el.select();
+        document.execCommand('copy');
+        showToast('✓ Kopyalandı!');
+      });
+    }
+
+    /* ===== JSON EXPORT ===== */
+    function exportJSON() {
+      state.customSubject = document.getElementById('customSubject').value;
+      syncExtras();
+
+      const data = {
+        generated_prompt: buildPrompt(),
+        selections: {
+          subject: state.customSubject || state.subject,
+          style: state.style,
+          ambiance: state.ambiance,
+          color_palette: state.color,
+          camera: state.camera,
+          extras: state.extras
+        },
+        generated_at: new Date().toISOString(),
+        tool: 'AI Prompt Builder for Teachers'
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ai-prompt.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('⬇️ JSON indirildi!');
+    }
+
+    /* ===== RANDOMIZE ===== */
+    function randomizeAll() {
+      const groups = {
+        subjectGroup: 'subject',
+        styleGroup: 'style',
+        ambianceGroup: 'ambiance',
+        colorGroup: 'color',
+        cameraGroup: 'camera'
+      };
+
+      Object.entries(groups).forEach(([groupId, stateKey]) => {
+        const group = document.getElementById(groupId);
+        const pills = group.querySelectorAll('.pill');
+        const random = pills[Math.floor(Math.random() * pills.length)];
+
+        pills.forEach(p => p.classList.remove('active'));
+        random.classList.add('active');
+        state[stateKey] = random.dataset.value;
+      });
+
+      // Randomize checkboxes
+      document.querySelectorAll('#extrasGroup input[type="checkbox"]').forEach(cb => {
+        cb.checked = Math.random() > 0.4;
+      });
+
+      document.getElementById('customSubject').value = '';
+      state.customSubject = '';
+
+      updatePreview();
+      generatePrompt();
+
+      // Update image preview to match the new style
+      showImagePreview(state.style);
+
+      showToast('🎲 Rastgele seçimler yapıldı!');
+    }
+
+    /* ===== RESET ===== */
+    function resetAll() {
+      // Clear all active pills
+      document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+
+      // Reset defaults
+      state.subject = '';
+      state.style = 'Pixar style';
+      state.ambiance = 'bright and cheerful classroom';
+      state.color = 'soft pastel tones';
+      state.camera = 'close-up detailed view';
+      state.customSubject = '';
+
+      // Re-apply defaults visually
+      document.querySelector('#styleGroup [data-value="Pixar style"]')?.classList.add('active');
+      document.querySelector('#ambianceGroup [data-value="bright and cheerful classroom"]')?.classList.add('active');
+      document.querySelector('#colorGroup [data-value="soft pastel tones"]')?.classList.add('active');
+      document.querySelector('#cameraGroup [data-value="close-up detailed view"]')?.classList.add('active');
+
+      // Reset checkboxes
+      document.querySelectorAll('#extrasGroup input').forEach(cb => {
+        cb.checked = ['highly detailed', '4K ultra resolution', 'storybook illustration style'].includes(cb.value);
+      });
+
+      document.getElementById('customSubject').value = '';
+      document.getElementById('outputCard').classList.remove('visible');
+      document.getElementById('prompt-output').value = '';
+
+      updatePreview();
+
+      // Reset image preview to default style
+      showImagePreview('Pixar style');
+
+      showToast('↺ Sıfırlandı!');
+    }
+
+    /* ===== DARK MODE ===== */
+    function toggleDark() {
+      const html = document.documentElement;
+      const isDark = html.dataset.theme === 'dark';
+      html.dataset.theme = isDark ? 'light' : 'dark';
+      document.getElementById('darkIcon').textContent = isDark ? '🌙' : '☀️';
+      document.getElementById('darkLabel').textContent = isDark ? 'Dark Mode' : 'Light Mode';
+    }
+
+    /* ===== TOAST ===== */
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    /* ===== INIT ===== */
+    updatePreview();
+  </script>
+</body>
+
+</html>
