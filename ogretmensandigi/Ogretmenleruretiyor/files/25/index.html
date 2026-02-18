@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Soru Etkinliği</title>
+    <style>
+        :root {
+            --primary: #6C5CE7;
+            --success: #26DE81;
+            --danger: #EB3B5A;
+            --bg: #F0F2F5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #video-container {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            background: #000;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Soru Ekranı (Overlay) */
+        #quiz-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none; /* Başlangıçta gizli */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h2 { margin-bottom: 25px; color: #FFD93D; font-size: 28px; }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .option-btn {
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: white;
+            color: #333;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .option-btn:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+
+        #score-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            z-index: 5;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="video-container">
+        <div id="score-tag">Puan: 0</div>
+        
+        <video id="myVideo" controls>
+            <source src="1.mp4" type="video/mp4">
+            Tarayıcınız video etiketini desteklemiyor.
+        </video>
+
+        <div id="quiz-overlay">
+            <h2>Hangi Nesneyi Duydun?</h2>
+            <div id="options" class="options-grid">
+                </div>
+            <div id="feedback" class="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('myVideo');
+        const overlay = document.getElementById('quiz-overlay');
+        const optionsDiv = document.getElementById('options');
+        const feedbackDiv = document.getElementById('feedback');
+        const scoreDisplay = document.getElementById('score-tag');
+
+        let score = 0;
+        let lastTriggeredTime = -1;
+
+        // Soru Veritabanı
+        const questions = [
+            { time: 4, correct: "güneş" },
+            { time: 8, correct: "mısır" },
+            { time: 13, correct: "nar" },
+            { time: 17, correct: "yumurta" },
+            { time: 23, correct: "havlu" },
+            { time: 32, correct: "yağmur" },
+            { time: 38, correct: "yarasa" },
+            { time: 43, correct: "kar" },
+            { time: 51, correct: "uyku" },
+            { time: 55, correct: "rüzgar" },
+            { time: 58, correct: "kulak" },
+            { time: 62, correct: "sabun" }
+        ];
+
+        // Yanlış seçenekler için havuz (Her soruda rastgele 4 yanlış seçilecek)
+        const allAnswers = questions.map(q => q.correct);
+
+        video.ontimeupdate = function() {
+            let currentTime = Math.floor(video.currentTime);
+            
+            // Eğer o saniyede bir soru varsa ve daha önce o saniyede tetiklenmediyse
+            let question = questions.find(q => q.time === currentTime);
+            
+            if (question && lastTriggeredTime !== currentTime) {
+                lastTriggeredTime = currentTime;
+                showQuiz(question);
+            }
+        };
+
+        function showQuiz(question) {
+            video.pause();
+            if (document.fullscreenElement) document.exitFullscreen(); // Tam ekrandaysa çık (soru görünmesi için)
+            
+            overlay.style.display = 'flex';
+            optionsDiv.innerHTML = '';
+            feedbackDiv.innerText = '';
+
+            // Seçenekleri oluştur
+            let choices = [question.correct];
+            // Diğer doğru cevaplardan 4 tane rastgele yanlış seçeneği ekle
+            let others = allAnswers.filter(a => a !== question.correct);
+            others = others.sort(() => 0.5 - Math.random()).slice(0, 4);
+            choices = choices.concat(others).sort(() => 0.5 - Math.random());
+
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = choice;
+                btn.onclick = () => checkAnswer(choice, question.correct);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if (selected === correct) {
+                score += 10;
+                feedbackDiv.style.color = "#26DE81";
+                feedbackDiv.innerText = "Tebrikler! Doğru Bildin. 🎉";
+                
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    video.play();
+                }, 1500);
+            } else {
+                feedbackDiv.style.color = "#EB3B5A";
+                feedbackDiv.innerText = "Tekrar Dinleyelim mi? 🎈";
+                
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    video.currentTime -= 2; // Soruyu tekrar duyması için 2 saniye geri sar
+                    video.play();
+                }, 1500);
+            }
+            scoreDisplay.innerText = `Puan: ${score}`;
+        }
+    </script>
+</body>
+</html>
