@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Öğrenci Yoklama Sistemi</title>
+    <!-- Google Fonts for Premium Look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5; /* Indigo 600 */
+            --primary-hover: #4338ca; /* Indigo 700 */
+            --bg-color: #f3f4f6; /* Gray 100 */
+            --card-bg: #ffffff;
+            --text-main: #1f2937; /* Gray 800 */
+            --text-secondary: #6b7280; /* Gray 500 */
+            --border-color: #e5e7eb; /* Gray 200 */
+            --success-color: #d1fae5; /* Green 100 */
+            --success-text: #065f46; /* Green 800 */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--text-secondary);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background-color: #f9fafb;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn {
+            border: 2px solid gray;
+            color: gray;
+            background-color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            border-color: var(--primary-color);
+            color: white;
+            background-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
+        }
+
+        input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        select {
+            padding: 0.6rem 2.5rem 0.6rem 1rem; /* Extra padding for arrow */
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            background-color: white;
+            color: var(--text-main);
+            font-size: 1rem;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            min-width: 250px;
+            transition: border-color 0.2s;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        /* Sticky First Column */
+        th:first-child, td:first-child {
+            position: sticky;
+            left: 0;
+            background-color: var(--card-bg);
+            z-index: 20;
+            border-right: 1px solid var(--border-color);
+            box-shadow: 2px 0 5px -2px rgba(0,0,0,0.1);
+        }
+        
+        th:first-child {
+            z-index: 30; /* Higher than other headers */
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #f9fafb;
+        }
+        
+        tr:hover td:first-child {
+            background-color: #f3f4f6;
+        }
+
+        .status-cell {
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .status-p {
+            background-color: var(--success-color) !important;
+            color: var(--success-text);
+            font-weight: 700;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+        
+        .empty-state svg {
+            width: 4rem;
+            height: 4rem;
+            margin-bottom: 1rem;
+            color: #d1d5db;
+        }
+
+        /* Hidden Utility */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Eğitmen Paneli</h1>
+            <p class="subtitle">CSV dosyanızı yükleyerek yoklama takibi yapabilirsiniz.</p>
+        </header>
+
+        <div class="controls">
+            <div class="file-upload-wrapper btn btn-primary">
+                <span>📂 CSV Yükle</span>
+                <input type="file" id="csvFileInput" accept=".csv">
+            </div>
+
+            <select id="courseSelect" class="hidden">
+                <option value="" disabled selected>Bir Kurs Seçiniz...</option>
+            </select>
+        </div>
+
+        <div id="tableContainer" class="table-responsive hidden">
+            <table id="attendanceTable">
+                <thead>
+                    <tr id="tableHeadRow">
+                        <!-- Headers will be injected here -->
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Rows will be injected here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p>Veri görüntülemek için lütfen bir CSV dosyası yükleyiniz.</p>
+        </div>
+    </div>
+
+    <!-- PapaParse for robust CSV parsing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+    <script>
+        const fileInput = document.getElementById('csvFileInput');
+        const courseSelect = document.getElementById('courseSelect');
+        const tableContainer = document.getElementById('tableContainer');
+        const tableHeadRow = document.getElementById('tableHeadRow');
+        const tableBody = document.getElementById('tableBody');
+        const emptyState = document.getElementById('emptyState');
+
+        let globalData = [];
+        let courses = {};
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    processData(results.data);
+                },
+                error: function(error) {
+                    console.error("CSV Parse Hatası:", error);
+                    alert("CSV dosyası okunurken bir hata oluştu.");
+                }
+            });
+        });
+
+        function processData(data) {
+            globalData = data;
+            courses = {};
+
+            // Group data by course_name
+            data.forEach(row => {
+                const courseName = row.course_name;
+                if (!courseName) return;
+
+                if (!courses[courseName]) {
+                    courses[courseName] = {
+                        students: {}, // key: full name
+                        dates: new Set()
+                    };
+                }
+
+                // Create student full name
+                const fullName = `${row.firstname || ''} ${row.lastname || ''}`.trim();
+
+                // Add date to set
+                if (row.session_date) {
+                    courses[courseName].dates.add(row.session_date);
+                }
+
+                // Initialize student record if needed
+                if (!courses[courseName].students[fullName]) {
+                    courses[courseName].students[fullName] = {};
+                }
+
+                // Map date to attendance status
+                if (row.session_date) {
+                    courses[courseName].students[fullName][row.session_date] = row.attendance_status;
+                }
+            });
+
+            populateCourseSelect();
+        }
+
+        function populateCourseSelect() {
+            // Clear existing options except the first one
+            courseSelect.innerHTML = '<option value="" disabled selected>Bir Kurs Seçiniz...</option>';
+            
+            const sortedCourseNames = Object.keys(courses).sort();
+
+            if (sortedCourseNames.length > 0) {
+                sortedCourseNames.forEach(courseName => {
+                    const option = document.createElement('option');
+                    option.value = courseName;
+                    option.textContent = courseName;
+                    courseSelect.appendChild(option);
+                });
+
+                courseSelect.classList.remove('hidden');
+                // Auto-select if only one course
+                if (sortedCourseNames.length === 1) {
+                    courseSelect.value = sortedCourseNames[0];
+                    renderTable(sortedCourseNames[0]);
+                }
+            } else {
+                courseSelect.classList.add('hidden');
+                alert("Yüklenen dosyada geçerli kurs verisi bulunamadı.");
+            }
+        }
+
+        courseSelect.addEventListener('change', (e) => {
+            renderTable(e.target.value);
+        });
+
+        function renderTable(courseName) {
+            if (!courses[courseName]) return;
+
+            const courseData = courses[courseName];
+            const dates = Array.from(courseData.dates).sort(); // Sort dates chronologically if they are ISO/sortable strings, otherwise standard sort
+            const students = Object.keys(courseData.students).sort();
+
+            // Clear table
+            tableHeadRow.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Build Header
+            const thName = document.createElement('th');
+            thName.textContent = 'Öğrenci Adı';
+            tableHeadRow.appendChild(thName);
+
+            dates.forEach(date => {
+                const th = document.createElement('th');
+                th.textContent = date;
+                tableHeadRow.appendChild(th);
+            });
+
+            // Build Rows
+            students.forEach(student => {
+                const tr = document.createElement('tr');
+                
+                // Student Name Cell
+                const tdName = document.createElement('td');
+                tdName.textContent = student;
+                tdName.style.fontWeight = '600';
+                tr.appendChild(tdName);
+
+                // Date Cells
+                dates.forEach(date => {
+                    const td = document.createElement('td');
+                    const status = courseData.students[student][date] || '-';
+                    td.textContent = status;
+                    td.classList.add('status-cell');
+
+                    if (status === 'P') {
+                        td.classList.add('status-p');
+                    }
+                    
+                    tr.appendChild(td);
+                });
+
+                tableBody.appendChild(tr);
+            });
+
+            // Show table, hide empty state
+            tableContainer.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
