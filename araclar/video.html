@@ -40,6 +40,17 @@
             margin-bottom: 20px;
         }
 
+        .info-box {
+            background-color: #fff7ed;
+            border-left: 4px solid #f97316;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.85em;
+            line-height: 1.5;
+            color: #9a3412;
+            border-radius: 8px;
+        }
+
         .video-container {
             position: relative;
             padding-bottom: 56.25%;
@@ -164,6 +175,10 @@
 
         <div id="q-list"></div>
         
+        <div class="info-box">
+            <strong>⚠️ Önemli Not:</strong> İndirdiğiniz HTML dosyası YouTube politikaları gereği bilgisayarınızda doğrudan çalışmaz. Çalışması için bir web sunucusu gerekir. Dosyayı <strong>Ülkem Yanında</strong> platformuna yükleyerek veya <strong>Öğretmen Sandığı</strong>'na ileterek aktif hale getirebilirsiniz.
+        </div>
+
         <button class="btn-green" onclick="generateHTML()" style="font-size: 1.1em; padding: 20px;">💾 ETKİLEŞİMLİ VİDEOYU İNDİR</button>
     </div>
 </div>
@@ -172,7 +187,6 @@
     let player;
     let questions = [];
 
-    // YouTube API Yükleme
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     document.head.appendChild(tag);
@@ -236,7 +250,6 @@
         const bg = document.getElementById('config-bg').value;
         const videoId = player.getVideoData().video_id;
 
-        // Dışa aktarılan dosyanın içeriği
         const template = `<!DOCTYPE html>
 <html lang="tr">
 <head>
