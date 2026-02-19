@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,15 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #4f46e5; /* Indigo 600 */
-            --primary-hover: #4338ca; /* Indigo 700 */
-            --bg-color: #f3f4f6; /* Gray 100 */
+            --primary-color: #4f46e5;
+            /* Indigo 600 */
+            --primary-hover: #4338ca;
+            /* Indigo 700 */
+            --bg-color: #f3f4f6;
+            /* Gray 100 */
             --card-bg: #ffffff;
-            --text-main: #1f2937; /* Gray 800 */
-            --text-secondary: #6b7280; /* Gray 500 */
-            --border-color: #e5e7eb; /* Gray 200 */
-            --success-color: #d1fae5; /* Green 100 */
-            --success-text: #065f46; /* Green 800 */
+            --text-main: #1f2937;
+            /* Gray 800 */
+            --text-secondary: #6b7280;
+            /* Gray 500 */
+            --border-color: #e5e7eb;
+            /* Gray 200 */
+            --success-color: #d1fae5;
+            /* Green 100 */
+            --success-text: #065f46;
+            /* Green 800 */
         }
 
         body {
@@ -110,7 +119,8 @@
         }
 
         select {
-            padding: 0.6rem 2.5rem 0.6rem 1rem; /* Extra padding for arrow */
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            /* Extra padding for arrow */
             border: 1px solid var(--border-color);
             border-radius: 0.5rem;
             background-color: white;
@@ -125,7 +135,7 @@
             min-width: 250px;
             transition: border-color 0.2s;
         }
-        
+
         select:focus {
             outline: none;
             border-color: var(--primary-color);
@@ -145,7 +155,8 @@
             text-align: left;
         }
 
-        th, td {
+        th,
+        td {
             padding: 1rem;
             border-bottom: 1px solid var(--border-color);
             white-space: nowrap;
@@ -162,19 +173,41 @@
             top: 0;
             z-index: 10;
         }
-        
+
         /* Sticky First Column */
-        th:first-child, td:first-child {
+        th:first-child,
+        td:first-child {
             position: sticky;
             left: 0;
             background-color: var(--card-bg);
             z-index: 20;
             border-right: 1px solid var(--border-color);
-            box-shadow: 2px 0 5px -2px rgba(0,0,0,0.1);
+            box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.1);
         }
-        
+
         th:first-child {
-            z-index: 30; /* Higher than other headers */
+            z-index: 30;
+            /* Higher than other headers */
+        }
+
+        /* Sticky Footer */
+        tfoot th,
+        tfoot td {
+            position: sticky;
+            bottom: 0;
+            background-color: #e5e7eb;
+            /* Gray 200 */
+            color: var(--text-main);
+            font-weight: 700;
+            z-index: 30;
+            border-top: 2px solid var(--border-color);
+            box-shadow: 0 -2px 5px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        tfoot td:first-child {
+            z-index: 40;
+            /* Highest to cover scrolling */
+            background-color: #e5e7eb;
         }
 
         tr:last-child td {
@@ -184,7 +217,7 @@
         tr:hover td {
             background-color: #f9fafb;
         }
-        
+
         tr:hover td:first-child {
             background-color: #f3f4f6;
         }
@@ -206,7 +239,7 @@
             padding: 4rem 2rem;
             color: var(--text-secondary);
         }
-        
+
         .empty-state svg {
             width: 4rem;
             height: 4rem;
@@ -220,6 +253,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
@@ -237,6 +271,11 @@
             <select id="courseSelect" class="hidden">
                 <option value="" disabled selected>Bir Kurs Seçiniz...</option>
             </select>
+
+            <button id="generalReportBtn" class="btn btn-primary hidden"
+                style="background-color: #059669; border-color: #059669;">
+                📊 Genel Rapor
+            </button>
         </div>
 
         <div id="tableContainer" class="table-responsive hidden">
@@ -249,12 +288,16 @@
                 <tbody id="tableBody">
                     <!-- Rows will be injected here -->
                 </tbody>
+                <tfoot id="tableFoot">
+                    <!-- Totals will be injected here -->
+                </tfoot>
             </table>
         </div>
 
         <div id="emptyState" class="empty-state">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
             <p>Veri görüntülemek için lütfen bir CSV dosyası yükleyiniz.</p>
         </div>
@@ -266,9 +309,11 @@
     <script>
         const fileInput = document.getElementById('csvFileInput');
         const courseSelect = document.getElementById('courseSelect');
+        const generalReportBtn = document.getElementById('generalReportBtn');
         const tableContainer = document.getElementById('tableContainer');
         const tableHeadRow = document.getElementById('tableHeadRow');
         const tableBody = document.getElementById('tableBody');
+        const tableFoot = document.getElementById('tableFoot');
         const emptyState = document.getElementById('emptyState');
 
         let globalData = [];
@@ -281,10 +326,10 @@
             Papa.parse(file, {
                 header: true,
                 skipEmptyLines: true,
-                complete: function(results) {
+                complete: function (results) {
                     processData(results.data);
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error("CSV Parse Hatası:", error);
                     alert("CSV dosyası okunurken bir hata oluştu.");
                 }
@@ -332,7 +377,7 @@
         function populateCourseSelect() {
             // Clear existing options except the first one
             courseSelect.innerHTML = '<option value="" disabled selected>Bir Kurs Seçiniz...</option>';
-            
+
             const sortedCourseNames = Object.keys(courses).sort();
 
             if (sortedCourseNames.length > 0) {
@@ -344,6 +389,8 @@
                 });
 
                 courseSelect.classList.remove('hidden');
+                generalReportBtn.classList.remove('hidden'); // Show General Report button
+
                 // Auto-select if only one course
                 if (sortedCourseNames.length === 1) {
                     courseSelect.value = sortedCourseNames[0];
@@ -351,12 +398,17 @@
                 }
             } else {
                 courseSelect.classList.add('hidden');
+                generalReportBtn.classList.add('hidden');
                 alert("Yüklenen dosyada geçerli kurs verisi bulunamadı.");
             }
         }
 
         courseSelect.addEventListener('change', (e) => {
             renderTable(e.target.value);
+        });
+
+        generalReportBtn.addEventListener('click', () => {
+            renderGeneralReport();
         });
 
         function renderTable(courseName) {
@@ -384,7 +436,7 @@
             // Build Rows
             students.forEach(student => {
                 const tr = document.createElement('tr');
-                
+
                 // Student Name Cell
                 const tdName = document.createElement('td');
                 tdName.textContent = student;
@@ -398,10 +450,10 @@
                     td.textContent = status;
                     td.classList.add('status-cell');
 
-                    if (status === 'P') {
+                    if (status === 'P' || status === 'L') {
                         td.classList.add('status-p');
                     }
-                    
+
                     tr.appendChild(td);
                 });
 
@@ -411,7 +463,247 @@
             // Show table, hide empty state
             tableContainer.classList.remove('hidden');
             emptyState.classList.add('hidden');
+            courseSelect.value = courseName; // Ensure dropdown matches
+        }
+
+        function renderGeneralReport() {
+            // Reset Dropdown
+            courseSelect.value = "";
+
+            // Collect all unique weeks and students across ALL courses
+            const allWeeksSet = new Set(); // Stores "YYYY-MM-DD" of Mondays for sorting
+            const allStudents = {}; // studentName -> { weeks: { mondayDate: {present:0, total:0} }, stats: { total: 0, present: 0 } }
+
+            globalData.forEach(row => {
+                const fullName = `${row.firstname || ''} ${row.lastname || ''}`.trim();
+                const dateStr = row.session_date;
+                const status = row.attendance_status;
+
+                if (!fullName || !dateStr) return;
+
+                // Determine Week (Monday)
+                const dateObj = new Date(dateStr);
+                const mondayDate = getMonday(dateObj);
+                const mondayStr = mondayDate.toISOString().split('T')[0]; // YYYY-MM-DD
+
+                allWeeksSet.add(mondayStr);
+
+                if (!allStudents[fullName]) {
+                    allStudents[fullName] = {
+                        weeks: {},
+                        stats: { total: 0, present: 0, absent: 0 }
+                    };
+                }
+
+                // Initialize week for student if needed
+                if (!allStudents[fullName].weeks[mondayStr]) {
+                    allStudents[fullName].weeks[mondayStr] = { total: 0, present: 0 };
+                }
+
+                // We need to avoid double counting if the CSV has multiple rows for same student/date (though previous logic assumed 1)
+                // For this logic, we'll just increment. If uniqueness is strictly required per date, we'd need a Set of dates per week.
+                // Assuming raw data is correct (1 row per session).
+
+                // Update Week Stats
+                allStudents[fullName].weeks[mondayStr].total++;
+                if (status === 'P' || status === 'L') {
+                    allStudents[fullName].weeks[mondayStr].present++;
+                }
+
+                // Update Total Stats
+                allStudents[fullName].stats.total++;
+                if (status === 'P' || status === 'L') {
+                    allStudents[fullName].stats.present++;
+                } else {
+                    allStudents[fullName].stats.absent++;
+                }
+            });
+
+            const sortedWeeks = Array.from(allWeeksSet).sort();
+            const sortedStudents = Object.keys(allStudents).sort();
+
+            // Clear table
+            tableHeadRow.innerHTML = '';
+            tableBody.innerHTML = '';
+
+            // Build Header
+            const headers = ['Öğrenci Adı', 'Toplam', 'Devam', 'Devamsız', 'Oran'];
+            headers.forEach(h => {
+                const th = document.createElement('th');
+                th.textContent = h;
+                th.style.zIndex = "40";
+                if (h === 'Öğrenci Adı') th.style.left = "0px";
+                tableHeadRow.appendChild(th);
+            });
+
+            sortedWeeks.forEach(mondayStr => {
+                const th = document.createElement('th');
+                // Format: DD.MM - DD.MM
+                const monday = new Date(mondayStr);
+                const sunday = new Date(monday);
+                sunday.setDate(monday.getDate() + 6);
+
+                const formatDate = (d) => `${d.getDate().toString().padStart(2, '0')}.${(d.getMonth() + 1).toString().padStart(2, '0')}`;
+                th.textContent = `${formatDate(monday)} - ${formatDate(sunday)}`;
+                tableHeadRow.appendChild(th);
+            });
+
+            // Build Rows
+            sortedStudents.forEach(student => {
+                const tr = document.createElement('tr');
+                const p = allStudents[student];
+
+                // Name
+                const tdName = document.createElement('td');
+                tdName.textContent = student;
+                tdName.style.fontWeight = '600';
+                tdName.style.position = 'sticky';
+                tdName.style.left = '0';
+                tdName.style.backgroundColor = 'var(--card-bg)';
+                tr.appendChild(tdName);
+
+                // Stats: Total
+                const tdTotal = document.createElement('td');
+                tdTotal.textContent = p.stats.total;
+                tdTotal.className = 'status-cell';
+                tr.appendChild(tdTotal);
+
+                // Stats: Present
+                const tdPresent = document.createElement('td');
+                tdPresent.textContent = p.stats.present;
+                tdPresent.className = 'status-cell';
+                tdPresent.style.color = 'var(--success-text)';
+                tdPresent.style.fontWeight = 'bold';
+                tr.appendChild(tdPresent);
+
+                // Stats: Absent
+                const tdAbsent = document.createElement('td');
+                tdAbsent.textContent = p.stats.absent;
+                tdAbsent.className = 'status-cell';
+                tdAbsent.style.color = '#dc2626';
+                tr.appendChild(tdAbsent);
+
+                // Stats: Rate
+                const tdRate = document.createElement('td');
+                const rate = p.stats.total > 0 ? Math.round((p.stats.present / p.stats.total) * 100) : 0;
+                tdRate.textContent = '%' + rate;
+                tdRate.className = 'status-cell';
+                tr.appendChild(tdRate);
+
+                // Weeks
+                sortedWeeks.forEach(mondayStr => {
+                    const td = document.createElement('td');
+                    const weekData = p.weeks[mondayStr];
+
+                    td.className = 'status-cell';
+
+                    if (weekData) {
+                        td.textContent = `${weekData.present}/${weekData.total}`;
+
+                        if (weekData.present === weekData.total && weekData.total > 0) {
+                            td.style.backgroundColor = 'var(--success-color)';
+                            td.style.color = 'var(--success-text)';
+                            td.style.fontWeight = 'bold';
+                        } else if (weekData.present > 0) {
+                            td.style.backgroundColor = '#fef3c7'; // Amber 100
+                            td.style.color = '#d97706'; // Amber 600
+                        } else {
+                            // Absent entire week
+                            td.style.backgroundColor = '#fee2e2'; // Red 100
+                            td.style.color = '#b91c1c'; // Red 700
+                        }
+                    } else {
+                        td.textContent = '-';
+                        td.style.color = 'var(--text-secondary)';
+                    }
+
+                    tr.appendChild(td);
+                });
+
+                tableBody.appendChild(tr);
+            });
+
+            // Show
+            tableContainer.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            renderTotalsFooter(allStudents, sortedWeeks, sortedStudents);
+        }
+
+        function renderTotalsFooter(allStudents, sortedWeeks, sortedStudents) {
+            const tableFoot = document.getElementById('tableFoot');
+            tableFoot.innerHTML = '';
+
+            const tr = document.createElement('tr');
+
+            // Calculate Grand Totals
+            let grandTotal = 0;
+            let grandPresent = 0;
+            let grandAbsent = 0;
+
+            // Calculate Weekly Totals
+            const weeklyTotals = {}; // mondayStr -> { present: 0, total: 0 }
+            sortedWeeks.forEach(w => weeklyTotals[w] = { present: 0, total: 0 });
+
+            sortedStudents.forEach(student => {
+                const p = allStudents[student];
+                grandTotal += p.stats.total;
+                grandPresent += p.stats.present;
+                grandAbsent += p.stats.absent;
+
+                sortedWeeks.forEach(w => {
+                    if (p.weeks[w]) {
+                        weeklyTotals[w].present += p.weeks[w].present;
+                        weeklyTotals[w].total += p.weeks[w].total;
+                    }
+                });
+            });
+
+            // Label
+            const tdLabel = document.createElement('td');
+            tdLabel.textContent = 'GENEL TOPLAM';
+            tr.appendChild(tdLabel);
+
+            // Stats Totals
+            const createCell = (text, color) => {
+                const td = document.createElement('td');
+                td.textContent = text;
+                td.className = 'status-cell';
+                if (color) td.style.color = color;
+                return td;
+            };
+
+            tr.appendChild(createCell(grandTotal));
+            tr.appendChild(createCell(grandPresent, 'var(--success-text)'));
+            tr.appendChild(createCell(grandAbsent, '#dc2626'));
+
+            // Rate
+            const avgRate = grandTotal > 0 ? Math.round((grandPresent / grandTotal) * 100) : 0;
+            tr.appendChild(createCell('%' + avgRate));
+
+            // Weekly Totals
+            sortedWeeks.forEach(w => {
+                const wt = weeklyTotals[w];
+                const td = document.createElement('td');
+                td.className = 'status-cell';
+                td.textContent = `${wt.present}/${wt.total}`;
+                if (wt.total > 0 && wt.present === wt.total) { // Perfect week for everyone? Unlikely but possible
+                    td.style.color = 'var(--success-text)';
+                }
+                tr.appendChild(td);
+            });
+
+            tableFoot.appendChild(tr);
+        }
+
+        function getMonday(d) {
+            d = new Date(d);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
+            return new Date(d.setDate(diff));
         }
     </script>
 </body>
+
 </html>
+```
