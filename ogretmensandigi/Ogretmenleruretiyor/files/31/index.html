@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramazan Neşesi | Dinle ve Seç</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e1a47; /* Derin mor - Ramazan gecesi */
+            --accent: #ffcc00;  /* Mahya sarısı */
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- MAHYA TASARIMI --- */
+        .mahya-bridge {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(transparent 50%, rgba(255,204,0,0.1) 100%);
+            border-bottom: 2px dashed rgba(255,204,0,0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .mahya-text {
+            font-family: 'Georgia', serif;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            letter-spacing: 8px;
+            font-weight: bold;
+            animation: flicker 2s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 0.8; text-shadow: 0 0 10px var(--accent); }
+            100% { opacity: 1; text-shadow: 0 0 20px var(--accent), 0 0 30px #ffa500; }
+        }
+
+        /* --- OYUN ALANI --- */
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 12px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .audio-player-btn {
+            background: var(--accent);
+            border: none;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            font-size: 2.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .audio-player-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px var(--accent);
+        }
+
+        .audio-player-btn:active { transform: scale(0.9); }
+
+        /* --- RESİM IZGARASI --- */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .option-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 6px solid transparent;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .option-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .option-card:hover {
+            transform: translateY(-5px);
+            background: #f0f0f0;
+        }
+
+        .option-card.correct {
+            border-color: var(--success);
+            background: #d4edda;
+            animation: bounce 0.5s;
+        }
+
+        .option-card.wrong {
+            border-color: var(--danger);
+            background: #f8d7da;
+            animation: shake 0.4s;
+        }
+
+        /* --- SONUÇ EKRANI --- */
+        #result-screen {
+            display: none;
+        }
+
+        .restart-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .restart-btn:hover { background: #27ae60; transform: scale(1.05); }
+
+        /* Animasyonlar */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @media (max-width: 500px) {
+            .options-grid { gap: 10px; }
+            .container { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mahya-bridge">
+        <div class="mahya-text">HOŞGELDİN RAMAZAN</div>
+    </div>
+
+    <div class="container">
+        <div id="game-screen">
+            <div class="stats-bar">
+                <span><i class="fas fa-star" style="color:var(--accent)"></i> Puan: <b id="score">0</b></span>
+                <span id="question-index">Soru: 1 / 4</span>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress"></div>
+            </div>
+
+            <button class="audio-player-btn" id="play-btn">
+                <i class="fas fa-play"></i>
+            </button>
+            <p style="margin-top: 0; opacity: 0.8;">Sesi dinlemek için bas!</p>
+
+            <div class="options-grid" id="options">
+                </div>
+        </div>
+
+        <div id="result-screen">
+            <i class="fas fa-trophy" style="font-size: 5rem; color: var(--accent); margin-bottom: 20px;"></i>
+            <h2 style="font-size: 2.5rem;">Aferin!</h2>
+            <p id="final-stats" style="font-size: 1.5rem;"></p>
+            <button class="restart-btn" onclick="location.reload()">Tekrar Oyna</button>
+        </div>
+    </div>
+
+    <audio id="main-audio"></audio>
+
+    <script>
+        /**
+         * DATA DİZİSİ
+         * Burayı istediğiniz gibi güncelleyebilirsiniz.
+         * img: "1.png" -> Resim dosyası adı
+         * snd: "1.m4a" -> Ses dosyası adı
+         */
+        const DATA = [
+            { id: 1, img: "1.png", snd: "1.m4a", label: "Pide" },
+            { id: 2, img: "2.png", snd: "2.m4a", label: "Davul" },
+            { id: 3, img: "3.png", snd: "3.m4a", label: "Cami" },
+            { id: 4, img: "4.png", snd: "4.m4a", label: "Hurma" }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let questions = [];
+
+        const gameScreen = document.getElementById('game-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const optionsEl = document.getElementById('options');
+        const audioBtn = document.getElementById('play-btn');
+        const audioPlayer = document.getElementById('main-audio');
+
+        // Oyunu Başlat
+        function initGame() {
+            // Soruları karıştır (Shuffle)
+            questions = [...DATA].sort(() => Math.random() - 0.5);
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            optionsEl.innerHTML = '';
+            
+            // İlerleme ve metin güncelleme
+            document.getElementById('question-index').innerText = `Soru: ${currentQuestion + 1} / ${questions.length}`;
+            document.getElementById('progress').style.width = `${(currentQuestion / questions.length) * 100}%`;
+            
+            // Ses kaynağını ayarla
+            audioPlayer.src = q.snd;
+            audioBtn.innerHTML = '<i class="fas fa-play"></i>';
+
+            // Seçenekleri oluştur (Her zaman tüm seçenekleri karıştırarak gösterir)
+            const shuffledOptions = [...DATA].sort(() => Math.random() - 0.5);
+            
+            shuffledOptions.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'option-card';
+                card.innerHTML = `<img src="${item.img}" alt="Seçenek">`;
+                card.onclick = () => handleChoice(item.id, card);
+                optionsEl.appendChild(card);
+            });
+        }
+
+        // Seçim Kontrolü
+        function handleChoice(selectedId, element) {
+            const correctId = questions[currentQuestion].id;
+            const cards = document.querySelectorAll('.option-card');
+
+            // Tıklamaları durdur
+            cards.forEach(c => c.style.pointerEvents = 'none');
+
+            if (selectedId === correctId) {
+                element.classList.add('correct');
+                score += 25;
+                document.getElementById('score').innerText = score;
+            } else {
+                element.classList.add('wrong');
+                // Doğru olanı da gösterelim
+                cards.forEach(c => {
+                    // Bu basit bir kontrol yöntemidir
+                    if(c.innerHTML.includes(`${questions[currentQuestion].img}`)) {
+                        c.classList.add('correct');
+                    }
+                });
+            }
+
+            // Bir sonraki soruya geç
+            setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    finishGame();
+                }
+            }, 1500);
+        }
+
+        function finishGame() {
+            gameScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+            document.getElementById('progress').style.width = '100%';
+            document.getElementById('final-stats').innerText = `Puanın: ${score} / 100`;
+        }
+
+        // Ses butonuna basıldığında
+        audioBtn.onclick = () => {
+            audioPlayer.play();
+            audioBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            audioPlayer.onended = () => {
+                audioBtn.innerHTML = '<i class="fas fa-play"></i>';
+            };
+        };
+
+        // Başlat
+        window.onload = initGame;
+    </script>
+</body>
+</html>
