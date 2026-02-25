@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Zıt Kelimeleri Eşleştirme Oyunu</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+#stars {
+    color: gold;
+    font-size: 22px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    max-width: 700px;
+    margin: auto;
+}
+
+.card {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    perspective: 800px;
+    cursor: pointer;
+}
+
+.inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+.card.flipped .inner {
+    transform: rotateY(180deg);
+}
+
+.face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+}
+
+.back {
+    background: #4caf50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+}
+
+.front {
+    background: white;
+    transform: rotateY(180deg);
+}
+
+.front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.matched {
+    visibility: hidden;
+}
+
+.message {
+    margin-top: 15px;
+    font-size: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎴Zıt Kelimeleri Eşleştirme Oyunu</h1>
+
+<div class="top">
+    <div>⏱ Süre: <span id="time">0</span> sn</div>
+    <div>🏆 Puan: <span id="score">0</span></div>
+    <div id="stars">☆☆☆</div>
+</div>
+
+<div class="board" id="board"></div>
+
+<div class="message" id="message"></div>
+
+<script>
+const TOTAL = 10;
+let cards = [];
+let firstCard = null;
+let lockBoard = false;
+let matched = 0;
+let score = 0;
+let time = 0;
+let timerStarted = false;
+
+const board = document.getElementById("board");
+const scoreEl = document.getElementById("score");
+const timeEl = document.getElementById("time");
+const starsEl = document.getElementById("stars");
+const messageEl = document.getElementById("message");
+
+/* ⏱ SÜRE */
+setInterval(() => {
+    if (timerStarted) {
+        time++;
+        timeEl.textContent = time;
+    }
+}, 1000);
+
+/* 🔊 SESLİ KONUŞMA */
+function speak(text) {
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.lang = "tr-TR";
+    speechSynthesis.speak(msg);
+}
+
+/* 🎲 KARIŞTIR */
+function shuffle(arr) {
+    return arr.sort(() => Math.random() - 0.5);
+}
+
+/* 🧩 KARTLARI OLUŞTUR */
+function createCards() {
+    let items = [];
+
+    for (let i = 1; i <= TOTAL; i++) {
+        items.push({ num: i, type: "gif", src: `${i}.gif` });
+        items.push({ num: i, type: "jpg", src: `${i}.jpg` });
+    }
+
+    cards = shuffle(items);
+
+    cards.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.dataset.num = item.num;
+
+        card.innerHTML = `
+            <div class="inner">
+                <div class="face back">?</div>
+                <div class="face front">
+                    <img src="${item.src}">
+                </div>
+            </div>
+        `;
+
+        card.addEventListener("click", () => flipCard(card));
+        board.appendChild(card);
+    });
+}
+
+/* 🃏 KART ÇEVİR */
+function flipCard(card) {
+    if (lockBoard || card.classList.contains("flipped")) return;
+
+    if (!timerStarted) timerStarted = true;
+
+    card.classList.add("flipped");
+
+    if (!firstCard) {
+        firstCard = card;
+        return;
+    }
+
+    checkMatch(card);
+}
+
+/* ✅ / ❌ KONTROL */
+function checkMatch(secondCard) {
+    lockBoard = true;
+
+    if (firstCard.dataset.num === secondCard.dataset.num) {
+        speak("Aferin");
+        score += 10;
+        matched++;
+
+        setTimeout(() => {
+            firstCard.classList.add("matched");
+            secondCard.classList.add("matched");
+            resetTurn();
+        }, 500);
+
+        messageEl.textContent = "👏 Aferin!";
+    } else {
+        speak("Yanlış, tekrar dene");
+
+        setTimeout(() => {
+            firstCard.classList.remove("flipped");
+            secondCard.classList.remove("flipped");
+            resetTurn();
+        }, 900);
+
+        messageEl.textContent = "❌ Yanlış, tekrar dene";
+    }
+
+    scoreEl.textContent = score;
+
+    if (matched === TOTAL) finishGame();
+}
+
+/* 🔄 TUR SIFIRLA */
+function resetTurn() {
+    [firstCard, lockBoard] = [null, false];
+}
+
+/* ⭐ OYUN BİTİŞ */
+function finishGame() {
+    timerStarted = false;
+
+    let stars = "⭐";
+    if (time <= 40) stars = "⭐⭐⭐";
+    else if (time <= 70) stars = "⭐⭐";
+
+    starsEl.textContent = stars;
+    messageEl.textContent =
+        `🎉 Oyun bitti! Süre: ${time} sn | Puan: ${score}`;
+}
+
+createCards();
+</script>
+
+</body>
+</html>
