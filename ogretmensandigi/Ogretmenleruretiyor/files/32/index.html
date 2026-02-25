@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hilal'in İzinde Bir Yolculuk</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    
+    .font-amiri { font-family: 'Amiri', serif; }
+    .font-nunito { font-family: 'Nunito', sans-serif; }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    }
+    
+    .card-glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+    
+    .moon-glow {
+      box-shadow: 0 0 60px rgba(255, 215, 0, 0.3), 0 0 100px rgba(255, 215, 0, 0.1);
+    }
+    
+    .option-btn {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .option-btn:hover:not(:disabled) {
+      transform: translateX(8px);
+    }
+    
+    .option-btn.selected {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .option-btn.correct {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .option-btn.wrong {
+      background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .progress-fill {
+      transition: width 0.5s ease-out;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .star-field {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    
+    .video-container {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    .lantern {
+      animation: sway 3s ease-in-out infinite;
+    }
+    
+    @keyframes sway {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+    
+    .result-card {
+      animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    }
+    
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg font-nunito overflow-auto">
+  <div id="app" class="min-h-full w-full relative"><!-- Star Field Background -->
+   <div class="star-field" id="starField"></div><!-- Decorative Moon -->
+   <div class="absolute top-8 right-8 w-20 h-20 md:w-32 md:h-32 moon-glow">
+    <svg viewbox="0 0 100 100" class="w-full h-full"><defs>
+      <lineargradient id="moonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+       <stop offset="0%" style="stop-color:#FFF9C4" />
+       <stop offset="100%" style="stop-color:#FFD54F" />
+      </lineargradient>
+     </defs> <path d="M50 5 C25 5 5 25 5 50 C5 75 25 95 50 95 C35 85 30 65 35 50 C40 35 55 25 50 5" fill="url(#moonGrad)" />
+    </svg>
+   </div><!-- Decorative Lanterns -->
+   <div class="absolute top-4 left-4 md:left-12 lantern opacity-60">
+    <svg width="40" height="60" viewbox="0 0 40 60"><rect x="15" y="0" width="10" height="5" fill="#8B4513" /> <ellipse cx="20" cy="35" rx="18" ry="25" fill="#FF6B35" opacity="0.9" /> <ellipse cx="20" cy="35" rx="12" ry="18" fill="#FFD93D" opacity="0.7" />
+    </svg>
+   </div>
+   <div class="absolute top-4 left-16 md:left-28 lantern opacity-40" style="animation-delay: 0.5s;">
+    <svg width="30" height="45" viewbox="0 0 40 60"><rect x="15" y="0" width="10" height="5" fill="#8B4513" /> <ellipse cx="20" cy="35" rx="18" ry="25" fill="#E74C3C" opacity="0.9" /> <ellipse cx="20" cy="35" rx="12" ry="18" fill="#FFD93D" opacity="0.7" />
+    </svg>
+   </div><!-- Main Content -->
+   <div class="relative z-10 px-4 py-8 md:px-8 md:py-12"><!-- Header -->
+    <header class="text-center mb-8 md:mb-12">
+     <h1 id="mainTitle" class="font-amiri text-3xl md:text-5xl lg:text-6xl text-amber-100 mb-3 drop-shadow-lg">Hilal'in İzinde Bir Yolculuk</h1>
+     <p class="text-amber-200/80 text-lg md:text-xl">Ramazan Hikâyesi Eğitim Materyali</p>
+    </header><!-- Video Section -->
+    <section id="videoSection" class="max-w-4xl mx-auto mb-12">
+     <div class="card-glass rounded-3xl p-6 md:p-8 shadow-2xl">
+      <div class="flex items-center gap-3 mb-6"><span class="text-3xl">🎬</span>
+       <h2 id="videoSectionTitle" class="text-xl md:text-2xl font-bold text-gray-800">Videoyu İzleyin</h2>
+      </div><!-- Video Player -->
+      <div class="video-container bg-gray-900 aspect-video mb-6">
+       <video id="videoPlayer" class="w-full h-full" controls poster="1.jpg"><source src="1.mp4" type="video/mp4"> Tarayıcınız video oynatmayı desteklemiyor.
+       </video>
+      </div><!-- Video Progress Info -->
+      <div id="videoProgress" class="flex items-center justify-between text-sm text-gray-600"><span id="videoStatus" class="flex items-center gap-2"> <span class="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></span> Videoyu izledikten sonra teste geçebilirsiniz </span> <button id="startQuizBtn" onclick="startQuiz()" class="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg"> Teste Başla → </button>
+      </div>
+     </div>
+    </section><!-- Quiz Section (Hidden Initially) -->
+    <section id="quizSection" class="max-w-4xl mx-auto hidden">
+     <div class="card-glass rounded-3xl p-6 md:p-8 shadow-2xl"><!-- Quiz Header -->
+      <div class="flex items-center justify-between mb-6">
+       <div class="flex items-center gap-3"><span class="text-3xl">📝</span>
+        <h2 id="quizSectionTitle" class="text-xl md:text-2xl font-bold text-gray-800">Bilgilerinizi Test Edin</h2>
+       </div>
+       <div class="text-right"><span id="questionCounter" class="text-sm text-gray-500">Soru 1/10</span>
+       </div>
+      </div><!-- Progress Bar -->
+      <div class="h-3 bg-gray-200 rounded-full mb-8 overflow-hidden">
+       <div id="progressBar" class="progress-fill h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full" style="width: 10%"></div>
+      </div><!-- Question Container -->
+      <div id="questionContainer" class="mb-8">
+       <p id="questionText" class="text-lg md:text-xl font-semibold text-gray-800 mb-6 leading-relaxed"></p>
+       <div id="optionsContainer" class="space-y-3"></div>
+      </div><!-- Navigation Buttons -->
+      <div class="flex justify-between items-center pt-4 border-t border-gray-200"><button id="prevBtn" onclick="prevQuestion()" class="px-5 py-2.5 text-gray-600 font-medium rounded-xl border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed" disabled> ← Önceki </button> <button id="nextBtn" onclick="nextQuestion()" class="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold rounded-xl hover:from-indigo-600 hover:to-purple-600 transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none" disabled> Sonraki → </button>
+      </div>
+     </div>
+    </section><!-- Results Section (Hidden Initially) -->
+    <section id="resultsSection" class="max-w-4xl mx-auto hidden">
+     <div class="card-glass rounded-3xl p-8 md:p-12 shadow-2xl result-card">
+      <div class="text-center"><!-- Result Icon -->
+       <div id="resultIcon" class="text-8xl mb-6"></div><!-- Score -->
+       <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Test Tamamlandı!</h2>
+       <p id="resultMessage" class="text-xl text-gray-600 mb-8"></p><!-- Score Circle -->
+       <div class="relative w-48 h-48 mx-auto mb-8">
+        <svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" stroke-width="8" /> <circle id="scoreCircle" cx="50" cy="50" r="45" fill="none" stroke="url(#scoreGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283" /> <defs>
+          <lineargradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+           <stop offset="0%" style="stop-color:#10b981" />
+           <stop offset="100%" style="stop-color:#3b82f6" />
+          </lineargradient>
+         </defs>
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center"><span id="scoreText" class="text-4xl font-bold text-gray-800">0</span> <span class="text-gray-500">/10</span>
+        </div>
+       </div><!-- Action Buttons -->
+       <div class="flex flex-col sm:flex-row gap-4 justify-center"><button onclick="reviewAnswers()" class="px-8 py-3 bg-white border-2 border-indigo-500 text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 transition-all"> 📋 Cevapları İncele </button> <button onclick="restartQuiz()" class="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg"> 🔄 Tekrar Dene </button>
+       </div>
+      </div>
+     </div>
+    </section><!-- Review Section (Hidden Initially) -->
+    <section id="reviewSection" class="max-w-4xl mx-auto hidden">
+     <div class="card-glass rounded-3xl p-6 md:p-8 shadow-2xl">
+      <div class="flex items-center justify-between mb-6">
+       <h2 class="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-3"><span class="text-3xl">📋</span> Cevap Anahtarı</h2><button onclick="backToResults()" class="px-4 py-2 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-all"> ← Geri </button>
+      </div>
+      <div id="reviewContainer" class="space-y-6"></div>
+      <div class="mt-8 pt-6 border-t border-gray-200 text-center"><button onclick="restartQuiz()" class="px-8 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-xl hover:from-amber-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg"> 🔄 Tekrar Dene </button>
+      </div>
+     </div>
+    </section>
+   </div><!-- Footer -->
+   <footer class="relative z-10 text-center py-6 text-amber-200/60 text-sm">
+    <p>🌙 Ramazan Hikâyesi Eğitim Materyali</p>
+   </footer>
+  </div>
+  <script>
+    // Quiz Data
+    const questions = [
+      {
+        id: 1,
+        question: "Emir Ramazan'a hangi ülkede başlamıştır?",
+        options: ["Türkiye", "Almanya", "Amerika", "İngiltere"],
+        correct: 2
+      },
+      {
+        id: 2,
+        question: "Emir'i Türkiye'de en çok şaşırtan geleneklerden biri aşağıdakilerden hangisidir?",
+        options: ["Telefon uygulamasından iftar saatine bakılması", "İftar topunun atılması", "Televizyonda Ramazan programı izlenmesi", "Sessiz sahur yapılması"],
+        correct: 1
+      },
+      {
+        id: 3,
+        question: "Sahur vakti Emir'i uyandıran gelenek aşağıdakilerden hangisidir?",
+        options: ["Alarm sesi", "Ezan", "Davulcunun manileri", "Annesinin sesi"],
+        correct: 2
+      },
+      {
+        id: 4,
+        question: "Emir Amerika'daki Ramazan ile Türkiye'deki Ramazan arasında en çok hangi farkı hissetmiştir?",
+        options: ["Yemek çeşitlerinin farklı olması", "Oruç süresinin kısa olması", "Ramazan'ın Türkiye'de toplu ve coşkulu yaşanması", "Bayramın farklı günlerde kutlanması"],
+        correct: 2
+      },
+      {
+        id: 5,
+        question: "Metne göre Ramazan sadece aşağıdakilerden hangisi değildir?",
+        options: ["Aç kalmak", "Paylaşmak", "Kültürü yaşatmak", "Birlik olmak"],
+        correct: 0
+      },
+      {
+        id: 6,
+        question: "\"Ramazan sokaklara taşıyordu.\" ifadesi ne anlatmaktadır?",
+        options: ["İnsanların evden çıkmaması", "Ramazan'ın toplumsal bir coşkuyla yaşanması", "Sokakların boş olması", "Sadece çocukların eğlenmesi"],
+        correct: 1
+      },
+      {
+        id: 7,
+        question: "Emir bayram sabahı hangi duyguyu yaşamıştır?",
+        options: ["Korku", "Gurur ve mutluluk", "Üzüntü", "Öfke"],
+        correct: 1
+      },
+      {
+        id: 8,
+        question: "Aşağıdakilerden hangisi hikâyede geçen Ramazan geleneklerinden biri değildir?",
+        options: ["İftar topu", "Teravih namazı", "Cadılar Bayramı kutlaması", "Sahur davulcusu"],
+        correct: 2
+      },
+      {
+        id: 9,
+        question: "Emir'in \"Ramazan'ı kalbimde böyle yaşayayım.\" duası neyi göstermektedir?",
+        options: ["Türkiye'de kalmak istemediğini", "Ramazan'ı içten ve anlamlı yaşamak istediğini", "Amerika'yı sevmediğini", "Oruç tutmak istemediğini"],
+        correct: 1
+      },
+      {
+        id: 10,
+        question: "Bu hikâyenin ana düşüncesi aşağıdakilerden hangisidir?",
+        options: ["Yolculuk yapmak eğlencelidir.", "Ramazan sadece Türkiye'de yaşanır.", "Ramazan birlik, paylaşma ve kültürel değerlerle anlam kazanır.", "Bayramda şeker toplamak önemlidir."],
+        correct: 2
+      }
+    ];
+
+    // State
+    let currentQuestion = 0;
+    let userAnswers = new Array(10).fill(null);
+    let quizCompleted = false;
+
+    // Default Config
+    const defaultConfig = {
+      main_title: "Hilal'in İzinde Bir Yolculuk",
+      video_section_title: "Videoyu İzleyin",
+      quiz_section_title: "Bilgilerinizi Test Edin",
+      primary_color: "#1a1a2e",
+      accent_color: "#f59e0b",
+      text_color: "#1f2937",
+      button_color: "#6366f1",
+      success_color: "#10b981",
+      font_family: "Nunito"
+    };
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          document.getElementById('mainTitle').textContent = config.main_title || defaultConfig.main_title;
+          document.getElementById('videoSectionTitle').textContent = config.video_section_title || defaultConfig.video_section_title;
+          document.getElementById('quizSectionTitle').textContent = config.quiz_section_title || defaultConfig.quiz_section_title;
+          
+          const fontFamily = config.font_family || defaultConfig.font_family;
+          document.body.style.fontFamily = `${fontFamily}, Nunito, sans-serif`;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => { config.primary_color = value; window.elementSdk.setConfig({ primary_color: value }); }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => { config.accent_color = value; window.elementSdk.setConfig({ accent_color: value }); }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+            },
+            {
+              get: () => config.button_color || defaultConfig.button_color,
+              set: (value) => { config.button_color = value; window.elementSdk.setConfig({ button_color: value }); }
+            },
+            {
+              get: () => config.success_color || defaultConfig.success_color,
+              set: (value) => { config.success_color = value; window.elementSdk.setConfig({ success_color: value }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => { config.font_family = value; window.elementSdk.setConfig({ font_family: value }); }
+          },
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["video_section_title", config.video_section_title || defaultConfig.video_section_title],
+          ["quiz_section_title", config.quiz_section_title || defaultConfig.quiz_section_title]
+        ])
+      });
+    }
+
+    // Create star field
+    function createStars() {
+      const starField = document.getElementById('starField');
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.width = Math.random() * 3 + 1 + 'px';
+        star.style.height = star.style.width;
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        starField.appendChild(star);
+      }
+    }
+
+    // Start Quiz
+    function startQuiz() {
+      document.getElementById('videoSection').classList.add('hidden');
+      document.getElementById('quizSection').classList.remove('hidden');
+      document.getElementById('quizSection').classList.add('fade-in');
+      loadQuestion();
+    }
+
+    // Load Question
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById('questionText').textContent = `${currentQuestion + 1}. ${q.question}`;
+      document.getElementById('questionCounter').textContent = `Soru ${currentQuestion + 1}/10`;
+      document.getElementById('progressBar').style.width = `${((currentQuestion + 1) / 10) * 100}%`;
+      
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+      
+      const optionLabels = ['A', 'B', 'C', 'D'];
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = `option-btn w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all ${userAnswers[currentQuestion] === index ? 'selected' : ''}`;
+        btn.innerHTML = `
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 text-gray-700 font-bold mr-3">${optionLabels[index]}</span>
+          <span class="text-gray-700">${option}</span>
+        `;
+        btn.onclick = () => selectAnswer(index);
+        optionsContainer.appendChild(btn);
+      });
+      
+      // Update navigation buttons
+      document.getElementById('prevBtn').disabled = currentQuestion === 0;
+      document.getElementById('nextBtn').disabled = userAnswers[currentQuestion] === null;
+      
+      if (currentQuestion === 9) {
+        document.getElementById('nextBtn').textContent = 'Testi Bitir ✓';
+      } else {
+        document.getElementById('nextBtn').textContent = 'Sonraki →';
+      }
+    }
+
+    // Select Answer
+    function selectAnswer(index) {
+      userAnswers[currentQuestion] = index;
+      
+      const buttons = document.querySelectorAll('.option-btn');
+      buttons.forEach((btn, i) => {
+        btn.classList.remove('selected');
+        if (i === index) {
+          btn.classList.add('selected');
+        }
+      });
+      
+      document.getElementById('nextBtn').disabled = false;
+    }
+
+    // Previous Question
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion();
+      }
+    }
+
+    // Next Question
+    function nextQuestion() {
+      if (currentQuestion < 9) {
+        currentQuestion++;
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    // Show Results
+    function showResults() {
+      quizCompleted = true;
+      document.getElementById('quizSection').classList.add('hidden');
+      document.getElementById('resultsSection').classList.remove('hidden');
+      document.getElementById('resultsSection').classList.add('fade-in');
+      
+      // Calculate score
+      let score = 0;
+      userAnswers.forEach((answer, index) => {
+        if (answer === questions[index].correct) {
+          score++;
+        }
+      });
+      
+      // Update result display
+      document.getElementById('scoreText').textContent = score;
+      
+      // Animate score circle
+      const scoreCircle = document.getElementById('scoreCircle');
+      const circumference = 283;
+      const offset = circumference - (score / 10) * circumference;
+      setTimeout(() => {
+        scoreCircle.style.strokeDashoffset = offset;
+      }, 100);
+      
+      // Set result icon and message
+      let icon, message;
+      if (score === 10) {
+        icon = '🏆';
+        message = 'Mükemmel! Tüm soruları doğru cevapladınız!';
+      } else if (score >= 8) {
+        icon = '🌟';
+        message = 'Harika! Çok iyi bir sonuç aldınız!';
+      } else if (score >= 6) {
+        icon = '👍';
+        message = 'İyi! Biraz daha çalışmayla daha iyisini yapabilirsiniz.';
+      } else if (score >= 4) {
+        icon = '📚';
+        message = 'Videoyu tekrar izlemenizi öneririz.';
+      } else {
+        icon = '💪';
+        message = 'Endişelenmeyin! Tekrar deneyin.';
+      }
+      
+      document.getElementById('resultIcon').textContent = icon;
+      document.getElementById('resultMessage').textContent = message;
+    }
+
+    // Review Answers
+    function reviewAnswers() {
+      document.getElementById('resultsSection').classList.add('hidden');
+      document.getElementById('reviewSection').classList.remove('hidden');
+      document.getElementById('reviewSection').classList.add('fade-in');
+      
+      const reviewContainer = document.getElementById('reviewContainer');
+      reviewContainer.innerHTML = '';
+      
+      const optionLabels = ['A', 'B', 'C', 'D'];
+      
+      questions.forEach((q, index) => {
+        const isCorrect = userAnswers[index] === q.correct;
+        const div = document.createElement('div');
+        div.className = `p-4 rounded-xl ${isCorrect ? 'bg-green-50 border-2 border-green-200' : 'bg-red-50 border-2 border-red-200'}`;
+        
+        div.innerHTML = `
+          <div class="flex items-start gap-3 mb-3">
+            <span class="text-2xl">${isCorrect ? '✅' : '❌'}</span>
+            <p class="font-semibold text-gray-800">${index + 1}. ${q.question}</p>
+          </div>
+          <div class="ml-9 space-y-2">
+            <p class="text-sm">
+              <span class="font-medium text-gray-600">Sizin cevabınız:</span>
+              <span class="${isCorrect ? 'text-green-600' : 'text-red-600'} font-medium">
+                ${userAnswers[index] !== null ? optionLabels[userAnswers[index]] + ') ' + q.options[userAnswers[index]] : 'Cevaplanmadı'}
+              </span>
+            </p>
+            ${!isCorrect ? `
+              <p class="text-sm">
+                <span class="font-medium text-gray-600">Doğru cevap:</span>
+                <span class="text-green-600 font-medium">${optionLabels[q.correct]}) ${q.options[q.correct]}</span>
+              </p>
+            ` : ''}
+          </div>
+        `;
+        
+        reviewContainer.appendChild(div);
+      });
+    }
+
+    // Back to Results
+    function backToResults() {
+      document.getElementById('reviewSection').classList.add('hidden');
+      document.getElementById('resultsSection').classList.remove('hidden');
+    }
+
+    // Restart Quiz
+    function restartQuiz() {
+      currentQuestion = 0;
+      userAnswers = new Array(10).fill(null);
+      quizCompleted = false;
+      
+      document.getElementById('resultsSection').classList.add('hidden');
+      document.getElementById('reviewSection').classList.add('hidden');
+      document.getElementById('videoSection').classList.remove('hidden');
+      
+      // Reset score circle
+      document.getElementById('scoreCircle').style.strokeDashoffset = 283;
+    }
+
+    // Initialize
+    createStars();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d1ed0b7b3fce326',t:'MTc3MTc2Njc4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
