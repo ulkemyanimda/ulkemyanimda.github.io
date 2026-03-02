@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yarışmalar ve Etkinlikler - Ülkem Yanımda</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f7f6;
+      color: #333;
+    }
+
+    .header-section {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .header-section h1 {
+      margin: 0 0 15px 0;
+      font-size: 2.5em;
+    }
+
+    .header-section p {
+      margin: 0;
+      font-size: 1.2em;
+      color: #ecf0f1;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* Grid container */
+    .container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    /* Card styles */
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-image-wrapper {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Container styling for potentially very wide original images */
+    .card-image-wrapper.contain img {
+      object-fit: contain;
+      width: 90%;
+      height: 90%;
+    }
+
+    .card-image-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+    }
+
+    .card:hover .card-image-wrapper::after {
+      opacity: 1;
+    }
+
+    .card-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .card:hover .card-image-wrapper img {
+      transform: scale(1.08);
+    }
+
+    .icon-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      background-color: rgba(52, 152, 219, 0.9);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .card:hover .icon-overlay {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .icon-overlay svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .card-content {
+      padding: 25px 20px;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: #ffffff;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .card-content h3 {
+      margin: 0;
+      font-size: 1.3em;
+      color: #2c3e50;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .card:hover .card-content h3 {
+      color: #3498db;
+    }
+
+    /* Videos Section */
+    .videos-section {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+
+    .videos-section h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-size: 2em;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+      display: inline-block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      /* 16:9 proportion */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      background-color: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .videos-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header-section">
+    <h1>Yarışmalar ve Etkinlikler</h1>
+    <p>Geleceğimizi şekillendiren, bilgi ve kültür dolu tüm yarışmalarımıza ve etkinliklerimize buradan ulaşabilirsiniz.
+    </p>
+  </div>
+
+  <!-- Container for Competition Cards -->
+  <div class="container">
+
+    <!-- Bahar Kültürel Keşif -->
+    <a href="https://ulkemyanimda.github.io/old/bahar_kulturel_kesif/sonuc.html" class="card" target="_blank"
+      rel="noopener noreferrer">
+      <div class="card-image-wrapper contain">
+        <img src="imgs/kky.jpg" alt="Bahar Kültürel Keşif Yarışması">
+        <div class="icon-overlay">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="card-content">
+        <h3>Bahar Kültürel Keşif Yarışması</h3>
+      </div>
+    </a>
+
+    <!-- Türk Mutfağı Yemek -->
+    <a href="https://ulkemyanimda.github.io/old/yemek/sonuc.html" class="card" target="_blank"
+      rel="noopener noreferrer">
+      <div class="card-image-wrapper contain">
+        <img src="imgs/yemeksonuc.png" alt="Türk Mutfağı Yemek Yarışması">
+        <div class="icon-overlay">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="card-content">
+        <h3>Türk Mutfağı Yemek Yarışması</h3>
+      </div>
+    </a>
+
+    <!-- 19 Mayıs -->
+    <a href="https://ulkemyanimda.github.io/old/19mayis/sonuc.html" class="card" target="_blank"
+      rel="noopener noreferrer">
+      <div class="card-image-wrapper contain">
+        <img src="imgs/19mayis.jpg" alt="19 Mayıs Yarışması">
+        <div class="icon-overlay">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="card-content">
+        <h3>19 Mayıs Gençlik Haftası Yarışması</h3>
+      </div>
+    </a>
+
+    <!-- Öğrenci-Öğretmen-Veli -->
+    <a href="https://forms.gle/cPDr8aAM2A31ijxz7" class="card" target="_blank" rel="noopener noreferrer">
+      <div class="card-image-wrapper contain">
+        <img src="https://ulkemyanimda.eba.gov.tr/moodle/draftfile.php/5/user/draft/81558453/sonnn.jpg"
+          alt="Öğrenci - Öğretmen - Veli Buluşmaları">
+        <div class="icon-overlay">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="card-content">
+        <h3>Öğrenci - Öğretmen - Veli Buluşmaları</h3>
+      </div>
+    </a>
+
+    <!-- 23 Nisan -->
+    <a href="https://ulkemyanimda.github.io/old/23nisan/sonuc.html" class="card" target="_blank"
+      rel="noopener noreferrer">
+      <div class="card-image-wrapper contain">
+        <img src="imgs/23nisansonuc.png" alt="23 Nisan Yarışması">
+        <div class="icon-overlay">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="card-content">
+        <h3>23 Nisan Ulusal Egemenlik Yarışması</h3>
+      </div>
+    </a>
+
+    <!-- Ramazan -->
+    <a href="https://ulkemyanimda.github.io/old/ramazan/sonuc.html" class="card" target="_blank"
+      rel="noopener noreferrer">
+      <div class="card-image-wrapper contain">
+        <img src="imgs/ramazan.png" alt="Ramazan Etkinlikleri">
+        <div class="icon-overlay">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="card-content">
+        <h3>Ramazan Etkinlikleri ve Yarışması</h3>
+      </div>
+    </a>
+
+    <!-- İstiklal Marşı -->
+    <a href="https://ulkemyanimda.github.io/old/mars.html" class="card" target="_blank" rel="noopener noreferrer">
+      <div class="card-image-wrapper contain">
+        <img src="imgs/donuc (1).jpg" alt="İstiklal Marşı'nı Güzel Okuma">
+        <div class="icon-overlay">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 12h14"></path>
+            <path d="m12 5 7 7-7 7"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="card-content">
+        <h3>İstiklal Marşı'nı Güzel Okuma Yarışması</h3>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- YouTube Videos Section -->
+  <div class="videos-section">
+    <h2>Yarışma Videolarımız</h2>
+    <div class="videos-grid">
+      <div class="video-wrapper">
+        <iframe title="YouTube video player 1" src="https://www.youtube.com/embed/QQHo_n2fgLA?si=c0hvKIFh5O1Wgr-f"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="video-wrapper">
+        <iframe title="YouTube video player 2" src="https://www.youtube.com/embed/_tyMDDiiZV0?si=37H2nwtM3hPp8Qyz"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
