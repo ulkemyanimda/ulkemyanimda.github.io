@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atölyelerimiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #FFF4E6 0%, #FFE5CC 50%, #FFDAB3 100%);
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
+            padding: 60px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .main-title {
+            font-size: 3.5em;
+            color: #D2691E;
+            text-shadow: 3px 3px 0px #FFA500, 6px 6px 0px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            animation: titleBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes titleBounce {
+            0%, 100% { transform: translateY(0px) rotate(-2deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            padding: 20px;
+        }
+
+        .workshop-card {
+            position: relative;
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.2);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: pointer;
+            overflow: hidden;
+            border: 4px solid #F4A460;
+        }
+
+        .workshop-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent, 
+                rgba(255, 215, 0, 0.3), 
+                transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .workshop-card:hover::before {
+            left: 100%;
+        }
+
+        .workshop-card:hover {
+            transform: translateY(-15px) rotate(2deg) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
+            border-color: #FF8C00;
+        }
+
+        .icon-wrapper {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #FFE4B5 0%, #FFDAB9 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.1),
+                        0 8px 16px rgba(255, 140, 0, 0.3);
+            transition: all 0.4s ease;
+            animation: float 3s ease-in-out infinite;
+            border: 5px solid #FFA500;
+        }
+
+        .icon-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(5deg); }
+        }
+
+        .workshop-card:hover .icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.1),
+                        0 12px 30px rgba(255, 140, 0, 0.5);
+        }
+
+        .workshop-card:hover .icon-wrapper img {
+            transform: scale(1.1);
+        }
+
+        .workshop-title {
+            text-align: center;
+            font-size: 1.4em;
+            color: #8B4513;
+            margin-bottom: 12px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .workshop-info {
+            text-align: center;
+            color: #A0522D;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-top: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleAnimation 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkleAnimation {
+            0%, 100% { 
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.5) rotate(180deg);
+            }
+        }
+
+        .sparkle:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 20%; right: 15%; animation-delay: 0.3s; }
+        .sparkle:nth-child(3) { bottom: 15%; left: 20%; animation-delay: 0.6s; }
+        .sparkle:nth-child(4) { bottom: 10%; right: 10%; animation-delay: 0.9s; }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5em;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+    <div class="sparkle"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">🎨 Atölyelerimiz 🎨</h1>
+            <p class="subtitle">Renkli Dünyamıza Hoş Geldiniz!</p>
+        </div>
+
+        <div class="grid">
+<div class="workshop-card" onclick="window.open('1.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/01.jpg" alt="Boyama Atölyesi">
+                </div>
+                <h3 class="workshop-title">Boyama Atölyesi</h3>
+                <p class="workshop-info">Renklerle hayal gücünüzü konuşturun!</p>
+    
+            </div>
+
+<div class="workshop-card" onclick="window.open('2.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/02.jpg" alt="Dijital Kartpostal  Atölyesi">
+                </div>
+                <h3 class="workshop-title">Dijital Kartpostal Atölyesi</h3>
+                <p class="workshop-info">Bir tıkla duygularını gönder, dijitalde iz bırak!</p>
+ 
+            </div>
+
+<div class="workshop-card" onclick="window.open('3.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/03.jpg" alt="Çömlek Atölyesi">
+                </div>
+                <h3 class="workshop-title">Çömlek Atölyesi</h3>
+                <p class="workshop-info">Ellerinizle şekil verin hayallerinize</p>
+
+            </div>
+
+<div class="workshop-card" onclick="window.open('4.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/04.jpg" alt="Drama Atölyesi">
+                </div>
+                <h3 class="workshop-title">Drama Atölyesi</h3>
+                <p class="workshop-info">Sahne senin, duygularını özgür bırak!</p>
+
+            </div>
+
+<div class="workshop-card" onclick="window.open('5.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/05.jpg" alt="Müzik Atölyesi">
+                </div>
+                <h3 class="workshop-title">Ebru Atölyesi</h3>
+                <p class="workshop-info">Suyun üstünde dans eden renklerle sanat yarat!</p>
+     
+            </div>
+
+<div class="workshop-card" onclick="window.open('6.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/06.jpg" alt="Drama Atölyesi">
+                </div>
+                <h3 class="workshop-title">Halk Oyunu Atölyesi</h3>
+                <p class="workshop-info">Adımlarında gelenek, ritminde birlik!</p>
+      
+            </div>
+
+<div class="workshop-card" onclick="window.open('7.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/07.jpg" alt="Harita Atölyesi Keşfi">
+                </div>
+                <h3 class="workshop-title">Harita Atölyesi</h3>
+                <p class="workshop-info">Dünyanın sırlarını keşfet!</p>
+
+            </div>
+
+<div class="workshop-card" onclick="window.open('8.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/08.jpg" alt="Mangala  Atölyesi">
+                </div>
+                <h3 class="workshop-title">Mangala Atölyesi </h3>
+                <p class="workshop-info">Zekânı konuştur, stratejini sergile!</p>
+ 
+            </div>
+
+<div class="workshop-card" onclick="window.open('9.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/09.jpg" alt="Masal Atölyesi">
+                </div>
+                <h3 class="workshop-title">Masal Atölyesi</h3>
+                <p class="workshop-info">Masallar dünyasında yolculuk yap!</p>
+
+            </div>
+
+      <div class="workshop-card" onclick="window.open('10.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/10.jpg" alt="Dans Atölyesi">
+                </div>
+                <h3 class="workshop-title">Origami Atölyesi</h3>
+                <p class="workshop-info">Kağıtları katlayarak sanat yarat!</p>
+     
+            </div>
+
+     <div class="workshop-card" onclick="window.open('11.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/11.jpg" alt="Satranç Atölyesi">
+                </div>
+                <h3 class="workshop-title">Satranç Atölyesi</h3>
+                <p class="workshop-info">Hamleni düşün, tahtaya izini bırak!</p>
+
+            </div>
+
+<div class="workshop-card" onclick="window.open('12.html', '_blank')">
+                <div class="icon-wrapper">
+                    <img src="./imgs/12.jpg" alt="Yapay Zeka ile 29 Ekim Temalı Görsel Oluşturma Atölyesi">
+                </div>
+                <h3 class="workshop-title">Yapay Zeka ile 29 Ekim Temalı Görsel Oluşturma Atölyesi</h3>
+                <p class="workshop-info">Cumhuriyetin ruhunu teknolojiyle buluştur!</p>
+               
+            </div>
+        </div>
+    </div>
+</body>
+</html>

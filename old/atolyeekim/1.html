@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boyama Atölyesi</title>
+    <style>
+        /* Genel sayfa ayarları */
+        body {
+            background-color: #f0f2f5;
+            font-family: sans-serif;
+            padding: 40px 20px;
+        }
+
+        /* Tüm içeriği ortalamak ve genişliği sınırlamak için ana kapsayıcı */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        /* Her bir kategori bölümü (Başlık + Butonlar) */
+        .category-section {
+            width: 100%;
+        }
+
+        /* Kategori Başlığı Stili */
+        .category-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 40px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Butonları yan yana dizmek için kapsayıcı */
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 60px;
+        }
+
+        /* Her buton için genel kapsayıcı */
+        .button-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* --- LOGO STİLLERİ --- */
+        .logo {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 50%;
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: visible;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 200%;
+            animation: shimmer 3s ease infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+            filter: blur(15px);
+        }
+
+        .logo:hover {
+            transform: scale(1.3) rotate(10deg);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .logo:hover::before {
+            opacity: 0.8;
+        }
+
+        .logo:active {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .logo:hover img {
+            filter: drop-shadow(0 8px 16px rgba(102, 126, 234, 0.6));
+            transform: scale(1.1);
+        }
+        
+        /* --- ANİMASYONLAR --- */
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- TOOLTIP VE İNDİR BUTONU STİLLERİ (DÜZENLENDİ) --- */
+        .link-wrapper {
+            position: relative;
+            text-decoration: none;
+        }
+
+        /* Bilgi kartı - GÜNCELLENDİ */
+        .tooltip-box {
+            position: absolute;
+            top: 100%; /* DEĞİŞTİ: Artık butonun altından başlıyor */
+            left: 50%;
+            transform: translateX(-50%) translateY(10px); /* DEĞİŞTİ: Başlangıç pozisyonu aşağıda */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 280px;
+            width: max-content;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            white-space: normal;
+            text-align: center;
+        }
+
+        /* Tooltip ok işareti - GÜNCELLENDİ */
+        .tooltip-box::after {
+            content: '';
+            position: absolute;
+            bottom: 100%; /* DEĞİŞTİ: Ok artık kutunun üstünde */
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-bottom-color: #667eea; /* DEĞİŞTİ: Ok aşağıyı değil, yukarıyı gösteriyor (rengi de gradient başlangıcı) */
+        }
+
+        /* Fare üzerine geldiğinde bilgi kartını göster - GÜNCELLENDİ */
+        .link-wrapper:hover .tooltip-box {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(20px); /* DEĞİŞTİ: Aşağı doğru açılma animasyonu */
+        }
+
+       .download-btn {
+    display: inline-flex;                /* inline-flex: satırda kalır, ama içerik flex olur */
+    align-items: center;                 /* dikeyde ortala */
+    justify-content: center;             /* yatayda ortala */
+    text-align: center;                  /* metin ortalansın */
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+}
+
+.download-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.download-btn:active {
+    transform: translateY(-1px);
+}
+    </style>
+</head>
+<body>
+    
+    <div class="main-container">
+
+        <div class="category-section">
+            <h2 class="category-title">Boyama Atölyesi ✨</h2>
+            <div class="button-container">
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 5-7 yaş
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Mustafa Atlı<br>5-7 yaş<br> Materyalleri İndir
+    </a>
+</div>
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 5-7 yaş
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Leyla Meşhur<br>5-7 yaş<br> Materyalleri İndir
+    </a>
+</div>
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 5-7 yaş
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Burcu Erkmen<br>5-7 yaş<br> 
+Materyalleri İndir
+    </a>
+</div>
+
+
+
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 8-10 yaş 
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Gülper Akpınar<br>8-10 yaş <br> Materyalleri İndir
+    </a>
+</div>
+
+
+
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 8-10 yaş 
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Çağla Yalçın<br> 8-10 yaş <br> 
+Materyalleri İndir
+    </a>
+</div>
+
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 8-10 yaş 
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Ali Rıza Öztürk<br>8-10 yaş <br> Materyalleri İndir
+    </a>
+</div>
+
+
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 11-13 yaş
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Işık Şanlı<br>(11-13 yaş)<br>Materyalleri İndir
+    </a>
+</div>
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 11-13 yaş
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Cennet Uzunoğlu<br>(11-13 yaş)<br>Materyalleri İndir
+    </a>
+</div>
+
+<div class="button-wrapper">
+    <a href="https://ulkemyanimda.github.io/atolye/anons.html" class="link-wrapper" target="_blank">
+        <div class="tooltip-box">
+            <strong>Boyama Atölyesi</strong>
+            <br><br>
+            Renklerle hayal gücümüzü konuşturalım!
+            <br>
+            <strong>Hedef Yaş Grubu:</strong> 14-16 yaş
+            <br><br>
+            <em>Atölyemizin sonunda sosyal medyada paylaşılmak üzere görüntü alınacaktır. İzin vermeyen velilerimizin kameralarını kapatmaları rica olunur.</em>
+        </div>
+        <div class="logo">
+            <img src="1/boya.png" alt="Posta Güvercini Logo"> 
+        </div>
+    </a>
+    <a href="etkinlik/1.zip" class="download-btn">
+        Elif Ergin<br>(14-16 yaş)<br>Materyalleri İndir
+    </a>
+</div>
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <script>
+        // Gerekirse burada JavaScript eklemeleri yapabilirsiniz
+    </script>
+</body>
+</html>
