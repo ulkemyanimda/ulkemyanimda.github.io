@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İsim - Görsel Eşleştirme Oyunu</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 1100px;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .column {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .column>div {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .column h2 {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #555;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .draggable {
+            width: 100px;
+            height: 100px;
+            margin: 10px auto;
+            cursor: grab;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ebf5fb;
+            transition: transform 0.2s;
+        }
+
+        .draggable img,
+        .dropzone img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .dropzone {
+            width: 120px;
+            height: 120px;
+            margin: 15px auto;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: #fafafa;
+        }
+
+        .dropzone.hover {
+            background: #e8f8f5;
+            border-color: #2ecc71;
+        }
+
+        .matched {
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        #score-board {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        #feedback {
+            height: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .success {
+            color: #27ae60;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Eşleştirme Oyunu</h1>
+    <div id="score-board">Puan: <span id="score">0</span></div>
+    <div id="feedback"></div>
+
+    <div id="game-container">
+        <div class="column" id="names-column">
+            <h2>İsimler (Sürükle)</h2>
+            <div id="draggables-container"></div>
+        </div>
+
+        <div class="column" id="images-column">
+            <h2>Görseller (Bırak)</h2>
+            <div id="dropzones-container"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        const totalItems = 10;
+        const feedbackEl = document.getElementById('feedback');
+        const scoreEl = document.getElementById('score');
+
+        // Veri Setini Oluştur
+        const items = Array.from({ length: totalItems }, (_, i) => i + 1);
+
+        // Karıştırma fonksiyonu (Oyun her seferinde farklı dizilsin diye)
+        const shuffle = (array) => array.sort(() => Math.random() - 0.5);
+
+        function initGame() {
+            const shuffledNames = shuffle([...items]);
+            const shuffledImages = shuffle([...items]);
+
+            const draggablesContainer = document.getElementById('draggables-container');
+            const dropzonesContainer = document.getElementById('dropzones-container');
+
+            // İsimleri oluştur (B1.jpg, B2.jpg...)
+            shuffledNames.forEach(num => {
+                const div = document.createElement('div');
+                div.className = 'draggable';
+                div.draggable = true;
+                div.id = `name-${num}`;
+                div.innerHTML = `<img src="B${num}.jpg" alt="İsim ${num}">`;
+
+                div.addEventListener('dragstart', dragStart);
+                draggablesContainer.appendChild(div);
+            });
+
+            // Görselleri oluştur (G1.jpg, G2.jpg...)
+            shuffledImages.forEach(num => {
+                const div = document.createElement('div');
+                div.className = 'dropzone';
+                div.dataset.id = num;
+                div.innerHTML = `<img src="G${num}.jpg" alt="Görsel ${num}">`;
+
+                div.addEventListener('dragover', dragOver);
+                div.addEventListener('dragleave', dragLeave);
+                div.addEventListener('drop', drop);
+                dropzonesContainer.appendChild(div);
+            });
+        }
+
+        function dragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.closest('.draggable').id);
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('hover');
+        }
+
+        function dragLeave(e) {
+            e.currentTarget.classList.remove('hover');
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const dropzone = e.currentTarget;
+            dropzone.classList.remove('hover');
+
+            const draggableId = e.dataTransfer.getData('text/plain');
+            const draggableElement = document.getElementById(draggableId);
+            const nameNum = draggableId.split('-')[1];
+            const targetNum = dropzone.dataset.id;
+
+            if (nameNum === targetNum) {
+                // Doğru Eşleşme
+                score += 10;
+                scoreEl.textContent = score;
+                feedbackEl.textContent = "Harika! Doğru eşleşme.";
+                feedbackEl.className = "success";
+
+                draggableElement.classList.add('matched');
+                dropzone.style.border = "2px solid #27ae60";
+                dropzone.style.backgroundColor = "#d4efdf";
+
+                if (score === totalItems * 10) {
+                    feedbackEl.textContent = "Tebrikler! Tüm eşleşmeleri tamamladın.";
+                }
+            } else {
+                // Yanlış Eşleşme
+                feedbackEl.textContent = "Maalesef, tekrar dene!";
+                feedbackEl.className = "error";
+
+                // Eleman zaten eski yerinde kalıyor (HTML5 drag default davranışı)
+            }
+        }
+
+        initGame();
+    </script>
+</body>
+
+</html>
