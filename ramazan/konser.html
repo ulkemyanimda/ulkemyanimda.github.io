@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ramazan Birlikte Güzel</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;family=Playfair+Display:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.8), 0 0 80px rgba(212, 175, 55, 0.5); }
+    }
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes bounce-subtle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes rotate-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .float-animation { animation: float 6s ease-in-out infinite; }
+    .twinkle { animation: twinkle 2s ease-in-out infinite; }
+    .pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+    .bounce-subtle { animation: bounce-subtle 2s ease-in-out infinite; }
+    .shimmer-text {
+      background: linear-gradient(90deg, #d4af37 0%, #fff8dc 25%, #d4af37 50%, #fff8dc 75%, #d4af37 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
+    .geometric-pattern {
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L60 30L30 60L0 30Z' fill='none' stroke='%23d4af37' stroke-width='0.5' opacity='0.15'/%3E%3Ccircle cx='30' cy='30' r='10' fill='none' stroke='%23d4af37' stroke-width='0.5' opacity='0.1'/%3E%3C/svg%3E");
+    }
+    .star {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #d4af37;
+      border-radius: 50%;
+    }
+    .lantern {
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+    }
+    .gradient-border {
+      background: linear-gradient(135deg, #d4af37, #8b6914, #d4af37);
+      padding: 2px;
+      border-radius: 1rem;
+    }
+    .rotate-slow { animation: rotate-slow 20s linear infinite; }
+    html, body { height: 100%; margin: 0; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto" style="background: linear-gradient(135deg, #0a1628 0%, #1a0a2e 50%, #0d1f3c 100%); font-family: 'Amiri', serif;">
+  <div class="w-full min-h-full geometric-pattern relative"><!-- Yıldızlar -->
+   <div id="stars-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div><!-- Hilal ve Süslemeler -->
+   <div class="absolute top-4 right-4 md:top-8 md:right-8 float-animation">
+    <svg class="w-16 h-16 md:w-24 md:h-24 lantern" viewbox="0 0 100 100"><defs>
+      <lineargradient id="moonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+       <stop offset="0%" style="stop-color:#fff8dc" />
+       <stop offset="100%" style="stop-color:#d4af37" />
+      </lineargradient>
+     </defs> <path d="M50 10 C25 10 10 35 10 50 C10 75 30 90 50 90 C35 80 30 60 35 45 C40 30 50 20 50 10 Z" fill="url(#moonGrad)" /> <circle cx="70" cy="25" r="3" fill="#d4af37" class="twinkle" /> <circle cx="80" cy="40" r="2" fill="#d4af37" class="twinkle" style="animation-delay: 0.5s" /> <circle cx="75" cy="55" r="2.5" fill="#d4af37" class="twinkle" style="animation-delay: 1s" />
+    </svg>
+   </div><!-- Sol üst süsleme -->
+   <div class="absolute top-4 left-4 md:top-8 md:left-8 rotate-slow opacity-30">
+    <svg class="w-12 h-12 md:w-16 md:h-16" viewbox="0 0 100 100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="none" stroke="#d4af37" stroke-width="1" />
+    </svg>
+   </div>
+   <div class="max-w-5xl mx-auto px-4 py-8 md:py-12 relative z-10"><!-- Ana Başlık -->
+    <header class="text-center mb-8 md:mb-12">
+     <div class="inline-block mb-4">
+      <svg class="w-20 h-12 md:w-28 md:h-16 mx-auto" viewbox="0 0 120 50"><path d="M10 25 Q30 10 60 25 Q90 40 110 25" fill="none" stroke="#d4af37" stroke-width="2" /> <circle cx="60" cy="25" r="4" fill="#d4af37" /> <path d="M5 25 L15 25 M105 25 L115 25" stroke="#d4af37" stroke-width="2" />
+      </svg>
+     </div>
+     <h1 id="event-title" class="text-4xl md:text-6xl lg:text-7xl font-bold shimmer-text mb-4" style="font-family: 'Playfair Display', serif;">Ramazan Birlikte Güzel</h1>
+     <p class="text-lg md:text-xl text-amber-200/80 max-w-2xl mx-auto leading-relaxed">Kayseri Anadolu İmam Hatip Lisesi Musiki Projesi Öğrencileri</p><!-- Tarih ve Saat Kutusu -->
+     <div class="mt-6 md:mt-8 inline-flex flex-col md:flex-row items-center gap-4 md:gap-6 bg-gradient-to-r from-amber-900/30 via-amber-800/40 to-amber-900/30 px-6 md:px-10 py-4 md:py-5 rounded-2xl border border-amber-500/30">
+      <div class="flex items-center gap-3">
+       <svg class="w-6 h-6 md:w-7 md:h-7 text-amber-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+       </svg><span id="event-date" class="text-xl md:text-2xl text-amber-100 font-semibold">7 Mart 2026 Cumartesi</span>
+      </div>
+      <div class="hidden md:block w-px h-8 bg-amber-500/30"></div>
+      <div class="flex items-center gap-3">
+       <svg class="w-6 h-6 md:w-7 md:h-7 text-amber-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg><span id="event-time" class="text-xl md:text-2xl text-amber-100 font-semibold">21:30 <span class="text-base text-amber-300/70">(Türkiye Saati)</span></span>
+      </div>
+     </div>
+     <div class="mt-4 flex items-center justify-center gap-2 text-amber-300/80">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      </svg><span class="text-base">Çevrimiçi Etkinlik</span>
+     </div>
+    </header><!-- Katılım Butonu - Dikkat Çekici -->
+    <div class="text-center mb-10 md:mb-14"><a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjQ3NmRhNTItYmE0ZC00MjU0LTg5N2YtOGIwY2FlMDg1MDhh%40thread.v2/0?context=%7b%22Tid%22%3a%222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%22%2c%22Oid%22%3a%22b4a64674-d50f-4911-9988-2dcdae0dcf6d%22%7d" target="_blank" rel="noopener noreferrer" class="group relative inline-block">
+      <div class="absolute -inset-1 bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 rounded-2xl blur-lg opacity-75 group-hover:opacity-100 transition duration-500 pulse-glow"></div>
+      <div class="relative flex items-center gap-3 md:gap-4 bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:via-amber-400 hover:to-amber-500 text-slate-900 font-bold text-lg md:text-2xl px-8 md:px-12 py-4 md:py-5 rounded-xl transition-all duration-300 transform hover:scale-105">
+       <svg class="w-7 h-7 md:w-9 md:h-9 bounce-subtle" viewbox="0 0 24 24" fill="currentColor"><path d="M19.5 3h-15A1.5 1.5 0 003 4.5v15A1.5 1.5 0 004.5 21h15a1.5 1.5 0 001.5-1.5v-15A1.5 1.5 0 0019.5 3zm-6.75 12.75h-1.5v-4.5h-1.5v-1.5h3v6zm0-7.5h-1.5v-1.5h1.5v1.5z" />
+       </svg><span>🎵 Konsere Katıl</span>
+       <svg class="w-6 h-6 md:w-7 md:h-7 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+       </svg>
+      </div></a>
+     <p class="mt-4 text-amber-300/60 text-sm">Microsoft Teams üzerinden canlı yayın</p>
+    </div><!-- Program İçeriği -->
+    <section class="mb-10 md:mb-14">
+     <div class="gradient-border">
+      <div class="bg-slate-900/90 rounded-xl p-6 md:p-8">
+       <h2 class="text-2xl md:text-3xl font-bold text-amber-400 mb-6 text-center flex items-center justify-center gap-3" style="font-family: 'Playfair Display', serif;">
+        <svg class="w-8 h-8" viewbox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+        </svg> Program</h2>
+       <div class="grid gap-3 md:gap-4">
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-500 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.1s both;"><span class="text-amber-400 font-bold text-lg">1</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Segâh İlahi – Derman Arardım Derdime</h3>
+          <p class="text-amber-300/60 text-sm">Niyazi Mısri</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-400 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.2s both;"><span class="text-amber-400 font-bold text-lg">2</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Rast Naat – Naat-ı Mevlana</h3>
+          <p class="text-amber-300/60 text-sm">Buhurizade Mustafa Itri</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-500 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.3s both;"><span class="text-amber-400 font-bold text-lg">3</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Tekbir (Segâh Tekbir)</h3>
+          <p class="text-amber-300/60 text-sm">Buhurizade Mustafa Itri</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-400 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.4s both;"><span class="text-amber-400 font-bold text-lg">4</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Salât-ı Ümmiye</h3>
+          <p class="text-amber-300/60 text-sm">Hasan Sezai Efendi</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-500 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.5s both;"><span class="text-amber-400 font-bold text-lg">5</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Uşşak İlahi – Aşkın Aldı Benden Beni</h3>
+          <p class="text-amber-300/60 text-sm">Yunus Emre</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-400 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.6s both;"><span class="text-amber-400 font-bold text-lg">6</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Hicaz İlahi – Sordum Sarı Çiçeğe</h3>
+          <p class="text-amber-300/60 text-sm">Yunus Emre</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-500 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.7s both;"><span class="text-amber-400 font-bold text-lg">7</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Acemaşiran İlahi – Hak Şerleri Hayr Eyler</h3>
+          <p class="text-amber-300/60 text-sm">Erzurumlu İbrahim Hakkı</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-400 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.8s both;"><span class="text-amber-400 font-bold text-lg">8</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Rast Durak – Allahu Allah</h3>
+          <p class="text-amber-300/60 text-sm">Klasik Mevlevî Ayin Formu</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-500 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 0.9s both;"><span class="text-amber-400 font-bold text-lg">9</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Segâh Mevlevî Ayini</h3>
+          <p class="text-amber-300/60 text-sm">Hammamizade İsmail Dede Efendi</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4 p-3 md:p-4 bg-amber-900/20 rounded-lg border-l-4 border-amber-400 hover:bg-amber-900/30 transition-all" style="animation: slide-in 0.5s ease-out 1s both;"><span class="text-amber-400 font-bold text-lg">10</span>
+         <div>
+          <h3 class="text-amber-100 font-semibold">Dilkeşhâveran İlahi – Şol Cennetin Irmakları</h3>
+          <p class="text-amber-300/60 text-sm">Yunus Emre</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- İkinci Katılım Butonu -->
+    <div class="text-center mb-10 md:mb-14">
+     <p class="text-amber-200/70 mb-4 text-lg">Unutmayın, yerinizi ayırtın!</p><a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjQ3NmRhNTItYmE0ZC00MjU0LTg5N2YtOGIwY2FlMDg1MDhh%40thread.v2/0?context=%7b%22Tid%22%3a%222954d0ff-3b51-4a2c-a056-0c0c6b6dced7%22%2c%22Oid%22%3a%22b4a64674-d50f-4911-9988-2dcdae0dcf6d%22%7d" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-transparent border-2 border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-slate-900 font-semibold px-6 py-3 rounded-lg transition-all duration-300"> <span>Katılım Linki</span>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      </svg></a>
+    </div><!-- Önceki Performans - TRT Avaz -->
+    <section class="mb-8">
+     <div class="bg-gradient-to-br from-slate-800/60 to-slate-900/80 rounded-2xl p-6 md:p-8 border border-amber-500/20">
+      <div class="flex items-center gap-3 mb-4">
+       <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center">
+        <svg class="w-8 h-8 text-white" viewbox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+        </svg>
+       </div>
+       <div><span class="text-red-400 font-semibold text-sm uppercase tracking-wide">TRT AVAZ</span>
+        <h3 class="text-xl md:text-2xl font-bold text-amber-100" style="font-family: 'Playfair Display', serif;">Bir Kıssa Bir Nağme</h3>
+       </div>
+      </div>
+      <p class="text-amber-200/70 mb-5 leading-relaxed">Musiki Projesi öğrencilerimiz, TRT Avaz'da yayınlanan <strong class="text-amber-300">Bir Kıssa Bir Nağme</strong> programında sahne aldılar. Öğrencilerimizi tebrik ediyoruz.</p><a href="https://www.youtube.com/watch?v=Jv-Fyh_SRP8" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-red-600 hover:bg-red-500 text-white font-semibold px-5 py-3 rounded-lg transition-all duration-300 group">
+       <svg class="w-6 h-6" viewbox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+       </svg><span>Programı İzle</span>
+       <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+       </svg></a>
+     </div>
+    </section><!-- Footer -->
+    <footer class="text-center py-6 border-t border-amber-500/20">
+     <div class="flex items-center justify-center gap-2 mb-3">
+      <svg class="w-6 h-6 text-amber-500" viewbox="0 0 100 100"><path d="M50 10 C25 10 10 35 10 50 C10 75 30 90 50 90 C35 80 30 60 35 45 C40 30 50 20 50 10 Z" fill="currentColor" />
+      </svg><span class="text-amber-400 font-semibold">Ramazan Birlikte Güzel</span>
+     </div>
+     <p class="text-amber-300/50 text-sm">Kayseri Anadolu İmam Hatip Lisesi Musiki Projesi © 2026</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      event_title: "Ramazan Birlikte Güzel",
+      event_date: "7 Mart 2026 Cumartesi",
+      event_time: "21:30",
+      background_color: "#0a1628",
+      accent_color: "#d4af37",
+      text_color: "#fef3c7",
+      button_color: "#d97706",
+      secondary_color: "#1e293b"
+    };
+
+    // Create stars
+    function createStars() {
+      const container = document.getElementById('stars-container');
+      for (let i = 0; i < 50; i++) {
+        const star = document.createElement('div');
+        star.className = 'star twinkle';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.width = (Math.random() * 3 + 1) + 'px';
+        star.style.height = star.style.width;
+        container.appendChild(star);
+      }
+    }
+    createStars();
+
+    async function onConfigChange(config) {
+      const title = document.getElementById('event-title');
+      const date = document.getElementById('event-date');
+      const time = document.getElementById('event-time');
+      
+      if (title) title.textContent = config.event_title || defaultConfig.event_title;
+      if (date) date.textContent = config.event_date || defaultConfig.event_date;
+      if (time) {
+        const timeValue = config.event_time || defaultConfig.event_time;
+        time.innerHTML = `${timeValue} <span class="text-base text-amber-300/70">(Türkiye Saati)</span>`;
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => window.elementSdk.setConfig({ background_color: value })
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => window.elementSdk.setConfig({ accent_color: value })
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => window.elementSdk.setConfig({ text_color: value })
+            },
+            {
+              get: () => config.button_color || defaultConfig.button_color,
+              set: (value) => window.elementSdk.setConfig({ button_color: value })
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => window.elementSdk.setConfig({ secondary_color: value })
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["event_title", config.event_title || defaultConfig.event_title],
+          ["event_date", config.event_date || defaultConfig.event_date],
+          ["event_time", config.event_time || defaultConfig.event_time]
+        ])
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d70459d2540c546',t:'MTc3MjYyMDkyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
