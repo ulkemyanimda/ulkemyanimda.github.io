@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Zıt Anlamlılar Eşleştirme Oyunu</title>
+    <style>
+        body {
+            margin: 0;
+            background: radial-gradient(circle, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            color: #333;
+        }
+
+        #timer {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            background: #fff;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 3px solid #ff4757;
+        }
+
+        #game-container {
+            display: flex;
+            justify-content: space-between;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            align-items: center;
+        }
+
+        .panel {
+            width: 220px;
+            height: 90vh;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            border: 3px dashed #fff;
+        }
+
+        .panel h3 { text-align: center; margin-top: 0; color: #6a11cb; }
+
+        .card {
+            width: 100%;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            background: white;
+            padding: 8px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+
+        #battle-ground {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* Görsellerin birbirine "yapışması" için düşük gap */
+            position: relative;
+            height: 400px;
+        }
+
+        #battle-ground img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border: 6px solid #fff;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        #status-msg {
+            position: absolute;
+            top: 20px;
+            font-size: 45px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px rgba(255,255,255,0.8);
+            z-index: 10;
+        }
+
+        .hidden { display: none !important; }
+
+        #modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: 0 0 30px gold;
+        }
+
+        .modal-content h1 { color: #ff4757; font-size: 3rem; margin-bottom: 10px; }
+        .modal-content button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div id="timer">Süre: 0s</div>
+
+<div id="game-container">
+    <div id="left-panel" class="panel"><h3>Kelimeler</h3></div>
+    
+    <div id="battle-ground">
+        <div id="status-msg"></div>
+    </div>
+    
+    <div id="right-panel" class="panel"><h3>Zıttını Seç</h3></div>
+</div>
+
+<div id="modal" class="hidden">
+    <div class="modal-content">
+        <h1>TEBRİKLER! 🎉</h1>
+        <p id="final-stats" style="font-size: 1.5rem;"></p>
+        <button onclick="location.reload()">Yeniden Başla</button>
+    </div>
+</div>
+
+<script>
+    const leftPanel = document.getElementById('left-panel');
+    const rightPanel = document.getElementById('right-panel');
+    const battleGround = document.getElementById('battle-ground');
+    const statusMsg = document.getElementById('status-msg');
+    
+    let selectedLeft = null;
+    let selectedRight = null;
+    let seconds = 0;
+    let matchesFound = 0;
+    const totalPairs = 21; 
+
+    // Süre sayacı
+    const timerInterval = setInterval(() => {
+        seconds++;
+        document.getElementById('timer').innerText = `Süre: ${seconds}s`;
+    }, 1000);
+
+    function init() {
+        const ids = Array.from({length: totalPairs}, (_, i) => i + 1);
+        
+        // Sol Panel: 1.png, 2.png ... (Karışık)
+        [...ids].sort(() => Math.random() - 0.5).forEach(id => {
+            createCard(`${id}.png`, id, 'left', leftPanel);
+        });
+
+        // Sağ Panel: 1x.png, 2x.png ... (Karışık)
+        [...ids].sort(() => Math.random() - 0.5).forEach(id => {
+            createCard(`${id}x.png`, id, 'right', rightPanel);
+        });
+    }
+
+    function createCard(src, id, side, container) {
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'card';
+        img.dataset.side = side;
+        img.dataset.id = id;
+        
+        img.onclick = () => {
+            if (side === 'left') {
+                if (selectedLeft) leftPanel.appendChild(selectedLeft); // Öncekini geri koy
+                selectedLeft = img;
+            } else {
+                if (selectedRight) rightPanel.appendChild(selectedRight); // Öncekini geri koy
+                selectedRight = img;
+            }
+            battleGround.appendChild(img);
+            if (selectedLeft && selectedRight) checkMatch();
+        };
+        container.appendChild(img);
+    }
+
+    function checkMatch() {
+        if (selectedLeft.dataset.id === selectedRight.dataset.id) {
+            // DOĞRU ✅
+            statusMsg.innerText = "✅ HARİKA!";
+            statusMsg.style.color = "#2ecc71";
+            
+            setTimeout(() => {
+                selectedLeft.classList.add('hidden');
+                selectedRight.classList.add('hidden');
+                selectedLeft = null;
+                selectedRight = null;
+                statusMsg.innerText = "";
+                matchesFound++;
+                if (matchesFound === totalPairs) endGame();
+            }, 800);
+        } else {
+            // YANLIŞ ❌
+            statusMsg.innerText = "❌ TEKRAR DENE";
+            statusMsg.style.color = "#ff4757";
+            
+            setTimeout(() => {
+                leftPanel.appendChild(selectedLeft);
+                rightPanel.appendChild(selectedRight);
+                selectedLeft = null;
+                selectedRight = null;
+                statusMsg.innerText = "";
+            }, 1000);
+        }
+    }
+
+    function endGame() {
+        clearInterval(timerInterval);
+        document.getElementById('modal').classList.remove('hidden');
+        document.getElementById('final-stats').innerText = `Oyunu tam ${seconds} saniyede bitirdin!`;
+    }
+
+    init();
+</script>
+</body>
+</html>
