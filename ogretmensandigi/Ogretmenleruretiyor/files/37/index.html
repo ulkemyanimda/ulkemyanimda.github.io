@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Videolu Soru-Cevap Oyunu (4 Seçenek)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 { margin-bottom: 10px; }
+    #score { font-size: 20px; margin-bottom: 20px; }
+    #playButton {
+      font-size: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+    }
+    #imageBox {
+      margin: 20px auto;
+      max-width: 400px;
+      border: 3px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    #imageBox img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    #options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .option {
+      padding: 10px 20px;
+      background: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .option:hover {
+      transform: scale(1.05);
+      background: #1976D2;
+    }
+    #feedback {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎧 Videolu Soru-Cevap Oyunu</h1>
+  <div id="score">Puan: 0</div>
+  <button id="playButton">▶ Ses Çal</button>
+  <div id="imageBox"><img id="questionImage" src="" alt="Resim"></div>
+  <div id="options"></div>
+  <div id="feedback"></div>
+
+  <script>
+    const totalFiles = 9;
+    let score = 0;
+    let currentAnswer = null;
+
+    const scoreDiv = document.getElementById("score");
+    const feedbackDiv = document.getElementById("feedback");
+    const playButton = document.getElementById("playButton");
+    const imageBox = document.getElementById("questionImage");
+    const optionsDiv = document.getElementById("options");
+
+    // Cevap eşleştirmeleri
+    const answers = {
+      1: "iki",
+      2: "yat",
+      3: "tat",
+      4: "Türk",
+      5: "kara",
+      6: "kafa",
+      7: "kalem",
+      8: "damak",
+      9: "beşik"
+    };
+
+    function newRound() {
+      feedbackDiv.textContent = "";
+      optionsDiv.innerHTML = "";
+
+      // Rastgele soru seç
+      currentAnswer = Math.floor(Math.random() * totalFiles) + 1;
+
+      // Görseli göster
+      imageBox.src = currentAnswer + ".jpg";
+
+      // Ses çalma butonu
+      playButton.onclick = () => {
+        const audio = new Audio(currentAnswer + ".m4a");
+        audio.play();
+      };
+
+      // Doğru + 3 yanlış seçenek
+      let optionKeys = [currentAnswer];
+      while (optionKeys.length < 4) {
+        let rand = Math.floor(Math.random() * totalFiles) + 1;
+        if (!optionKeys.includes(rand)) {
+          optionKeys.push(rand);
+        }
+      }
+
+      // Karıştır
+      optionKeys.sort(() => Math.random() - 0.5);
+
+      // Seçenekleri oluştur
+      optionKeys.forEach(num => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.textContent = answers[num];
+        btn.onclick = () => checkAnswer(num);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected) {
+      if (parseInt(selected) === currentAnswer) {
+        score++;
+        scoreDiv.textContent = "Puan: " + score;
+        feedbackDiv.textContent = "✅ Doğru! Harika iş!";
+        setTimeout(newRound, 1500);
+      } else {
+        feedbackDiv.textContent = "❌ Yanlış seçim, tekrar dene!";
+      }
+    }
+
+    // İlk turu başlat
+    newRound();
+  </script>
+</body>
+</html>
