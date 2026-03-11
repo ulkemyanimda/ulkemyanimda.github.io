@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramazan Hafıza Oyunu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2e7d32; /* Ramazan Yeşili */
+            --accent: #ffa000; /* Kandil Sarısı */
+            --bg: #f9fbe7;
+            --card-back: #1b5e20;
+            --card-front: #ffffff;
+            --success: #4caf50;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Üst Panel */
+        .stats-container {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+            justify-content: space-around;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* İlerleme Çubuğu */
+        .progress-wrapper {
+            width: 100%;
+            max-width: 500px;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        #progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Oyun Alanı */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 500px;
+            perspective: 1000px;
+        }
+
+        /* Kart Tasarımı */
+        .card {
+            aspect-ratio: 1/1;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card.flipped { transform: rotateY(180deg); }
+        .card.matched { cursor: default; visibility: visible; }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            font-size: 2rem;
+        }
+
+        /* Kartın Arka Yüzü (Kapalı) */
+        .card-back {
+            background: var(--card-back);
+            color: var(--accent);
+        }
+        .card-back::after {
+            content: "\f111"; /* FontAwesome Moon icon */
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+        }
+
+        /* Kartın Ön Yüzü (Açık) */
+        .card-front {
+            background: var(--card-front);
+            transform: rotateY(180deg);
+            overflow: hidden;
+            border: 3px solid var(--primary);
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Sonuç Ekranı */
+        #modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { from { transform: scale(0.5); } to { transform: scale(1); } }
+
+        .btn-restart {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-restart:hover { background: var(--accent); }
+
+        /* Mobil Ayarlar */
+        @media (max-width: 400px) {
+            .game-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="color: var(--primary); margin-bottom: 15px;"><i class="fas fa-mosque"></i> Ramazan Hafıza Kartları</h2>
+
+    <div class="stats-container">
+        <div><i class="fas fa-star"></i> Puan: <span id="score">0</span></div>
+        <div><i class="fas fa-clock"></i> Hamle: <span id="moves">0</span></div>
+    </div>
+
+    <div class="progress-wrapper">
+        <div id="progress-fill"></div>
+    </div>
+
+    <div class="game-grid" id="game-grid">
+        </div>
+
+    <audio id="audio-player"></audio>
+
+    <div id="modal">
+        <div class="modal-content">
+            <i class="fas fa-moon" style="font-size: 4rem; color: var(--accent); margin-bottom: 15px;"></i>
+            <h2>Tebrikler!</h2>
+            <p id="final-stats"></p>
+            <button class="btn-restart" onclick="initGame()">Yeniden Başla</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * VERİ SETİ (DATA)
+         * id: Görsel ve Ses dosya adını temsil eder (1.jpg, 1.m4a gibi).
+         * label: Erişilebilirlik veya gerekirse metin gösterimi için.
+         */
+        const DATA = [
+            { id: 1, label: 'İftar Sofrası' },
+            { id: 2, label: 'Kandil' },
+            { id: 3, label: 'Ramazan Pidesi' },
+            { id: 4, label: 'Hurma' },
+            { id: 5, label: 'Camii' }
+        ];
+
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let score = 0;
+        let moves = 0;
+        let canClick = true;
+
+        const grid = document.getElementById('game-grid');
+        const audioPlayer = document.getElementById('audio-player');
+        const scoreEl = document.getElementById('score');
+        const movesEl = document.getElementById('moves');
+        const progressFill = document.getElementById('progress-fill');
+        const modal = document.getElementById('modal');
+
+        function initGame() {
+            // Değerleri sıfırla
+            matchedPairs = 0;
+            score = 0;
+            moves = 0;
+            flippedCards = [];
+            canClick = true;
+            grid.innerHTML = '';
+            modal.style.display = 'none';
+            updateStats();
+
+            // Kartları çiftle ve karıştır
+            const gameData = [...DATA, ...DATA] // Her öğeden iki tane
+                .sort(() => Math.random() - 0.5); // Randomize
+
+            gameData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.id = item.id;
+                card.innerHTML = `
+                    <div class="card-face card-back"></div>
+                    <div class="card-face card-front">
+                        <img src="${item.id}.jpg" alt="${item.label}">
+                    </div>
+                `;
+                card.addEventListener('click', () => flipCard(card));
+                grid.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            if (!canClick || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                canClick = false;
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const isMatch = card1.dataset.id === card2.dataset.id;
+
+            if (isMatch) {
+                // Eşleşme Başarılı
+                matchedPairs++;
+                score += 20;
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                
+                // Ses Çal (Dosya formatı 1.m4a)
+                playSound(card1.dataset.id);
+
+                flippedCards = [];
+                canClick = true;
+                updateStats();
+
+                if (matchedPairs === DATA.length) {
+                    setTimeout(showResult, 600);
+                }
+            } else {
+                // Eşleşme Başarısız
+                score = Math.max(0, score - 5); // Yanlış hamlede puan düşür
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                    canClick = true;
+                    updateStats();
+                }, 1000);
+            }
+        }
+
+        function playSound(id) {
+            audioPlayer.src = `${id}.m4a`;
+            audioPlayer.play().catch(e => console.log("Ses çalınamadı, dosya eksik olabilir."));
+        }
+
+        function updateStats() {
+            scoreEl.innerText = score;
+            movesEl.innerText = moves;
+            const progress = (matchedPairs / DATA.length) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+
+        function showResult() {
+            modal.style.display = 'flex';
+            document.getElementById('final-stats').innerText = 
+                `${moves} hamlede ${score} puan topladın. Hayırlı Ramazanlar!`;
+        }
+
+        // Oyunu Başlat
+        window.onload = initGame;
+    </script>
+</body>
+</html>
