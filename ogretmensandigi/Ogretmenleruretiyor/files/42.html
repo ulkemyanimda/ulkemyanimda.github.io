@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sağlıklı Beslenme Oyunu</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Oswald', sans-serif; }
+    body { background: linear-gradient(135deg, #fce7f3 0%, #dbeafe 25%, #e0e7ff 50%, #d1fae5 75%, #fef3c7 100%); background-size: 400% 400%; }
+    
+    @keyframes dance {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      25% { transform: translateY(-10px) rotate(3deg); }
+      50% { transform: translateY(0) rotate(-3deg); }
+      75% { transform: translateY(-5px) rotate(2deg); }
+    }
+    
+    @keyframes bounce-in {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      40% { transform: translateX(10px); }
+      60% { transform: translateX(-10px); }
+      80% { transform: translateX(10px); }
+    }
+    
+    @keyframes confetti-fall {
+      0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(74, 222, 128, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(74, 222, 128, 0.8); }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    .dancing { animation: dance 0.6s ease-in-out infinite; }
+    .bounce-in { animation: bounce-in 0.4s ease-out forwards; }
+    .shake { animation: shake 0.5s ease-in-out; }
+    .pulse-glow { animation: pulse-glow 1.5s ease-in-out infinite; }
+    .float { animation: float 2s ease-in-out infinite; }
+    
+    .box-3d {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+    
+    .box-container {
+      position: relative;
+      width: 180px;
+      height: 160px;
+    }
+    
+    .box-body {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #6ee7b7, #34d399);
+      border: 4px solid #059669;
+      border-radius: 8px;
+      box-shadow: inset -8px -8px 20px rgba(0,0,0,0.15), 
+                  inset 8px 8px 20px rgba(255,255,255,0.3),
+                  0 8px 20px rgba(0,0,0,0.2);
+    }
+    
+    .box-lid {
+      position: absolute;
+      top: -25px;
+      left: -4px;
+      width: calc(100% + 8px);
+      height: 30px;
+      background: linear-gradient(145deg, #6ee7b7, #34d399);
+      border: 4px solid #059669;
+      border-radius: 8px 8px 0 0;
+      transform-origin: bottom left;
+      transform: rotateX(-70deg);
+      box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .food-card {
+      cursor: grab;
+      transition: transform 0.2s, box-shadow 0.2s;
+      user-select: none;
+      touch-action: none;
+    }
+    
+    .food-card:hover {
+      transform: scale(1.1) rotate(3deg);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .food-card:active, .food-card.dragging {
+      cursor: grabbing;
+      transform: scale(1.15);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+      z-index: 1000;
+    }
+    
+    .drop-zone {
+      transition: all 0.3s ease;
+    }
+    
+    .drop-zone.drag-over {
+      transform: scale(1.05);
+      filter: brightness(1.2);
+    }
+    
+    .confetti {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    .feedback-icon {
+      position: absolute;
+      font-size: 3rem;
+      z-index: 100;
+      pointer-events: none;
+    }
+    
+    .items-in-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: center;
+      align-items: center;
+      padding: 8px;
+      min-height: 40px;
+    }
+    
+    .item-in-box {
+      font-size: 1.5rem;
+      animation: bounce-in 0.3s ease-out;
+    }
+    
+    .start-overlay {
+      backdrop-filter: blur(5px);
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto">
+  <div id="app" class="min-h-full flex flex-col p-4"><!-- Title -->
+   <h1 id="game-title" class="text-3xl md:text-4xl font-extrabold text-center text-emerald-700 mb-4 drop-shadow-lg">🥗 Sağlıklı Beslenme Oyunu 🍎</h1><!-- Score -->
+   <div class="flex justify-center gap-6 mb-4">
+    <div class="bg-white/80 backdrop-blur rounded-xl px-4 py-2 shadow-lg flex items-center gap-2"><span class="text-2xl">✅</span> <span id="correct-count" class="text-xl font-bold text-emerald-600">0</span>
+    </div>
+    <div class="bg-white/80 backdrop-blur rounded-xl px-4 py-2 shadow-lg flex items-center gap-2"><span class="text-2xl">❌</span> <span id="wrong-count" class="text-xl font-bold text-red-500">0</span>
+    </div>
+   </div><!-- Boxes Section -->
+   <div class="flex justify-center gap-8 md:gap-16 mb-6"><!-- Healthy Box -->
+    <div class="flex flex-col items-center">
+     <div class="text-center mb-2"><span class="text-3xl">😊</span>
+      <p id="healthy-label" class="text-lg font-bold text-emerald-700">Sağlıklı</p>
+     </div>
+     <div id="healthy-box" class="box-3d box-container drop-zone dancing" data-type="healthy">
+      <div class="box-lid"></div>
+      <div class="box-body">
+       <div id="healthy-items" class="items-in-box"></div>
+      </div>
+     </div>
+    </div><!-- Unhealthy Box -->
+    <div class="flex flex-col items-center">
+     <div class="text-center mb-2"><span class="text-3xl">😟</span>
+      <p id="unhealthy-label" class="text-lg font-bold text-red-600">Sağlıksız</p>
+     </div>
+     <div id="unhealthy-box" class="box-3d box-container drop-zone dancing" data-type="unhealthy">
+      <div class="box-lid"></div>
+      <div class="box-body">
+       <div id="unhealthy-items" class="items-in-box"></div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Food Cards Section -->
+   <div class="flex-1 bg-white/60 backdrop-blur-sm rounded-3xl p-4 shadow-xl">
+    <p class="text-center text-gray-600 mb-4 font-semibold">🎯 Yiyecekleri doğru kutulara sürükle!</p>
+    <div id="cards-container" class="flex flex-wrap justify-center gap-3 md:gap-4"><!-- Cards will be generated by JS -->
+    </div>
+   </div><!-- Start Overlay -->
+   <div id="start-overlay" class="fixed inset-0 bg-black/50 start-overlay flex items-center justify-center z-50">
+    <div class="bg-white rounded-3xl p-8 text-center shadow-2xl transform scale-100 max-w-sm mx-4">
+     <h2 class="text-2xl font-bold text-emerald-700 mb-4">🥗 Sağlıklı Beslenme Oyunu 🍎</h2>
+     <p class="text-gray-600 mb-6">Yiyecekleri doğru kutulara sürükleyerek sırala!</p><button id="start-btn" class="bg-gradient-to-r from-emerald-500 to-green-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"> 🎮 Oyunu Başlat </button>
+    </div>
+   </div><!-- Win Overlay -->
+   <div id="win-overlay" class="fixed inset-0 bg-black/50 start-overlay items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-3xl p-8 text-center shadow-2xl transform scale-100 max-w-sm mx-4">
+     <h2 class="text-3xl font-bold text-emerald-700 mb-2">🎉 TEBRİKLER! 🎉</h2>
+     <p class="text-5xl mb-4">🏆</p>
+     <p class="text-gray-600 mb-4">Tüm yiyecekleri doğru sıraladın!</p>
+     <div id="final-score" class="text-lg font-semibold text-emerald-600 mb-6"></div><button id="restart-btn" class="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"> 🔄 Tekrar Oyna </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Sound effects using Web Audio API
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playSound(type) {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      if (type === 'correct') {
+        oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
+        oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialDecayTo && gainNode.gain.exponentialDecayTo(0.01, audioContext.currentTime + 0.4);
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.4);
+      } else if (type === 'wrong') {
+        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(150, audioContext.currentTime + 0.1);
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.3);
+      } else if (type === 'win') {
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, i) => {
+          const osc = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          osc.connect(gain);
+          gain.connect(audioContext.destination);
+          osc.frequency.setValueAtTime(freq, audioContext.currentTime + i * 0.15);
+          gain.gain.setValueAtTime(0.2, audioContext.currentTime + i * 0.15);
+          gain.gain.exponentialDecayTo && gain.gain.exponentialDecayTo(0.01, audioContext.currentTime + i * 0.15 + 0.3);
+          osc.start(audioContext.currentTime + i * 0.15);
+          osc.stop(audioContext.currentTime + i * 0.15 + 0.3);
+        });
+      }
+    }
+    
+    // Food data
+    const foods = [
+      { emoji: '🥩', name: 'Et', type: 'healthy' },
+      { emoji: '🐟', name: 'Balık', type: 'healthy' },
+      { emoji: '🍯', name: 'Bal', type: 'healthy' },
+      { emoji: '🍎', name: 'Elma', type: 'healthy' },
+      { emoji: '🍊', name: 'Portakal', type: 'healthy' },
+      { emoji: '🥦', name: 'Brokoli', type: 'healthy' },
+      { emoji: '🥕', name: 'Havuç', type: 'healthy' },
+      { emoji: '🥗', name: 'Salata', type: 'healthy' },
+      { emoji: '🥛', name: 'Süt', type: 'healthy' },
+      { emoji: '🥚', name: 'Yumurta', type: 'healthy' },
+      { emoji: '🍩', name: 'Donut', type: 'unhealthy' },
+      { emoji: '🍔', name: 'Hamburger', type: 'unhealthy' },
+      { emoji: '🥤', name: 'Gazlı İçecek', type: 'unhealthy' },
+      { emoji: '🍭', name: 'Lolipop', type: 'unhealthy' },
+      { emoji: '🍫', name: 'Çikolata', type: 'unhealthy' },
+      { emoji: '🍟', name: 'Patates Kızartması', type: 'unhealthy' },
+      { emoji: '🍕', name: 'Pizza', type: 'unhealthy' },
+      { emoji: '🍝', name: 'Makarna', type: 'unhealthy' },
+      { emoji: '🍦', name: 'Dondurma', type: 'unhealthy' },
+      { emoji: '🧁', name: 'Kek', type: 'unhealthy' }
+    ];
+    
+    // Game state
+    let gameState = {
+      correctCount: 0,
+      wrongCount: 0,
+      remainingCards: 20,
+      isPlaying: false
+    };
+    
+    // Default config
+    const defaultConfig = {
+      game_title: '🥗 Sağlıklı Beslenme Oyunu 🍎',
+      healthy_label: 'Sağlıklı',
+      unhealthy_label: 'Sağlıksız'
+    };
+    
+    let config = { ...defaultConfig };
+    
+    // Shuffle array
+    function shuffleArray(array) {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    }
+    
+    // Create food cards
+    function createFoodCards() {
+      const container = document.getElementById('cards-container');
+      container.innerHTML = '';
+      const shuffledFoods = shuffleArray(foods);
+      
+      shuffledFoods.forEach((food, index) => {
+        const card = document.createElement('div');
+        card.className = 'food-card bg-white rounded-2xl p-3 shadow-lg flex flex-col items-center float';
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.setAttribute('data-type', food.type);
+        card.setAttribute('data-emoji', food.emoji);
+        card.setAttribute('data-name', food.name);
+        card.setAttribute('draggable', 'true');
+        card.innerHTML = `
+          <span class="text-4xl md:text-5xl mb-1">${food.emoji}</span>
+          <span class="text-xs font-semibold text-gray-600">${food.name}</span>
+        `;
+        
+        // Drag events
+        card.addEventListener('dragstart', handleDragStart);
+        card.addEventListener('dragend', handleDragEnd);
+        
+        // Touch events for mobile
+        card.addEventListener('touchstart', handleTouchStart, { passive: false });
+        card.addEventListener('touchmove', handleTouchMove, { passive: false });
+        card.addEventListener('touchend', handleTouchEnd);
+        
+        container.appendChild(card);
+      });
+    }
+    
+    // Drag and drop handlers
+    let draggedElement = null;
+    let touchOffsetX = 0;
+    let touchOffsetY = 0;
+    let originalPosition = null;
+    
+    function handleDragStart(e) {
+      if (!gameState.isPlaying) return;
+      draggedElement = e.target.closest('.food-card');
+      draggedElement.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+    
+    function handleDragEnd(e) {
+      if (draggedElement) {
+        draggedElement.classList.remove('dragging');
+        draggedElement = null;
+      }
+    }
+    
+    function handleTouchStart(e) {
+      if (!gameState.isPlaying) return;
+      e.preventDefault();
+      draggedElement = e.target.closest('.food-card');
+      if (!draggedElement) return;
+      
+      const touch = e.touches[0];
+      const rect = draggedElement.getBoundingClientRect();
+      touchOffsetX = touch.clientX - rect.left;
+      touchOffsetY = touch.clientY - rect.top;
+      
+      originalPosition = {
+        parent: draggedElement.parentNode,
+        nextSibling: draggedElement.nextSibling
+      };
+      
+      draggedElement.classList.add('dragging');
+      draggedElement.style.position = 'fixed';
+      draggedElement.style.zIndex = '1000';
+      draggedElement.style.left = `${touch.clientX - touchOffsetX}px`;
+      draggedElement.style.top = `${touch.clientY - touchOffsetY}px`;
+      document.body.appendChild(draggedElement);
+    }
+    
+    function handleTouchMove(e) {
+      if (!draggedElement) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      draggedElement.style.left = `${touch.clientX - touchOffsetX}px`;
+      draggedElement.style.top = `${touch.clientY - touchOffsetY}px`;
+      
+      // Check for drop zones
+      const dropZones = document.querySelectorAll('.drop-zone');
+      dropZones.forEach(zone => {
+        const rect = zone.getBoundingClientRect();
+        if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+            touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+          zone.classList.add('drag-over');
+        } else {
+          zone.classList.remove('drag-over');
+        }
+      });
+    }
+    
+    function handleTouchEnd(e) {
+      if (!draggedElement) return;
+      
+      const touch = e.changedTouches[0];
+      const dropZones = document.querySelectorAll('.drop-zone');
+      let dropped = false;
+      
+      dropZones.forEach(zone => {
+        zone.classList.remove('drag-over');
+        const rect = zone.getBoundingClientRect();
+        if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
+            touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
+          handleDrop(zone, draggedElement);
+          dropped = true;
+        }
+      });
+      
+      if (!dropped && originalPosition) {
+        // Return to original position
+        draggedElement.style.position = '';
+        draggedElement.style.zIndex = '';
+        draggedElement.style.left = '';
+        draggedElement.style.top = '';
+        if (originalPosition.nextSibling) {
+          originalPosition.parent.insertBefore(draggedElement, originalPosition.nextSibling);
+        } else {
+          originalPosition.parent.appendChild(draggedElement);
+        }
+      }
+      
+      if (draggedElement) {
+        draggedElement.classList.remove('dragging');
+      }
+      draggedElement = null;
+      originalPosition = null;
+    }
+    
+    function handleDrop(dropZone, card) {
+      const cardType = card.getAttribute('data-type');
+      const boxType = dropZone.getAttribute('data-type');
+      const emoji = card.getAttribute('data-emoji');
+      
+      if (cardType === boxType) {
+        // Correct!
+        gameState.correctCount++;
+        gameState.remainingCards--;
+        document.getElementById('correct-count').textContent = gameState.correctCount;
+        
+        // Add to box
+        const itemsContainer = dropZone.querySelector('.items-in-box');
+        const item = document.createElement('span');
+        item.className = 'item-in-box';
+        item.textContent = emoji;
+        itemsContainer.appendChild(item);
+        
+        // Remove card
+        card.remove();
+        
+        // Show feedback
+        showFeedback(dropZone, true);
+        playSound('correct');
+        
+        // Check win
+        if (gameState.remainingCards === 0) {
+          setTimeout(showWinScreen, 500);
+        }
+      } else {
+        // Wrong!
+        gameState.wrongCount++;
+        document.getElementById('wrong-count').textContent = gameState.wrongCount;
+        
+        // Show feedback
+        showFeedback(dropZone, false);
+        playSound('wrong');
+        
+        // Return card
+        card.style.position = '';
+        card.style.zIndex = '';
+        card.style.left = '';
+        card.style.top = '';
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 500);
+        
+        const container = document.getElementById('cards-container');
+        container.appendChild(card);
+      }
+    }
+    
+    // Drop zone events for desktop
+    function setupDropZones() {
+      const dropZones = document.querySelectorAll('.drop-zone');
+      
+      dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          zone.classList.add('drag-over');
+        });
+        
+        zone.addEventListener('dragleave', () => {
+          zone.classList.remove('drag-over');
+        });
+        
+        zone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          zone.classList.remove('drag-over');
+          if (draggedElement) {
+            handleDrop(zone, draggedElement);
+          }
+        });
+      });
+    }
+    
+    // Show feedback
+    function showFeedback(element, isCorrect) {
+      const icon = document.createElement('div');
+      icon.className = 'feedback-icon bounce-in';
+      icon.style.left = '50%';
+      icon.style.top = '50%';
+      icon.style.transform = 'translate(-50%, -50%)';
+      icon.textContent = isCorrect ? '✅' : '❌';
+      element.style.position = 'relative';
+      element.appendChild(icon);
+      
+      if (isCorrect) {
+        element.classList.add('pulse-glow');
+        setTimeout(() => element.classList.remove('pulse-glow'), 1000);
+      }
+      
+      setTimeout(() => icon.remove(), 800);
+    }
+    
+    // Create confetti
+    function createConfetti() {
+      const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ff8800', '#88ff00'];
+      
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.top = '-20px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        confetti.style.animation = `confetti-fall ${2 + Math.random() * 2}s linear forwards`;
+        confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => confetti.remove(), 4000);
+      }
+    }
+    
+    // Show win screen
+    function showWinScreen() {
+      playSound('win');
+      createConfetti();
+      
+      document.getElementById('final-score').textContent = 
+        `Doğru: ${gameState.correctCount} | Yanlış: ${gameState.wrongCount}`;
+      
+      const winOverlay = document.getElementById('win-overlay');
+      winOverlay.classList.remove('hidden');
+      winOverlay.classList.add('flex');
+    }
+    
+    // Start game
+    function startGame() {
+      document.getElementById('start-overlay').classList.add('hidden');
+      
+      // Stop dancing
+      document.querySelectorAll('.dancing').forEach(el => {
+        el.classList.remove('dancing');
+      });
+      
+      gameState.isPlaying = true;
+      
+      // Resume audio context if suspended
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+    }
+    
+    // Restart game
+    function restartGame() {
+      const winOverlay = document.getElementById('win-overlay');
+      winOverlay.classList.add('hidden');
+      winOverlay.classList.remove('flex');
+      
+      // Reset state
+      gameState = {
+        correctCount: 0,
+        wrongCount: 0,
+        remainingCards: 20,
+        isPlaying: true
+      };
+      
+      document.getElementById('correct-count').textContent = '0';
+      document.getElementById('wrong-count').textContent = '0';
+      
+      // Clear boxes
+      document.getElementById('healthy-items').innerHTML = '';
+      document.getElementById('unhealthy-items').innerHTML = '';
+      
+      // Recreate cards
+      createFoodCards();
+    }
+    
+    // Render function for config changes
+    async function onConfigChange(cfg) {
+      document.getElementById('game-title').textContent = cfg.game_title || defaultConfig.game_title;
+      document.getElementById('healthy-label').textContent = cfg.healthy_label || defaultConfig.healthy_label;
+      document.getElementById('unhealthy-label').textContent = cfg.unhealthy_label || defaultConfig.unhealthy_label;
+    }
+    
+    // Initialize
+    function init() {
+      createFoodCards();
+      setupDropZones();
+      
+      document.getElementById('start-btn').addEventListener('click', startGame);
+      document.getElementById('restart-btn').addEventListener('click', restartGame);
+      
+      // Initialize Element SDK
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities: (cfg) => ({
+            recolorables: [],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (cfg) => new Map([
+            ['game_title', cfg.game_title || defaultConfig.game_title],
+            ['healthy_label', cfg.healthy_label || defaultConfig.healthy_label],
+            ['unhealthy_label', cfg.unhealthy_label || defaultConfig.unhealthy_label]
+          ])
+        });
+      }
+    }
+    
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dc4f20a96bcb0d2',t:'MTc3MzUwODc4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
