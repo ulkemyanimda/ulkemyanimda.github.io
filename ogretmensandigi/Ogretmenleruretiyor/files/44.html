@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sayı Eşleştirme Oyunu</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .card-container {
+            perspective: 1000px;
+        }
+        
+        .card {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-face {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .card.matched {
+            animation: matchPulse 0.5s ease-out, fadeOut 0.8s ease-out 0.5s forwards;
+        }
+        
+        @keyframes matchPulse {
+            0%, 100% { transform: rotateY(180deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.1); }
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confetti-fall linear forwards;
+        }
+        
+        @keyframes bounce-in {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .success-text {
+            animation: bounce-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .progress-fill {
+            transition: width 0.5s ease-out;
+        }
+        
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: rotateY(180deg) translateX(0); }
+            25% { transform: rotateY(180deg) translateX(-5px); }
+            75% { transform: rotateY(180deg) translateX(5px); }
+        }
+    </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-purple-400 via-pink-300 to-yellow-200 overflow-auto">
+  <div id="app" class="min-h-full w-full p-4 md:p-6">
+   <!-- Header -->
+   <header class="text-center mb-6">
+    <h1 id="game-title" class="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg mb-2"><i class="fas fa-star text-yellow-300 mr-2"></i> Sayı Eşleştirme Oyunu <i class="fas fa-star text-yellow-300 ml-2"></i></h1>
+    <p id="game-subtitle" class="text-white/90 text-lg">Aynı sayıları bul ve eşleştir!</p>
+   </header><!-- Progress Bar -->
+   <div class="max-w-md mx-auto mb-6">
+    <div class="bg-white/30 rounded-full h-6 overflow-hidden shadow-inner">
+     <div id="progress-bar" class="progress-fill h-full bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-end pr-2" style="width: 0%">
+      <span id="progress-text" class="text-white text-xs font-bold"></span>
+     </div>
+    </div>
+    <p class="text-center text-white mt-2 font-semibold"><span id="matches-count">0</span> / <span id="total-pairs">10</span> Eşleşme</p>
+   </div><!-- Game Board -->
+   <div id="game-board" class="grid grid-cols-4 md:grid-cols-5 gap-3 max-w-4xl mx-auto mb-6">
+    <!-- Cards will be generated here -->
+   </div><!-- Restart Button -->
+   <div class="text-center">
+    <button id="restart-btn" class="bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"> <i class="fas fa-redo-alt mr-2"></i> Yeniden Başla </button>
+   </div><!-- Success Modal -->
+   <div id="success-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-3xl p-8 md:p-12 text-center shadow-2xl max-w-md mx-4">
+     <div class="success-text">
+      <i class="fas fa-trophy text-6xl text-yellow-400 mb-4"></i>
+      <h2 id="success-message" class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-4">TEBRİKLER!</h2>
+      <p class="text-gray-600 text-xl mb-6">Tüm eşleşmeleri buldun!</p><button id="play-again-btn" class="bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105 transition-all duration-300"> <i class="fas fa-play mr-2"></i> Tekrar Oyna </button>
+     </div>
+    </div>
+   </div><!-- Confetti Container -->
+   <div id="confetti-container"></div>
+  </div>
+  <script>
+        // ============================================
+        // 🎮 OYUN VERİLERİ - BURADAN KOLAYLIKLa DEĞİŞTİREBİLİRSİNİZ
+        // ============================================
+        const GAME_DATA = {
+            // Sayılar (1-10 arası, her birinden 2 tane kart oluşturulacak)
+            numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            
+            // Hayvan emojileri (kartların ön yüzü için)
+            animals: [
+                '🐶', '🐱', '🐰', '🦊', '🐻', 
+                '🐼', '🐨', '🦁', '🐯', '🐮',
+                '🐸', '🐵', '🦅', '🐝',
+                '🦋', '🐢', '🐙', '🦀', '🐠', '🦒'
+            ],
+            
+            // Kart arka plan renkleri
+            cardColors: [
+                'from-blue-400 to-blue-600',
+                'from-green-400 to-green-600',
+                'from-yellow-400 to-orange-500',
+                'from-pink-400 to-rose-500',
+                'from-purple-400 to-indigo-500',
+                'from-cyan-400 to-teal-500',
+                'from-red-400 to-red-600',
+                'from-emerald-400 to-emerald-600',
+                'from-amber-400 to-amber-600',
+                'from-violet-400 to-violet-600'
+            ],
+            
+            // Konfeti renkleri
+            confettiColors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#ff69b4']
+        };
+
+        // ============================================
+        // OYUN DEĞİŞKENLERİ
+        // ============================================
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let isProcessing = false;
+        let totalPairs = GAME_DATA.numbers.length;
+
+        // ============================================
+        // CONFIG VE SDK
+        // ============================================
+        const defaultConfig = {
+            game_title: 'Sayı Eşleştirme Oyunu',
+            subtitle: 'Aynı sayıları bul ve eşleştir!',
+            success_message: 'TEBRİKLER!',
+            primary_color: '#9333ea',
+            secondary_color: '#ec4899',
+            background_color: '#fde68a'
+        };
+
+        let config = { ...defaultConfig };
+
+        // Element SDK initialization
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange: async (newConfig) => {
+                    config = { ...defaultConfig, ...newConfig };
+                    updateUI();
+                },
+                mapToCapabilities: (cfg) => ({
+                    recolorables: [
+                        {
+                            get: () => cfg.primary_color || defaultConfig.primary_color,
+                            set: (value) => {
+                                cfg.primary_color = value;
+                                window.elementSdk.setConfig({ primary_color: value });
+                            }
+                        },
+                        {
+                            get: () => cfg.secondary_color || defaultConfig.secondary_color,
+                            set: (value) => {
+                                cfg.secondary_color = value;
+                                window.elementSdk.setConfig({ secondary_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (cfg) => new Map([
+                    ['game_title', cfg.game_title || defaultConfig.game_title],
+                    ['subtitle', cfg.subtitle || defaultConfig.subtitle],
+                    ['success_message', cfg.success_message || defaultConfig.success_message]
+                ])
+            });
+        }
+
+        // UI GÜNCELLEME
+        // ============================================
+        function updateUI() {
+            const titleEl = document.getElementById('game-title');
+            const subtitleEl = document.getElementById('game-subtitle');
+            const successEl = document.getElementById('success-message');
+            
+            if (titleEl) {
+                titleEl.innerHTML = `
+                    <i class="fas fa-star text-yellow-300 mr-2"></i>
+                    ${config.game_title || defaultConfig.game_title}
+                    <i class="fas fa-star text-yellow-300 ml-2"></i>
+                `;
+            }
+            
+            if (subtitleEl) {
+                subtitleEl.textContent = config.subtitle || defaultConfig.subtitle;
+            }
+            
+            if (successEl) {
+                successEl.textContent = config.success_message || defaultConfig.success_message;
+            }
+        }
+
+        // ============================================
+        // KART OLUŞTURMA
+        // ============================================
+        function createCards() {
+            cards = [];
+            const shuffledAnimals = [...GAME_DATA.animals].sort(() => Math.random() - 0.5);
+            
+            // Her sayı için 2 kart oluştur
+            GAME_DATA.numbers.forEach((number, index) => {
+                const color = GAME_DATA.cardColors[index % GAME_DATA.cardColors.length];
+                
+                // İlk kart
+                cards.push({
+                    id: `card-${number}-a`,
+                    number: number,
+                    animal: shuffledAnimals[index * 2 % shuffledAnimals.length],
+                    color: color,
+                    isFlipped: false,
+                    isMatched: false
+                });
+                
+                // İkinci kart (farklı hayvan)
+                cards.push({
+                    id: `card-${number}-b`,
+                    number: number,
+                    animal: shuffledAnimals[(index * 2 + 1) % shuffledAnimals.length],
+                    color: color,
+                    isFlipped: false,
+                    isMatched: false
+                });
+            });
+            
+            // Kartları karıştır
+            cards = cards.sort(() => Math.random() - 0.5);
+        }
+
+        // ============================================
+        // OYUN TAHTASINI RENDER ET
+        // ============================================
+        function renderBoard() {
+            const board = document.getElementById('game-board');
+            board.innerHTML = '';
+            
+            cards.forEach((card, index) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card-container';
+                cardEl.innerHTML = `
+                    <div id="${card.id}" class="card w-full aspect-square cursor-pointer" data-index="${index}">
+                        <!-- Ön Yüz (Hayvan) -->
+                        <div class="card-face absolute inset-0 bg-gradient-to-br ${card.color} rounded-2xl shadow-lg flex items-center justify-center">
+                            <span class="text-4xl md:text-5xl">${card.animal}</span>
+                        </div>
+                        <!-- Arka Yüz (Sayı) -->
+                        <div class="card-face card-back absolute inset-0 bg-white rounded-2xl shadow-lg flex items-center justify-center border-4 border-gray-200">
+                            <span class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br ${card.color}">${card.number}</span>
+                        </div>
+                    </div>
+                `;
+                
+                cardEl.addEventListener('click', () => handleCardClick(index));
+                board.appendChild(cardEl);
+            });
+        }
+
+        // ============================================
+        // KART TIKLAMA
+        // ============================================
+        function handleCardClick(index) {
+            if (isProcessing) return;
+            
+            const card = cards[index];
+            
+            // Zaten çevrilmiş veya eşleşmiş kartı tıklama
+            if (card.isFlipped || card.isMatched) return;
+            
+            // Kartı çevir
+            card.isFlipped = true;
+            const cardEl = document.getElementById(card.id);
+            cardEl.classList.add('flipped');
+            
+            // Sayıyı seslendir
+            speakNumber(card.number);
+            
+            // Çevrilmiş kartlara ekle
+            flippedCards.push(index);
+            
+            // 2 kart çevrildiyse kontrol et
+            if (flippedCards.length === 2) {
+                isProcessing = true;
+                checkMatch();
+            }
+        }
+
+        // ============================================
+        // EŞLEŞMEYİ KONTROL ET
+        // ============================================
+        function checkMatch() {
+            const [index1, index2] = flippedCards;
+            const card1 = cards[index1];
+            const card2 = cards[index2];
+            
+            setTimeout(() => {
+                if (card1.number === card2.number) {
+                    // Eşleşme bulundu!
+                    card1.isMatched = true;
+                    card2.isMatched = true;
+                    matchedPairs++;
+                    
+                    // Eşleşme animasyonu ve sesi
+                    const cardEl1 = document.getElementById(card1.id);
+                    const cardEl2 = document.getElementById(card2.id);
+                    cardEl1.classList.add('matched');
+                    cardEl2.classList.add('matched');
+                    
+                    playMatchSound();
+                    updateProgress();
+                    
+                    // Oyun bitti mi kontrol et
+                    if (matchedPairs === totalPairs) {
+                        setTimeout(showSuccessModal, 1000);
+                    }
+                } else {
+                    // Eşleşme yok, kartları geri çevir
+                    card1.isFlipped = false;
+                    card2.isFlipped = false;
+                    
+                    const cardEl1 = document.getElementById(card1.id);
+                    const cardEl2 = document.getElementById(card2.id);
+                    
+                    cardEl1.classList.add('shake');
+                    cardEl2.classList.add('shake');
+                    
+                    playWrongSound();
+                    
+                    setTimeout(() => {
+                        cardEl1.classList.remove('flipped', 'shake');
+                        cardEl2.classList.remove('flipped', 'shake');
+                    }, 600);
+                }
+                
+                flippedCards = [];
+                isProcessing = false;
+            }, 800);
+        }
+
+        // ============================================
+        // İLERLEMEYİ GÜNCELLE
+        // ============================================
+        function updateProgress() {
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const matchesCount = document.getElementById('matches-count');
+            
+            const percentage = (matchedPairs / totalPairs) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${Math.round(percentage)}%`;
+            matchesCount.textContent = matchedPairs;
+        }
+
+        // ============================================
+        // SES FONKSİYONLARI
+        // ============================================
+        const numberNames = {
+            1: 'bir',
+            2: 'iki',
+            3: 'üç',
+            4: 'dört',
+            5: 'beş',
+            6: 'altı',
+            7: 'yedi',
+            8: 'sekiz',
+            9: 'dokuz',
+            10: 'on'
+        };
+
+        function speakNumber(number) {
+            // Sayıları seslendirme kaldırıldı
+        }
+
+        function playMatchSound() {
+            // Eşleşme sesi (sadece bip bip uyarı sesi)
+            const audioContext = window.AudioContext || window.webkitAudioContext;
+            if (audioContext) {
+                const context = new audioContext();
+                const oscillator = context.createOscillator();
+                const gainNode = context.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(context.destination);
+                
+                oscillator.frequency.value = 1200; // Daha yüksek frekans
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, context.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.2);
+                
+                oscillator.start(context.currentTime);
+                oscillator.stop(context.currentTime + 0.2);
+            }
+        }
+
+        function playWrongSound() {
+            // Uyarı sesi (bip bip sesi)
+            const audioContext = window.AudioContext || window.webkitAudioContext;
+            if (audioContext) {
+                const context = new audioContext();
+                const oscillator = context.createOscillator();
+                const gainNode = context.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(context.destination);
+                
+                oscillator.frequency.value = 800; // Frekans
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, context.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.3);
+                
+                oscillator.start(context.currentTime);
+                oscillator.stop(context.currentTime + 0.3);
+            }
+        }
+
+        function speakSuccess() {
+            if ('speechSynthesis' in window) {
+                const message = config.success_message || defaultConfig.success_message;
+                const utterance = new SpeechSynthesisUtterance(message + '!');
+                utterance.lang = 'tr-TR';
+                utterance.rate = 0.9;
+                utterance.pitch = 1.3;
+                utterance.volume = 1;
+                
+                // Kadın sesi seç
+                const voices = speechSynthesis.getVoices();
+                const femaleVoice = voices.find(voice => voice.lang === 'tr-TR' || (voice.lang.startsWith('tr') && voice.name.toLowerCase().includes('female')));
+                if (femaleVoice) {
+                    utterance.voice = femaleVoice;
+                }
+                
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // ============================================
+        // KONFETİ PATLAT
+        // ============================================
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = GAME_DATA.confettiColors[Math.floor(Math.random() * GAME_DATA.confettiColors.length)];
+                confetti.style.animationDuration = `${2 + Math.random() * 3}s`;
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.width = `${5 + Math.random() * 10}px`;
+                confetti.style.height = `${5 + Math.random() * 10}px`;
+                container.appendChild(confetti);
+            }
+            
+            // 5 saniye sonra temizle
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 5000);
+        }
+
+        // ============================================
+        // BAŞARI MODALI
+        // ============================================
+        function showSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.remove('hidden');
+            createConfetti();
+            speakSuccess();
+        }
+
+        function hideSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.add('hidden');
+        }
+
+        // ============================================
+        // OYUNU BAŞLAT / YENİDEN BAŞLAT
+        // ============================================
+        function startGame() {
+            matchedPairs = 0;
+            flippedCards = [];
+            isProcessing = false;
+            
+            createCards();
+            renderBoard();
+            updateProgress();
+            hideSuccessModal();
+            
+            document.getElementById('total-pairs').textContent = totalPairs;
+        }
+
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
+        document.getElementById('restart-btn').addEventListener('click', startGame);
+        document.getElementById('play-again-btn').addEventListener('click', startGame);
+
+        // Oyunu başlat
+        startGame();
+        updateUI();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d77838772a4c546',t:'MTc3MjY5Njg1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
