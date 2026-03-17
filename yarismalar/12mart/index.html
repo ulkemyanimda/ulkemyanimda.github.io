@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
+    <title>12 Mart İstiklal Marşı'nı Güzel Okuma Yarışması Sonuçları</title>
+    <!-- Google Fonts for Premium Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #c8102e; /* Turkish Flag Red */
+            --dark-red: #8b0000;
+            --gold: #d4af37; /* Premium Gold for Awards */
+            --dark-bg: #111111;
+            --light-bg: #fdfdfd;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Banner & Header */
+        header {
+            background-color: var(--dark-bg);
+            text-align: center;
+            border-bottom: 4px solid var(--primary-red);
+        }
+
+        header img {
+            width: 100%;
+            max-width: 1200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Main Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            color: var(--text-light);
+            text-align: center;
+            padding: 60px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('icons/afis.jpg') no-repeat center center/cover;
+            opacity: 0.1; /* Subtle poster background */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            font-weight: 500;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Awards Section */
+        .awards-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            color: var(--primary-red);
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 3px;
+            background-color: var(--gold);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .award-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 40px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .award-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .award-card::before {
+            content: '★';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 100px;
+            color: rgba(212, 175, 55, 0.1);
+            z-index: 0;
+        }
+
+        .award-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gold);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .award-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--dark-red);
+            margin-bottom: 20px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .winner-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .winner-list li {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+
+        .winner-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .first-place { border-top-color: #FFD700; }
+        .first-place .award-icon { background: #FFD700; }
+        
+        .second-place { border-top-color: #C0C0C0; }
+        .second-place .award-icon { background: #C0C0C0; }
+        
+        .third-place { border-top-color: #CD7F32; }
+        .third-place .award-icon { background: #CD7F32; }
+
+        /* Poster and Congratulation */
+        .info-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+        }
+
+        .poster {
+            flex: 0 0 300px;
+        }
+
+        .poster img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 2px solid #eee;
+        }
+
+        .congratulations {
+            flex: 1;
+            text-align: center;
+        }
+
+        .congratulations p {
+            font-size: 1.5rem;
+            color: var(--dark-red);
+            font-style: italic;
+            font-weight: 500;
+            line-height: 1.8;
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Videos Section */
+        .videos-section {
+            text-align: center;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .video-card {
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: scale(1.02);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-top: 4px solid var(--primary-red);
+        }
+
+        footer p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .info-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .poster {
+                flex: 0 0 auto;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .section-title { font-size: 2rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>12 Mart İstiklal Marşı’nı Güzel Okuma Yarışması</h1>
+            <p>Yarışma sonuçları ve öğrenci performansları</p>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <!-- Ödüller -->
+        <section class="awards-section">
+            <h2 class="section-title">Yarışma Sonuçları</h2>
+            
+            <div class="cards-grid">
+                <!-- Birincilik -->
+                <div class="award-card first-place">
+                    <div class="award-icon">🏆</div>
+                    <h3 class="award-title">Birincilik Ödülü</h3>
+                    <ul class="winner-list">
+                        <li>İpek Değirmencioğlu</li>
+                        <li>Kağan Pamuk</li>
+                        <li>Rüzgar Elmalı</li>
+                    </ul>
+                </div>
+
+                <!-- İkincilik -->
+                <div class="award-card second-place">
+                    <div class="award-icon">🥈</div>
+                    <h3 class="award-title">İkincilik Ödülü</h3>
+                    <ul class="winner-list">
+                        <li>Deniz Bohjort</li>
+                        <li>Peri Meral</li>
+                        <li>Yusuf Karaca</li>
+                    </ul>
+                </div>
+
+                <!-- Üçüncülük -->
+                <div class="award-card third-place">
+                    <div class="award-icon">🥉</div>
+                    <h3 class="award-title">Üçüncülük Ödülü</h3>
+                    <ul class="winner-list">
+                        <li>Ela Altıkulaç</li>
+                        <li>Naz Altıkulaç</li>
+                        <li>Zeynep Demirel</li>
+                        <li>Zeynep Ebrar Çakmakçı</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!-- Videolar -->
+        <section class="videos-section">
+            <h2 class="section-title">Öğrenci Performansları</h2>
+            <p style="font-size: 1.1rem; color: #666; margin-bottom: 30px;">İstiklal Marşı Kolajları</p>
+            
+            <div class="video-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/Tz6nTAIh4DE" title="Öğrenci Performansı 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/Vvc7pHcdUao" title="Öğrenci Performansı 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/-zxjhFbXoM8" title="Öğrenci Performansı 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+        <!-- Tebrik ve Afiş -->
+        <section class="info-section">
+            <div class="poster">
+                <img src="icons/afis.jpg" alt="Yarışma Afişi">
+            </div>
+            <div class="congratulations">
+                <p>"Yarışmaya katılan tüm öğrencilerimizi tebrik eder, başarılarının devamını dileriz."</p>
+            </div>
+        </section>
+
+
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 12 Mart İstiklal Marşı'nı Güzel Okuma Yarışması.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basında Biz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper-bg: #f4f0e6;
+            --ink: #2b2b2b;
+            --border-color: #2b2b2b;
+        }
+
+        body {
+            background-color: #d1cbc1; /* background outside the paper */
+            color: var(--ink);
+            font-family: 'Playfair Display', "Times New Roman", Times, serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .newspaper {
+            max-width: 1200px;
+            width: 100%;
+            background-color: var(--paper-bg);
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); /* Subtle paper texture */
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            padding: 30px 40px;
+            box-sizing: border-box;
+            border: 1px solid #d3cec4;
+        }
+
+        /* Header Section */
+        .masthead {
+            text-align: center;
+            border-bottom: 4px double var(--border-color);
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+
+        .masthead-title {
+            font-family: 'Cinzel', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            margin: 0;
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        .masthead-sub {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            border-top: 2px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
+            padding: 8px 10px;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Banner Section */
+        .banner-container {
+            width: 100%;
+            margin-bottom: 30px;
+            border: 2px solid var(--border-color);
+            padding: 5px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid var(--border-color);
+            /* Object fit cover in case the image aspect ratio is exactly 2000x350 but we want it responsive */
+            aspect-ratio: 2000 / 350;
+            object-fit: cover;
+        }
+
+        /* Cards Grid */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            border-top: 4px double var(--border-color);
+            padding-top: 30px;
+        }
+
+        /* Card Styling */
+        .card {
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 1px solid rgba(43, 43, 43, 0.3);
+            pointer-events: none;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 4px 4px 0px var(--border-color);
+        }
+
+        .card-source {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: var(--ink);
+            display: inline-block;
+            font-family: sans-serif;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 10px;
+            margin-top: auto;
+            text-align: right;
+            transition: color 0.2s;
+        }
+
+        .card-link:hover {
+            color: #666;
+            text-decoration: underline;
+        }
+
+        .card-link::after {
+            content: ' »';
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .masthead-title {
+                font-size: 3rem;
+            }
+            .newspaper {
+                padding: 15px 20px;
+            }
+            body {
+                padding: 10px;
+            }
+            .masthead-sub {
+                font-size: 0.8rem;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="newspaper">
+        <header class="masthead">
+            <!-- <h1 class="masthead-title">Basında Biz</h1>  -->
+            <div class="masthead-sub">
+                <span>Ülkem Yanımda Platformu</span>
+                <span>Özel Haber Derlemesi</span>
+                <span>T.C. Millî Eğitim Bakanlığı</span>
+            </div>
+        </header>
+
+        <div class="banner-container">
+            <img src="icons/basin.jpg" alt="Ülkem Yanımda Banner" class="banner-image">
+        </div>
+
+        <div class="articles-grid">
+            
+            <div class="card">
+                <div class="card-source">Anadolu Ajansı</div>
+                <h2 class="card-title">MEB'in "Ülkem Yanımda" platformuyla 16 ülkede 2 binden fazla çocuğa ulaşıldı</h2>
+                <a href="https://www.aa.com.tr/tr/egitim/mebin-ulkem-yanimda-platformuyla-16-ulkede-2-binden-fazla-cocuga-ulasildi/3852676" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">MEB Anasayfa</div>
+                <h2 class="card-title">"Ülkem Yanımda" Dijital Platformu Yurt Dışındaki Türk Çocukları İçin Eğitim Köprüsü Kuruyor</h2>
+                <a href="https://www.meb.gov.tr/ulkem-yanimda-dijital-platformu-yurt-disindaki-turk-cocuklari-icin-egitim-koprusu-kuruyor/haber/40020/tr" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Memurlar.Net</div>
+                <h2 class="card-title">MEB'ten yurt dışında yaşayan Türk çocukları için "Ülkem Yanımda" uygulaması</h2>
+                <a href="https://www.memurlar.net/haber/1161434/meb-ten-yurt-disinda-yasayan-turk-cocuklari-icin-ulkem-yanimda-uygulamasi.html" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Yeni Şafak</div>
+                <h2 class="card-title">MEB'den 'Ülkem Yanımda' uygulaması: 16 ülkede 2 binden fazla çocuğa ulaşıldı</h2>
+                <a href="https://www.yenisafak.com/amphtml/gundem/mebden-ulkem-yanimda-uygulamasi-16-ulkede-2-binden-fazla-cocuga-ulasildi-4803574" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Memur 365</div>
+                <h2 class="card-title">MEB'den gurbetteki çocuklara müjde! Ülkem Yanımda uygulaması başladı</h2>
+                <a href="https://memur365.com/egitim/mebden-gurbetteki-cocuklara-mujde-ulkem-yanimda-uygulamasi-basladi-22837h" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Yeni Birlik</div>
+                <h2 class="card-title">16 ülkeden binlerce öğrenci katılıyor! MEB'den 'Ülkem Yanımda' projesi</h2>
+                <a href="https://www.gazetebirlik.com/gundem/16-ulkeden-binlerce-ogrenci-katiliyor-mebden-ulkem-yanimda-projesi/954901" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Yayla Haber</div>
+                <h2 class="card-title">Türk çocuklarına dijital eğitim köprüsü: Ülkem Yanımda</h2>
+                <a href="https://www.yaylahaber.com.tr/turk-cocuklarina-dijital-egitim-koprusu-ulkem-yanimda" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Mersin Haber</div>
+                <h2 class="card-title">MEB Yurt Dışında Yaşayan Türk Çocuklarına "Ülkem Yanımda" Uygulamasını Başlattı</h2>
+                <a href="https://www.mersinhaber.com/haber-ankarada-meb-yurt-disinda-yasayan-turk-cocuklarina-ulkem-yanimda-uygulamasini-baslatti/566339" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Haberhergün</div>
+                <h2 class="card-title">MEB'in "Ülkem Yanımda" uygulaması 16 ülkede 2 bin çocuğa ulaştı</h2>
+                <a href="https://www.haberhergun.com/haber/meb-in-ulkem-yanimda-uygulamasi-16-ulkede-2-bin-cocuga-ulasti_61001/" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Aksaray Haber</div>
+                <h2 class="card-title">Ülkem Yanımda platformu Türkçe ve kültürü evde öğretiyor</h2>
+                <a href="https://aksarayhaber.net/amp/haber/ulkem-yanimda-platformu-turkce-ve-kulturu-evde-ogretiyor-75124.html" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+            <div class="card">
+                <div class="card-source">Kars Manşet</div>
+                <h2 class="card-title">MEB'ten yurt dışında yaşayan Türk çocukları için "Ülkem Yanımda" uygulaması</h2>
+                <a href="https://www.karsmanset.com/service/amp/haber/mebten-yurt-disinda-yasayan-turk-cocuklari-icin-ulkem-yanimda-uygulamasi-1649098.htm" target="_blank" class="card-link">Haberi Oku</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
