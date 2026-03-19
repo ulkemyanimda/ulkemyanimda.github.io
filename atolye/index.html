@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramazan Bayramı Atölyesi – Ülkem Yanımda</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9922A;
+    --gold-light: #F2C94C;
+    --deep: #1a0a2e;
+    --teal: #0d7377;
+    --teal-light: #14a085;
+    --rose: #c0392b;
+    --cream: #fdf6e3;
+    --text: #2c1654;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.5rem 6rem;
+    background: radial-gradient(ellipse at 50% 0%, #3b1f6e 0%, #1a0a2e 60%);
+    overflow: hidden;
+  }
+
+  /* Geometric background ornament */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(201,146,42,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(13,115,119,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Stars */
+  .stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0.2; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.5); }
+  }
+
+  /* Crescent moon */
+  .moon {
+    position: absolute;
+    top: 2.5rem; right: 8%;
+    width: 90px; height: 90px;
+    animation: moonFloat 6s ease-in-out infinite;
+  }
+  @keyframes moonFloat {
+    0%,100% { transform: translateY(0) rotate(-10deg); }
+    50%      { transform: translateY(-12px) rotate(-10deg); }
+  }
+
+  /* Lantern decorations */
+  .lanterns {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-around;
+    padding-top: 0;
+    pointer-events: none;
+  }
+  .lantern {
+    width: 28px;
+    animation: swing 4s ease-in-out infinite;
+    transform-origin: top center;
+  }
+  .lantern:nth-child(2) { animation-delay: -1.3s; }
+  .lantern:nth-child(3) { animation-delay: -2.6s; }
+  .lantern:nth-child(4) { animation-delay: -0.7s; }
+  .lantern:nth-child(5) { animation-delay: -2s; }
+  @keyframes swing {
+    0%,100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Amiri', serif;
+    font-size: clamp(0.95rem, 2vw, 1.2rem);
+    color: var(--gold-light);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(2.8rem, 8vw, 6rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title span { color: var(--gold-light); }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  /* ── MAIN CTA BUTTON ── */
+  .cta-wrap {
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.1rem 2.8rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+    font-weight: 900;
+    color: var(--deep);
+    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+    border: none;
+    border-radius: 60px;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 4px rgba(242,201,76,0.25),
+      0 8px 40px rgba(201,146,42,0.55),
+      0 2px 8px rgba(0,0,0,0.3);
+    animation: sway 3s ease-in-out infinite;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%);
+    transform: translateX(-100%);
+    animation: shimmer 2.8s 1.5s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0%   { transform: translateX(-100%); }
+    60%,100% { transform: translateX(200%); }
+  }
+  @keyframes sway {
+    0%,100% { transform: translateY(0) rotate(-1deg); box-shadow: 0 0 0 4px rgba(242,201,76,0.25), 0 8px 40px rgba(201,146,42,0.55), 0 2px 8px rgba(0,0,0,0.3); }
+    50%      { transform: translateY(-6px) rotate(1deg); box-shadow: 0 0 0 6px rgba(242,201,76,0.3), 0 16px 50px rgba(201,146,42,0.65), 0 4px 16px rgba(0,0,0,0.25); }
+  }
+  .cta-btn:hover {
+    animation-play-state: paused;
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 0 0 6px rgba(242,201,76,0.35), 0 20px 60px rgba(201,146,42,0.7), 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .cta-icon { font-size: 1.5rem; }
+
+  /* Pulse ring behind button */
+  .cta-wrap { position: relative; display: inline-block; }
+  .pulse-ring {
+    position: absolute;
+    inset: -8px;
+    border-radius: 70px;
+    border: 2px solid rgba(242,201,76,0.5);
+    animation: pulseRing 2s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulseRing {
+    0%   { transform: scale(0.97); opacity: 0.8; }
+    100% { transform: scale(1.12); opacity: 0; }
+  }
+
+  /* Scroll wave divider */
+  .wave-divider {
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── DATE BANNER ── */
+  .date-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.75rem 1.8rem;
+    background: linear-gradient(135deg, rgba(242,201,76,0.18) 0%, rgba(201,146,42,0.28) 100%);
+    border: 2px solid rgba(242,201,76,0.6);
+    border-radius: 60px;
+    margin-bottom: 1.4rem;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 24px rgba(242,201,76,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards, datePulse 3s 1.5s ease-in-out infinite;
+  }
+  @keyframes datePulse {
+    0%,100% { box-shadow: 0 0 18px rgba(242,201,76,0.25), inset 0 1px 0 rgba(255,255,255,0.1); }
+    50%      { box-shadow: 0 0 38px rgba(242,201,76,0.55), inset 0 1px 0 rgba(255,255,255,0.15); }
+  }
+  .date-icon { font-size: 1.5rem; }
+  .date-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+  .date-main {
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 900;
+    color: var(--gold-light);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .date-sub {
+    font-size: clamp(0.78rem, 1.8vw, 0.92rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.01em;
+  }
+
+  /* ── INFO BADGES ── */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1.1rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 30px;
+    color: rgba(255,255,255,0.88);
+    font-size: 0.9rem;
+    font-weight: 700;
+    backdrop-filter: blur(6px);
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 5rem 1.5rem; }
+  .container { max-width: 900px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--deep);
+  }
+  .section-title span { color: var(--teal); }
+  .section-line {
+    width: 60px; height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+    border-radius: 4px;
+    margin: 0.6rem auto 2.8rem;
+  }
+
+  /* ── GOALS ── */
+  .goals-section { background: #fff; }
+  .goals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+  .goal-card {
+    text-align: center;
+    padding: 2rem 1.2rem;
+    border-radius: 18px;
+    background: var(--cream);
+    border: 2px solid transparent;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  .goal-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(201,146,42,0.18);
+  }
+  .goal-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+  .goal-text { font-size: 0.95rem; font-weight: 700; color: var(--text); line-height: 1.45; }
+
+  /* ── TIMELINE ── */
+  .timeline-section { background: var(--cream); }
+  .timeline { position: relative; padding-left: 2.5rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--gold), var(--teal));
+    border-radius: 3px;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding: 1.5rem 1.5rem 1.5rem 1.2rem;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    border-left: 4px solid var(--gold);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .tl-item:nth-child(2) { border-left-color: var(--teal); }
+  .tl-item:nth-child(3) { border-left-color: var(--rose); }
+  .tl-item:nth-child(4) { border-left-color: #7b2d8b; }
+  .tl-item:hover { transform: translateX(6px); box-shadow: 0 8px 28px rgba(0,0,0,0.12); }
+  .tl-dot {
+    position: absolute;
+    left: -2.15rem; top: 1.4rem;
+    width: 20px; height: 20px;
+    background: var(--gold);
+    border-radius: 50%;
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 0 3px var(--gold);
+  }
+  .tl-item:nth-child(2) .tl-dot { background: var(--teal); box-shadow: 0 0 0 3px var(--teal); }
+  .tl-item:nth-child(3) .tl-dot { background: var(--rose); box-shadow: 0 0 0 3px var(--rose); }
+  .tl-item:nth-child(4) .tl-dot { background: #7b2d8b; box-shadow: 0 0 0 3px #7b2d8b; }
+  .tl-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.6rem; }
+  .tl-num {
+    font-size: 0.72rem; font-weight: 900; letter-spacing: 0.08em;
+    color: #fff; background: var(--gold);
+    padding: 0.15rem 0.6rem; border-radius: 20px;
+  }
+  .tl-item:nth-child(2) .tl-num { background: var(--teal); }
+  .tl-item:nth-child(3) .tl-num { background: var(--rose); }
+  .tl-item:nth-child(4) .tl-num { background: #7b2d8b; }
+  .tl-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+  .tl-time { margin-left: auto; font-size: 0.82rem; font-weight: 700; color: #888; }
+  .tl-desc { font-size: 0.92rem; color: #555; line-height: 1.65; }
+  .tl-list { margin-top: 0.5rem; padding-left: 1.1rem; }
+  .tl-list li { font-size: 0.9rem; color: #555; margin-bottom: 0.3rem; }
+
+  /* ── VALUES ── */
+  .values-section { background: var(--deep); }
+  .values-section .section-title { color: #fff; }
+  .values-section .section-title span { color: var(--gold-light); }
+  .values-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    justify-content: center;
+  }
+  .value-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 1.8rem;
+    background: rgba(255,255,255,0.07);
+    border: 2px solid rgba(242,201,76,0.35);
+    border-radius: 50px;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    transition: background 0.3s, border-color 0.3s, transform 0.3s;
+  }
+  .value-pill:hover {
+    background: rgba(242,201,76,0.15);
+    border-color: var(--gold-light);
+    transform: scale(1.06);
+  }
+  .value-pill .vi { font-size: 1.4rem; }
+
+  /* ── MATERIALS ── */
+  .materials-section { background: #fff; }
+  .materials-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  .mat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    background: var(--cream);
+    border-radius: 12px;
+    border: 1.5px solid rgba(201,146,42,0.25);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    transition: border-color 0.3s, transform 0.2s;
+  }
+  .mat-item:hover { border-color: var(--gold); transform: translateY(-3px); }
+
+  /* ── BOTTOM CTA ── */
+  .bottom-cta {
+    background: linear-gradient(135deg, #0d3b5e 0%, var(--teal) 50%, #0d5e3b 100%);
+    padding: 5rem 1.5rem;
+    text-align: center;
+  }
+  .bottom-cta h2 {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  .bottom-cta p { color: rgba(255,255,255,0.8); font-size: 1.1rem; margin-bottom: 2.5rem; }
+  .bottom-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 2.5rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--deep);
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 8px 32px rgba(201,146,42,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .bottom-btn:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 14px 45px rgba(201,146,42,0.65);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep);
+    text-align: center;
+    padding: 1.8rem;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--gold-light); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ── GEOMETRIC ORNAMENT ── */
+  .ornament {
+    display: block;
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 0 auto 0.5rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    opacity: 0.15;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     HERO
+════════════════════════════════════ -->
+<section class="hero">
+
+  <!-- Stars -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Moon SVG -->
+  <svg class="moon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M65 15 A38 38 0 1 0 65 85 A26 26 0 1 1 65 15Z" fill="#F2C94C" opacity="0.9"/>
+    <!-- small star -->
+    <polygon points="78,20 80,26 86,26 81,30 83,36 78,32 73,36 75,30 70,26 76,26" fill="#F2C94C" opacity="0.8"/>
+  </svg>
+
+  <!-- Lanterns (SVG inline) -->
+  <div class="lanterns">
+    <!-- lantern 1 -->
+    <svg class="lantern" viewBox="0 0 28 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/>
+      <rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/>
+      <ellipse cx="14" cy="36" rx="10" ry="22" fill="#c0392b"/>
+      <ellipse cx="14" cy="36" rx="7" ry="18" fill="#e74c3c" opacity="0.6"/>
+      <line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/>
+      <line x1="4" y1="24" x2="24" y2="24" stroke="#C9922A" stroke-width="1"/>
+      <line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/>
+      <rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/>
+    </svg>
+    <svg class="lantern" viewBox="0 0 28 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/>
+      <rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/>
+      <ellipse cx="14" cy="36" rx="10" ry="22" fill="#0d7377"/>
+      <ellipse cx="14" cy="36" rx="7" ry="18" fill="#14a085" opacity="0.6"/>
+      <line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/>
+      <line x1="4" y1="24" x2="24" y2="24" stroke="#C9922A" stroke-width="1"/>
+      <line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/>
+      <rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/>
+    </svg>
+    <svg class="lantern" viewBox="0 0 28 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/>
+      <rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/>
+      <ellipse cx="14" cy="36" rx="10" ry="22" fill="#7b2d8b"/>
+      <ellipse cx="14" cy="36" rx="7" ry="18" fill="#9b59b6" opacity="0.6"/>
+      <line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/>
+      <line x1="4" y1="24" x2="24" y2="24" stroke="#C9922A" stroke-width="1"/>
+      <line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/>
+      <rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/>
+    </svg>
+    <svg class="lantern" viewBox="0 0 28 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/>
+      <rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/>
+      <ellipse cx="14" cy="36" rx="10" ry="22" fill="#c0392b"/>
+      <ellipse cx="14" cy="36" rx="7" ry="18" fill="#e74c3c" opacity="0.6"/>
+      <line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/>
+      <line x1="4" y1="24" x2="24" y2="24" stroke="#C9922A" stroke-width="1"/>
+      <line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/>
+      <rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/>
+    </svg>
+    <svg class="lantern" viewBox="0 0 28 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/>
+      <rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/>
+      <ellipse cx="14" cy="36" rx="10" ry="22" fill="#0d7377"/>
+      <ellipse cx="14" cy="36" rx="7" ry="18" fill="#14a085" opacity="0.6"/>
+      <line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/>
+      <line x1="4" y1="24" x2="24" y2="24" stroke="#C9922A" stroke-width="1"/>
+      <line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/>
+      <rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/>
+    </svg>
+  </div>
+
+  <p class="hero-eyebrow">✦ Ülkem Yanımda – Değerler Eğitimi ✦</p>
+
+  <div class="date-banner">
+    <span class="date-icon">📅</span>
+    <div class="date-text">
+      <span class="date-main">21 Mart 2026 Cumartesi</span>
+      <span class="date-sub">Bayramın İkinci Günü &nbsp;·&nbsp; 🕘 Saat 21.00 (Türkiye Saati)</span>
+    </div>
+  </div>
+
+  <h1 class="hero-title">Ramazan <span>Bayramı</span><br>Atölyesi</h1>
+  <p class="hero-sub">5–16 yaş &nbsp;·&nbsp; 40–60 dakika &nbsp;·&nbsp; Sevgi, Paylaşma, Saygı</p>
+
+  <div class="cta-wrap">
+    <div class="pulse-ring"></div>
+    <a href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=36" target="_blank" rel="noopener" class="cta-btn">
+      <span class="cta-icon">🎉</span>
+      Atölyeye Katıl
+    </a>
+  </div>
+
+  <div class="badges">
+    <span class="badge">👧🏻 5–16 Yaş</span>
+    <span class="badge">⏱ 40–60 Dakika</span>
+    <span class="badge">🖌 Canva Etkinliği</span>
+    <span class="badge">💬 Menti Oylama</span>
+  </div>
+
+  <!-- Wave -->
+  <svg class="wave-divider" viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0 60 C360 0 1080 0 1440 60 L1440 60 L0 60Z" fill="#ffffff"/>
+  </svg>
+</section>
+
+<!-- ══════════════════════════════════
+     GOALS
+════════════════════════════════════ -->
+<section class="section goals-section">
+  <div class="container">
+    <h2 class="section-title">Atölyenin <span>Amaçları</span></h2>
+    <div class="section-line"></div>
+    <div class="goals-grid">
+      <div class="goal-card">
+        <div class="goal-icon">🌙</div>
+        <p class="goal-text">Ramazan Bayramı'nın ne olduğunu öğrenir</p>
+      </div>
+      <div class="goal-card">
+        <div class="goal-icon">🏮</div>
+        <p class="goal-text">Bayram geleneklerini tanır</p>
+      </div>
+      <div class="goal-card">
+        <div class="goal-icon">💛</div>
+        <p class="goal-text">Paylaşma, saygı ve sevgi değerlerini fark eder</p>
+      </div>
+      <div class="goal-card">
+        <div class="goal-icon">✉️</div>
+        <p class="goal-text">Bayram kültürüyle ilgili bir ürün ortaya çıkarır</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     TIMELINE
+════════════════════════════════════ -->
+<section class="section timeline-section">
+  <div class="container">
+    <h2 class="section-title">Etkinlik <span>Akışı</span></h2>
+    <div class="section-line"></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header">
+          <span class="tl-num">ADIM 1</span>
+          <span class="tl-title">🎵 Isınma Etkinliği</span>
+          <span class="tl-time">10 dk</span>
+        </div>
+        <p class="tl-desc">Bayram temalı şarkı dinlenir. Ardından öğrencilere sorular sorulur:</p>
+        <ul class="tl-list">
+          <li>Bayram denince aklınıza ne geliyor?</li>
+          <li>Bayramda neler yapıyorsunuz?</li>
+          <li>En sevdiğiniz bayram geleneği nedir?</li>
+        </ul>
+        <p class="tl-desc" style="margin-top:0.5rem">Cevaplar <strong>Menti</strong> uygulamasında toplanır.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header">
+          <span class="tl-num">ADIM 2</span>
+          <span class="tl-title">📽 Slayt Sunumu</span>
+          <span class="tl-time">10 dk</span>
+        </div>
+        <p class="tl-desc">Slaytlar eşliğinde şu konular işlenir:</p>
+        <ul class="tl-list">
+          <li>Bayram nedir? &nbsp;·&nbsp; Bayram hazırlıkları</li>
+          <li>Bayram şekeri ve bayramlık</li>
+          <li>El öpme ve saygı &nbsp;·&nbsp; Bayram harçlığı</li>
+          <li>Bayramlaşma kültürü &nbsp;·&nbsp; Bayram mesajı gönderme</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header">
+          <span class="tl-num">ADIM 3</span>
+          <span class="tl-title">🎨 Ürün Oluşturma</span>
+          <span class="tl-time">15 dk</span>
+        </div>
+        <p class="tl-desc">Öğrenciler <strong>Canva</strong> üzerinden <em>Bayram Tebrik Kartı</em> tasarlar ve sevdikleri kişilere özel mesajlar yazar.</p>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header">
+          <span class="tl-num">ADIM 4</span>
+          <span class="tl-title">📸 Paylaşım & Fotoğraf</span>
+          <span class="tl-time">5 dk</span>
+        </div>
+        <p class="tl-desc">Hazırlanan kalp kartlar arkadaşlarla paylaşılır. Hep birlikte şu kelimeler seslendirilir:</p>
+        <p style="margin-top:0.6rem; font-weight:800; font-size:1rem; color:var(--teal)">Sevgi &nbsp;✦&nbsp; Hoşgörü &nbsp;✦&nbsp; Paylaşmak &nbsp;✦&nbsp; Mutluluk</p>
+        <p class="tl-desc" style="margin-top:0.4rem">Etkinlik toplu fotoğrafla tamamlanır.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     VALUES
+════════════════════════════════════ -->
+<section class="section values-section">
+  <div class="container" style="text-align:center">
+    <h2 class="section-title">Aktarılan <span>Değerler</span></h2>
+    <div class="section-line"></div>
+    <div class="values-grid">
+      <div class="value-pill"><span class="vi">❤️</span> Sevgi</div>
+      <div class="value-pill"><span class="vi">🤝</span> Paylaşma</div>
+      <div class="value-pill"><span class="vi">🙏</span> Saygı</div>
+      <div class="value-pill"><span class="vi">🕊️</span> Hoşgörü</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     MATERIALS
+════════════════════════════════════ -->
+<section class="section materials-section">
+  <div class="container" style="text-align:center">
+    <h2 class="section-title">Kullanılacak <span>Materyaller</span></h2>
+    <div class="section-line"></div>
+    <div class="materials-grid">
+      <div class="mat-item">📊 Slayt sunumu</div>
+      <div class="mat-item">🟦 Karton / renkli kâğıt</div>
+      <div class="mat-item">🖍 Boya kalemleri</div>
+      <div class="mat-item">✂️ Makas</div>
+      <div class="mat-item">🔧 Yapıştırıcı</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     BOTTOM CTA
+════════════════════════════════════ -->
+<section class="bottom-cta">
+  <div class="container">
+    <h2>Hemen Başlayalım! 🌙</h2>
+    <p>Bayramın sevincini paylaşmak için atölyeye katıl, tebrik kartını yap, kalbini açık tut.</p>
+    <a href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=36" target="_blank" rel="noopener" class="bottom-btn">
+      🎉 Atölyeye Katıl
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FOOTER
+════════════════════════════════════ -->
+<footer>
+  <p>© 2025 <a href="https://ulkemyanimda.eba.gov.tr" target="_blank">Ülkem Yanımda</a> – EBA Değerler Eğitimi Programı</p>
+</footer>
+
+<script>
+  // Generate stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top  = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    s.style.animationDuration = (2 + Math.random() * 3) + 's';
+    s.style.width = s.style.height = (Math.random() > 0.7 ? 4 : 2) + 'px';
+    starsEl.appendChild(s);
+  }
+</script>
+
+</body>
+</html>
