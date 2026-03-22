@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sıkça Sorulan Sorular - Ülkem Yanımda</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #333;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Sıkça Sorulan Sorular</h1>
+        <p>Platform kullanımı hakkında merak ettikleriniz ve video anlatımlar.</p>
+    </div>
+
+    <div class="container">
+        <!-- Card 1 -->
+        <div class="card">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/WJO_dJfO18g" title="Giriş Yapma" allowfullscreen></iframe>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Ülkemin Yanımda Platformunda nasıl giriş yaparım?</h2>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/D5MoyEB_mrg" title="Canlı Derse Giriş"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Ülkem Yanımda Platformunda Canlı Derse Giriş</h2>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HCeN3PAXX8w" title="Kelime Hazinem" allowfullscreen></iframe>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Kelime Hazinem Nasıl Kullanılır?</h2>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/szgnqzFmjx8" title="Bilgi Güncelleme"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Eksik ya da Hatalı Bilgilerin Güncellenmesi</h2>
+            </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="card">
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/2jMLBxzCnTg" title="Ses Kaydı Yükleme"
+                    allowfullscreen></iframe>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Ülkem Yanımda Ses Kaydı Yükleme</h2>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
