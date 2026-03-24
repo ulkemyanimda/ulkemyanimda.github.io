@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramazan Bayramı Atölyesi – Ülkem Yanımda</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9922A;
+    --gold-light: #F2C94C;
+    --deep: #1a0a2e;
+    --teal: #0d7377;
+    --teal-light: #14a085;
+    --rose: #c0392b;
+    --cream: #fdf6e3;
+    --text: #2c1654;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO — compact, no CTA ── */
+  .hero {
+    position: relative;
+    min-height: 52vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3.5rem 1.5rem 5rem;
+    background: radial-gradient(ellipse at 50% 0%, #3b1f6e 0%, #1a0a2e 65%);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(201,146,42,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(13,115,119,0.15) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .stars { position: absolute; inset: 0; pointer-events: none; }
+  .star {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0.2; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.5); }
+  }
+
+  .moon {
+    position: absolute;
+    top: 2rem; right: 7%;
+    width: 76px; height: 76px;
+    animation: moonFloat 6s ease-in-out infinite;
+  }
+  @keyframes moonFloat {
+    0%,100% { transform: translateY(0) rotate(-10deg); }
+    50%      { transform: translateY(-10px) rotate(-10deg); }
+  }
+
+  .lanterns {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-around;
+    pointer-events: none;
+  }
+  .lantern { width: 26px; animation: swing 4s ease-in-out infinite; transform-origin: top center; }
+  .lantern:nth-child(2) { animation-delay: -1.3s; }
+  .lantern:nth-child(3) { animation-delay: -2.6s; }
+  .lantern:nth-child(4) { animation-delay: -0.7s; }
+  .lantern:nth-child(5) { animation-delay: -2s; }
+  @keyframes swing {
+    0%,100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Amiri', serif;
+    font-size: clamp(0.85rem, 1.8vw, 1.1rem);
+    color: var(--gold-light);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .date-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.6rem 1.5rem;
+    background: linear-gradient(135deg, rgba(242,201,76,0.18) 0%, rgba(201,146,42,0.28) 100%);
+    border: 2px solid rgba(242,201,76,0.6);
+    border-radius: 60px;
+    margin-bottom: 1.2rem;
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .date-icon { font-size: 1.3rem; }
+  .date-main { font-size: clamp(0.9rem, 2vw, 1.05rem); font-weight: 900; color: var(--gold-light); line-height: 1; }
+  .date-sub  { font-size: clamp(0.72rem, 1.6vw, 0.85rem); font-weight: 700; color: rgba(255,255,255,0.75); }
+
+  .hero-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 0.4rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.45s forwards;
+  }
+  .hero-title span { color: var(--gold-light); }
+
+  .hero-sub {
+    font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+    color: rgba(255,255,255,0.68);
+    margin-bottom: 1.6rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-bottom: 1.4rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.75s forwards;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.38rem 0.95rem;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 30px;
+    color: rgba(255,255,255,0.82);
+    font-size: 0.82rem;
+    font-weight: 700;
+    backdrop-filter: blur(6px);
+  }
+
+  /* scroll hint */
+  .scroll-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+    cursor: pointer;
+  }
+  .scroll-hint span { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 0.12em; text-transform: uppercase; }
+  .scroll-arrow { width: 28px; height: 28px; border: 2px solid rgba(242,201,76,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 0.9rem; animation: bobDown 2s ease-in-out infinite; }
+  @keyframes bobDown { 0%,100%{transform:translateY(0)}50%{transform:translateY(5px)} }
+
+  .wave-divider { position: absolute; bottom: -2px; left: 0; right: 0; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════════════════
+     GALLERY
+  ════════════════════════════════════ */
+  .gallery-section {
+    background: var(--cream);
+    padding: 0 0 5rem;
+    position: relative;
+  }
+
+  /* Pulled up over the hero wave */
+  .gallery-pullup {
+    max-width: 1200px;
+    margin: -3rem auto 0;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Spotlight: first 3 images, large */
+  .spotlight-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 360px;
+    gap: 10px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(26,10,46,0.28);
+  }
+  @media (max-width: 700px) {
+    .spotlight-row { grid-template-columns: 1fr 1fr; grid-template-rows: 220px 190px; }
+    .spotlight-main { grid-column: 1 / 3; }
+  }
+  .spotlight-cell { overflow: hidden; position: relative; }
+  .spotlight-cell::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,10,46,0.32) 0%, transparent 45%); pointer-events: none; transition: opacity 0.3s; }
+  .spotlight-cell:hover::after { opacity: 0.4; }
+  .spotlight-img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; transition: transform 0.5s ease, filter 0.3s; filter: brightness(0.95); }
+  .spotlight-img:hover { transform: scale(1.05); filter: brightness(1.06); }
+
+  /* Gallery title area */
+  .gallery-header { text-align: center; padding: 3.5rem 1rem 0.5rem; }
+
+  .section-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    color: var(--deep);
+  }
+  .section-title span { color: var(--gold); }
+  .section-line { width: 60px; height: 4px; background: linear-gradient(90deg, var(--gold), var(--teal)); border-radius: 4px; margin: 0.5rem auto 1rem; }
+
+  .gallery-intro { font-size: 1rem; color: #777; font-weight: 600; max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.65; }
+
+  .string-lights { display: flex; justify-content: center; margin-bottom: 2rem; }
+  .string-lights svg { width: 100%; max-width: 860px; height: 44px; }
+
+  /* Masonry */
+  .gallery-grid { columns: 5 170px; column-gap: 9px; max-width: 1200px; margin: 0 auto 3rem; padding: 0 1rem; }
+  .gallery-item { break-inside: avoid; margin-bottom: 9px; border-radius: 10px; overflow: hidden; position: relative; cursor: pointer; box-shadow: 0 3px 14px rgba(0,0,0,0.13); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+  .gallery-item:hover { transform: translateY(-5px) scale(1.025); box-shadow: 0 14px 36px rgba(201,146,42,0.28); z-index: 3; }
+  .gallery-item img { width: 100%; height: auto; display: block; transition: filter 0.3s; }
+  .gallery-item:hover img { filter: brightness(1.06) saturate(1.1); }
+  .gallery-item .overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(26,10,46,0.6) 0%, transparent 55%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 0.6rem 0.7rem; }
+  .gallery-item:hover .overlay { opacity: 1; }
+  .overlay-num { font-size: 0.72rem; font-weight: 900; color: rgba(255,255,255,0.6); letter-spacing: 0.06em; }
+
+  @media (max-width: 500px) { .gallery-grid { columns: 3 110px; } }
+
+  /* ── Instagram strip ── */
+  .ig-strip {
+    background: linear-gradient(135deg, #1a0a2e 0%, #2d1050 50%, #1a0a2e 100%);
+    padding: 3.5rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .ig-strip::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(188,24,136,0.18) 0%, transparent 65%); pointer-events: none; }
+  .ig-strip-label { display: block; font-family: 'Amiri', serif; font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; color: #fff; margin-bottom: 0.45rem; }
+  .ig-strip-sub { color: rgba(255,255,255,0.5); font-size: 0.95rem; font-weight: 600; margin-bottom: 1.8rem; }
+  .instagram-btn {
+    display: inline-flex; align-items: center; gap: 0.7rem;
+    padding: 0.95rem 2.4rem;
+    font-family: 'Nunito', sans-serif; font-size: 1.08rem; font-weight: 900; color: #fff;
+    background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-radius: 50px; text-decoration: none;
+    box-shadow: 0 6px 30px rgba(188,24,136,0.45);
+    position: relative; overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .instagram-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%); transform: translateX(-100%); animation: shimmer 3s 1s ease-in-out infinite; }
+  @keyframes shimmer { 0%{transform:translateX(-100%)} 60%,100%{transform:translateX(200%)} }
+  .instagram-btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 12px 44px rgba(188,24,136,0.6); }
+
+  /* ── Info sections ── */
+  .section { padding: 4.5rem 1.5rem; }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  .goals-section { background: #fff; }
+  .goals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1.4rem; }
+  .goal-card { text-align: center; padding: 1.8rem 1rem; border-radius: 18px; background: var(--cream); border: 2px solid transparent; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; }
+  .goal-card:hover { border-color: var(--gold); transform: translateY(-5px); box-shadow: 0 10px 28px rgba(201,146,42,0.16); }
+  .goal-icon { font-size: 2rem; margin-bottom: 0.7rem; }
+  .goal-text { font-size: 0.92rem; font-weight: 700; color: var(--text); line-height: 1.45; }
+
+  .timeline-section { background: var(--cream); }
+  .timeline { position: relative; padding-left: 2.5rem; }
+  .timeline::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom, var(--gold), var(--teal)); border-radius: 3px; }
+  .tl-item { position: relative; margin-bottom: 2.2rem; padding: 1.4rem 1.4rem 1.4rem 1.1rem; background: #fff; border-radius: 16px; box-shadow: 0 4px 18px rgba(0,0,0,0.07); border-left: 4px solid var(--gold); transition: transform 0.3s, box-shadow 0.3s; }
+  .tl-item:nth-child(2){border-left-color:var(--teal)} .tl-item:nth-child(3){border-left-color:var(--rose)} .tl-item:nth-child(4){border-left-color:#7b2d8b}
+  .tl-item:hover { transform: translateX(5px); box-shadow: 0 8px 26px rgba(0,0,0,0.11); }
+  .tl-dot { position: absolute; left: -2.15rem; top: 1.3rem; width: 20px; height: 20px; background: var(--gold); border-radius: 50%; border: 3px solid var(--cream); box-shadow: 0 0 0 3px var(--gold); }
+  .tl-item:nth-child(2) .tl-dot{background:var(--teal);box-shadow:0 0 0 3px var(--teal)} .tl-item:nth-child(3) .tl-dot{background:var(--rose);box-shadow:0 0 0 3px var(--rose)} .tl-item:nth-child(4) .tl-dot{background:#7b2d8b;box-shadow:0 0 0 3px #7b2d8b}
+  .tl-header { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; }
+  .tl-num { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.08em; color: #fff; background: var(--gold); padding: 0.12rem 0.55rem; border-radius: 20px; }
+  .tl-item:nth-child(2) .tl-num{background:var(--teal)} .tl-item:nth-child(3) .tl-num{background:var(--rose)} .tl-item:nth-child(4) .tl-num{background:#7b2d8b}
+  .tl-title { font-size: 1rem; font-weight: 800; color: var(--text); }
+  .tl-time { margin-left: auto; font-size: 0.8rem; font-weight: 700; color: #999; }
+  .tl-desc { font-size: 0.9rem; color: #555; line-height: 1.65; }
+  .tl-list { margin-top: 0.45rem; padding-left: 1rem; }
+  .tl-list li { font-size: 0.88rem; color: #555; margin-bottom: 0.28rem; }
+
+  .values-section { background: var(--deep); }
+  .values-section .section-title { color: #fff; }
+  .values-section .section-title span { color: var(--gold-light); }
+  .values-grid { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+  .value-pill { display: flex; align-items: center; gap: 0.55rem; padding: 0.85rem 1.7rem; background: rgba(255,255,255,0.07); border: 2px solid rgba(242,201,76,0.32); border-radius: 50px; color: #fff; font-size: 1rem; font-weight: 800; letter-spacing: 0.03em; transition: background 0.3s, border-color 0.3s, transform 0.3s; }
+  .value-pill:hover { background: rgba(242,201,76,0.14); border-color: var(--gold-light); transform: scale(1.06); }
+  .value-pill .vi { font-size: 1.3rem; }
+
+  .materials-section { background: #fff; }
+  .materials-grid { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+  .mat-item { display: flex; align-items: center; gap: 0.45rem; padding: 0.65rem 1.3rem; background: var(--cream); border-radius: 11px; border: 1.5px solid rgba(201,146,42,0.22); font-size: 0.93rem; font-weight: 700; color: var(--text); transition: border-color 0.3s, transform 0.2s; }
+  .mat-item:hover { border-color: var(--gold); transform: translateY(-3px); }
+
+  /* ── Lightbox ── */
+  .lightbox { position: fixed; inset: 0; background: rgba(8,3,18,0.94); z-index: 9999; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.28s; backdrop-filter: blur(10px); }
+  .lightbox.open { opacity: 1; pointer-events: all; }
+  .lightbox-inner { position: relative; display: flex; flex-direction: column; align-items: center; gap: 0.9rem; }
+  .lightbox-inner img { max-width: 90vw; max-height: 82vh; border-radius: 12px; box-shadow: 0 24px 80px rgba(0,0,0,0.65), 0 0 0 1.5px rgba(242,201,76,0.25); object-fit: contain; }
+  .lightbox-caption { color: rgba(255,255,255,0.5); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.07em; }
+  .lightbox-close { position: absolute; top: -48px; right: 0; background: none; border: none; color: rgba(255,255,255,0.65); font-size: 2rem; cursor: pointer; line-height: 1; transition: color 0.2s, transform 0.2s; }
+  .lightbox-close:hover { color: var(--gold-light); transform: rotate(90deg); }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.18); color: #fff; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s, border-color 0.2s; backdrop-filter: blur(4px); }
+  .lightbox-nav:hover { background: rgba(242,201,76,0.22); border-color: var(--gold-light); }
+  .lightbox-prev { left: -58px; }
+  .lightbox-next { right: -58px; }
+  @media (max-width: 640px) { .lightbox-prev{left:-38px} .lightbox-next{right:-38px} }
+
+  footer { background: var(--deep); text-align: center; padding: 1.6rem; color: rgba(255,255,255,0.38); font-size: 0.83rem; }
+  footer a { color: var(--gold-light); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="stars" id="stars"></div>
+
+  <svg class="moon" viewBox="0 0 100 100" fill="none">
+    <path d="M65 15 A38 38 0 1 0 65 85 A26 26 0 1 1 65 15Z" fill="#F2C94C" opacity="0.9"/>
+    <polygon points="78,20 80,26 86,26 81,30 83,36 78,32 73,36 75,30 70,26 76,26" fill="#F2C94C" opacity="0.8"/>
+  </svg>
+
+  <div class="lanterns">
+    <svg class="lantern" viewBox="0 0 28 60" fill="none"><line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/><rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/><ellipse cx="14" cy="36" rx="10" ry="22" fill="#c0392b"/><ellipse cx="14" cy="36" rx="7" ry="18" fill="#e74c3c" opacity="0.6"/><line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/><line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/><rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/></svg>
+    <svg class="lantern" viewBox="0 0 28 60" fill="none"><line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/><rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/><ellipse cx="14" cy="36" rx="10" ry="22" fill="#0d7377"/><ellipse cx="14" cy="36" rx="7" ry="18" fill="#14a085" opacity="0.6"/><line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/><line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/><rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/></svg>
+    <svg class="lantern" viewBox="0 0 28 60" fill="none"><line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/><rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/><ellipse cx="14" cy="36" rx="10" ry="22" fill="#7b2d8b"/><ellipse cx="14" cy="36" rx="7" ry="18" fill="#9b59b6" opacity="0.6"/><line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/><line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/><rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/></svg>
+    <svg class="lantern" viewBox="0 0 28 60" fill="none"><line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/><rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/><ellipse cx="14" cy="36" rx="10" ry="22" fill="#c0392b"/><ellipse cx="14" cy="36" rx="7" ry="18" fill="#e74c3c" opacity="0.6"/><line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/><line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/><rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/></svg>
+    <svg class="lantern" viewBox="0 0 28 60" fill="none"><line x1="14" y1="0" x2="14" y2="8" stroke="#C9922A" stroke-width="2"/><rect x="6" y="8" width="16" height="4" rx="2" fill="#C9922A"/><ellipse cx="14" cy="36" rx="10" ry="22" fill="#0d7377"/><ellipse cx="14" cy="36" rx="7" ry="18" fill="#14a085" opacity="0.6"/><line x1="4" y1="16" x2="24" y2="16" stroke="#C9922A" stroke-width="1"/><line x1="6" y1="48" x2="22" y2="48" stroke="#C9922A" stroke-width="1"/><rect x="11" y="56" width="6" height="4" rx="2" fill="#C9922A"/></svg>
+  </div>
+
+  <p class="hero-eyebrow">✦ Ülkem Yanımda – Değerler Eğitimi ✦</p>
+
+  <div class="date-banner">
+    <span class="date-icon">📅</span>
+    <div>
+      <div class="date-main">21 Mart 2026 Cumartesi</div>
+      <div class="date-sub">Bayramın İkinci Günü &nbsp;·&nbsp; 🕘 Saat 21.00 (Türkiye Saati)</div>
+    </div>
+  </div>
+
+  <h1 class="hero-title">Ramazan <span>Bayramı</span><br>Atölyesi</h1>
+  <p class="hero-sub">5–16 yaş &nbsp;·&nbsp; 40–60 dakika &nbsp;·&nbsp; Sevgi, Paylaşma, Saygı</p>
+
+  <div class="badges">
+    <span class="badge">👧🏻 5–16 Yaş</span>
+    <span class="badge">⏱ 40–60 Dakika</span>
+    <span class="badge">🖌 Canva Etkinliği</span>
+    <span class="badge">💬 Menti Oylama</span>
+  </div>
+
+  <div class="scroll-hint" onclick="document.getElementById('galeri').scrollIntoView({behavior:'smooth'})">
+    <span>Kartpostallara bak</span>
+    <div class="scroll-arrow">↓</div>
+  </div>
+
+  <svg class="wave-divider" viewBox="0 0 1440 60" fill="none" preserveAspectRatio="none">
+    <path d="M0 60 C360 0 1080 0 1440 60 L1440 60 L0 60Z" fill="var(--cream)"/>
+  </svg>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section class="gallery-section" id="galeri">
+
+  <!-- Spotlight: first 3 images, pulled over the wave -->
+  <div class="gallery-pullup">
+    <div class="spotlight-row" id="spotlightRow"></div>
+  </div>
+
+  <div class="gallery-header">
+    <div class="string-lights">
+      <svg viewBox="0 0 860 44" fill="none">
+        <path d="M0 10 Q107 24 215 10 Q322 -4 430 10 Q537 24 645 10 Q752 -4 860 10" stroke="#C9922A" stroke-width="1.5" fill="none" opacity="0.35"/>
+        <g opacity="0.75">
+          <circle cx="90"  cy="24" r="4.5" fill="#F2C94C"/><line x1="90"  y1="10" x2="90"  y2="20" stroke="#C9922A" stroke-width="1.2"/>
+          <circle cx="215" cy="10" r="3.5" fill="#c0392b"/><line x1="215" y1="4"  x2="215" y2="7"  stroke="#C9922A" stroke-width="1"/>
+          <circle cx="340" cy="24" r="4.5" fill="#0d7377"/><line x1="340" y1="10" x2="340" y2="20" stroke="#C9922A" stroke-width="1.2"/>
+          <circle cx="430" cy="12" r="3"   fill="#7b2d8b"/><line x1="430" y1="4"  x2="430" y2="9"  stroke="#C9922A" stroke-width="1"/>
+          <circle cx="520" cy="24" r="4.5" fill="#F2C94C"/><line x1="520" y1="10" x2="520" y2="20" stroke="#C9922A" stroke-width="1.2"/>
+          <circle cx="645" cy="10" r="3.5" fill="#c0392b"/><line x1="645" y1="4"  x2="645" y2="7"  stroke="#C9922A" stroke-width="1"/>
+          <circle cx="770" cy="24" r="4.5" fill="#0d7377"/><line x1="770" y1="10" x2="770" y2="20" stroke="#C9922A" stroke-width="1.2"/>
+        </g>
+      </svg>
+    </div>
+
+    <h2 class="section-title">Atölye <span>Galerimiz</span> 🖼</h2>
+    <div class="section-line"></div>
+    <p class="gallery-intro">Çocuklarımızın ellerinden çıkan güzel kartpostallara bir göz atın.<br>Her biri sevgiyle, yürekle tasarlandı. 🌙✨</p>
+  </div>
+
+  <!-- Masonry: images 4–40 -->
+  <div class="gallery-grid" id="galleryGrid"></div>
+
+</section>
+
+<!-- ══ INSTAGRAM STRIP ══ -->
+<div class="ig-strip">
+  <span class="ig-strip-label">📸 Daha fazlasını görmek ister misin?</span>
+  <p class="ig-strip-sub">Atölye paylaşımlarımız Instagram'da seni bekliyor.</p>
+  <a href="https://www.instagram.com/p/DWOLC8bDVst" target="_blank" rel="noopener" class="instagram-btn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="2"/>
+      <circle cx="12" cy="12" r="5" stroke="white" stroke-width="2"/>
+      <circle cx="17.5" cy="6.5" r="1.25" fill="white"/>
+    </svg>
+    Instagram'da Görüntüle
+  </a>
+</div>
+
+<!-- ══ INFO ══ -->
+<section class="section goals-section">
+  <div class="container">
+    <h2 class="section-title" style="color:var(--deep)">Atölyenin <span>Amaçları</span></h2>
+    <div class="section-line"></div>
+    <div class="goals-grid">
+      <div class="goal-card"><div class="goal-icon">🌙</div><p class="goal-text">Ramazan Bayramı'nın ne olduğunu öğrenir</p></div>
+      <div class="goal-card"><div class="goal-icon">🏮</div><p class="goal-text">Bayram geleneklerini tanır</p></div>
+      <div class="goal-card"><div class="goal-icon">💛</div><p class="goal-text">Paylaşma, saygı ve sevgi değerlerini fark eder</p></div>
+      <div class="goal-card"><div class="goal-icon">✉️</div><p class="goal-text">Bayram kültürüyle ilgili bir ürün ortaya çıkarır</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section timeline-section">
+  <div class="container">
+    <h2 class="section-title" style="color:var(--deep)">Etkinlik <span>Akışı</span></h2>
+    <div class="section-line"></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header"><span class="tl-num">ADIM 1</span><span class="tl-title">🎵 Isınma Etkinliği</span><span class="tl-time">10 dk</span></div>
+        <p class="tl-desc">Bayram temalı şarkı dinlenir. Ardından öğrencilere sorular sorulur:</p>
+        <ul class="tl-list"><li>Bayram denince aklınıza ne geliyor?</li><li>Bayramda neler yapıyorsunuz?</li><li>En sevdiğiniz bayram geleneği nedir?</li></ul>
+        <p class="tl-desc" style="margin-top:0.5rem">Cevaplar <strong>Menti</strong> uygulamasında toplanır.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header"><span class="tl-num">ADIM 2</span><span class="tl-title">📽 Slayt Sunumu</span><span class="tl-time">10 dk</span></div>
+        <p class="tl-desc">Slaytlar eşliğinde şu konular işlenir:</p>
+        <ul class="tl-list"><li>Bayram nedir? &nbsp;·&nbsp; Bayram hazırlıkları</li><li>Bayram şekeri ve bayramlık</li><li>El öpme ve saygı &nbsp;·&nbsp; Bayram harçlığı</li><li>Bayramlaşma kültürü &nbsp;·&nbsp; Bayram mesajı gönderme</li></ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header"><span class="tl-num">ADIM 3</span><span class="tl-title">🎨 Ürün Oluşturma</span><span class="tl-time">15 dk</span></div>
+        <p class="tl-desc">Öğrenciler <strong>Canva</strong> üzerinden <em>Bayram Tebrik Kartı</em> tasarlar ve sevdikleri kişilere özel mesajlar yazar.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header"><span class="tl-num">ADIM 4</span><span class="tl-title">📸 Paylaşım & Fotoğraf</span><span class="tl-time">5 dk</span></div>
+        <p class="tl-desc">Hazırlanan bayram mesajları arkadaşlarla paylaşılır. Hep birlikte şu kelimeler seslendirilir:</p>
+        <p style="margin-top:0.6rem;font-weight:800;font-size:0.98rem;color:var(--teal)">Sevgi &nbsp;✦&nbsp; Hoşgörü &nbsp;✦&nbsp; Paylaşmak &nbsp;✦&nbsp; Mutluluk</p>
+        <p class="tl-desc" style="margin-top:0.4rem">Etkinlik toplu fotoğrafla tamamlanır.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section values-section">
+  <div class="container" style="text-align:center">
+    <h2 class="section-title">Aktarılan <span>Değerler</span></h2>
+    <div class="section-line"></div>
+    <div class="values-grid">
+      <div class="value-pill"><span class="vi">❤️</span> Sevgi</div>
+      <div class="value-pill"><span class="vi">🤝</span> Paylaşma</div>
+      <div class="value-pill"><span class="vi">🙏</span> Saygı</div>
+      <div class="value-pill"><span class="vi">🕊️</span> Hoşgörü</div>
+    </div>
+  </div>
+</section>
+
+<section class="section materials-section">
+  <div class="container" style="text-align:center">
+    <h2 class="section-title" style="color:var(--deep)">Kullanılan <span>Materyaller</span></h2>
+    <div class="section-line"></div>
+    <div class="materials-grid">
+      <div class="mat-item">📊 Slayt sunumu</div>
+      <div class="mat-item">🟦 Karton / renkli kâğıt</div>
+      <div class="mat-item">🖍 Boya kalemleri</div>
+      <div class="mat-item">✂️ Makas</div>
+      <div class="mat-item">🔧 Yapıştırıcı</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LIGHTBOX ══ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lbClose">✕</button>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev">‹</button>
+    <img id="lbImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" id="lbNext">›</button>
+    <span class="lightbox-caption" id="lbCaption"></span>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 <a href="https://ulkemyanimda.eba.gov.tr" target="_blank">Ülkem Yanımda</a> – EBA Değerler Eğitimi Programı</p>
+</footer>
+
+<script>
+  /* Stars */
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 90; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top  = Math.random() * 100 + '%';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    s.style.animationDuration = (2 + Math.random() * 3) + 's';
+    s.style.width = s.style.height = (Math.random() > 0.7 ? 4 : 2) + 'px';
+    starsEl.appendChild(s);
+  }
+
+  const TOTAL = 45;
+
+  /* Spotlight row: images 1, 2, 3 */
+  const spotlightRow = document.getElementById('spotlightRow');
+  [1, 2, 3].forEach((n, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'spotlight-cell' + (idx === 0 ? ' spotlight-main' : '');
+    const img = document.createElement('img');
+    img.className = 'spotlight-img';
+    img.src = `img/${n}.jpg`;
+    img.alt = `Öne çıkan kartpostal ${n}`;
+    img.loading = 'eager';
+    img.addEventListener('click', () => openLightbox(n));
+    cell.appendChild(img);
+    spotlightRow.appendChild(cell);
+  });
+
+  /* Masonry: images 4–40 */
+  const grid = document.getElementById('galleryGrid');
+  for (let i = 4; i <= TOTAL; i++) {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    const img = document.createElement('img');
+    img.src = `img/${i}.jpg`;
+    img.alt = `Bayram kartpostalı ${i}`;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    const ov = document.createElement('div');
+    ov.className = 'overlay';
+    const num = document.createElement('span');
+    num.className = 'overlay-num';
+    num.textContent = `#${i}`;
+    ov.appendChild(num);
+    item.appendChild(img);
+    item.appendChild(ov);
+    item.addEventListener('click', () => openLightbox(i));
+    grid.appendChild(item);
+  }
+
+  /* Lightbox */
+  let currentIdx = 1;
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lbImg');
+  const lbCap = document.getElementById('lbCaption');
+
+  function openLightbox(idx) {
+    currentIdx = idx;
+    lbImg.src = `img/${idx}.jpg`;
+    lbCap.textContent = `Kartpostal ${idx} / ${TOTAL}`;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { lbImg.src = ''; }, 280);
+  }
+  function showPrev() { openLightbox(currentIdx > 1 ? currentIdx - 1 : TOTAL); }
+  function showNext() { openLightbox(currentIdx < TOTAL ? currentIdx + 1 : 1); }
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', showPrev);
+  document.getElementById('lbNext').addEventListener('click', showNext);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  showPrev();
+    if (e.key === 'ArrowRight') showNext();
+  });
+
+  let tx = 0;
+  lb.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; }, { passive: true });
+  lb.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].screenX - tx;
+    if (Math.abs(dx) > 50) dx < 0 ? showNext() : showPrev();
+  });
+</script>
+</body>
+</html>
