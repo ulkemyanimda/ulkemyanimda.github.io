@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
+    <title>ÖGES Kitaplar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            position: relative;
+        }
+        .banner {
+            background-image: url('https://ulkemyanimda.github.io/icons/banner.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 200px;
+        }
+        .title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .category-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .category-title {
+            color: #6200ea;
+            font-size: 1.8em;
+            border-bottom: 2px solid #6200ea;
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .sections {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 10px;
+            gap: 20px;
+        }
+        .section {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            width: 220px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .section:hover {
+            transform: scale(1.05);
+        }
+        .section a {
+            text-decoration: none;
+            color: #6200ea;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .section img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+        .section span {
+            margin-top: auto;
+            display: block;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="banner">
+            <div class="title"> <h1>ÖGES KİTAPLAR</h1></div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- SES BİLGİSEL FARKINDALIK SETİ -->
+        <div class="category-container">
+            <h2 class="category-title">SES BİLGİSEL FARKINDALIK SETİ</h2>
+            <div class="sections">
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170812_sesbilgiselfarkindalikogrencietkinlikkitabi1.pdf" target="_blank">
+                        <img src="icons/kitap.png" alt="Kitap Icon">
+                        <span>SES BİLGİSEL FARKINDALIK ÖĞRENCİ ETKİNLİK KİTABI 1</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170821_sesbilgiselfarkindalikogrencietkinlikkitabi2.pdf" target="_blank">
+                        <img src="icons/kitap.png" alt="Kitap Icon">
+                        <span>SES BİLGİSEL FARKINDALIK ÖĞRENCİ ETKİNLİK KİTABI 2</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170829_sesbilgiselfarkindalikogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/kitap.png';" alt="Kılavuz Icon">
+                        <span>SES BİLGİSEL FARKINDALIK ÖĞRETMEN KILAVUZU</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- AKICI OKUMA SETİ -->
+        <div class="category-container">
+            <h2 class="category-title">AKICI OKUMA SETİ</h2>
+            <div class="sections">
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09165902_harfkaristirmaogrencietkinlikkitabi1.pdf" target="_blank">
+                        <img src="icons/okuma.png" alt="Kitap Icon">
+                        <span>HARF KARIŞTIRMA ÖĞRENCİ ETKİNLİK KİTABI 1</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09165850_harfkaristimaogrencietkinlikkitabi2.pdf" target="_blank">
+                        <img src="icons/okuma.png" alt="Kitap Icon">
+                        <span>HARF KARIŞTIRMA ÖĞRENCİ ETKİNLİK KİTABI 2</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09165925_heceokumaogrencietkinlikkitabi.pdf" target="_blank">
+                        <img src="icons/okuma.png" alt="Kitap Icon">
+                        <span>HECE OKUMA ÖĞRENCİ ETKİNLİK KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09165948_sozcukokumaogrencietkinlikkitabi.pdf" target="_blank">
+                        <img src="icons/okuma.png" alt="Kitap Icon">
+                        <span>SÖZCÜK OKUMA ÖĞRENCİ ETKİNLİK KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09165937_okumaakiciligiogrencietkinlikkitabi.pdf" target="_blank">
+                        <img src="icons/okuma.png" alt="Kitap Icon">
+                        <span>OKUMA AKICILIĞI ÖĞRENCİ ETKİNLİK KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09165841_akiciokumaogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/okuma.png';" alt="Kılavuz Icon">
+                        <span>AKICI OKUMA ÖĞRETMEN KILAVUZU</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- OKUDUĞUNU ANLAMA SETİ -->
+        <div class="category-container">
+            <h2 class="category-title">OKUDUĞUNU ANLAMA SETİ</h2>
+            <div class="sections">
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170431_bilgilendiricimetinogrencietkinlikkitabi.pdf" target="_blank">
+                        <img src="icons/oku.png" alt="Kitap Icon">
+                        <span>BİLGİLENDİRİCİ METİN ÖĞRENCİ ETKİNLİK KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09172803_oykuleyicimetinogrencietkinlikkitabi.pdf" target="_blank">
+                        <img src="icons/oku.png" alt="Kitap Icon">
+                        <span>ÖYKÜLEYİCİ METİN ÖĞRENCİ ETKİNLİK KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170454_okudugunuanlamadasematikduzenleyicilerinkullanimiogrencietkinlikkitabi.pdf" target="_blank">
+                        <img src="icons/oku.png" alt="Kitap Icon">
+                        <span>OKUDUĞUNU ANLAMADA ŞEMATİK DÜZENLEYİCİLERİN KULLANIMI ÖĞRENCİ ETKİNLİK KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170440_bilgilendiricimetinogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/oku.png';" alt="Kılavuz Icon">
+                        <span>BİLGİLENDİRİCİ ÖĞRETMEN KILAVUZU</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170548_oykuleyicimetinogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/oku.png';" alt="Kılavuz Icon">
+                        <span>ÖYKÜLEYİCİ METİN ÖĞRETMEN KILAVUZU</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170523_okudugunuanlamadasematikduzenleyicilerinkullanimiogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/oku.png';" alt="Kılavuz Icon">
+                        <span>OKUDUĞUNU ANLAMADA ŞEMATİK DÜZENLEYİCİLERİN KULLANIMI ÖĞRETMEN KILAVUZU</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- YAZMA SETİ -->
+        <div class="category-container">
+            <h2 class="category-title">YAZMA SETİ</h2>
+            <div class="sections">
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09171033_yazmayahazirlikogrencietkinlikkitabi1.pdf" target="_blank">
+                        <img src="icons/kalem.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>YAZMAYA HAZIRLIK ÖĞRENCİ ETKİNLİK KİTABI 1</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09171043_yazmayahazirlikogrencietkinlikkitabi2.pdf" target="_blank">
+                        <img src="icons/kalem.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>YAZMAYA HAZIRLIK ÖĞRENCİ ETKİNLİK KİTABI 2</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170857_ilkyazmaogrencietkinlikkitabi1.pdf" target="_blank">
+                        <img src="icons/kalem.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>İLK YAZMA ÖĞRENCİ ETKİNLİK KİTABI 1</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170909_ilkyazmaogrencietkinlikkitabi2.pdf" target="_blank">
+                        <img src="icons/kalem.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>İLK YAZMA ÖĞRENCİ ETKİNLİK KİTABI 2</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170922_soyleneniyazmaogrencietkinlikkitabi.pdf" target="_blank">
+                        <img src="icons/kalem.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>SÖYLENENİ YAZMA ÖĞRENCİ ETKİNLİK KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170932_yaziliifadeogrencietkinlikkitabi1.pdf" target="_blank">
+                        <img src="icons/kalem.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>YAZILI İFADE ÖĞRENCİ ETKİNLİK KİTABI 1</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09171000_yaziliifadeogrencietkinlikkitabi2.pdf" target="_blank">
+                        <img src="icons/kalem.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>YAZILI İFADE ÖĞRENCİ ETKİNLİK KİTABI 2</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09171014_yaziliifadeogrencietkinlikkitabi3.pdf" target="_blank">
+                        <img src="icons/kalem.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>YAZILI İFADE ÖĞRENCİ ETKİNLİK KİTABI 3</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09172840_yazmaogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/kitap.png';" alt="Kılavuz Icon">
+                        <span>YAZMA ÖĞRETMEN KILAVUZU</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- MATEMATİK SETİ -->
+        <div class="category-container">
+            <h2 class="category-title">MATEMATİK SETİ</h2>
+            <div class="sections">
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170032_1.duzeyetkinlika.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>1. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - A</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170042_1.duzeyetkinlikb.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>1. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - B</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170053_1.duzeyetkinlikc.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>1. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - C</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170107_1.duzeyetkinlikd.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>1. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - D</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170136_2.duzeyetkinlika.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>2. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - A</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170149_2.duzeyetkinlikb.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>2. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - B</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170206_2.duzeyetkinlikc.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>2. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - C</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170218_3.duzeyetkinlika.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>3. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - A</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170231_3.duzeyetkinlikb.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>3. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - B</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170242_4.duzeyetkinlika.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>4. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - A</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170253_4.duzeyetkinlikb.pdf" target="_blank">
+                        <img src="icons/matematik.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>4. DÜZEY ÖĞRENCİ ETKİNLİK KİTABI - B</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170315_matematik1.duzeyogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/kitap.png';" alt="Kılavuz Icon">
+                        <span>MATEMATİK ÖĞRETMEN KILAVUZU-1</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170323_matematik2.duzeyogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/kitap.png';" alt="Kılavuz Icon">
+                        <span>MATEMATİK ÖĞRETMEN KILAVUZU-2</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170332_matematik3.duzeyogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/kitap.png';" alt="Kılavuz Icon">
+                        <span>MATEMATİK ÖĞRETMEN KILAVUZU-3</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170343_matematik4.duzeyogretmenkilavuzu.pdf" target="_blank">
+                        <img src="icons/kilavuz.png" onerror="this.src='icons/kitap.png';" alt="Kılavuz Icon">
+                        <span>MATEMATİK ÖĞRETMEN KILAVUZU-4</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEĞERLENDİRME SETİ -->
+        <div class="category-container">
+            <h2 class="category-title">DEĞERLENDİRME SETİ</h2>
+            <div class="sections">
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170536_okumadegerlendirmekitabi.pdf" target="_blank">
+                        <img src="icons/sinav.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>OKUMA DEĞERLENDİRME KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09171025_yazmadegerlendirmekitabi.pdf" target="_blank">
+                        <img src="icons/sinav.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>YAZMA DEĞERLENDİRME KİTABI</span>
+                    </a>
+                </div>
+                <div class="section">
+                    <a href="https://orgm.meb.gov.tr/meb_iys_dosyalar/2025_10/09170404_matematikdegerlendirmekitabi.pdf" target="_blank">
+                        <img src="icons/sinav.png" onerror="this.src='icons/kitap.png';" alt="Kitap Icon">
+                        <span>MATEMATİK DEĞERLENDİRME KİTABI</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
