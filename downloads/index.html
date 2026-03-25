@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yayın ve Materyaller İndirme Sayfası</title>
+    <style>
+        :root {
+            --primary-color: #0056b3; /* İsveç mavisi tonu */
+            --secondary-color: #f0f4f8;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            margin: 0;
+            padding: 40px 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        /* Ana Brosür Alanı */
+        .main-item {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-left: 6px solid var(--primary-color);
+            flex-wrap: wrap;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .item-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .item-desc {
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: #e1e8ff;
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Kitap Ayracı Izgarası */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* İndirme Butonu Stili */
+        .btn-download {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-download:hover {
+            background-color: #003d80;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Yayın ve Materyaller</h1>
+            <p class="subtitle">İsveççe-Türkçe Broşür ve Kitap Ayracı Dosyaları</p>
+        </header>
+
+        <!-- 1. BÖLÜM: ANA BROSÜR -->
+        <div class="main-item">
+            <div class="item-info">
+                <div class="item-title">İsveççe - Türkçe Broşür</div>
+                <div class="item-desc">İki dilli tanıtım broşürü. Detaylı bilgi ve iletişim içerir.</div>
+                <span class="badge">Baskı Adedi: 1000</span>
+            </div>
+            <div>
+                <!-- download özelliği dosyayı açmak yerine indirmeyi sağlar -->
+                <a href="brosursweden.pdf" download="Isvecce-Turkce-Brosur.pdf" class="btn-download">
+                    📥 Brosürü İndir
+                </a>
+            </div>
+        </div>
+
+        <!-- 2. BÖLÜM: KİTAP AYRAÇLARI -->
+        <h2 style="margin-bottom: 20px; color: #444;">Kitap Ayracı Tasarımları</h2>
+        <div class="grid-container">
+            
+            <!-- Ayrac 1 -->
+            <div class="card">
+                <span class="icon">🔖</span>
+                <h3>Kitap Ayracı 1</h3>
+                <p class="item-desc">Tasarım 1</p>
+                <span class="badge" style="background:#f0f0f0; color:#666">500 Adet</span>
+                <br>
+                <a href="kitapAyrac1.pdf" download="Kitap-Ayraci-1.pdf" class="btn-download btn-small">İndir</a>
+            </div>
+
+            <!-- Ayrac 2 -->
+            <div class="card">
+                <span class="icon">🔖</span>
+                <h3>Kitap Ayracı 2</h3>
+                <p class="item-desc">Tasarım 2</p>
+                <span class="badge" style="background:#f0f0f0; color:#666">500 Adet</span>
+                <br>
+                <a href="kitapAyrac2.pdf" download="Kitap-Ayraci-2.pdf" class="btn-download btn-small">İndir</a>
+            </div>
+
+            <!-- Ayrac 3 -->
+            <div class="card">
+                <span class="icon">🔖</span>
+                <h3>Kitap Ayracı 3</h3>
+                <p class="item-desc">Tasarım 3</p>
+                <span class="badge" style="background:#f0f0f0; color:#666">500 Adet</span>
+                <br>
+                <a href="kitapAyrac3.pdf" download="Kitap-Ayraci-3.pdf" class="btn-download btn-small">İndir</a>
+            </div>
+
+            <!-- Ayrac 4 -->
+            <div class="card">
+                <span class="icon">🔖</span>
+                <h3>Kitap Ayracı 4</h3>
+                <p class="item-desc">Tasarım 4</p>
+                <span class="badge" style="background:#f0f0f0; color:#666">500 Adet</span>
+                <br>
+                <a href="kitapAyrac4.pdf" download="Kitap-Ayraci-4.pdf" class="btn-download btn-small">İndir</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
