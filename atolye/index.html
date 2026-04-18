@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>23 Nisan Atölyeleri</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+  html, body { height: 100%; margin: 0; }
+  * { font-family: 'Nunito', sans-serif; }
+  h1, h2, h3, .heading-font { font-family: 'Baloo 2', cursive; }
+
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+  @keyframes sparkle { 0%,100%{opacity:0;transform:scale(0.5)} 50%{opacity:1;transform:scale(1)} }
+  @keyframes slideUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes wave { 0%,100%{transform:rotate(0deg)} 25%{transform:rotate(15deg)} 75%{transform:rotate(-15deg)} }
+  @keyframes confetti { 0%{transform:translateY(-10px) rotate(0deg);opacity:1} 100%{transform:translateY(60px) rotate(360deg);opacity:0} }
+  @keyframes pulse-glow { 0%,100%{box-shadow:0 0 8px rgba(239,68,68,0.4)} 50%{box-shadow:0 0 24px rgba(239,68,68,0.8)} }
+
+  .float-anim { animation: float 3s ease-in-out infinite; }
+  .float-anim-d1 { animation: float 3.5s ease-in-out 0.3s infinite; }
+  .float-anim-d2 { animation: float 4s ease-in-out 0.6s infinite; }
+  .slide-up { animation: slideUp 0.7s ease-out both; }
+  .wave-anim { animation: wave 1.5s ease-in-out infinite; display: inline-block; }
+  .pulse-btn { animation: pulse-glow 2s ease-in-out infinite; }
+
+  .sparkle { position: absolute; width: 8px; height: 8px; border-radius: 50%; animation: sparkle 2s ease-in-out infinite; pointer-events: none; }
+
+  .card-workshop {
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-workshop:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+  .card-workshop::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 5px;
+  }
+
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 10px;
+    animation: confetti 3s ease-in infinite;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 2px;
+  }
+
+  .bg-pattern {
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(239,68,68,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(234,179,8,0.06) 0%, transparent 50%);
+  }
+
+  .tag-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 12px; border-radius: 9999px;
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full overflow-auto bg-pattern" style="background-color:#FFFDF7;"><!-- Confetti -->
+   <div id="confetti-container" aria-hidden="true"></div><!-- Sparkles -->
+   <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <div class="sparkle" style="top:10%;left:5%;background:#EF4444;animation-delay:0s"></div>
+    <div class="sparkle" style="top:15%;left:90%;background:#3B82F6;animation-delay:0.5s"></div>
+    <div class="sparkle" style="top:40%;left:12%;background:#EAB308;animation-delay:1s"></div>
+    <div class="sparkle" style="top:60%;left:85%;background:#EF4444;animation-delay:1.5s"></div>
+    <div class="sparkle" style="top:80%;left:8%;background:#3B82F6;animation-delay:0.8s"></div>
+    <div class="sparkle" style="top:75%;left:92%;background:#EAB308;animation-delay:1.2s"></div>
+   </div><!-- HEADER -->
+   <header class="relative text-center pt-10 pb-6 px-4">
+    <div class="slide-up">
+     <div class="flex justify-center items-center gap-3 mb-2"><span class="text-4xl float-anim">🇹🇷</span> <span class="text-4xl float-anim-d1">🎈</span> <span class="text-4xl float-anim-d2">🎉</span>
+     </div>
+     <h1 id="page-title" class="heading-font text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight" style="color:#DC2626;">23 Nisan Atölyeleri</h1>
+     <p id="page-subtitle" class="heading-font text-xl md:text-2xl font-bold mt-1" style="color:#1E40AF;">Ulusal Egemenlik ve Çocuk Bayramı</p>
+     <p class="mt-3 text-base md:text-lg max-w-2xl mx-auto" style="color:#92400E;">Çocuklar için hazırlanan özel atölyelere katılmak için aşağıdaki butonlara tıklayın! <span class="wave-anim">👋</span></p>
+    </div>
+   </header><!-- WORKSHOPS -->
+   <main class="max-w-5xl mx-auto px-4 pb-16"><!-- 25 Nisan Cumartesi -->
+    <div class="mb-10 slide-up" style="animation-delay:0.1s">
+     <div class="flex items-center gap-2 mb-4"><span class="text-2xl">📅</span>
+      <h2 class="heading-font text-2xl font-extrabold" style="color:#DC2626;">25 Nisan Cumartesi</h2>
+     </div>
+     <div class="grid gap-6 md:grid-cols-2"><!-- Tarih Atölyesi -->
+      <article class="card-workshop bg-white rounded-2xl p-6 shadow-lg border-2" style="border-color:#EF4444;">
+       <div style="height:5px;background:linear-gradient(90deg,#EF4444,#DC2626);border-radius:8px 8px 0 0;margin:-24px -24px 16px -24px;"></div>
+       <div class="flex flex-wrap items-center gap-2 mb-3"><span class="tag-badge" style="background:#FEE2E2;color:#DC2626;"> <i data-lucide="clock" style="width:14px;height:14px;"></i> 20:00 - 20:50 </span> <span class="tag-badge" style="background:#DBEAFE;color:#1E40AF;"> <i data-lucide="book-open" style="width:14px;height:14px;"></i> Tarih </span>
+       </div>
+       <h3 class="heading-font text-xl font-bold mb-1" style="color:#1E3A5F;">🏛️ Tarih Atölyesi</h3>
+       <p class="flex items-center gap-1 text-sm font-bold mb-3" style="color:#DC2626;"><i data-lucide="user" style="width:16px;height:16px;"></i> Öğretmen Samet Gökçeli</p>
+       <p class="text-sm leading-relaxed mb-4" style="color:#4B5563;">23 Nisan'a özel Tarih Atölyesi'nde çocuklar Milli Mücadele ruhunu ve TBMM'nin açılışının önemini keşfedecek. Geçmişle bugün arasında bağ kurarken bayram coşkusunu yaşayacaklar!</p><a href="https://teams.microsoft.com" target="_blank" rel="noopener noreferrer" class="pulse-btn inline-flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full text-sm transition-all hover:scale-105" style="background:linear-gradient(135deg,#EF4444,#DC2626);"> <i data-lucide="video" style="width:18px;height:18px;"></i> Atölyeye Katıl </a>
+      </article><!-- Dünya Çocukları Buluşması -->
+      <article class="card-workshop bg-white rounded-2xl p-6 shadow-lg border-2" style="border-color:#3B82F6;">
+       <div style="height:5px;background:linear-gradient(90deg,#3B82F6,#1E40AF);border-radius:8px 8px 0 0;margin:-24px -24px 16px -24px;"></div>
+       <div class="flex flex-wrap items-center gap-2 mb-3"><span class="tag-badge" style="background:#FEE2E2;color:#DC2626;"> <i data-lucide="clock" style="width:14px;height:14px;"></i> 21:00 - 21:50 </span> <span class="tag-badge" style="background:#FEF9C3;color:#92400E;"> <i data-lucide="globe" style="width:14px;height:14px;"></i> Kültür </span>
+       </div>
+       <h3 class="heading-font text-xl font-bold mb-1" style="color:#1E3A5F;">🌍 Dünya Çocukları Buluşması</h3>
+       <p class="flex items-center gap-1 text-sm font-bold mb-3" style="color:#1E40AF;"><i data-lucide="user" style="width:16px;height:16px;"></i> Öğretmen Leyla Meşhur</p>
+       <p class="text-sm leading-relaxed mb-4" style="color:#4B5563;">Farklı ülkelerden çocuklar ekran başında bir araya geliyor! Kendi kültürlerini paylaşacak, yeni arkadaşlıklar kuracak. Sınırları aşan bu keyifli buluşmaya tüm çocukları bekliyoruz!</p><a href="https://teams.microsoft.com" target="_blank" rel="noopener noreferrer" class="pulse-btn inline-flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full text-sm transition-all hover:scale-105" style="background:linear-gradient(135deg,#3B82F6,#1E40AF);"> <i data-lucide="video" style="width:18px;height:18px;"></i> Atölyeye Katıl </a>
+      </article>
+     </div>
+    </div><!-- 26 Nisan Pazar -->
+    <div class="slide-up" style="animation-delay:0.3s">
+     <div class="flex items-center gap-2 mb-4"><span class="text-2xl">📅</span>
+      <h2 class="heading-font text-2xl font-extrabold" style="color:#DC2626;">26 Nisan Pazar</h2>
+     </div>
+     <div class="grid gap-6 md:grid-cols-2"><!-- Boyama Atölyesi -->
+      <article class="card-workshop bg-white rounded-2xl p-6 shadow-lg border-2" style="border-color:#EAB308;">
+       <div style="height:5px;background:linear-gradient(90deg,#EAB308,#CA8A04);border-radius:8px 8px 0 0;margin:-24px -24px 16px -24px;"></div>
+       <div class="flex flex-wrap items-center gap-2 mb-3"><span class="tag-badge" style="background:#FEE2E2;color:#DC2626;"> <i data-lucide="clock" style="width:14px;height:14px;"></i> 21:00 - 21:50 </span> <span class="tag-badge" style="background:#FEF9C3;color:#92400E;"> <i data-lucide="palette" style="width:14px;height:14px;"></i> Sanat </span>
+       </div>
+       <h3 class="heading-font text-xl font-bold mb-1" style="color:#1E3A5F;">🎨 Boyama Atölyesi</h3>
+       <p class="flex items-center gap-1 text-sm font-bold mb-3" style="color:#CA8A04;"><i data-lucide="user" style="width:16px;height:16px;"></i> Öğretmen Edanur Doğan</p>
+       <p class="text-sm leading-relaxed mb-3" style="color:#4B5563;">23 Nisan coşkusunu renklerle buluşturduğumuz boyama atölyemizde çocuklar hayal güçlerini özgürce yansıtacak. Kendi sanat eserlerini ortaya çıkarırken bayramın neşesini yaşayacaklar!</p>
+       <div class="mb-4 p-3 rounded-xl flex items-center gap-2" style="background:#FEF9C3;"><i data-lucide="download" style="width:18px;height:18px;color:#92400E;"></i> <span class="text-sm font-bold" style="color:#92400E;">Boyama dosyalarını indirmeyi unutmayın!</span>
+       </div>
+       <div class="flex flex-wrap gap-3"><a href="https://teams.microsoft.com" target="_blank" rel="noopener noreferrer" class="pulse-btn inline-flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full text-sm transition-all hover:scale-105" style="background:linear-gradient(135deg,#EAB308,#CA8A04);"> <i data-lucide="video" style="width:18px;height:18px;"></i> Atölyeye Katıl </a> <a href="./dosya.zip" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 font-bold py-3 px-6 rounded-full text-sm border-2 transition-all hover:scale-105" style="border-color:#CA8A04;color:#CA8A04;background:white;"> <i data-lucide="file-down" style="width:18px;height:18px;"></i> Dosyaları İndir </a>
+       </div>
+      </article><!-- Drama Atölyesi -->
+      <article class="card-workshop bg-white rounded-2xl p-6 shadow-lg border-2" style="border-color:#8B5CF6;">
+       <div style="height:5px;background:linear-gradient(90deg,#8B5CF6,#7C3AED);border-radius:8px 8px 0 0;margin:-24px -24px 16px -24px;"></div>
+       <div class="flex flex-wrap items-center gap-2 mb-3"><span class="tag-badge" style="background:#FEE2E2;color:#DC2626;"> <i data-lucide="clock" style="width:14px;height:14px;"></i> 21:00 - 21:50 </span> <span class="tag-badge" style="background:#EDE9FE;color:#6D28D9;"> <i data-lucide="theater" style="width:14px;height:14px;"></i> Drama </span>
+       </div>
+       <h3 class="heading-font text-xl font-bold mb-1" style="color:#1E3A5F;">🎭 Drama Atölyesi</h3>
+       <p class="flex items-center gap-1 text-sm font-bold mb-3" style="color:#7C3AED;"><i data-lucide="user" style="width:16px;height:16px;"></i> Öğretmen Seda Seyhan Aydemir</p>
+       <p class="text-sm leading-relaxed mb-4" style="color:#4B5563;">23 Nisan coşkusunu çocukların hayal gücüyle sahneye taşıyoruz! Öğrenciler kendilerini özgürce ifade ederek farklı rollerle bayramın anlamını keşfedecek.</p><a href="https://teams.microsoft.com" target="_blank" rel="noopener noreferrer" class="pulse-btn inline-flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full text-sm transition-all hover:scale-105" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);"> <i data-lucide="video" style="width:18px;height:18px;"></i> Atölyeye Katıl </a>
+      </article><!-- Ben Bir Liderim -->
+      <article class="card-workshop bg-white rounded-2xl p-6 shadow-lg border-2 md:col-span-2 md:max-w-lg md:mx-auto" style="border-color:#10B981;">
+       <div style="height:5px;background:linear-gradient(90deg,#10B981,#059669);border-radius:8px 8px 0 0;margin:-24px -24px 16px -24px;"></div>
+       <div class="flex flex-wrap items-center gap-2 mb-3"><span class="tag-badge" style="background:#FEE2E2;color:#DC2626;"> <i data-lucide="clock" style="width:14px;height:14px;"></i> 21:00 - 21:50 </span> <span class="tag-badge" style="background:#D1FAE5;color:#065F46;"> <i data-lucide="mic" style="width:14px;height:14px;"></i> Konuşma </span>
+       </div>
+       <h3 class="heading-font text-xl font-bold mb-1" style="color:#1E3A5F;">🎤 Ben Bir Liderim - Konuşma Atölyesi</h3>
+       <p class="flex items-center gap-1 text-sm font-bold mb-3" style="color:#059669;"><i data-lucide="user" style="width:16px;height:16px;"></i> Öğretmen Süleyman Açıkgöz</p>
+       <p class="text-sm leading-relaxed mb-4" style="color:#4B5563;">Çocuklar düşüncelerini özgüvenle ifade etmeyi ve liderlik becerilerini keşfetmeyi öğrenecek. Fikir üretme, karar verme ve kendini ifade etme alanında deneyim kazanacaklar!</p><a href="https://teams.microsoft.com" target="_blank" rel="noopener noreferrer" class="pulse-btn inline-flex items-center gap-2 text-white font-bold py-3 px-6 rounded-full text-sm transition-all hover:scale-105" style="background:linear-gradient(135deg,#10B981,#059669);"> <i data-lucide="video" style="width:18px;height:18px;"></i> Atölyeye Katıl </a>
+      </article>
+     </div>
+    </div>
+   </main><!-- Footer -->
+   <footer class="text-center py-6 px-4" style="color:#9CA3AF;">
+    <p class="text-sm">🇹🇷 23 Nisan Ulusal Egemenlik ve Çocuk Bayramı Kutlu Olsun! 🎉</p>
+   </footer>
+  </div>
+  <script>
+  // Confetti
+  const confettiContainer = document.getElementById('confetti-container');
+  const colors = ['#EF4444','#3B82F6','#EAB308','#10B981','#8B5CF6','#EC4899'];
+  for (let i = 0; i < 30; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.top = -10 + 'px';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDelay = Math.random() * 5 + 's';
+    piece.style.animationDuration = (2 + Math.random() * 3) + 's';
+    piece.style.width = (6 + Math.random() * 8) + 'px';
+    piece.style.height = (6 + Math.random() * 8) + 'px';
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    confettiContainer.appendChild(piece);
+  }
+
+  // Element SDK
+  const defaultConfig = {
+    page_title: '23 Nisan Atölyeleri',
+    subtitle: 'Ulusal Egemenlik ve Çocuk Bayramı',
+    background_color: '#FFFDF7',
+    primary_color: '#DC2626',
+    accent_color: '#1E40AF',
+    text_color: '#1E3A5F',
+    card_bg_color: '#FFFFFF',
+    font_family: 'Baloo 2',
+    font_size: 16
+  };
+
+  function applyConfig(config) {
+    const c = Object.assign({}, defaultConfig, config);
+    document.getElementById('page-title').textContent = c.page_title;
+    document.getElementById('page-subtitle').textContent = c.subtitle;
+    document.getElementById('app').style.backgroundColor = c.background_color;
+    document.getElementById('page-title').style.color = c.primary_color;
+    document.getElementById('page-subtitle').style.color = c.accent_color;
+
+    document.querySelectorAll('.heading-font, h1, h2, h3').forEach(el => {
+      el.style.fontFamily = `${c.font_family}, Baloo 2, cursive`;
+    });
+    document.querySelectorAll('h3').forEach(el => el.style.color = c.text_color);
+    document.querySelectorAll('.card-workshop').forEach(el => el.style.backgroundColor = c.card_bg_color);
+
+    const base = c.font_size;
+    document.querySelectorAll('h1').forEach(el => el.style.fontSize = `${base * 2.5}px`);
+    document.querySelectorAll('h2').forEach(el => el.style.fontSize = `${base * 1.5}px`);
+    document.querySelectorAll('h3').forEach(el => el.style.fontSize = `${base * 1.25}px`);
+  }
+
+  if (window.elementSdk) {
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => applyConfig(config),
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.card_bg_color || defaultConfig.card_bg_color, set: (v) => { config.card_bg_color = v; window.elementSdk.setConfig({ card_bg_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.primary_color || defaultConfig.primary_color, set: (v) => { config.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); } },
+          { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+        }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['page_title', config.page_title || defaultConfig.page_title],
+        ['subtitle', config.subtitle || defaultConfig.subtitle]
+      ])
+    });
+  }
+
+  lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ee283cc0061c9ca',t:'MTc3NjUwMzIwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
