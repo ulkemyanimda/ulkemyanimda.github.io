@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eğitim Paneli: Video ve Boyama</title>
+    <style>
+        body, html {
+            margin: 0; padding: 0; height: 100%; overflow: hidden;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f0f4f8;
+        }
+
+        .container {
+            display: flex; width: 100vw; height: 100vh; gap: 10px;
+            padding: 10px; box-sizing: border-box;
+        }
+
+        .section {
+            flex: 1; background: white; border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative; display: flex; flex-direction: column;
+            overflow: hidden; transition: all 0.5s ease-in-out;
+            border: 4px solid #fff;
+        }
+
+        .section.focused {
+            flex: 10; border-color: #3498db;
+        }
+
+        .header-bar {
+            background: #ecf0f1; padding: 10px; display: flex;
+            justify-content: space-between; align-items: center;
+            border-bottom: 2px solid #ddd;
+        }
+
+        #video-wrapper {
+            flex: 1; background: #000; display: flex;
+            align-items: center; justify-content: center; position: relative;
+        }
+
+        video {
+            width: 100%; height: 100%; max-height: 85vh;
+        }
+
+        #paint-wrapper {
+            flex: 1; display: flex; background: #95a5a6;
+            overflow: hidden; position: relative;
+        }
+
+        .canvas-container {
+            flex: 1; display: flex; align-items: center;
+            justify-content: center; padding: 15px;
+            overflow: hidden; background: #fff;
+        }
+
+        #svg-container {
+            width: 100%; height: 100%; position: relative;
+        }
+
+        /* Her bir SVG'yi saran div */
+        .svg-slide {
+            width: 100%; height: 100%; display: none; 
+            align-items: center; justify-content: center;
+        }
+        .svg-slide.active {
+            display: flex;
+        }
+
+        .svg-slide svg {
+            width: 100%; height: 100%; max-width: 100%; max-height: 100%;
+            transform-origin: center center;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.2));
+        }
+
+        .palette {
+            width: 100px; background: #ffffff; display: grid;
+            grid-template-columns: 1fr 1fr; align-content: start;
+            gap: 8px; padding: 15px 8px; border-left: 3px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .color-dot {
+            width: 35px; height: 35px; border-radius: 50%;
+            cursor: pointer; border: 2px solid #eee; transition: 0.2s;
+        }
+
+        .color-dot.active {
+            transform: scale(1.2); border-color: #333;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-tab {
+            padding: 8px 15px; border: none; border-radius: 10px;
+            background: #3498db; color: white; cursor: pointer;
+            font-weight: bold; font-size: 12px; transition: background 0.3s;
+        }
+
+        .btn-tab:hover { background: #2980b9; }
+        .btn-tab:disabled { background: #bdc3c7; cursor: not-allowed; }
+
+        #video-cover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(52, 152, 219, 0.9); z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            color: white; cursor: pointer;
+        }
+
+        path, polygon, rect, circle, ellipse { transition: fill 0.3s ease; }
+
+        .controls-group { display: flex; gap: 5px; align-items: center; }
+        #slide-counter { font-size: 14px; font-weight: bold; margin: 0 10px; color: #2c3e50; }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="section" id="video-section" onclick="focusPanel('video-section')">
+            <div class="header-bar">
+                <span>📺 Video Paneli</span>
+                <button class="btn-tab" onclick="toggleFull('video-section')">TAM EKRAN</button>
+            </div>
+            <div id="video-wrapper">
+                <div id="video-cover" onclick="startVideo()">
+                    <h2>BAŞLAT</h2>
+                </div>
+                <video id="main-video" controls>
+                    <source src="1.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+
+        <div class="section focused" id="paint-section" onclick="focusPanel('paint-section')">
+            <div class="header-bar">
+                <span>🎨 Boyama Paneli</span>
+                
+                <div class="controls-group">
+                    <button class="btn-tab" id="btn-prev" style="background:#e67e22" onclick="changeSlide(-1)">❮ Önceki</button>
+                    <span id="slide-counter">1 / 1</span>
+                    <button class="btn-tab" id="btn-next" style="background:#e67e22" onclick="changeSlide(1)">Sonraki ❯</button>
+                    
+                    <button class="btn-tab" style="background:#27ae60; margin-left: 10px;" onclick="resetCurrentPaint()">SIFIRLA</button>
+                    <button class="btn-tab" onclick="toggleFull('paint-section')">TAM EKRAN</button>
+                </div>
+            </div>
+            <div id="paint-wrapper">
+                <div class="canvas-container">
+                    <div id="svg-container">Yükleniyor...</div>
+                </div>
+                <div class="palette" id="palette"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="svg_data.js"></script>
+    <script>
+        const colors = [
+            '#FF0000', '#FF4500', '#FF8C00', '#FFD700', '#FFFF00',
+            '#ADFF2F', '#00FF00', '#008000', '#00FA9A', '#00FFFF',
+            '#00BFFF', '#0000FF', '#4B0082', '#8B00FF', '#FF00FF',
+            '#FFC0CB', '#8B4513', '#A9A9A9', '#000000', '#FFFFFF'
+        ];
+
+        let selectedColor = colors[0];
+        let currentIndex = 0;
+        let svgElementsData = []; // DOM elementlerini ve orijinal kodları tutacağız
+
+        function focusPanel(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('focused'));
+            document.getElementById(id).classList.add('focused');
+        }
+
+        function toggleFull(id) {
+            const section = document.getElementById(id);
+            if (!document.fullscreenElement) {
+                section.requestFullscreen().catch(err => console.log(err));
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function startVideo() {
+            document.getElementById('video-cover').style.display = 'none';
+            document.getElementById('main-video').play();
+        }
+
+        function initPaint() {
+            // Paleti oluştur
+            const pal = document.getElementById('palette');
+            colors.forEach((c, i) => {
+                const d = document.createElement('div');
+                d.className = 'color-dot' + (i === 0 ? ' active' : '');
+                d.style.backgroundColor = c;
+                d.onclick = (e) => {
+                    e.stopPropagation();
+                    selectedColor = c;
+                    document.querySelectorAll('.color-dot').forEach(dot => dot.classList.remove('active'));
+                    d.classList.add('active');
+                };
+                pal.appendChild(d);
+            });
+
+            // Gelen veriyi işle (svgList adında bir dizi bekliyoruz)
+            if (typeof svgList !== 'undefined' && Array.isArray(svgList)) {
+                setupSvgs(svgList);
+            } else if (typeof svgString !== 'undefined') {
+                // Geriye dönük uyumluluk: Sadece eski svgString varsa tek elemanlı dizi yap
+                setupSvgs([svgString]); 
+            } else {
+                document.getElementById('svg-container').innerHTML = "<b>Görsel yüklenemedi. svg_data.js dosyasını kontrol edin.</b>";
+            }
+        }
+
+        function setupSvgs(list) {
+            const container = document.getElementById('svg-container');
+            container.innerHTML = '';
+            svgElementsData = [];
+
+            list.forEach((code, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'svg-slide';
+                if (index === 0) wrapper.classList.add('active');
+                
+                wrapper.innerHTML = code;
+                processSvgInteractivity(wrapper);
+
+                container.appendChild(wrapper);
+                svgElementsData.push({
+                    wrapper: wrapper,
+                    originalCode: code
+                });
+            });
+
+            updateUI();
+        }
+
+        function processSvgInteractivity(containerElement) {
+            const svgElement = containerElement.querySelector('svg');
+            if (svgElement) {
+                const w = svgElement.getAttribute('width');
+                const h = svgElement.getAttribute('height');
+                if (w && h && !svgElement.hasAttribute('viewBox')) {
+                    svgElement.setAttribute('viewBox', `0 0 ${w.replace('px', '')} ${h.replace('px', '')}`);
+                }
+                
+                const paths = svgElement.querySelectorAll('path, polygon, rect, circle, ellipse');
+                paths.forEach(path => {
+                    const originalFill = (path.getAttribute('fill') || '').toUpperCase();
+                    const isDark = originalFill.includes('#151515') || originalFill.includes('#181818') || originalFill === '#000000' || originalFill === '#000' || originalFill === 'BLACK';
+
+                    if (!isDark) {
+                        path.style.cursor = 'crosshair';
+                        path.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            this.style.fill = selectedColor;
+                        });
+                    } else {
+                        path.style.pointerEvents = 'none';
+                    }
+                });
+            }
+        }
+
+        function changeSlide(direction) {
+            const total = svgElementsData.length;
+            const newIndex = currentIndex + direction;
+
+            if (newIndex >= 0 && newIndex < total) {
+                // Eski slide'ı gizle, yenisini göster
+                svgElementsData[currentIndex].wrapper.classList.remove('active');
+                currentIndex = newIndex;
+                svgElementsData[currentIndex].wrapper.classList.add('active');
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            const total = svgElementsData.length;
+            document.getElementById('slide-counter').innerText = `${currentIndex + 1} / ${total}`;
+            
+            // İlk veya son slayttaysa butonları devre dışı bırak
+            document.getElementById('btn-prev').disabled = (currentIndex === 0);
+            document.getElementById('btn-next').disabled = (currentIndex === total - 1);
+        }
+
+        function resetCurrentPaint() {
+            if (svgElementsData.length > 0) {
+                const currentData = svgElementsData[currentIndex];
+                // Yalnızca aktif olanın HTML'ini orijinal kod ile değiştir
+                currentData.wrapper.innerHTML = currentData.originalCode;
+                // Boyama olaylarını yeni oluşan elementlere tekrar tanımla
+                processSvgInteractivity(currentData.wrapper);
+            }
+        }
+
+        initPaint();
+    </script>
+</body>
+</html>
