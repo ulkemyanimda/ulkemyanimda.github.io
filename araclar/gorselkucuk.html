@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNG to JPG - Boyut Küçültücü</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .drop-zone {
+            border: 2px dashed #475569;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+        }
+
+        .drop-zone:hover, .drop-zone.dragover {
+            border-color: var(--primary);
+            background: #334155;
+        }
+
+        .controls {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+        }
+
+        #preview-container {
+            margin-top: 1.5rem;
+            display: none;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .old-size { color: #f87171; }
+        .new-size { color: #4ad66d; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Görsel Küçültücü</h2>
+    <p style="color: #94a3b8; font-size: 0.9rem;">PNG'yi optimize edilmiş JPG'ye dönüştür</p>
+
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        PNG Dosyasını Buraya Sürükleyin veya Tıklayın
+        <input type="file" id="fileInput" accept="image/png" hidden>
+    </div>
+
+    <div class="controls">
+        <label for="quality">Sıkıştırma Kalitesi: <span id="qValue">70%</span></label>
+        <input type="range" id="quality" min="1" max="100" value="70">
+        <p style="font-size: 0.75rem; color: #64748b; margin-top: 5px;">* Düşük kalite, daha küçük dosya boyutu demektir.</p>
+    </div>
+
+    <button id="convertBtn" disabled>Dönüştür ve İndir</button>
+
+    <div id="preview-container">
+        <div class="stats">
+            <span>Eski: <b class="old-size" id="oldSize">-</b></span>
+            <span>Yeni: <b class="new-size" id="newSize">-</b></span>
+        </div>
+        <canvas id="canvas" style="display:none;"></canvas>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
+    const qualityInput = document.getElementById('quality');
+    const qValueDisplay = document.getElementById('qValue');
+    const convertBtn = document.getElementById('convertBtn');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let currentFile = null;
+
+    // Kalite değerini göster
+    qualityInput.oninput = () => qValueDisplay.innerText = `${qualityInput.value}%`;
+
+    // Sürükle bırak olayları
+    dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add('dragover'); };
+    dropZone.ondragleave = () => dropZone.classList.remove('dragover');
+    dropZone.ondrop = (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        handleFile(e.dataTransfer.files[0]);
+    };
+
+    fileInput.onchange = (e) => handleFile(e.target.files[0]);
+
+    function handleFile(file) {
+        if (file && file.type === "image/png") {
+            currentFile = file;
+            document.getElementById('oldSize').innerText = formatBytes(file.size);
+            dropZone.innerText = `Seçildi: ${file.name}`;
+            convertBtn.disabled = false;
+        } else {
+            alert("Lütfen sadece PNG dosyası seçin.");
+        }
+    }
+
+    convertBtn.onclick = () => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+                // Canvas boyutlarını ayarla
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                // Beyaz arka plan oluştur (PNG transparanlığını önlemek için)
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Resmi çiz
+                ctx.drawImage(img, 0, 0);
+
+                // Kalite ayarıyla JPEG'e dönüştür
+                const quality = qualityInput.value / 100;
+                const dataUrl = canvas.toDataURL("image/jpeg", quality);
+                
+                // İstatistikleri hesapla ve indir
+                processDownload(dataUrl);
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(currentFile);
+    };
+
+    function processDownload(url) {
+        // Dosya boyutunu ölçmek için base64'ten hesaplama
+        const head = "data:image/jpeg;base64,";
+        const fileSize = Math.round((url.length - head.length) * 3 / 4);
+        
+        document.getElementById('newSize').innerText = formatBytes(fileSize);
+        document.getElementById('preview-container').style.display = 'block';
+
+        const link = document.createElement('a');
+        link.download = currentFile.name.replace(".png", ".jpg");
+        link.href = url;
+        link.click();
+    }
+
+    function formatBytes(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vCard QR Kod Oluşturucu</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-qr { background-color: var(--primary); }
+        .btn-vcf { background-color: var(--secondary); }
+        
+        button:hover { opacity: 0.9; }
+
+        #qrcode-container {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #qrcode img {
+            padding: 10px;
+            background: white;
+            border: 1px solid #eee;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Kartvizit QR Üretici</h2>
+    
+    <div class="grid-inputs">
+        <input type="text" id="firstName" placeholder="Ad" value="isim">
+        <input type="text" id="lastName" placeholder="Soyad" value="soyisim">
+        <input type="text" id="org" class="full-width" placeholder="Kurum" value="Kurum">
+        <input type="text" id="title" class="full-width" placeholder="Ünvan" value="UNVAN">
+        <input type="tel" id="workPhone" placeholder="İş Tel" value="+90 555 555 5555">
+        <input type="tel" id="mobilePhone" placeholder="Cep Tel" value="+90 555 555 5555">
+        <input type="email" id="email" class="full-width" placeholder="E-posta" value="example@example.com">
+        <input type="url" id="website" class="full-width" placeholder="Web Sitesi" value="https://ulkemyanimda.github.io/">
+    </div>
+
+    <div class="button-group">
+        <button onclick="generateQRCode()" class="btn-qr">QR Güncelle</button>
+        <button onclick="downloadVCard()" class="btn-vcf">.VCF İndir</button>
+    </div>
+
+    <div id="qrcode-container">
+        <div id="qrcode"></div>
+        <p class="hint">QR kodu telefon kamerasıyla taratabilirsiniz.</p>
+    </div>
+</div>
+
+<script>
+    // Global QR nesnesi
+    let qrGenerator = null;
+
+    function getVCardString() {
+        const fn = document.getElementById('firstName').value;
+        const ln = document.getElementById('lastName').value;
+        const org = document.getElementById('org').value;
+        const title = document.getElementById('title').value;
+        const work = document.getElementById('workPhone').value;
+        const cell = document.getElementById('mobilePhone').value;
+        const email = document.getElementById('email').value;
+        const url = document.getElementById('website').value;
+
+        // vCard 3.0 Formatı
+        return [
+            'BEGIN:VCARD',
+            'VERSION:3.0',
+            `N:${ln};${fn};;;`,
+            `FN:${fn} ${ln}`,
+            `ORG:${org}`,
+            `TITLE:${title}`,
+            `TEL;TYPE=WORK,VOICE:${work}`,
+            `TEL;TYPE=CELL,VOICE:${cell}`,
+            `EMAIL:${email}`,
+            `URL:${url}`,
+            'END:VCARD'
+        ].join('\n');
+    }
+
+    function generateQRCode() {
+        const data = getVCardString();
+        const container = document.getElementById("qrcode");
+        
+        // İçeriği temizle
+        container.innerHTML = "";
+
+        // Yeni QR Kod oluştur
+        new QRCode(container, {
+            text: data,
+            width: 200,
+            height: 200,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H // Yüksek hata düzeltme (vCard verisi yoğun olduğu için)
+        });
+    }
+
+    function downloadVCard() {
+        const data = getVCardString();
+        const blob = new Blob([data], { type: 'text/vcard;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'kartvizit.vcf');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Sayfa açıldığında otomatik oluştur
+    window.onload = generateQRCode;
+</script>
+
+</body>
+</html>

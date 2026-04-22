@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkçe Metin Okuyucu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 150px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        select, input[type="range"] {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        input[type="range"] {
+            padding: 0;
+            height: 8px;
+            background: #e0e0e0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .speed-value {
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .stop-btn {
+            background: #f44336;
+            color: white;
+        }
+
+        .stop-btn:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status.speaking {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status.stopped {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔊 Türkçe Metin Okuyucu</h1>
+        
+        <div class="input-group">
+            <label for="textInput">Okunacak Metni Girin:</label>
+            <textarea id="textInput" placeholder="Burada yazdığınız metni sesli olarak okutabilirsiniz...">Merhaba! Bu bir Türkçe metin okuma uygulamasıdır. Hızı ve sesi ayarlayabilirsiniz.</textarea>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="voiceSelect">Ses (Cinsiyet):</label>
+                <select id="voiceSelect">
+                    <option value="">Yükleniyor...</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="speedRange">Hız:</label>
+                <input type="range" id="speedRange" min="0.5" max="2" step="0.1" value="1">
+                <div class="speed-value" id="speedValue">1.0x</div>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button class="play-btn" id="playBtn">▶ Oku</button>
+            <button class="stop-btn" id="stopBtn" disabled>⬛ Durdur</button>
+        </div>
+
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        let synth = window.speechSynthesis;
+        let voices = [];
+        let currentUtterance = null;
+
+        // Sesleri yükle
+        function loadVoices() {
+            voices = synth.getVoices();
+            const voiceSelect = document.getElementById('voiceSelect');
+            voiceSelect.innerHTML = '';
+
+            // Türkçe sesleri filtrele
+            const turkishVoices = voices.filter(voice => voice.lang.includes('tr'));
+            
+            if (turkishVoices.length === 0) {
+                voiceSelect.innerHTML = '<option value="">Türkçe ses bulunamadı</option>';
+                // Eğer Türkçe ses yoksa tüm sesleri göster
+                voices.forEach((voice, i) => {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    voiceSelect.appendChild(option);
+                });
+            } else {
+                turkishVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voices.indexOf(voice);
+                    const gender = voice.name.toLowerCase().includes('female') || voice.name.toLowerCase().includes('kadın') ? '♀' : 
+                                 voice.name.toLowerCase().includes('male') || voice.name.toLowerCase().includes('erkek') ? '♂' : '';
+                    option.textContent = `${gender} ${voice.name}`;
+                    voiceSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Sesler yüklendiğinde
+        if (synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = loadVoices;
+        }
+        loadVoices();
+
+        // Hız göstergesi
+        const speedRange = document.getElementById('speedRange');
+        const speedValue = document.getElementById('speedValue');
+        speedRange.addEventListener('input', (e) => {
+            speedValue.textContent = e.target.value + 'x';
+        });
+
+        // Oku butonu
+        document.getElementById('playBtn').addEventListener('click', () => {
+            const text = document.getElementById('textInput').value.trim();
+            if (!text) {
+                updateStatus('Lütfen okunacak bir metin girin!', 'stopped');
+                return;
+            }
+
+            // Önceki okumayı durdur
+            synth.cancel();
+
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            const selectedVoice = document.getElementById('voiceSelect').value;
+            
+            if (selectedVoice && voices[selectedVoice]) {
+                currentUtterance.voice = voices[selectedVoice];
+            }
+
+            currentUtterance.rate = parseFloat(speedRange.value);
+            currentUtterance.pitch = 1;
+            currentUtterance.volume = 1;
+
+            currentUtterance.onstart = () => {
+                document.getElementById('playBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+                updateStatus('Metin okunuyor...', 'speaking');
+            };
+
+            currentUtterance.onend = () => {
+                document.getElementById('playBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+                updateStatus('Okuma tamamlandı', 'stopped');
+            };
+
+            currentUtterance.onerror = () => {
+                document.getElementById('playBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+                updateStatus('Bir hata oluştu', 'stopped');
+            };
+
+            synth.speak(currentUtterance);
+        });
+
+        // Durdur butonu
+        document.getElementById('stopBtn').addEventListener('click', () => {
+            synth.cancel();
+            document.getElementById('playBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            updateStatus('Okuma durduruldu', 'stopped');
+        });
+
+        // Durum güncelleme
+        function updateStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+    </script>
+</body>
+</html>
