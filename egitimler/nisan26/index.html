@@ -6,300 +6,621 @@
     <title>Türkçe ve Türk Kültürü Öğretimi Öğretmen Eğitimi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Segoe UI', 'sans-serif'],
+                    },
+                    colors: {
+                        meb: {
+                            50: '#fef2f2',
+                            100: '#fee2e2',
+                            200: '#fecaca',
+                            300: '#fca5a5',
+                            400: '#f87171',
+                            500: '#ef4444',
+                            600: '#dc2626',
+                            700: '#b91c1c',
+                            800: '#991b1b',
+                            900: '#7f1d1d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
-        .hero-bg { background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%); }
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; background-color: #f8fafc; }
+        .hero-pattern {
+            background-color: #7f1d1d;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239f1239' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .tab-active {
+            background-color: #b91c1c;
+            color: white;
+        }
+        .tab-inactive {
+            background-color: white;
+            color: #4b5563;
+            border: 1px solid #e5e7eb;
+        }
+        .tab-inactive:hover {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(185, 28, 28, 0.1);
+            border-color: #b91c1c;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+            transition: all 0.2s ease;
+        }
+        .download-btn:hover {
+            background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(185, 28, 28, 0.3);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .topic-badge {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+        }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="text-gray-800 antialiased">
 
-    <header class="hero-bg text-white shadow-lg py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-5xl mx-auto text-center">
-            <h2 class="text-sm md:text-lg font-semibold text-red-200 tracking-wide uppercase mb-2">
-                T.C. Millî Eğitim Bakanlığı<br>Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü<br>Yurt Dışı Eğitim Daire Başkanlığı
-            </h2>
-            <h1 class="text-3xl md:text-5xl font-extrabold mt-4 mb-6 leading-tight">
-                Yurt Dışında Yaşayan İki Dilli Türk Çocuklarına<br>Türkçe ve Türk Kültürü Öğretimi Öğretmen Eğitimi
-            </h1>
-            
-            <div class="flex flex-col md:flex-row justify-center items-center gap-8 mt-8 bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-                <div class="text-left">
-                    <h3 class="text-xl font-bold mb-3 border-b border-red-300/50 pb-2">Bu Eğitimde;</h3>
-                    <ul class="space-y-2">
-                        <li><i class="fas fa-check-circle text-red-300 mr-2"></i>Yurt dışında Türkçe öğretimi</li>
-                        <li><i class="fas fa-check-circle text-red-300 mr-2"></i>İki dillilik ve dil gelişimi</li>
-                        <li><i class="fas fa-check-circle text-red-300 mr-2"></i>Kültürel aktarım</li>
-                        <li><i class="fas fa-check-circle text-red-300 mr-2"></i>Etkili öğretim yöntemleri</li>
-                    </ul>
-                </div>
-                <div class="text-left flex flex-col justify-center border-t md:border-t-0 md:border-l border-red-300/50 pt-4 md:pt-0 md:pl-8">
-                    <div class="mb-4">
-                        <p class="text-lg font-semibold"><i class="far fa-calendar-alt text-red-300 mr-2"></i>27-29 Nisan 2026</p>
+    <!-- Header / Hero -->
+    <header class="hero-pattern text-white shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+            <!-- Top Bar -->
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 pb-6 border-b border-red-800/50">
+                <div class="flex items-center gap-3 mb-4 lg:mb-0">
+                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                        <i class="fas fa-graduation-cap text-2xl text-red-200"></i>
                     </div>
                     <div>
-                        
-                        <p class="text-sm font-medium text-red-200">#TürkçeÖğretimi #İkiDillilik #ÜlkemYanımda #MEB #YurtDışıEğitim</p>
+                        <p class="text-xs font-semibold text-red-200 tracking-wider uppercase">T.C. Millî Eğitim Bakanlığı</p>
+                        <p class="text-sm text-red-100">Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü</p>
                     </div>
                 </div>
+                <div class="flex items-center gap-4 text-sm">
+                    <span class="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-lg backdrop-blur-sm">
+                        <i class="far fa-calendar-alt text-red-200"></i>
+                        <span>27-29 Nisan 2026</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Main Title -->
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
+                    Yurt Dışında Yaşayan İki Dilli Türk Çocuklarına<br class="hidden md:block">
+                    <span class="text-red-200">Türkçe ve Türk Kültürü Öğretimi</span><br class="hidden md:block">
+                    Öğretmen Eğitimi
+                </h1>
+                <p class="text-lg text-red-100 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    Çevrim içi eğitim programı kapsamında sunulan tüm ders videoları ve sunum materyallerine bu sayfadan erişebilirsiniz.
+                </p>
+            </div>
+
+            <!-- Topics -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mt-8">
+                <div class="topic-badge rounded-xl p-4 flex items-center gap-3 border border-white/10">
+                    <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-language text-red-200"></i>
+                    </div>
+                    <span class="text-sm font-medium">Yurt Dışında Türkçe Öğretimi</span>
+                </div>
+                <div class="topic-badge rounded-xl p-4 flex items-center gap-3 border border-white/10">
+                    <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-brain text-red-200"></i>
+                    </div>
+                    <span class="text-sm font-medium">İki Dillilik ve Dil Gelişimi</span>
+                </div>
+                <div class="topic-badge rounded-xl p-4 flex items-center gap-3 border border-white/10">
+                    <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-landmark text-red-200"></i>
+                    </div>
+                    <span class="text-sm font-medium">Kültürel Aktarım</span>
+                </div>
+                <div class="topic-badge rounded-xl p-4 flex items-center gap-3 border border-white/10">
+                    <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-chalkboard-teacher text-red-200"></i>
+                    </div>
+                    <span class="text-sm font-medium">Etkili Öğretim Yöntemleri</span>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="flex flex-wrap justify-center gap-2 mt-8 text-xs">
+                <span class="bg-white/10 px-3 py-1 rounded-full text-red-100">#TürkçeÖğretimi</span>
+                <span class="bg-white/10 px-3 py-1 rounded-full text-red-100">#İkiDillilik</span>
+                <span class="bg-white/10 px-3 py-1 rounded-full text-red-100">#ÜlkemYanımda</span>
+                <span class="bg-white/10 px-3 py-1 rounded-full text-red-100">#MEB</span>
+                <span class="bg-white/10 px-3 py-1 rounded-full text-red-100">#YurtDışıEğitim</span>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">Eğitim Videoları ve Sunum Materyalleri</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/YrfpyyHI1kY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- Controls Bar -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-8">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
+                <!-- Day Tabs -->
+                <div class="flex flex-wrap justify-center gap-2" id="dayTabs">
+                    <button onclick="filterByDay('all')" class="tab-active px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200" data-day="all">
+                        Tümü
+                    </button>
+                    <button onclick="filterByDay('27')" class="tab-inactive px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200" data-day="27">
+                        27 Nisan
+                    </button>
+                    <button onclick="filterByDay('28')" class="tab-inactive px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200" data-day="28">
+                        28 Nisan
+                    </button>
+                    <button onclick="filterByDay('29')" class="tab-inactive px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200" data-day="29">
+                        29 Nisan
+                    </button>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 27 Nisan 2026
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Çevrim İçi Türkçe ve Türk Kültürü Öğretmenliği | Cabir DURAK - Yurt Dışı Eğitim Daire Başkanı</h3>
-                    </div>
-                    <div class="mt-4">
-                        </div>
+
+                <!-- Search -->
+                <div class="relative w-full lg:w-80">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Eğitim ara..." 
+                        class="search-input w-full pl-11 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none transition-all duration-200"
+                        oninput="filterCards()"
+                    >
                 </div>
             </div>
+        </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/HYw6ZO6t45k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- Stats Bar -->
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Eğitim Videoları ve Sunum Materyalleri</h2>
+            <span class="text-sm text-gray-500 bg-white px-4 py-2 rounded-lg border border-gray-100 shadow-sm">
+                <span id="visibleCount">13</span> içerik
+            </span>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsContainer">
+
+            <!-- Card 1 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="27" data-title="çevrim içi türkçe ve türk kültürü öğretmenliği cabir durak">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/YrfpyyHI1kY" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 27 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 27 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Açılış</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">İki Dillilere Türkçe Öğretiminde Teknolojinin Kullanımı | Dr. Kahraman KOŞTAŞ</h3>
-                    </div>
-                    <div class="mt-4">
-                        <a href="./1.1.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (1.1.zip)
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/3SU7oaDbvnM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="p-5 flex-grow flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 27 Nisan 2026
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Çift Dilli Çocuklar için Çocuk Edebiyatı |  Dr. Kübra FIRAT</h3>
-                    </div>
-                    <div class="mt-4">
-                        <a href="./1.2.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (1.2.zip)
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ioN1vWga5Bs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-                <div class="p-5 flex-grow flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 27 Nisan 2026
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Dil Öğreniminde Yeterlik Basamakları ve Pedagojik Yansımaları | Dr. Aslı KOÇAK</h3>
-                    </div>
-                    <div class="mt-4">
-                        <a href="./1.3.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (1.3.zip)
-                        </a>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Çevrim İçi Türkçe ve Türk Kültürü Öğretmenliği
+                        </h3>
+                        <p class="text-sm text-gray-500">Cabir DURAK — Yurt Dışı Eğitim Daire Başkanı</p>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/Bi941pvjr28" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 2 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="27" data-title="iki dillilere türkçe öğretiminde teknolojinin kullanımı kahraman koştaş">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/HYw6ZO6t45k" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 28 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 27 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Teknoloji</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Avrupa Ülkeleri Bağlamlarında Türk Çocuklarına Türkçe ve Türk Kültürü Öğretiminde Etkili Yöntemler</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            İki Dillilere Türkçe Öğretiminde Teknolojinin Kullanımı
+                        </h3>
+                        <p class="text-sm text-gray-500">Dr. Kahraman KOŞTAŞ</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./2.1.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (2.1.zip)
-                        </a>
-                    </div>
+                    <a href="./1.1.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ssHs2tchzl0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 3 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="27" data-title="çift dilli çocuklar için çocuk edebiyatı kübra fırat">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/3SU7oaDbvnM" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 28 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 27 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Edebiyat</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Okul Öncesi Eğitim Sürecinde İkinci Dil Edinimi |  Dr. Ayşe ÇİFTCİ</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Çift Dilli Çocuklar için Çocuk Edebiyatı
+                        </h3>
+                        <p class="text-sm text-gray-500">Dr. Kübra FIRAT</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./2.2.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (2.2.zip)
-                        </a>
-                    </div>
+                    <a href="./1.2.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/wYiXSZer_G0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 4 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="27" data-title="dil öğreniminde yeterlik basamakları pedagojik yansımalar aslı koçak">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/ioN1vWga5Bs" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 28 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 27 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Pedagoji</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Birleştirilmiş Sınıflarda Ders Yönetimi ve Etkinlik Tasarımı | Doç.Dr. Melike ÜZÜM</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Dil Öğreniminde Yeterlik Basamakları ve Pedagojik Yansımaları
+                        </h3>
+                        <p class="text-sm text-gray-500">Dr. Aslı KOÇAK</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./2.3.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (2.3.zip)
-                        </a>
-                    </div>
+                    <a href="./1.3.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/vqNKt63C4f4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 5 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="28" data-title="avrupa ülkeleri bağlamlarında türk çocuklarına türkçe ve türk kültürü öğretiminde etkili yöntemler">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/Bi941pvjr28" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 28 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 28 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Yöntem</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Ebeveynlerle Dil Öğrenme Sürecinin Desteklenmesi |  Dr. Büşra AKGÜN EZİN</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Avrupa Ülkeleri Bağlamlarında Türk Çocuklarına Türkçe ve Türk Kültürü Öğretiminde Etkili Yöntemler
+                        </h3>
+                        <p class="text-sm text-gray-500">Uzman Eğitimci</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./2.4.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (2.4.zip)
-                        </a>
-                    </div>
+                    <a href="./2.1.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/UchylsRBLUo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 6 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="28" data-title="okul öncesi eğitim sürecinde ikinci dil edinimi ayşe çiftci">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/ssHs2tchzl0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 28 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 28 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Okul Öncesi</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">ABD Bağlamında Türk Çocuklarına Türkçe ve Türk Kültürü Öğretiminde Etkili Yöntemler</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Okul Öncesi Eğitim Sürecinde İkinci Dil Edinimi
+                        </h3>
+                        <p class="text-sm text-gray-500">Dr. Ayşe ÇİFTCİ</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./2.5.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (2.5.zip)
-                        </a>
-                    </div>
+                    <a href="./2.2.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/Bt1eGGIselg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 7 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="28" data-title="birleştirilmiş sınıflarda ders yönetimi etkinlik tasarımı melike üzüm">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/wYiXSZer_G0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 29 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 28 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Sınıf Yönetimi</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">İki Dillilere Türkçe Öğretiminde Yöntem ve Teknikler |  Doç. Dr. Gülşat BİCAN</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Birleştirilmiş Sınıflarda Ders Yönetimi ve Etkinlik Tasarımı
+                        </h3>
+                        <p class="text-sm text-gray-500">Doç.Dr. Melike ÜZÜM</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./3.2.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (3.2.zip)
-                        </a>
-                    </div>
+                    <a href="./2.3.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/3PfVWZQS-HI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 8 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="28" data-title="ebeveynlerle dil öğrenme sürecinin desteklenmesi büşra akgün ezin">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/vqNKt63C4f4" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 29 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 28 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Ebeveyn</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Türkçe ve Türk Kültürü Dersleri İçin Etkileşimli Materyal Geliştirme |  Fırat KIZILTEPE</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Ebeveynlerle Dil Öğrenme Sürecinin Desteklenmesi
+                        </h3>
+                        <p class="text-sm text-gray-500">Dr. Büşra AKGÜN EZİN</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./3.1.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (3.1.zip)
-                        </a>
-                    </div>
+                    <a href="./2.4.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/cGLtXzaHe-0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 9 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="28" data-title="abd bağlamında türk çocuklarına türkçe ve türk kültürü öğretiminde etkili yöntemler">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/UchylsRBLUo" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 29 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 28 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">ABD Bağlamı</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Türkçe ve Türk Kültürü Dersleri İçin Uygulamalı Ders Planı Geliştirme | Prof. Dr. Tolga ERDOĞAN</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            ABD Bağlamında Türk Çocuklarına Türkçe ve Türk Kültürü Öğretiminde Etkili Yöntemler
+                        </h3>
+                        <p class="text-sm text-gray-500">Uzman Eğitimci</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./3.3.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (3.3.zip)
-                        </a>
-                    </div>
+                    <a href="./2.5.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                <div class="relative w-full pb-[56.25%]">
-                    <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/iMEx-AfLEFE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Card 10 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="29" data-title="iki dillilere türkçe öğretiminde yöntem ve teknikler gülşat bican">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/Bt1eGGIselg" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
                 </div>
                 <div class="p-5 flex-grow flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar-alt mr-2"></i> 29 Nisan 2026
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 29 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Yöntem</span>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-4 leading-tight">Türkçe ve Türk Kültürü Dersleri Öğretiminde Kültürlerarasılık | Doç. Dr. Tarık DEMİR</h3>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            İki Dillilere Türkçe Öğretiminde Yöntem ve Teknikler
+                        </h3>
+                        <p class="text-sm text-gray-500">Doç. Dr. Gülşat BİCAN</p>
                     </div>
-                    <div class="mt-4">
-                        <a href="./3.4.zip" download class="inline-flex items-center px-4 py-2 bg-red-700 hover:bg-red-800 text-white text-sm font-medium rounded-md transition-colors w-full justify-center">
-                            <i class="fas fa-download mr-2"></i> Sunum Dosyasını İndir (3.4.zip)
-                        </a>
+                    <a href="./3.2.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 11 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="29" data-title="türkçe ve türk kültürü dersleri için etkileşimli materyal geliştirme fırat kızıltepe">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/3PfVWZQS-HI" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="p-5 flex-grow flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 29 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Materyal</span>
+                        </div>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Türkçe ve Türk Kültürü Dersleri İçin Etkileşimli Materyal Geliştirme
+                        </h3>
+                        <p class="text-sm text-gray-500">Fırat KIZILTEPE</p>
                     </div>
+                    <a href="./3.1.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 12 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="29" data-title="türkçe ve türk kültürü dersleri için uygulamalı ders planı geliştirme tolga erdoğan">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/cGLtXzaHe-0" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="p-5 flex-grow flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 29 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Ders Planı</span>
+                        </div>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Türkçe ve Türk Kültürü Dersleri İçin Uygulamalı Ders Planı Geliştirme
+                        </h3>
+                        <p class="text-sm text-gray-500">Prof. Dr. Tolga ERDOĞAN</p>
+                    </div>
+                    <a href="./3.3.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 13 -->
+            <div class="card-hover bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col" data-day="29" data-title="türkçe ve türk kültürü dersleri öğretiminde kültürlerarasılık tarık demir">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/iMEx-AfLEFE" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="p-5 flex-grow flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold bg-meb-50 text-meb-700">
+                                <i class="far fa-calendar-alt mr-1.5"></i> 29 Nisan 2026
+                            </span>
+                            <span class="text-xs text-gray-400">Kültür</span>
+                        </div>
+                        <h3 class="text-base font-bold text-gray-900 leading-snug mb-2">
+                            Türkçe ve Türk Kültürü Dersleri Öğretiminde Kültürlerarasılık
+                        </h3>
+                        <p class="text-sm text-gray-500">Doç. Dr. Tarık DEMİR</p>
+                    </div>
+                    <a href="./3.4.zip" download class="download-btn mt-4 inline-flex items-center justify-center px-4 py-2.5 text-white text-sm font-medium rounded-xl">
+                        <i class="fas fa-download mr-2"></i> Sunum İndir
+                    </a>
                 </div>
             </div>
 
         </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="hidden text-center py-16">
+            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-search text-3xl text-gray-400"></i>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Sonuç bulunamadı</h3>
+            <p class="text-gray-500">Arama kriterlerinize uygun içerik bulunmamaktadır.</p>
+        </div>
     </main>
 
-    <footer class="bg-gray-800 text-gray-300 py-6 text-center">
-        <p>&copy; 2026 T.C. Millî Eğitim Bakanlığı. Tüm hakları saklıdır.</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-10 mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-meb-800 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-meb-400"></i>
+                    </div>
+                    <div>
+                        <p class="text-white font-semibold text-sm">T.C. Millî Eğitim Bakanlığı</p>
+                        <p class="text-xs">Yurt Dışı Eğitim Daire Başkanlığı</p>
+                    </div>
+                </div>
+                <div class="text-sm text-center md:text-right">
+                    <p>&copy; 2026 T.C. Millî Eğitim Bakanlığı. Tüm hakları saklıdır.</p>
+                    <p class="text-xs mt-1 text-gray-500">#ÜlkemYanımda</p>
+                </div>
+            </div>
+        </div>
     </footer>
 
+    <script>
+        let currentDay = 'all';
+
+        function filterByDay(day) {
+            currentDay = day;
+
+            // Update tab styles
+            document.querySelectorAll('#dayTabs button').forEach(btn => {
+                if (btn.dataset.day === day) {
+                    btn.classList.remove('tab-inactive');
+                    btn.classList.add('tab-active');
+                } else {
+                    btn.classList.remove('tab-active');
+                    btn.classList.add('tab-inactive');
+                }
+            });
+
+            filterCards();
+        }
+
+        function filterCards() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('#cardsContainer > div[data-day]');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardDay = card.dataset.day;
+                const cardTitle = card.dataset.title;
+                const matchesDay = currentDay === 'all' || cardDay === currentDay;
+                const matchesSearch = !searchTerm || cardTitle.includes(searchTerm);
+
+                if (matchesDay && matchesSearch) {
+                    card.style.display = '';
+                    card.classList.add('fade-in');
+                    visibleCount++;
+                    setTimeout(() => card.classList.remove('fade-in'), 500);
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            document.getElementById('visibleCount').textContent = visibleCount;
+
+            const noResults = document.getElementById('noResults');
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            filterByDay('all');
+        });
+    </script>
 </body>
 </html>
