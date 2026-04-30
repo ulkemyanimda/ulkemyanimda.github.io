@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gül Şehrinden Gönül Köprüsü</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+html,body{margin:0;padding:0;height:100%;width:100%}
+*{box-sizing:border-box}
+
+.font-display{font-family:'Playfair Display',serif}
+.font-body{font-family:'Nunito',sans-serif}
+
+.rose-pattern{
+  background-image:radial-gradient(circle at 20% 50%,rgba(190,50,70,.06) 0%,transparent 50%),
+  radial-gradient(circle at 80% 20%,rgba(190,50,70,.04) 0%,transparent 40%),
+  radial-gradient(circle at 60% 80%,rgba(255,180,50,.04) 0%,transparent 40%);
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-12px) rotate(3deg)}
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes drawLine{
+  from{stroke-dashoffset:1000}
+  to{stroke-dashoffset:0}
+}
+@keyframes envelopeBounce{
+  0%,100%{transform:scale(1) rotate(-2deg)}
+  50%{transform:scale(1.08) rotate(2deg)}
+}
+
+.anim-fade{animation:fadeUp .8s ease-out both}
+.anim-fade-d1{animation-delay:.15s}
+.anim-fade-d2{animation-delay:.3s}
+.anim-fade-d3{animation-delay:.45s}
+.anim-fade-d4{animation-delay:.6s}
+.anim-fade-d5{animation-delay:.75s}
+.anim-float{animation:float 4s ease-in-out infinite}
+.anim-envelope{animation:envelopeBounce 3s ease-in-out infinite}
+
+.rose-divider{
+  width:60px;height:3px;
+  background:linear-gradient(90deg,#be3246,#d4956a);
+  border-radius:2px;
+}
+
+.country-card{
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.country-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 16px 40px rgba(190,50,70,.15);
+}
+
+.quote-mark{
+  font-size:4rem;line-height:1;
+  background:linear-gradient(135deg,#be3246,#d4956a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+.video-section{
+  background:linear-gradient(135deg,#1a1215 0%,#2d1a1f 100%);
+}
+
+.scroll-indicator{
+  animation:float 2s ease-in-out infinite;
+}
+
+/* Gallery Styles */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+.gallery-item {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid rgba(190,50,70,0.1);
+}
+.gallery-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(190,50,70,0.2);
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+.lightbox.active { display: flex; }
+.lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto font-body" style="background:#faf6f2">
+  
+  <!-- NAV -->
+   <nav class="fixed top-0 left-0 w-full z-50 backdrop-blur-md" style="background:rgba(250,246,242,.9);border-bottom:1px solid rgba(190,50,70,.1)">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+     <div class="flex items-center gap-2"><span class="text-2xl">🌹</span> <span class="font-display font-bold text-lg" style="color:#be3246" id="nav-title">Gönül Köprüsü</span>
+     </div>
+     <div class="hidden md:flex gap-6 text-sm font-semibold" style="color:#5a3a3a">
+      <a href="#hakkinda" class="hover:opacity-70 transition">Hakkında</a> 
+      <a href="#ulkeler" class="hover:opacity-70 transition">Ülkeler</a> 
+      <a href="#degerler" class="hover:opacity-70 transition">Değerler</a> 
+      <a href="#galeri" class="hover:opacity-70 transition">Galeri</a>
+      <a href="#video" class="hover:opacity-70 transition">Video</a>
+     </div>
+    </div>
+   </nav>
+   
+  <!-- HERO -->
+   <header class="relative rose-pattern pt-28 pb-20 px-4 text-center overflow-hidden">
+    <div class="absolute top-16 left-8 text-5xl anim-float opacity-30">🌹</div>
+    <div class="absolute top-32 right-12 text-3xl anim-float" style="animation-delay:1s;opacity:.25">✉️</div>
+    <div class="absolute bottom-10 left-1/4 text-4xl anim-float" style="animation-delay:2s;opacity:.2">🌍</div>
+    <div class="max-w-3xl mx-auto relative z-10">
+     <div class="anim-fade mb-4"><span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase" style="background:rgba(190,50,70,.1);color:#be3246"> 🌍 Isparta → İsveç &amp; Hollanda </span></div>
+     <h1 class="font-display font-bold leading-tight anim-fade anim-fade-d1" style="color:#3a1a1a">
+      <span class="block text-3xl md:text-5xl" id="hero-title">Mektuplarla Kültür Yolculuğu</span> 
+      <span class="block text-2xl md:text-4xl mt-2" style="color:#be3246" id="hero-subtitle">Uluslararası Mektup Arkadaşlığı</span>
+     </h1>
+     <div class="flex justify-center my-6 anim-fade anim-fade-d2"><div class="rose-divider"></div></div>
+     <p class="text-base md:text-lg leading-relaxed anim-fade anim-fade-d3 max-w-2xl mx-auto" style="color:#6a4a4a">
+      <strong>Türkiye Yüzyılı Maarif Modeli</strong> yaklaşımı doğrultusunda, Isparta <strong id="school-display">Şehit Ali Yılmaz Borsa İstanbul İlkokulu</strong> <strong id="class-display">2/E sınıfı</strong> öğrencileri ile yurt dışında yaşayan Türk öğrencileri, değerli öğretmenmiz <strong>Emine Önderol Gümüş</strong>  rehberliğinde,  <strong>mektuplar</strong> aracılığıyla kültürel, sosyal ve duygusal bir bağ kuruyor.
+     </p>
+     <div class="mt-8 anim-fade anim-fade-d4 scroll-indicator">
+      <i data-lucide="chevrons-down" style="color:#be3246;width:28px;height:28px" class="mx-auto"></i>
+     </div>
+    </div>
+   </header>
+   
+   
+     <!-- 🌹 RESİM SERGİSİ (YENİ - MERKEZDE) -->
+   <section id="galeri" class="py-16 px-4">
+    <div class="max-w-6xl mx-auto text-center">
+     <span class="text-xs font-bold tracking-wider uppercase" style="color:#be3246">Anlık Kareler</span>
+     <h2 class="font-display text-2xl md:text-3xl font-bold mt-2 mb-2" style="color:#3a1a1a">🌹 Resim Sergisi</h2>
+     <p class="text-sm mb-8" style="color:#6a4a4a">Gül Şehrinden Gönül Köprüsü'ne uzanan anılar</p>
+     <div class="flex justify-center mb-8"><div class="rose-divider"></div></div>
+     
+     <div class="gallery-grid max-w-5xl mx-auto">
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/1.jpeg" alt="Etkinlik 1" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/2.jpeg" alt="Etkinlik 2" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/3.jpeg" alt="Etkinlik 3" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/4.jpeg" alt="Etkinlik 4" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/5.jpeg" alt="Etkinlik 5" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/6.jpeg" alt="Etkinlik 6" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/7.jpeg" alt="Etkinlik 7" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/8.jpeg" alt="Etkinlik 8" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/9.jpeg" alt="Etkinlik 9" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/10.jpeg" alt="Etkinlik 10" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/11.jpeg" alt="Etkinlik 11" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/12.jpeg" alt="Etkinlik 12" loading="lazy"></div>
+      <div class="gallery-item" onclick="openLightbox(this)"><img src="gul/13.jpeg" alt="Etkinlik 13" loading="lazy"></div>
+     </div>
+    </div>
+   </section>
+
+  <!-- 🎬 ANA ETKİNLİK VİDEOSU (YENİ - MERKEZDE) -->
+   <section id="video" class="video-section py-20 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+     <span class="text-xs font-bold tracking-wider uppercase" style="color:#d4956a">🎬 Ana Etkinlik</span>
+     <h2 class="font-display text-2xl md:text-3xl font-bold mt-2 mb-2 text-white">Gönül Köprüsü Buluşması</h2>
+     <p class="text-sm mb-8" style="color:rgba(255,255,255,.7)">Isparta'dan dünyaya uzanan kültürel bağlarımızın canlı anları</p>
+     <div class="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-white/10" style="padding-bottom:56.25%">
+      <iframe src="https://www.youtube.com/embed/hlQKgL3YPsE?rel=0" title="Gönül Köprüsü Etkinliği" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+     </div>
+    </div>
+   </section>
+   
+  <!-- HAKKINDA -->
+   <section id="hakkinda" class="py-16 px-4">
+    <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+     <div>
+      <span class="text-xs font-bold tracking-wider uppercase" style="color:#be3246">Proje Hakkında</span>
+      <h2 class="font-display text-2xl md:text-3xl font-bold mt-2 mb-4" style="color:#3a1a1a">Mektuplar, Sınırları Aşan Kültür Taşıyıcısı</h2>
+      <div class="rose-divider mb-5"></div>
+      <p class="leading-relaxed mb-4" style="color:#6a4a4a">Ülkemizde yaşayan öğrenciler ile yurt dışında yaşayan Türk öğrencileri arasında <strong>mektuplar</strong> aracılığıyla kurulan bu köprü, kültürel, sosyal ve duygusal bir bağ oluşturuyor.</p>
+      <p class="leading-relaxed mb-4" style="color:#6a4a4a"><strong>Bu çalışma ile öğrenciler:</strong></p>
+      <ul class="space-y-2 mb-4" style="color:#6a4a4a">
+       <li class="flex gap-2"><span style="color:#be3246">✓</span> Ortak dil ve kültür üzerinden aidiyet duygusunu güçlendiriyor</li>
+       <li class="flex gap-2"><span style="color:#be3246">✓</span> Yurt dışındaki Türk çocuklarının Türkiye ile bağını canlı tutuyor</li>
+       <li class="flex gap-2"><span style="color:#be3246">✓</span> Kültürel değerleri yaşayarak öğreniyor ve paylaşıyor</li>
+       <li class="flex gap-2"><span style="color:#be3246">✓</span> Akran etkileşimiyle kalıcı gönül köprüleri kuruyor</li>
+      </ul>
+      <p class="leading-relaxed italic" style="color:#be3246"><strong>Mektuplar, sınırları aşan bir kültür taşıyıcısına dönüşüyor.</strong></p>
+     </div>
+     <div class="flex justify-center">
+      <div class="anim-envelope relative">
+       <svg width="220" height="180" viewbox="0 0 220 180">
+        <rect x="10" y="40" width="200" height="130" rx="12" fill="#fce8ec" stroke="#be3246" stroke-width="2" /> 
+        <path d="M10 50 L110 120 L210 50" fill="none" stroke="#be3246" stroke-width="2" stroke-linecap="round" /> 
+        <rect x="30" y="10" width="160" height="100" rx="6" fill="white" stroke="#d4956a" stroke-width="1.5" /> 
+        <line x1="55" y1="35" x2="165" y2="35" stroke="#eee" stroke-width="2" /> 
+        <line x1="55" y1="50" x2="165" y2="50" stroke="#eee" stroke-width="2" /> 
+        <line x1="55" y1="65" x2="140" y2="65" stroke="#eee" stroke-width="2" /> 
+        <line x1="55" y1="80" x2="155" y2="80" stroke="#eee" stroke-width="2" /> 
+        <text x="40" y="42" font-size="10" fill="#be3246" font-family="'Nunito'">Sevgili Arkadaşım,</text> 
+        <circle cx="185" cy="25" r="16" fill="#be3246" opacity=".15" /> 
+        <text x="178" y="30" font-size="14">🌹</text>
+       </svg>
+      </div>
+     </div>
+    </div>
+   </section>
+   
+  <!-- ÜLKELER -->
+   <section id="ulkeler" class="py-16 px-4" style="background:linear-gradient(180deg,rgba(190,50,70,.03),rgba(250,246,242,1))">
+    <div class="max-w-5xl mx-auto text-center mb-12">
+     <span class="text-xs font-bold tracking-wider uppercase" style="color:#be3246">Gönül Köprüleri</span>
+     <h2 class="font-display text-2xl md:text-3xl font-bold mt-2" style="color:#3a1a1a">Bağ Kurulan Ülkeler</h2>
+     <div class="flex justify-center mt-4"><div class="rose-divider"></div></div>
+    </div>
+    <div class="max-w-5xl mx-auto grid sm:grid-cols-3 gap-6">
+     <div class="country-card rounded-2xl p-6 text-center cursor-default" style="background:white;border:1px solid rgba(190,50,70,.1)">
+      <div class="text-5xl mb-3">🇸🇪</div>
+      <h3 class="font-display font-bold text-xl mb-1" style="color:#3a1a1a">İsveç</h3>
+      <p class="text-sm" style="color:#6a4a4a">Stockholm ve çevresindeki Türk öğrencilerle mektuplaşma</p>
+      <div class="mt-4 inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background:#e8f4fd;color:#2563eb">Aktif 📬</div>
+     </div>
+     <div class="country-card rounded-2xl p-6 text-center cursor-default" style="background:white;border:1px solid rgba(190,50,70,.1)">
+      <div class="text-5xl mb-3">🇳🇱</div>
+      <h3 class="font-display font-bold text-xl mb-1" style="color:#3a1a1a">Hollanda</h3>
+      <p class="text-sm" style="color:#6a4a4a">Türkçe ve Türk Kültürü dersi alan öğrencilerle bağ</p>
+      <div class="mt-4 inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background:#e8f4fd;color:#2563eb">Aktif 📬</div>
+     </div>
+     <div class="country-card rounded-2xl p-6 text-center cursor-default" style="background:white;border:1px solid rgba(190,50,70,.1)">
+      <div class="text-5xl mb-3">🇸🇦</div>
+      <h3 class="font-display font-bold text-xl mb-1" style="color:#3a1a1a">Medine</h3>
+      <p class="text-sm" style="color:#6a4a4a">İlk gönül köprüsü — başladığımız yer</p>
+      <div class="mt-4 inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background:#fef3c7;color:#92400e">Tamamlandı ✅</div>
+     </div>
+    </div>
+   </section>
+   
+  <!-- DEĞERLER -->
+   <section id="degerler" class="py-16 px-4">
+    <div class="max-w-5xl mx-auto text-center mb-10">
+     <span class="text-xs font-bold tracking-wider uppercase" style="color:#be3246">Kazanımlar</span>
+     <h2 class="font-display text-2xl md:text-3xl font-bold mt-2" style="color:#3a1a1a">Bu Köprüde Ne Var?</h2>
+     <div class="flex justify-center mt-4"><div class="rose-divider"></div></div>
+    </div>
+    <div class="max-w-4xl mx-auto grid sm:grid-cols-2 gap-5">
+     <div class="flex gap-4 p-5 rounded-xl" style="background:white;border:1px solid rgba(190,50,70,.08)">
+      <span class="text-3xl flex-shrink-0">✍️</span>
+      <div>
+       <h4 class="font-bold mb-1" style="color:#3a1a1a">Yazma Becerisi</h4>
+       <p class="text-sm" style="color:#6a4a4a">Mektup yazma yoluyla Türkçe dil becerilerini geliştirme</p>
+      </div>
+     </div>
+     <div class="flex gap-4 p-5 rounded-xl" style="background:white;border:1px solid rgba(190,50,70,.08)">
+      <span class="text-3xl flex-shrink-0">🤝</span>
+      <div>
+       <h4 class="font-bold mb-1" style="color:#3a1a1a">Kardeşlik Bağı</h4>
+       <p class="text-sm" style="color:#6a4a4a">Farklı coğrafyalarda aynı duygularda buluşma</p>
+      </div>
+     </div>
+     <div class="flex gap-4 p-5 rounded-xl" style="background:white;border:1px solid rgba(190,50,70,.08)">
+      <span class="text-3xl flex-shrink-0">🌍</span>
+      <div>
+       <h4 class="font-bold mb-1" style="color:#3a1a1a">Kültürel Farkındalık</h4>
+       <p class="text-sm" style="color:#6a4a4a">Farklı kültürlere saygı duyan bireyler yetiştirme</p>
+      </div>
+     </div>
+     <div class="flex gap-4 p-5 rounded-xl" style="background:white;border:1px solid rgba(190,50,70,.08)">
+      <span class="text-3xl flex-shrink-0">🏠</span>
+      <div>
+       <h4 class="font-bold mb-1" style="color:#3a1a1a">Aidiyet Duygusu</h4>
+       <p class="text-sm" style="color:#6a4a4a">Köklerine bağlı, dünyaya açık nesiller</p>
+      </div>
+     </div>
+    </div>
+   </section>
+   
+  <!-- ALINTI -->
+   <section class="py-14 px-4" style="background:rgba(190,50,70,.04)">
+    <div class="max-w-3xl mx-auto text-center">
+     <span class="quote-mark">"</span>
+     <blockquote class="font-display text-xl md:text-2xl italic leading-relaxed -mt-4" style="color:#3a1a1a">
+      Ortak dil ve kültür üzerinden aidiyet duygusunu güçlendirirken, yurt dışındaki Türk çocuklarının Türkiye ile bağını canlı tutuyor; kültürel değerleri yaşayarak öğreniyor ve akran etkileşimiyle kalıcı gönül köprüleri kuruyoruz.
+     </blockquote>
+     <div class="flex justify-center mt-5"><div class="rose-divider"></div></div>
+    </div>
+   </section>
+
+
+
+  <!-- MAP LINE -->
+   <section class="py-14 px-4 text-center">
+    <div class="max-w-2xl mx-auto">
+     <span class="text-xs font-bold tracking-wider uppercase" style="color:#be3246">Gönül Haritası</span>
+     <h2 class="font-display text-xl md:text-2xl font-bold mt-2 mb-6" style="color:#3a1a1a">Isparta'dan Dünyaya</h2>
+     <div class="flex items-center justify-center gap-3 flex-wrap">
+      <span class="px-4 py-2 rounded-full font-bold text-sm" style="background:#be3246;color:white">🌹 Isparta</span> 
+      <span style="color:#d4956a">—✉️—</span> 
+      <span class="px-4 py-2 rounded-full font-bold text-sm" style="background:#fce8ec;color:#be3246">🇸🇪 İsveç</span> 
+      <span style="color:#d4956a">—✉️—</span> 
+      <span class="px-4 py-2 rounded-full font-bold text-sm" style="background:#fce8ec;color:#be3246">🇳🇱 Hollanda</span> 
+      <span style="color:#d4956a">—✉️—</span> 
+      <span class="px-4 py-2 rounded-full font-bold text-sm" style="background:#fef3c7;color:#92400e">🇸🇦 Medine</span>
+     </div>
+    </div>
+   </section>
+
+  <!-- 📮 MEDİNE VİDEOSU (ALT KISIMDA) -->
+   <section class="py-16 px-4" style="background:rgba(190,50,70,.03)">
+    <div class="max-w-4xl mx-auto text-center">
+     <span class="text-xs font-bold tracking-wider uppercase" style="color:#be3246">Geçmiş Etkinlik</span>
+     <h2 class="font-display text-2xl md:text-3xl font-bold mt-2 mb-2" style="color:#3a1a1a">🕌 Medine Mektuplaşması</h2>
+     <p class="text-sm mb-8" style="color:#6a4a4a">İlk gönül köprümüzden anlamlı anlar</p>
+     <div class="flex justify-center mb-6"><div class="rose-divider"></div></div>
+     <div class="relative rounded-2xl overflow-hidden shadow-xl border" style="padding-bottom:56.25%; background:white">
+      <iframe src="https://www.youtube.com/embed/JjxHfMbzR7Y?rel=0" title="Medine Mektuplaşması" class="absolute inset-0 w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+     </div>
+    </div>
+   </section>
+
+  <!-- FOOTER -->
+   <footer class="py-8 px-4 text-center" style="background:#3a1a1a;color:rgba(255,255,255,.6)">
+    <div class="text-2xl mb-2">🌹</div>
+    <p class="font-display font-bold text-white text-sm" id="footer-school">Isparta Şehit Ali Yılmaz Borsa İstanbul İlkokulu</p>
+    <p class="text-xs mt-1">Gül Şehrinden Dünyaya Gönül Köprüsü 💌</p>
+    <p class="text-xs mt-3 opacity-50">2025 • Ülkem Yanımda Projesi</p>
+   </footer>
+
+  </div>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+   <span class="lightbox-close">&times;</span>
+   <img id="lightbox-img" src="" alt="Büyük resim">
+  </div>
+
+  <script>
+// Lightbox Functions
+function openLightbox(el) {
+  const img = el.querySelector('img');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+  if(e.target.id === 'lightbox' || e.target.classList.contains('lightbox-close')) {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if(e.key === 'Escape') {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+const defaultConfig = {
+  hero_title: "Mektuplarla Kültür Yolculuğu",
+  hero_subtitle: "Uluslararası Mektup Arkadaşlığı",
+  school_name: "Şehit Ali Yılmaz Borsa İstanbul İlkokulu",
+  class_name: "2/E Sınıfı",
+  background_color: "#faf6f2",
+  surface_color: "#ffffff",
+  text_color: "#3a1a1a",
+  primary_action_color: "#be3246",
+  secondary_action_color: "#d4956a",
+  font_family: "Playfair Display",
+  font_size: 16
+};
+
+function applyConfig(config) {
+  const c = key => config[key] || defaultConfig[key];
+
+  document.getElementById('hero-title').textContent = c('hero_title');
+  document.getElementById('hero-subtitle').textContent = c('hero_subtitle');
+  document.getElementById('school-display').textContent = c('school_name');
+  document.getElementById('class-display').textContent = c('class_name');
+  document.getElementById('footer-school').textContent = 'Isparta ' + c('school_name');
+
+  const app = document.getElementById('app');
+  app.style.background = c('background_color');
+
+  const txtColor = c('text_color');
+  const primaryColor = c('primary_action_color');
+  const secondaryColor = c('secondary_action_color');
+  const surfaceColor = c('surface_color');
+
+  document.querySelectorAll('[style*="color:#3a1a1a"], [style*="color: #3a1a1a"]').forEach(el => {
+    if(el.style.color === '#3a1a1a' || el.style.color === 'rgb(58, 26, 26)') el.style.color = txtColor;
+  });
+
+  document.getElementById('nav-title').style.color = primaryColor;
+  document.getElementById('hero-subtitle').style.color = primaryColor;
+
+  document.querySelectorAll('.rose-divider').forEach(d => {
+    d.style.background = `linear-gradient(90deg,${primaryColor},${secondaryColor})`;
+  });
+
+  document.querySelectorAll('.country-card').forEach(card => {
+    card.style.background = surfaceColor;
+    card.style.borderColor = primaryColor + '1a';
+  });
+
+  const customFont = c('font_family');
+  const fallback = 'Georgia, serif';
+  document.querySelectorAll('.font-display').forEach(el => {
+    el.style.fontFamily = `${customFont}, ${fallback}`;
+  });
+
+  const base = c('font_size');
+  document.getElementById('hero-title').style.fontSize = '';
+  const bodyEls = document.querySelectorAll('p:not(.text-xs)');
+  bodyEls.forEach(el => el.style.fontSize = `${base}px`);
+}
+
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => applyConfig(config),
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({background_color:v}); }},
+      { get: () => config.surface_color || defaultConfig.surface_color, set: v => { config.surface_color = v; window.elementSdk.setConfig({surface_color:v}); }},
+      { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({text_color:v}); }},
+      { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: v => { config.primary_action_color = v; window.elementSdk.setConfig({primary_action_color:v}); }},
+      { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: v => { config.secondary_action_color = v; window.elementSdk.setConfig({secondary_action_color:v}); }}
+    ],
+    borderables: [],
+    fontEditable: {
+      get: () => config.font_family || defaultConfig.font_family,
+      set: v => { config.font_family = v; window.elementSdk.setConfig({font_family:v}); }
+    },
+    fontSizeable: {
+      get: () => config.font_size || defaultConfig.font_size,
+      set: v => { config.font_size = v; window.elementSdk.setConfig({font_size:v}); }
+    }
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ["hero_title", config.hero_title || defaultConfig.hero_title],
+    ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+    ["school_name", config.school_name || defaultConfig.school_name],
+    ["class_name", config.class_name || defaultConfig.class_name]
+  ])
+});
+
+lucide.createIcons();
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9edba6432414c9ca',t:'MTc3NjQzMTIxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
