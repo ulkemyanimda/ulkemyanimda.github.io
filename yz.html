@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eğitimde Yapay Zekâ — Kaynak Merkezi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #f0f2f8;
+            --bg-secondary: #e4e7f1;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8f9ff;
+            --accent-1: #6c5ce7;
+            --accent-2: #7c6ff7;
+            --accent-3: #00b894;
+            --accent-4: #e84393;
+            --accent-5: #f39c12;
+            --accent-6: #00cec9;
+            --text-primary: #1a1a2e;
+            --text-secondary: #5a5a7a;
+            --text-muted: #8888aa;
+            --border-color: rgba(108, 92, 231, 0.1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 16px 50px rgba(108, 92, 231, 0.12);
+            --shadow-glow: 0 0 40px rgba(108, 92, 231, 0.08);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-animation .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            animation: floatOrb 20s ease-in-out infinite;
+        }
+
+        .bg-animation .orb:nth-child(1) {
+            width: 600px; height: 600px;
+            background: #a29bfe;
+            top: -15%; left: -10%;
+            animation-delay: 0s;
+        }
+
+        .bg-animation .orb:nth-child(2) {
+            width: 500px; height: 500px;
+            background: #81ecec;
+            top: 40%; right: -10%;
+            animation-delay: -7s;
+        }
+
+        .bg-animation .orb:nth-child(3) {
+            width: 400px; height: 400px;
+            background: #fab1d0;
+            bottom: -10%; left: 25%;
+            animation-delay: -14s;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(50px, -30px) scale(1.08); }
+            50% { transform: translate(-25px, 50px) scale(0.96); }
+            75% { transform: translate(35px, 25px) scale(1.04); }
+        }
+
+        /* ===== GRID PATTERN OVERLAY ===== */
+        .grid-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(108, 92, 231, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(108, 92, 231, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== HEADER / HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 70px 0 40px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(108, 92, 231, 0.08);
+            border: 1px solid rgba(108, 92, 231, 0.18);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-1);
+            margin-bottom: 28px;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .hero-badge .pulse {
+            width: 8px; height: 8px;
+            background: var(--accent-3);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 184, 148, 0.4); }
+            50% { opacity: 0.7; transform: scale(1.3); box-shadow: 0 0 0 8px rgba(0, 184, 148, 0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #6c5ce7 50%, #00b894 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto 14px;
+            line-height: 1.75;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 36px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+            background: var(--bg-card);
+            padding: 16px 28px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-stat .number {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* ===== SECTION TITLE ===== */
+        .section-header {
+            text-align: center;
+            margin: 50px 0 32px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ===== FEATURED CARD (yzr.html) ===== */
+        .featured-card {
+            background: var(--bg-card);
+            border: 1.5px solid rgba(108, 92, 231, 0.15);
+            border-radius: 24px;
+            padding: 44px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .featured-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.03), rgba(0, 206, 201, 0.03));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108, 92, 231, 0.35);
+            box-shadow: var(--shadow-lg), 0 0 0 1px rgba(108, 92, 231, 0.15);
+        }
+
+        .featured-card:hover::before { opacity: 1; }
+
+        .featured-card .inner {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .featured-icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #6c5ce7, #00cec9);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(108, 92, 231, 0.2);
+        }
+
+        .featured-content h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .featured-content p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        .featured-content .tag {
+            display: inline-block;
+            margin-top: 12px;
+            background: rgba(0, 206, 201, 0.1);
+            color: var(--accent-3);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .featured-arrow {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: rgba(108, 92, 231, 0.08);
+            border: 1.5px solid rgba(108, 92, 231, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--accent-1);
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .featured-card:hover .featured-arrow {
+            background: var(--accent-1);
+            color: #fff;
+            transform: translateX(4px);
+            border-color: var(--accent-1);
+        }
+
+        /* ===== INFO BANNER ===== */
+        .info-banner {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 206, 201, 0.2);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin: 0 0 50px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-banner .info-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .info-banner h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-3);
+            margin-bottom: 4px;
+        }
+
+        .info-banner p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* ===== CARD GRID ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        /* ===== INDIVIDUAL CARD ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            border-radius: 20px;
+            padding: 28px 28px 24px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            border-radius: 20px 20px 0 0;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            background: var(--bg-card-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card:hover::after { opacity: 1; }
+
+        .card:hover .card-arrow {
+            transform: translate(4px, -4px);
+            opacity: 1;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .card-icon {
+            width: 48px; height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .card-arrow {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            transition: all 0.3s;
+        }
+
+        .card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            line-height: 1.45;
+            padding-right: 28px;
+        }
+
+        .card p {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            flex-grow: 1;
+            margin-bottom: 18px;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid rgba(108, 92, 231, 0.07);
+        }
+
+        .card-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .card-type {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            background: var(--bg-secondary);
+            padding: 3px 10px;
+            border-radius: 6px;
+        }
+
+        /* ===== CARD COLOR THEMES ===== */
+        .card--purple::after { background: linear-gradient(90deg, var(--accent-1), var(--accent-2)); }
+        .card--purple .card-icon { background: rgba(108, 92, 231, 0.1); color: var(--accent-1); }
+        .card--purple .card-tag { background: rgba(108, 92, 231, 0.1); color: var(--accent-1); }
+
+        .card--teal::after { background: linear-gradient(90deg, var(--accent-3), var(--accent-6)); }
+        .card--teal .card-icon { background: rgba(0, 184, 148, 0.1); color: var(--accent-3); }
+        .card--teal .card-tag { background: rgba(0, 184, 148, 0.1); color: var(--accent-3); }
+
+        .card--pink::after { background: linear-gradient(90deg, var(--accent-4), #fd79a8); }
+        .card--pink .card-icon { background: rgba(232, 67, 147, 0.1); color: var(--accent-4); }
+        .card--pink .card-tag { background: rgba(232, 67, 147, 0.1); color: var(--accent-4); }
+
+        .card--yellow::after { background: linear-gradient(90deg, var(--accent-5), #e17055); }
+        .card--yellow .card-icon { background: rgba(243, 156, 18, 0.1); color: var(--accent-5); }
+        .card--yellow .card-tag { background: rgba(243, 156, 18, 0.1); color: var(--accent-5); }
+
+        .card--green::after { background: linear-gradient(90deg, var(--accent-6), var(--accent-3)); }
+        .card--green .card-icon { background: rgba(0, 206, 201, 0.1); color: var(--accent-6); }
+        .card--green .card-tag { background: rgba(0, 206, 201, 0.1); color: var(--accent-6); }
+
+        .card--blue::after { background: linear-gradient(90deg, #0984e3, #74b9ff); }
+        .card--blue .card-icon { background: rgba(9, 132, 227, 0.1); color: #0984e3; }
+        .card--blue .card-tag { background: rgba(9, 132, 227, 0.1); color: #0984e3; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 36px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer .heart { color: var(--accent-4); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero { padding: 50px 0 24px; }
+            .hero-stats { gap: 16px; }
+            .hero-stat { padding: 12px 20px; }
+
+            .featured-card { padding: 24px; }
+            .featured-card .inner {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                text-align: center;
+            }
+            .featured-icon { margin: 0 auto; }
+            .featured-arrow { margin: 0 auto; }
+            .featured-content p { max-width: 100%; }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .container { padding: 0 16px; }
+            .hero h1 { font-size: 1.8rem; }
+        }
+
+        /* ===== ENTRANCE ANIMATIONS ===== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .fade-up:nth-child(1) { animation-delay: 0.1s; }
+        .fade-up:nth-child(2) { animation-delay: 0.2s; }
+        .fade-up:nth-child(3) { animation-delay: 0.3s; }
+        .fade-up:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <div class="container">
+
+        <!-- ===== HERO ===== -->
+        <header class="hero">
+            <div class="hero-badge fade-up">
+                <span class="pulse"></span>
+                Yapay Zekâ Eğitim Kaynakları
+            </div>
+            <h1 class="fade-up">Eğitimde Yapay Zekâ<br>Kaynak Merkezi</h1>
+            <p class="fade-up">
+                Öğretmenler ve eğitimciler için hazırlanmış kapsamlı yapay zekâ rehberleri,
+                uygulama kılavuzları, etik ilkeler ve politika belgeleri — tek bir çatı altında.
+            </p>
+            <p class="fade-up" style="font-size: 0.95rem; color: var(--text-secondary);">
+                Aşağıdaki kaynakları inceleyerek yapay zekâyı eğitim sürecinize entegre edebilirsiniz.
+                Tüm belgeler yeni bir sekmede açılacaktır.
+            </p>
+            <div class="hero-stats fade-up">
+                <div class="hero-stat">
+                    <div class="number">8</div>
+                    <div class="label">Kaynak</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="number">6</div>
+                    <div class="label">Kategori</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="number">2026</div>
+                    <div class="label">Güncel</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== FEATURED: Main Guide ===== -->
+        <a href="yz/yzr.html" target="_blank" rel="noopener noreferrer" class="featured-card fade-up">
+            <div class="inner">
+                <div class="featured-icon">📘</div>
+                <div class="featured-content">
+                    <span class="tag">⭐ Ana Rehber — Önce Bunu İnceleyin</span>
+                    <h3>Eğitim İçin Yapay Zekâ Rehberi</h3>
+                    <p>
+                        Yapay zekânın eğitimdeki rolünü, temel kavramları, kullanım senaryolarını
+                        ve öğretmene yol gösterici tüm bilgileri içeren kapsamlı başlangıç rehberi.
+                        Eğitimde yapay zekâ yolculuğunuza buradan başlayın.
+                    </p>
+                </div>
+                <div class="featured-arrow">↗</div>
+            </div>
+        </a>
+
+        <!-- ===== INFO BANNER ===== -->
+        <div class="info-banner fade-up">
+            <div class="info-icon">💡</div>
+            <div>
+                <h4>Nasıl Kullanılır?</h4>
+                <p>
+                    İlgilendiğiniz kaynağın kartına tıklayın; belge yeni bir sekmede açılacaktır.
+                    Önce <strong>Ana Rehber</strong>'i okumanız, ardından diğer belgeleri ihtiyacınıza
+                    göre keşfetmeniz önerilir. PDF belgeler tarayıcınızda doğrudan görüntülenecektir.
+                </p>
+            </div>
+        </div>
+
+        <!-- ===== CATEGORY 1: Uygulama & Araçlar ===== -->
+        <div class="section-header">
+            <h2>🛠️ Uygulama & Araçlar</h2>
+            <p>Pratik kullanım kılavuzları ve araç önerileri</p>
+        </div>
+
+        <div class="card-grid">
+
+            <!-- Card 1 -->
+            <a href="yz/1.pdf" target="_blank" rel="noopener noreferrer" class="card card--purple fade-up">
+                <div class="card-top">
+                    <div class="card-icon">📋</div>
+                    <span class="card-arrow">↗</span>
+                </div>
+                <h4>Eğitimde Kullanılan Yapay Zekâ Araçları — Öğretmen El Kitabı 2026</h4>
+                <p>
+                    Eğitim süreçlerinde kullanılabilecek güncel yapay zekâ araçlarının detaylı tanıtımı,
+                    karşılaştırmalı analizi ve sınıfta uygulamaya yönelik adım adım kullanım kılavuzu.
+                    2026 yılı için güncellenmiş kapsamlı kaynak.
+                </p>
+                <div class="card-footer">
+                    <span class="card-tag">El Kitabı</span>
+                    <span class="card-type">PDF</span>
+                </div>
+            </a>
+
+            <!-- Card 2 -->
+            <a href="yz/2.pdf" target="_blank" rel="noopener noreferrer" class="card card--teal fade-up">
+                <div class="card-top">
+                    <div class="card-icon">🧠</div>
+                    <span class="card-arrow">↗</span>
+                </div>
+                <h4>Yapay Zekâ ve Eğitim: Prompt Mühendisliği & Üretken Araçlar</h4>
+                <p>
+                    Öğretmenler için uygulamalı prompt mühendisliği teknikleri, üretken yapay zekâ
+                    araçlarıyla yenilikçi öğrenme stratejileri oluşturma ve etkili AI promptları
+                    yazma rehberi.
+                </p>
+                <div class="card-footer">
+                    <span class="card-tag">Prompt Mühendisliği</span>
+                    <span class="card-type">PDF</span>
+                </div>
+            </a>
+
+            <!-- Card 6 -->
+            <a href="yz/6.pdf" target="_blank" rel="noopener noreferrer" class="card card--yellow fade-up">
+                <div class="card-top">
+                    <div class="card-icon">🔧</div>
+                    <span class="card-arrow">↗</span>
+                </div>
+                <h4>Hangi İş İçin Hangi Araç?</h4>
+                <p>
+                    Eğitimdeki farklı görev ve ihtiyaçlara göre en uygun yapay zekâ aracını
+                    seçmenize yardımcı olan pratik karar rehberi. İçerik üretiminden değerlendirmeye,
+                    planlamadan kişiselleştirmeye kadar tüm alanlar kapsanmaktadır.
+                </p>
+                <div class="card-footer">
+                    <span class="card-tag">Karar Rehberi</span>
+                    <span class="card-type">PDF</span>
+                </div>
+            </a>
+
+            <!-- Card 7 -->
+            <a href="yz/7.pdf" target="_blank" rel="noopener noreferrer" class="card card--green fade-up">
+                <div class="card-top">
+                    <div class="card-icon">🇹🇷</div>
+                    <span class="card-arrow">↗</span>
+                </div>
+                <h4>Türkçe ve Türk Kültürü Dersleri İçin YZ Destekli İçerik Tasarımı</h4>
+                <p>
+                    Türkçe ve Türk kültürü eğitimine özel yapay zekâ destekli etkileşimli içerik
+                    tasarımı stratejileri, örnek etkinlikler ve kültürel bağlamda AI kullanım
+                    senaryoları.
+                </p>
+                <div class="card-footer">
+                    <span class="card-tag">İçerik Tasarımı</span>
+                    <span class="card-type">PDF</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- ===== CATEGORY 2: Etik & Politika ===== -->
+        <div class="section-header">
+            <h2>⚖️ Etik &amp; Politika</h2>
+            <p>Etik ilkeler, politika belgeleri ve eylem planları</p>
+        </div>
+
+        <div class="card-grid">
+
+            <!-- Card 3 -->
+            <a href="yz/3.pdf" target="_blank" rel="noopener noreferrer" class="card card--pink fade-up">
+                <div class="card-top">
+                    <div class="card-icon">📜</div>
+                    <span class="card-arrow">↗</span>
+                </div>
+                <h4>Eğitimde Yapay Zekâ Uygulamaları — Etik Kılavuzu</h4>
+                <p>
+                    Eğitim ortamında yapay zekâ kullanımında dikkat edilmesi gereken etik ilkeler,
+                    veri gizliliği, adil kullanım, şeffaflık ve öğrenci hakları konusunda kapsamlı
+                    etik rehber.
+                </p>
+                <div class="card-footer">
+                    <span class="card-tag">Etik Kılavuz</span>
+                    <span class="card-type">PDF</span>
+                </div>
+            </a>
+
+            <!-- Card 4 -->
+            <a href="yz/4.pdf" target="_blank" rel="noopener noreferrer" class="card card--blue fade-up">
+                <div class="card-top">
+                    <div class="card-icon">🏛️</div>
+                    <span class="card-arrow">↗</span>
+                </div>
+                <h4>Eğitimde Yapay Zekâ Politika Belgesi ve Eylem Planı (2025–2029)</h4>
+                <p>
+                    Eğitimde yapay zekâ entegrasyonuna yönelik stratejik politika belgesi ve
+                    2025–2029 dönemini kapsayan detaylı eylem planı. Kurumsal düzeyde AI politikası
+                    oluşturmak isteyen yöneticiler için temel kaynak.
+                </p>
+                <div class="card-footer">
+                    <span class="card-tag">Politika &amp; Plan</span>
+                    <span class="card-type">PDF</span>
+                </div>
+            </a>
+
+            <!-- Card 5 -->
+            <a href="yz/5.pdf" target="_blank" rel="noopener noreferrer" class="card card--purple fade-up">
+                <div class="card-top">
+                    <div class="card-icon">💎</div>
+                    <span class="card-arrow">↗</span>
+                </div>
+                <h4>Yapay Zekâ Etik Tavsiyeleri</h4>
+                <p>
+                    Yapay zekâ teknolojilerinin sorumlu ve etik kullanımına yönelik uluslararası
+                    standartlar doğrultusunda hazırlanmış tavsiyeler. Eğitimciler, yöneticiler ve
+                    politika yapıcılar için etik çerçeve.
+                </p>
+                <div class="card-footer">
+                    <span class="card-tag">Etik Tavsiyeler</span>
+                    <span class="card-type">PDF</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            <p>
+                Eğitimde Yapay Zekâ Kaynak Merkezi &nbsp;•&nbsp; Tüm kaynaklar eğitim amaçlı hazırlanmıştır.
+                <br>
+                <span style="margin-top: 8px; display: inline-block;">
+                    <span class="heart">♥</span> ile eğitimciler için tasarlandı — 2026
+                </span>
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eğitimde Yapay Zeka — Hangi İş İçin Hangi Araç?</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d14;
+    --surface: #13131e;
+    --card: #1a1a2e;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8f0;
+    --muted: #7a7a9a;
+    --accent1: #ff6b35;
+    --accent2: #00d4aa;
+    --accent3: #7c3aed;
+    --accent4: #f59e0b;
+    --accent5: #ec4899;
+    --accent6: #3b82f6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    padding: 80px 40px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 40% at 20% 30%, rgba(124,58,237,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 80% 70%, rgba(255,107,53,0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 50% 0%, rgba(0,212,170,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,107,53,0.12);
+    border: 1px solid rgba(255,107,53,0.3);
+    color: var(--accent1);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent1), var(--accent4));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    margin-top: 20px;
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 560px;
+    margin-inline: auto;
+    line-height: 1.7;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  /* NAV TABS */
+  .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 40px 40px 0;
+    animation: fadeUp 0.9s ease forwards;
+  }
+
+  .nav-tab {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav-tab:hover, .nav-tab.active {
+    border-color: var(--accent1);
+    color: var(--accent1);
+    background: rgba(255,107,53,0.08);
+  }
+
+  /* MAIN GRID */
+  .main {
+    padding: 40px 40px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .section {
+    display: none;
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: var(--accent1);
+    border-radius: 2px;
+    display: block;
+  }
+
+  /* TOOL CARDS GRID */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-accent, var(--accent1));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tool-card:hover {
+    border-color: var(--card-accent, var(--accent1));
+    transform: translateY(-4px);
+    background: color-mix(in srgb, var(--card) 95%, var(--card-accent, var(--accent1)) 5%);
+  }
+
+  .tool-card:hover::before { opacity: 1; }
+
+  .tool-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .tool-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .tool-category {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+  }
+
+  .tool-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 18px;
+  }
+
+  .tool-uses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .use-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  /* BIG PURPOSE TABLE */
+  .purpose-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .purpose-table th {
+    text-align: left;
+    padding: 14px 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .purpose-table th:first-child { border-radius: 12px 0 0 0; }
+  .purpose-table th:last-child { border-radius: 0 12px 0 0; }
+
+  .purpose-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    vertical-align: top;
+  }
+
+  .purpose-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .purpose-table tr:last-child td { border-bottom: none; }
+
+  .purpose-icon { font-size: 18px; }
+
+  .tool-pill {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin: 2px;
+    border: 1px solid;
+    font-weight: 500;
+  }
+
+  /* FLOW SECTION */
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .flow-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    transition: all 0.25s;
+  }
+
+  .flow-step:hover {
+    border-color: var(--accent2);
+    transform: translateY(-3px);
+  }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.05);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 8px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* SCENARIO CARDS */
+  .scenario-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 20px;
+  }
+
+  .scenario-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .scenario-card:hover { transform: translateY(-4px); }
+
+  .scenario-header {
+    padding: 20px 24px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .scenario-emoji { font-size: 28px; line-height: 1; }
+
+  .scenario-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .scenario-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  .scenario-body { padding: 20px 24px; }
+
+  .scenario-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .scenario-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .scenario-step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: var(--text);
+  }
+
+  .scenario-note {
+    margin-top: 16px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-style: italic;
+    border-left: 2px solid;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .hero { padding: 60px 20px 40px; }
+    .main { padding: 30px 20px 60px; }
+    .nav-tabs { padding: 30px 20px 0; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .scenario-cards { grid-template-columns: 1fr; }
+  }
+
+  /* SCROLL */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* TABLE WRAPPER */
+  .table-wrap {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    overflow-x: auto;
+  }
+
+  .color1 { --card-accent: #ff6b35; }
+  .color2 { --card-accent: #00d4aa; }
+  .color3 { --card-accent: #7c3aed; }
+  .color4 { --card-accent: #f59e0b; }
+  .color5 { --card-accent: #ec4899; }
+  .color6 { --card-accent: #3b82f6; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">🤖 Eğitimde Yapay Zeka Rehberi</div>
+  <h1>Hangi İş İçin<br><span>Hangi Araç?</span></h1>
+  <p>Türkçe ve Türk Kültürü derslerinde etkileşimli içerik tasarlamak için yapay zeka araçlarını amacına göre kullan.</p>
+</div>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showSection('araclara-gore')">🗂 Araçlara Göre</button>
+  <button class="nav-tab" onclick="showSection('amaca-gore')">🎯 Amaca Göre</button>
+  <button class="nav-tab" onclick="showSection('tasarim-sureci')">⚙️ Tasarım Süreci</button>
+  <button class="nav-tab" onclick="showSection('senaryolar')">🎬 Örnek Senaryolar</button>
+</div>
+
+<div class="main">
+
+  <!-- ARAÇLARA GÖRE -->
+  <div id="araclara-gore" class="section active">
+    <div class="section-title">Araç Kategorileri</div>
+    <div class="tools-grid">
+
+      <!-- ChatGPT -->
+      <div class="tool-card color1">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(255,107,53,0.12);">💬</div>
+          <div>
+            <div class="tool-name">ChatGPT</div>
+            <div class="tool-category">Genel Sohbet & Üretken YZ</div>
+          </div>
+        </div>
+        <div class="tool-desc">Geniş kullanım alanı, güçlü özelleştirme. Fikir geliştirme, metin yazımı, soru üretimi ve görsel oluşturmada lider araç.</div>
+        <div class="tool-uses">
+          <span class="use-tag">✍️ Etkinlik fikri</span>
+          <span class="use-tag">📝 Dinleme metni</span>
+          <span class="use-tag">🖼️ Görsel üretme</span>
+          <span class="use-tag">❓ Soru üretimi</span>
+          <span class="use-tag">🗺️ Harita görseli</span>
+        </div>
+      </div>
+
+      <!-- Gemini -->
+      <div class="tool-card color2">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(0,212,170,0.12);">✨</div>
+          <div>
+            <div class="tool-name">Gemini</div>
+            <div class="tool-category">Google Ekosistemi</div>
+          </div>
+        </div>
+        <div class="tool-desc">Google Drive, Slaytlar ve Docs ile entegre çalışır. Canvas özelliği ile etkileşimli HTML içerik üretir. Infografik ve storybook için ideal.</div>
+        <div class="tool-uses">
+          <span class="use-tag">🎨 İnfografik</span>
+          <span class="use-tag">📖 Storybook</span>
+          <span class="use-tag">🖥️ Canvas/HTML</span>
+          <span class="use-tag">🎵 Şarkı (Suno ile)</span>
+          <span class="use-tag">🗂️ Sunum</span>
+        </div>
+      </div>
+
+      <!-- Claude -->
+      <div class="tool-card color3">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(124,58,237,0.12);">🤖</div>
+          <div>
+            <div class="tool-name">Claude</div>
+            <div class="tool-category">Uzun Metin & Belge</div>
+          </div>
+        </div>
+        <div class="tool-desc">Uzun metin işlemede güçlü. Belge yükleyip içerik üretmede tercih edilir. Halüsinasyon riskini azaltır. Sunum taslağı oluşturmada etkili.</div>
+        <div class="tool-uses">
+          <span class="use-tag">📄 Belge analizi</span>
+          <span class="use-tag">🗂️ Sunum taslağı</span>
+          <span class="use-tag">🧩 Senaryo yazımı</span>
+          <span class="use-tag">📋 Ders planı</span>
+        </div>
+      </div>
+
+      <!-- NotebookLM -->
+      <div class="tool-card color4">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(245,158,11,0.12);">📓</div>
+          <div>
+            <div class="tool-name">NotebookLM</div>
+            <div class="tool-category">Belge Analizi & Araştırma</div>
+          </div>
+        </div>
+        <div class="tool-desc">SADECE yüklediğiniz kaynaklara odaklanır. Sesli özet, slayt, zihin haritası, bilgi kartı ve test üretebilir. Halüsinasyon riski en aza iner.</div>
+        <div class="tool-uses">
+          <span class="use-tag">🎧 Sesli özet</span>
+          <span class="use-tag">📊 Sunum</span>
+          <span class="use-tag">🧠 Zihin haritası</span>
+          <span class="use-tag">🃏 Bilgi kartı</span>
+          <span class="use-tag">📝 Test üretimi</span>
+        </div>
+      </div>
+
+      <!-- ElevenLabs -->
+      <div class="tool-card color5">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(236,72,153,0.12);">🎙️</div>
+          <div>
+            <div class="tool-name">ElevenLabs</div>
+            <div class="tool-category">Ses Üretimi</div>
+          </div>
+        </div>
+        <div class="tool-desc">En doğal insan sesi. Ses klonlama özelliği. Türkçe karakter ve telaffuz desteği güçlü. Dinleme metni ve karakter sesi üretiminde lider platform.</div>
+        <div class="tool-uses">
+          <span class="use-tag">🔊 Dinleme metni</span>
+          <span class="use-tag">🎭 Karakter sesi</span>
+          <span class="use-tag">📢 Yönerge sesi</span>
+          <span class="use-tag">👤 Ses klonlama</span>
+        </div>
+      </div>
+
+      <!-- AI Studio -->
+      <div class="tool-card color2">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(0,212,170,0.12);">🎤</div>
+          <div>
+            <div class="tool-name">Google AI Studio</div>
+            <div class="tool-category">Ses Üretimi (TTS)</div>
+          </div>
+        </div>
+        <div class="tool-desc">Gemini TTS ile doğal seslendirme. Farklı karakter sesi seçenekleri. Sevecen çocuk sesi dahil. Ücretsiz erişim imkânı geniş.</div>
+        <div class="tool-uses">
+          <span class="use-tag">🔊 Metin-ses dönüşümü</span>
+          <span class="use-tag">🎭 Çoklu karakter</span>
+          <span class="use-tag">📱 API erişimi</span>
+        </div>
+      </div>
+
+      <!-- Suno -->
+      <div class="tool-card color4">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(245,158,11,0.12);">🎵</div>
+          <div>
+            <div class="tool-name">Suno</div>
+            <div class="tool-category">Şarkı & Müzik Üretimi</div>
+          </div>
+        </div>
+        <div class="tool-desc">Saniyeler içinde sözlü/sözsüz şarkı bestesi. Ücretsiz hesap günde 10 şarkı. Kelime öğretimi için ritmik tekrar şarkıları ideal.</div>
+        <div class="tool-uses">
+          <span class="use-tag">🎶 Kelime şarkısı</span>
+          <span class="use-tag">🎼 Kültürel tema</span>
+          <span class="use-tag">🎹 Arka plan müziği</span>
+        </div>
+      </div>
+
+      <!-- H5P -->
+      <div class="tool-card color6">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(59,130,246,0.12);">🎮</div>
+          <div>
+            <div class="tool-name">H5P</div>
+            <div class="tool-category">Etkileşim Tasarımı</div>
+          </div>
+        </div>
+        <div class="tool-desc">Quiz, eşleştirme, sürükle-bırak, interaktif video ve branching scenario dahil 50'den fazla içerik türü. LMS sistemlerine entegre edilir.</div>
+        <div class="tool-uses">
+          <span class="use-tag">❓ Quiz</span>
+          <span class="use-tag">🔗 Eşleştirme</span>
+          <span class="use-tag">📹 İnteraktif video</span>
+          <span class="use-tag">🌿 Dallanmalı senaryo</span>
+        </div>
+      </div>
+
+      <!-- Wordwall -->
+      <div class="tool-card color1">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(255,107,53,0.12);">🃏</div>
+          <div>
+            <div class="tool-name">Wordwall</div>
+            <div class="tool-category">Etkileşim Tasarımı</div>
+          </div>
+        </div>
+        <div class="tool-desc">Hızlı ve kolay oyun tabanlı etkinlik oluşturma. Kelime çarkı, hafıza kartı, quiz, anagram ve daha fazlası. Sınıfta canlı oynatma imkânı.</div>
+        <div class="tool-uses">
+          <span class="use-tag">🎯 Kelime çarkı</span>
+          <span class="use-tag">🧠 Hafıza kartı</span>
+          <span class="use-tag">🔤 Anagram</span>
+          <span class="use-tag">📺 Canlı sınıf</span>
+        </div>
+      </div>
+
+      <!-- Canva -->
+      <div class="tool-card color5">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(236,72,153,0.12);">🎨</div>
+          <div>
+            <div class="tool-name">Canva AI</div>
+            <div class="tool-category">Tasarım + Etkileşim</div>
+          </div>
+        </div>
+        <div class="tool-desc">Tasarım + YZ entegre. Öğretmen dostu arayüz. Kod sekmesiyle HTML etkinlik üretir. Dream Lab ile görsel oluşturur. Ücretsiz eğitim hesabı.</div>
+        <div class="tool-uses">
+          <span class="use-tag">🖼️ Görsel tasarım</span>
+          <span class="use-tag">📊 Sunum</span>
+          <span class="use-tag">🖥️ HTML etkinlik</span>
+          <span class="use-tag">🌐 Web sayfası</span>
+        </div>
+      </div>
+
+      <!-- Gamma -->
+      <div class="tool-card color3">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(124,58,237,0.12);">📐</div>
+          <div>
+            <div class="tool-name">Gamma App</div>
+            <div class="tool-category">Sunum Hazırlama</div>
+          </div>
+        </div>
+        <div class="tool-desc">Tek satır istemle profesyonel sunum/web sayfası/belge. Ücretsiz 10 slayt. Tasarım YZ'ye, içerik size kalır. Anında paylaşılabilir link.</div>
+        <div class="tool-uses">
+          <span class="use-tag">🗂️ Sunum</span>
+          <span class="use-tag">📄 Belge</span>
+          <span class="use-tag">🌐 Web sayfası</span>
+          <span class="use-tag">🔗 Paylaşılabilir</span>
+        </div>
+      </div>
+
+      <!-- Google Stitch -->
+      <div class="tool-card color2">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(0,212,170,0.12);">🧵</div>
+          <div>
+            <div class="tool-name">Google Stitch</div>
+            <div class="tool-category">Prototip Oluşturma</div>
+          </div>
+        </div>
+        <div class="tool-desc">Promptla web ve mobil arayüz prototipi oluşturma. Etkileşimli uygulama taslakları saniyeler içinde hazır. Gemini 3.1 Pro ile desteklenir.</div>
+        <div class="tool-uses">
+          <span class="use-tag">📱 Mobil prototip</span>
+          <span class="use-tag">🖥️ Web arayüzü</span>
+          <span class="use-tag">🎮 Mini uygulama</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AMACA GÖRE -->
+  <div id="amaca-gore" class="section">
+    <div class="section-title">Üretim Amacına Göre Araç Seçimi</div>
+    <div class="table-wrap">
+      <table class="purpose-table">
+        <thead>
+          <tr>
+            <th>Amaç</th>
+            <th>Önerilen Araçlar</th>
+            <th>Ne Üretilir?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span style="font-size:18px">💡</span><br><strong style="font-family:'Syne',sans-serif;font-size:13px">Fikir ve Metin</strong></td>
+            <td>
+              <span class="tool-pill" style="color:#ff6b35;border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.08)">ChatGPT</span>
+              <span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">Gemini</span>
+              <span class="tool-pill" style="color:#7c3aed;border-color:rgba(124,58,237,0.4);background:rgba(124,58,237,0.08)">Claude</span>
+            </td>
+            <td style="color:var(--muted);font-size:13px">Tema, kazanım, yönerge, etkinlik fikri, soru ve geri bildirim metni</td>
+          </tr>
+          <tr>
+            <td><span style="font-size:18px">🖼️</span><br><strong style="font-family:'Syne',sans-serif;font-size:13px">Görsel Üretme</strong></td>
+            <td>
+              <span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">Gemini</span>
+              <span class="tool-pill" style="color:#ff6b35;border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.08)">ChatGPT</span>
+              <span class="tool-pill" style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">Freepik</span>
+              <span class="tool-pill" style="color:#ec4899;border-color:rgba(236,72,153,0.4);background:rgba(236,72,153,0.08)">Canva Dream Lab</span>
+            </td>
+            <td style="color:var(--muted);font-size:13px">Oyun, karakter, sahne, kültürel unsur görseli; ders kitabı illüstrasyonu</td>
+          </tr>
+          <tr>
+            <td><span style="font-size:18px">🔊</span><br><strong style="font-family:'Syne',sans-serif;font-size:13px">Ses Üretme</strong></td>
+            <td>
+              <span class="tool-pill" style="color:#ec4899;border-color:rgba(236,72,153,0.4);background:rgba(236,72,153,0.08)">ElevenLabs</span>
+              <span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">AI Studio</span>
+              <span class="tool-pill" style="color:#3b82f6;border-color:rgba(59,130,246,0.4);background:rgba(59,130,246,0.08)">Minimax AI</span>
+            </td>
+            <td style="color:var(--muted);font-size:13px">Dinleme metni, karakter sesi, yönerge sesi, masal seslendirme</td>
+          </tr>
+          <tr>
+            <td><span style="font-size:18px">🎵</span><br><strong style="font-family:'Syne',sans-serif;font-size:13px">Şarkı Üretme</strong></td>
+            <td>
+              <span class="tool-pill" style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">Suno</span>
+              <span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">Gemini</span>
+            </td>
+            <td style="color:var(--muted);font-size:13px">Kelime tekrar şarkısı, kültürel tema müziği, arka plan müziği</td>
+          </tr>
+          <tr>
+            <td><span style="font-size:18px">📊</span><br><strong style="font-family:'Syne',sans-serif;font-size:13px">Sunum Üretme</strong></td>
+            <td>
+              <span class="tool-pill" style="color:#7c3aed;border-color:rgba(124,58,237,0.4);background:rgba(124,58,237,0.08)">Gamma</span>
+              <span class="tool-pill" style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">NotebookLM</span>
+              <span class="tool-pill" style="color:#7c3aed;border-color:rgba(124,58,237,0.4);background:rgba(124,58,237,0.08)">Claude</span>
+              <span class="tool-pill" style="color:#ec4899;border-color:rgba(236,72,153,0.4);background:rgba(236,72,153,0.08)">Canva</span>
+            </td>
+            <td style="color:var(--muted);font-size:13px">Ders materyali sunumu, etkinlik tanıtımı, öğrenci sunumları</td>
+          </tr>
+          <tr>
+            <td><span style="font-size:18px">🎬</span><br><strong style="font-family:'Syne',sans-serif;font-size:13px">Video/Animasyon</strong></td>
+            <td>
+              <span class="tool-pill" style="color:#ff6b35;border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.08)">HeyGen</span>
+              <span class="tool-pill" style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">Powtoon</span>
+              <span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">Gemini</span>
+            </td>
+            <td style="color:var(--muted);font-size:13px">Kültürel anlatım videosu, karakter videosu, avatar seslendirme</td>
+          </tr>
+          <tr>
+            <td><span style="font-size:18px">🎮</span><br><strong style="font-family:'Syne',sans-serif;font-size:13px">Etkileşim Tasarımı</strong></td>
+            <td>
+              <span class="tool-pill" style="color:#3b82f6;border-color:rgba(59,130,246,0.4);background:rgba(59,130,246,0.08)">H5P</span>
+              <span class="tool-pill" style="color:#ff6b35;border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.08)">Wordwall</span>
+              <span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">Gemini Canvas</span>
+              <span class="tool-pill" style="color:#ec4899;border-color:rgba(236,72,153,0.4);background:rgba(236,72,153,0.08)">Canva Kod</span>
+            </td>
+            <td style="color:var(--muted);font-size:13px">Quiz, eşleştirme, sürükle-bırak, dallanmalı senaryo, mini oyun</td>
+          </tr>
+          <tr>
+            <td><span style="font-size:18px">🧵</span><br><strong style="font-family:'Syne',sans-serif;font-size:13px">Prototip</strong></td>
+            <td>
+              <span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">Google Stitch</span>
+            </td>
+            <td style="color:var(--muted);font-size:13px">Web/mobil uygulama prototipi, etkileşimli arayüz taslağı</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+    <div class="section-title">Öğretim Amacına Göre Etkileşim Türü</div>
+    <div class="table-wrap">
+      <table class="purpose-table">
+        <thead>
+          <tr>
+            <th>Öğretim Amacı</th>
+            <th>Uygun Etkileşim</th>
+            <th>Türkçe/Türk Kültürü Örneği</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-size:13px">🔤 Yeni kelime öğretmek</td>
+            <td><span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">Görsel eşleştirme</span> <span class="tool-pill" style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">Kartlar</span></td>
+            <td style="color:var(--muted);font-size:13px">"Beştaş" → görsel + ses + karşılaştırma</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px">👂 Dinleme becerisini geliştirmek</td>
+            <td><span class="tool-pill" style="color:#ec4899;border-color:rgba(236,72,153,0.4);background:rgba(236,72,153,0.08)">Sesli yönerge</span> <span class="tool-pill" style="color:#ff6b35;border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.08)">Dinle-seç</span></td>
+            <td style="color:var(--muted);font-size:13px">Kısa masal dinle → doğru görseli seç</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px">🏺 Kültürel unsur tanıtmak</td>
+            <td><span class="tool-pill" style="color:#7c3aed;border-color:rgba(124,58,237,0.4);background:rgba(124,58,237,0.08)">Görsel keşif</span> <span class="tool-pill" style="color:#3b82f6;border-color:rgba(59,130,246,0.4);background:rgba(59,130,246,0.08)">Karşılaştırma</span></td>
+            <td style="color:var(--muted);font-size:13px">"Bu oyun senin ülkende nasıl oynanır?"</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px">✏️ Cümle kurmayı desteklemek</td>
+            <td><span class="tool-pill" style="color:#ff6b35;border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.08)">Sıralama</span> <span class="tool-pill" style="color:#00d4aa;border-color:rgba(0,212,170,0.4);background:rgba(0,212,170,0.08)">Boşluk doldurma</span></td>
+            <td style="color:var(--muted);font-size:13px">Atasözlerinde eksik kelimeyi tamamlama</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px">📋 Öğrenmeyi ölçmek</td>
+            <td><span class="tool-pill" style="color:#f59e0b;border-color:rgba(245,158,11,0.4);background:rgba(245,158,11,0.08)">Kısa quiz</span> <span class="tool-pill" style="color:#ec4899;border-color:rgba(236,72,153,0.4);background:rgba(236,72,153,0.08)">Doğru-yanlış</span></td>
+            <td style="color:var(--muted);font-size:13px">"Hacivat hangi geleneğe aittir?"</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px">💎 Değer / davranış kazandırmak</td>
+            <td><span class="tool-pill" style="color:#7c3aed;border-color:rgba(124,58,237,0.4);background:rgba(124,58,237,0.08)">Dallanmalı senaryo</span></td>
+            <td style="color:var(--muted);font-size:13px">"Misafir geldiğinde nasıl davranılır?"</td>
+          </tr>
+          <tr>
+            <td style="font-size:13px">🎨 Yaratıcı üretim yaptırmak</td>
+            <td><span class="tool-pill" style="color:#3b82f6;border-color:rgba(59,130,246,0.4);background:rgba(59,130,246,0.08)">Kısa yazma</span> <span class="tool-pill" style="color:#ff6b35;border-color:rgba(255,107,53,0.4);background:rgba(255,107,53,0.08)">Çizim açıklama</span></td>
+            <td style="color:var(--muted);font-size:13px">Pazar yeri görselini inceleyip adlandırma</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TASARIM SÜRECİ -->
+  <div id="tasarim-sureci" class="section">
+    <div class="section-title">8 Adımda Etkileşimli İçerik Tasarımı</div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Tema Seç</div>
+        <div class="step-desc">Öğretim programından uygun bir tema belirlenir. (örn: Geleneksel Türk Çocuk Oyunları)</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">02</div>
+        <div class="step-title">Dil Becerisi & Çıktı</div>
+        <div class="step-desc">Dinleme, konuşma, okuma veya yazma becerisi ve öğrenme çıktısı belirlenir.</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">03</div>
+        <div class="step-title">Kültürel Unsur</div>
+        <div class="step-desc">İşlenecek kültürel unsur veya değer seçilir. (örn: beştaş, körebe, mangala)</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">04</div>
+        <div class="step-title">Amaç Yaz</div>
+        <div class="step-desc">Net bir öğretim amacı ve ölçülebilir öğrenme çıktısı yazılır.</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">05</div>
+        <div class="step-title">Etkileşim Türü</div>
+        <div class="step-desc">Araca göre değil, amaca göre etkileşim türü seçilir.</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">06</div>
+        <div class="step-title">İçerik Üret</div>
+        <div class="step-desc">ChatGPT / Gemini / Claude ile metin, görsel ve ses içerikleri üretilir.</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">07</div>
+        <div class="step-title">Etkileşime Dönüştür</div>
+        <div class="step-desc">Canva / Gemini Canvas / H5P / Wordwall ile etkileşimli etkinliğe dönüştürülür.</div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">08</div>
+        <div class="step-title">Geri Bildirim Ekle</div>
+        <div class="step-desc">Yansıtma sorusu ve geri bildirim cümlesi eklenerek tamamlanır.</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:40px">İyi Bir Prompt İçin 8 Bileşen</div>
+    <div class="tools-grid">
+      <div class="tool-card color1" style="padding:20px 24px">
+        <div style="font-size:22px;margin-bottom:8px">👥</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent1);margin-bottom:6px">Hedef Kitle</div>
+        <div style="font-size:13px;color:var(--muted)">Yaş / seviye<br>örn: 7-10 yaş, iki dilli</div>
+      </div>
+      <div class="tool-card color2" style="padding:20px 24px">
+        <div style="font-size:22px;margin-bottom:8px">🎯</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent2);margin-bottom:6px">Tema</div>
+        <div style="font-size:13px;color:var(--muted)">Dersin konusu<br>örn: Geleneksel oyunlar</div>
+      </div>
+      <div class="tool-card color3" style="padding:20px 24px">
+        <div style="font-size:22px;margin-bottom:8px">🗣️</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent3);margin-bottom:6px">Dil Becerisi</div>
+        <div style="font-size:13px;color:var(--muted)">Dinleme, konuşma,<br>okuma, yazma</div>
+      </div>
+      <div class="tool-card color4" style="padding:20px 24px">
+        <div style="font-size:22px;margin-bottom:8px">🏺</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent4);margin-bottom:6px">Kültürel Unsur</div>
+        <div style="font-size:13px;color:var(--muted)">Gelenek, oyun, yemek,<br>bayram, değer</div>
+      </div>
+      <div class="tool-card color5" style="padding:20px 24px">
+        <div style="font-size:22px;margin-bottom:8px">🎮</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent5);margin-bottom:6px">Etkileşim Türü</div>
+        <div style="font-size:13px;color:var(--muted)">Eşleştirme, quiz,<br>sürükle-bırak vb.</div>
+      </div>
+      <div class="tool-card color6" style="padding:20px 24px">
+        <div style="font-size:22px;margin-bottom:8px">📄</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent6);margin-bottom:6px">Çıktı Formatı</div>
+        <div style="font-size:13px;color:var(--muted)">Tablo, yönerge,<br>JSON, etkinlik metni</div>
+      </div>
+      <div class="tool-card color1" style="padding:20px 24px">
+        <div style="font-size:22px;margin-bottom:8px">🗨️</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent1);margin-bottom:6px">Dil ve Ton</div>
+        <div style="font-size:13px;color:var(--muted)">Çocuklara uygun,<br>sade Türkçe</div>
+      </div>
+      <div class="tool-card color2" style="padding:20px 24px">
+        <div style="font-size:22px;margin-bottom:8px">✅</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--accent2);margin-bottom:6px">Değerlendirme</div>
+        <div style="font-size:13px;color:var(--muted)">Kısa soru, geri bildirim,<br>yansıtma sorusu</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SENARYOLAR -->
+  <div id="senaryolar" class="section">
+    <div class="section-title">Örnek Ders Senaryoları</div>
+    <div class="scenario-cards">
+
+      <div class="scenario-card">
+        <div class="scenario-header" style="background:rgba(255,107,53,0.06)">
+          <div class="scenario-emoji">🎮</div>
+          <div>
+            <div class="scenario-name">Geleneksel Türk Çocuk Oyunları</div>
+            <div class="scenario-meta">Kelime bilgisi + Konuşma • 1-4. Seviye</div>
+          </div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-flow">
+            <div class="scenario-step">
+              <span class="scenario-step-num">1</span>
+              <span><strong style="color:var(--accent1)">ChatGPT/Gemini</strong> → Etkinlik fikri ve yönerge metni</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">2</span>
+              <span><strong style="color:var(--accent1)">ChatGPT/Freepik</strong> → Beştaş, körebe, mangala görselleri</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">3</span>
+              <span><strong style="color:var(--accent1)">Wordwall/H5P</strong> → Görsel-kelime eşleştirme etkinliği</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">4</span>
+              <span><strong style="color:var(--accent1)">Gemini Canvas</strong> → Son ekrana yansıtma sorusu</span>
+            </div>
+          </div>
+          <div class="scenario-note" style="background:rgba(255,107,53,0.06);border-color:var(--accent1);color:var(--muted)">
+            💬 Son Soru: "Senin yaşadığın ülkede buna benzeyen bir oyun var mı?"
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header" style="background:rgba(0,212,170,0.06)">
+          <div class="scenario-emoji">👂</div>
+          <div>
+            <div class="scenario-name">Bayram Ziyareti Dinleme Etkinliği</div>
+            <div class="scenario-meta">Dinleme + Konuşma • Bayram ve Misafirlik</div>
+          </div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-flow">
+            <div class="scenario-step">
+              <span class="scenario-step-num">1</span>
+              <span><strong style="color:var(--accent2)">ChatGPT/Gemini</strong> → Kısa dinleme metni (45 sn, 7-10 yaş)</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">2</span>
+              <span><strong style="color:var(--accent2)">ElevenLabs / AI Studio</strong> → Doğal Türkçe seslendirme</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">3</span>
+              <span><strong style="color:var(--accent2)">Canva / H5P</strong> → "Dinle ve doğru cevabı seç" etkinliği</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">4</span>
+              <span><strong style="color:var(--accent2)">Claude</strong> → Kısa değerlendirme soruları</span>
+            </div>
+          </div>
+          <div class="scenario-note" style="background:rgba(0,212,170,0.06);border-color:var(--accent2);color:var(--muted)">
+            ❓ Örnek Sorular: Bayramda nereye gitti? · Hangi cümle bayramlaşma ifadesidir?
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header" style="background:rgba(245,158,11,0.06)">
+          <div class="scenario-emoji">🍳</div>
+          <div>
+            <div class="scenario-name">Türk Kahvaltısı Sürükle-Bırak</div>
+            <div class="scenario-meta">Kelime bilgisi + Kültürel Karşılaştırma</div>
+          </div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-flow">
+            <div class="scenario-step">
+              <span class="scenario-step-num">1</span>
+              <span><strong style="color:var(--accent4)">ChatGPT/Gemini</strong> → Kahvaltı kelime listesi üretimi</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">2</span>
+              <span><strong style="color:var(--accent4)">Gemini / Pixabay</strong> → Yiyecek görselleri</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">3</span>
+              <span><strong style="color:var(--accent4)">Gemini/H5P</strong> → Sürükle-bırak kategorilendirme</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">4</span>
+              <span>Son ekrana kültürel karşılaştırma sorusu</span>
+            </div>
+          </div>
+          <div class="scenario-note" style="background:rgba(245,158,11,0.06);border-color:var(--accent4);color:var(--muted)">
+            💬 Yansıtma: "Senin kahvaltında bunlardan hangileri var?"
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header" style="background:rgba(124,58,237,0.06)">
+          <div class="scenario-emoji">📖</div>
+          <div>
+            <div class="scenario-name">İmece Günü Kültürel Hikaye</div>
+            <div class="scenario-meta">Dinleme + Okuma • Yardımlaşma Değeri</div>
+          </div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-flow">
+            <div class="scenario-step">
+              <span class="scenario-step-num">1</span>
+              <span><strong style="color:var(--accent3)">Gemini Storybook</strong> → Görsel hikaye kitabı üretimi</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">2</span>
+              <span><strong style="color:var(--accent3)">ElevenLabs</strong> → Her sayfa için seslendirme</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">3</span>
+              <span><strong style="color:var(--accent3)">NotebookLM</strong> → Hikayeden test ve bilgi kartı</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">4</span>
+              <span><strong style="color:var(--accent3)">Claude</strong> → Değer tartışması yansıtma sorusu</span>
+            </div>
+          </div>
+          <div class="scenario-note" style="background:rgba(124,58,237,0.06);border-color:var(--accent3);color:var(--muted)">
+            🌿 5E Modeli: Engage → Explore → Explain → Elaborate → Evaluate
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header" style="background:rgba(236,72,153,0.06)">
+          <div class="scenario-emoji">🎵</div>
+          <div>
+            <div class="scenario-name">Kelime Öğretim Şarkısı</div>
+            <div class="scenario-meta">Kelime bilgisi • Ritmik Tekrar</div>
+          </div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-flow">
+            <div class="scenario-step">
+              <span class="scenario-step-num">1</span>
+              <span><strong style="color:var(--accent5)">ChatGPT/Gemini</strong> → Şarkı sözü ve melodi yönergesi</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">2</span>
+              <span><strong style="color:var(--accent5)">Suno</strong> → Türkçe çocuk şarkısı bestesi</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">3</span>
+              <span><strong style="color:var(--accent5)">Canva</strong> → Şarkı sözleri + görsel kart tasarımı</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">4</span>
+              <span><strong style="color:var(--accent5)">Wordwall</strong> → Şarkı kelimelerinden mini oyun</span>
+            </div>
+          </div>
+          <div class="scenario-note" style="background:rgba(236,72,153,0.06);border-color:var(--accent5);color:var(--muted)">
+            🎵 Suno ücretsiz hesapla günde 10 şarkı üretir.
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario-card">
+        <div class="scenario-header" style="background:rgba(59,130,246,0.06)">
+          <div class="scenario-emoji">🗺️</div>
+          <div>
+            <div class="scenario-name">Türkiye Etkileşimli Haritası</div>
+            <div class="scenario-meta">Coğrafya + Kültür • Şehir Tanıtımı</div>
+          </div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-flow">
+            <div class="scenario-step">
+              <span class="scenario-step-num">1</span>
+              <span><strong style="color:var(--accent6)">ChatGPT</strong> → Şehir ve yöresel lezzet listesi</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">2</span>
+              <span><strong style="color:var(--accent6)">Gemini Canvas</strong> → Etkileşimli Türkiye haritası</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">3</span>
+              <span><strong style="color:var(--accent6)">Google Stitch</strong> → Mobil dostu prototip</span>
+            </div>
+            <div class="scenario-step">
+              <span class="scenario-step-num">4</span>
+              <span>Hotspot tıkla → şehir bilgisi + yöresel lezzet</span>
+            </div>
+          </div>
+          <div class="scenario-note" style="background:rgba(59,130,246,0.06);border-color:var(--accent6);color:var(--muted)">
+            🗺️ Örnek: Kars → Kaz Eti ve Kars Kaşarı bilgi kartı
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
