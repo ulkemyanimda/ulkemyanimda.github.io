@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="light" lang="tr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Anlam Macerası</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Lexend:wght@400;500;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .deep-sky-gradient {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+    }
+
+    .hero-title-3d {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 900;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      filter: drop-shadow(0 4px 0 #075985) drop-shadow(0 8px 0 #0c4a6e) drop-shadow(0 12px 15px rgba(0, 0, 0, 0.3));
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-20px)
+      }
+    }
+
+    .animate-drift {
+      animation: drift 20s linear infinite;
+    }
+
+    @keyframes drift {
+      from {
+        transform: translateX(-10vw)
+      }
+
+      to {
+        transform: translateX(110vw)
+      }
+    }
+
+    .animate-descend {
+      animation: descend 12s linear infinite;
+    }
+
+    @keyframes descend {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0
+      }
+
+      10% {
+        opacity: 1
+      }
+
+      90% {
+        opacity: 1
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(15deg);
+        opacity: 0
+      }
+    }
+
+    /* Level bubbles */
+    .level-bubble {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 900;
+      font-size: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .level-bubble.unlocked {
+      background: #fcd400;
+      border-bottom: 5px solid #b8960a;
+      color: #4a3a00;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .level-bubble.unlocked:hover {
+      transform: scale(1.15) translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    .level-bubble.locked {
+      background: rgba(255, 255, 255, 0.15);
+      border-bottom: 5px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(6px);
+      cursor: not-allowed;
+    }
+
+    .level-bubble.current {
+      background: #fcd400;
+      border-bottom: 5px solid #b8960a;
+      color: #4a3a00;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(255, 255, 255, 0.5);
+      animation: levelPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes levelPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 4px rgba(255, 255, 255, 0.5)
+      }
+
+      50% {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 8px rgba(255, 255, 255, 0.25)
+      }
+    }
+
+    .level-connector {
+      width: 15px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      align-self: center;
+      margin-bottom: 5px;
+    }
+
+    .level-label {
+      position: absolute;
+      bottom: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      font-weight: 700;
+      font-family: 'Lexend', sans-serif;
+      color: rgba(255, 255, 255, 0.7);
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+
+    .star-row {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 1px;
+    }
+
+    .star {
+      font-size: 10px;
+      line-height: 1;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title-3d { font-size: clamp(3rem, 15vw, 5rem) !important; line-height: 1.1; }
+      #btn-play { 
+        padding: 1rem 2.5rem !important; 
+        font-size: 2rem !important; 
+        border-bottom-width: 6px !important; 
+      }
+      #levelRow { 
+        flex-wrap: wrap; 
+        justify-content: center; 
+        max-width: 95vw; 
+        gap: 10px !important; 
+        bottom: 10px !important;
+      }
+      .level-connector { display: none; }
+      .level-bubble { width: 38px; height: 38px; font-size: 13px; }
+      .level-label { font-size: 8px; bottom: -18px; }
+    }
+    @media (max-width: 480px) {
+      .hero-title-3d { font-size: clamp(2.5rem, 12vw, 4rem) !important; }
+      #btn-play { padding: 0.8rem 2rem !important; font-size: 1.5rem !important; }
+      .level-bubble { width: 32px; height: 32px; font-size: 11px; }
+      .star-row { top: -10px; }
+      .star { font-size: 8px; }
+    }
+  </style>
+</head>
+
+<body style="overflow:hidden;height:100vh;width:100vw;font-family:'Lexend',sans-serif">
+  <main class="h-full w-full deep-sky-gradient relative flex flex-col items-center justify-center">
+
+    <!-- Credits -->
+    <div class="absolute top-4 right-6 z-30 text-white/80 font-bold tracking-wider text-sm md:text-base drop-shadow-lg pointer-events-none" 
+         style="font-family:'Plus Jakarta Sans', sans-serif;">
+      HAZIRLAYAN: Fatma FAKI
+    </div>
+
+    <!-- Clouds -->
+    <div class="absolute top-20 left-[10%] opacity-20 transform -rotate-12 animate-float">
+      <span class="material-symbols-outlined text-[140px] text-white"
+        style="font-variation-settings:'FILL' 1">cloud</span>
+    </div>
+    <div class="absolute top-1/4 right-[15%] opacity-30 transform rotate-6 animate-float" style="animation-delay:1s">
+      <span class="material-symbols-outlined text-[200px] text-white"
+        style="font-variation-settings:'FILL' 1">cloud</span>
+    </div>
+    <div class="absolute bottom-20 left-[-5%] opacity-15 animate-float" style="animation-delay:2s">
+      <span class="material-symbols-outlined text-[280px] text-white"
+        style="font-variation-settings:'FILL' 1">cloud</span>
+    </div>
+
+    <!-- Animated Airplane -->
+    <div class="absolute top-[15%] left-0 w-full pointer-events-none z-10">
+      <div class="animate-drift flex items-center space-x-2">
+        <span class="material-symbols-outlined text-yellow-400 text-7xl drop-shadow-lg"
+          style="font-variation-settings:'FILL' 1">flight</span>
+        <div class="w-24 h-1 bg-white/30 rounded-full blur-sm"></div>
+      </div>
+    </div>
+
+    <!-- Falling Parachutes -->
+    <div class="absolute top-0 left-[20%] animate-descend" style="animation-delay:1s">
+      <div class="flex flex-col items-center">
+        <span class="material-symbols-outlined text-red-400 text-6xl"
+          style="font-variation-settings:'FILL' 1">paragliding</span>
+        <div
+          class="w-8 h-10 bg-orange-100 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] border-2 border-orange-200 -mt-2 shadow-sm">
+        </div>
+      </div>
+    </div>
+    <div class="absolute top-0 right-[25%] animate-descend" style="animation-delay:5s">
+      <div class="flex flex-col items-center">
+        <span class="material-symbols-outlined text-green-400 text-7xl"
+          style="font-variation-settings:'FILL' 1">paragliding</span>
+        <div
+          class="w-10 h-12 bg-orange-100 rounded-[50%_50%_50%_50%_/_60%_60%_40%_40%] border-2 border-orange-200 -mt-2 shadow-sm">
+        </div>
+      </div>
+    </div>
+
+    <!-- Centered Content -->
+    <div class="relative z-20 text-center px-6">
+      <div class="mb-10 animate-float">
+        <h1 class="hero-title-3d text-6xl md:text-8xl lg:text-9xl leading-tight">
+          Anlam<br />Macerası
+        </h1>
+      </div>
+      <div class="flex flex-col items-center">
+        <div class="relative group">
+          <div
+            class="absolute -inset-6 bg-yellow-400 rounded-full blur-2xl opacity-40 group-hover:opacity-70 transition-opacity">
+          </div>
+          <button id="btn-play" onclick="startGame()" class="relative bg-[#fcd400] text-[#4a3a00] px-12 py-6 md:px-20 md:py-10 rounded-full border-b-[8px] md:border-b-[12px] border-[#705d00]
+                 font-[900] text-3xl md:text-6xl uppercase tracking-widest
+                 active:translate-y-2 active:border-b-[4px] transition-all duration-75
+                 shadow-2xl hover:scale-105" style="font-family:'Plus Jakarta Sans',sans-serif">
+            OYNA
+          </button>
+        </div>
+        <p class="mt-8 md:mt-16 text-white/90 text-lg md:text-2xl tracking-wide uppercase drop-shadow-md"
+          style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700">
+          Göklerdeki Maceraya Hazır Mısın?
+        </p>
+      </div>
+    </div>
+
+    <!-- Level Bubbles -->
+    <div class="absolute bottom-10 z-20 flex items-end" id="levelRow" style="gap:0">
+      <!-- Built by JS -->
+    </div>
+
+  </main>
+
+  <script>
+    const TOTAL_LEVELS = 10;
+    const LEVEL_NAMES = ["Başlangıç", "Çaylak", "Gözlemci", "Kâşif", "Uzman", "Usta", "Bilge", "Efsane", "Kahraman", "Yenilmez"];
+
+    function getUnlocked() {
+      return parseInt(localStorage.getItem('anlamMacerasi_unlocked') || '1');
+    }
+
+    function buildLevels() {
+      const unlocked = getUnlocked();
+      const row = document.getElementById('levelRow');
+      row.innerHTML = '';
+
+      for (let i = 1; i <= TOTAL_LEVELS; i++) {
+        // Connector
+        if (i > 1) {
+          const conn = document.createElement('div');
+          conn.className = 'level-connector';
+          row.appendChild(conn);
+        }
+
+        const isUnlocked = i <= unlocked;
+        const isCurrent = i === unlocked;
+
+        const wrap = document.createElement('div');
+        wrap.style.position = 'relative';
+        wrap.style.marginBottom = '28px';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'level-bubble ' + (isCurrent ? 'current' : (isUnlocked ? 'unlocked' : 'locked'));
+
+        if (isUnlocked) {
+          bubble.textContent = i;
+          // Stars for completed levels
+          const stars = document.createElement('div');
+          stars.className = 'star-row';
+          const completed = i < unlocked;
+          stars.innerHTML = [1, 2, 3].map(s =>
+            `<span class="star">${completed || (i === unlocked && getStars(i) >= s) ? '⭐' : '☆'}</span>`
+          ).join('');
+          wrap.appendChild(stars);
+          bubble.onclick = () => window.location.href = `game.html?level=${i}`;
+        } else {
+          bubble.innerHTML = `<span class="material-symbols-outlined" style="font-size:24px;font-variation-settings:'FILL' 1;color:rgba(255,255,255,0.4)">lock</span>`;
+        }
+
+        const label = document.createElement('div');
+        label.className = 'level-label';
+        label.textContent = LEVEL_NAMES[i - 1];
+
+        wrap.appendChild(bubble);
+        wrap.appendChild(label);
+        row.appendChild(wrap);
+      }
+    }
+
+    function getStars(level) {
+      return parseInt(localStorage.getItem(`anlamMacerasi_stars_${level}`) || '0');
+    }
+
+    function startGame() {
+      const unlocked = getUnlocked();
+      window.location.href = `game.html?level=${unlocked}`;
+    }
+
+    buildLevels();
+  </script>
+</body>
+
+</html>
