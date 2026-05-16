@@ -1,0 +1,144 @@
+<!doctype html>
+<html class="h-full" lang="tr">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Türk Mutfağı Haftası</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&amp;family=Nunito:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    .font-heading { font-family: 'Playfair Display', serif; }
+    .font-body { font-family: 'Nunito', sans-serif; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    @keyframes pulse-glow { 0%,100%{box-shadow:0 0 20px rgba(220,38,38,0.3)} 50%{box-shadow:0 0 40px rgba(220,38,38,0.6)} }
+    .pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body">
+  <div id="app" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #1a0a0a 0%, #2d1010 30%, #1a0a0a 100%);">
+   <!-- Decorative pattern -->
+   <div class="fixed inset-0 opacity-5 pointer-events-none" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22><circle cx=%2230%22 cy=%2230%22 r=%222%22 fill=%22white%22/></svg>');"></div>
+   <div class="relative z-10 max-w-4xl mx-auto px-4 py-12">
+    <!-- Header -->
+    <header class="text-center mb-10">
+     <div class="inline-block mb-4">
+      <span class="text-5xl">🇹🇷</span>
+     </div>
+     <h1 id="main-title" class="font-heading text-4xl md:text-5xl font-900 text-white mb-3">Türk Mutfağı Haftası</h1>
+     <p id="subtitle" class="text-xl text-red-300 font-semibold">Video Gönderim Sayfası</p>
+    </header><!-- Main CTA - Gönderim Butonu -->
+    <section class="text-center mb-12">
+     <div class="bg-gradient-to-br from-red-900/40 to-amber-900/30 border border-red-700/40 rounded-3xl p-8 md:p-12 backdrop-blur-sm">
+      <div class="mb-6">
+       <span class="text-6xl animate-float inline-block">🍽️</span>
+      </div>
+      <p id="description" class="text-gray-200 text-lg mb-2 max-w-2xl mx-auto leading-relaxed">Sevdiğiniz bir Türk yemeğini seçin ve yaparken kendinizi videoya çekin! Yatay formatta çekilmiş videonuzu aşağıdaki butondan gönderin.</p>
+      <p class="text-amber-300/60 text-sm max-w-2xl mx-auto mb-8"><i data-lucide="lightbulb" style="width:14px;height:14px;display:inline;"></i> <em>İpucu: Yemeği hazırlarken ailenizden yardım alabilirsiniz!</em></p><a href="https://ulkemyanimda.eba.gov.tr/moodle/mod/assign/view.php?id=16640" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold text-xl px-10 py-5 rounded-2xl transition-all duration-300 transform hover:scale-105 pulse-glow shadow-2xl"> <i data-lucide="send" style="width:28px;height:28px;"></i> VİDEONU GÖNDER </a>
+      <p class="text-amber-300/70 text-sm mt-4"><i data-lucide="info" style="width:14px;height:14px;display:inline;"></i> 80 MB'den büyük dosyalar için öğretmeninizle iletişime geçin.</p>
+     </div>
+	 <!-- Tarifler linki -->
+    <section class="mb-12">
+     <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
+      <h2 class="font-heading text-2xl text-white mb-4 flex items-center gap-2"><i data-lucide="book-open" style="width:24px;height:24px;color:#fbbf24;"></i> Tarif İlhamı</h2>
+      <p class="text-gray-300 mb-5">Hangi yemeği yapacağınıza karar veremediyseniz, aşağıdaki siteden ilham alabilirsiniz:</p><a href="https://turkishcuisineweek.com/tr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl transition-all border border-white/20"> <i data-lucide="external-link" style="width:20px;height:20px;color:#f87171;"></i> Türk Mutfağı Tarifleri </a>
+     </div>
+    </section>
+	 
+    </section><!-- Nasıl Gönderilir -->
+    <section class="mb-12">
+     <div class="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8">
+      <h2 class="font-heading text-2xl text-white mb-4 flex items-center gap-2"><i data-lucide="help-circle" style="width:24px;height:24px;color:#fbbf24;"></i> Nasıl Gönderilir?</h2>
+      <p class="text-gray-300 mb-5">Aşağıdaki videoyu izleyerek gönderim adımlarını öğrenebilirsiniz:</p><a href="https://www.youtube.com/watch?v=zqLr82EzF_I" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl transition-all border border-white/20"> <i data-lucide="play-circle" style="width:22px;height:22px;color:#f87171;"></i> Yardım Videosunu İzle </a>
+     </div>
+    </section><!-- Kurallar -->
+    <section class="mb-12">
+     <div class="bg-amber-900/20 border border-amber-700/30 rounded-2xl p-6 md:p-8">
+      <h2 class="font-heading text-2xl text-white mb-5 flex items-center gap-2"><i data-lucide="clipboard-list" style="width:24px;height:24px;color:#fbbf24;"></i> Dikkat Edilecekler</h2>
+      <ul class="space-y-3 text-gray-200">
+       <li class="flex items-start gap-3"><span class="text-amber-400 mt-1"><i data-lucide="check-circle" style="width:18px;height:18px;"></i></span>Videoyu <strong>yatay formatta</strong> çekin</li>
+       <li class="flex items-start gap-3"><span class="text-amber-400 mt-1"><i data-lucide="check-circle" style="width:18px;height:18px;"></i></span>Yemeğin yapılış sürecini ve servisini gösterin</li>
+       <li class="flex items-start gap-3"><span class="text-amber-400 mt-1"><i data-lucide="check-circle" style="width:18px;height:18px;"></i></span>Ailenizden yardım alabilirsiniz</li>
+       <li class="flex items-start gap-3"><span class="text-amber-400 mt-1"><i data-lucide="check-circle" style="width:18px;height:18px;"></i></span>Dosya boyutu en fazla <strong>80 MB</strong> olmalı</li>
+      </ul>
+     </div>
+    </section><!-- Footer -->
+    <footer class="text-center text-gray-500 text-sm pb-8">
+     <p>Afiyet olsun! 🥘</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    lucide.createIcons();
+
+    const defaultConfig = {
+      main_title: 'Türk Mutfağı Haftası',
+      subtitle: 'Video Gönderim Sayfası',
+      description_text: 'Sevdiğiniz bir Türk yemeğini ailenizle birlikte yaparken kendinizi videoya çekin! Yatay formatta çekilmiş videonuzu aşağıdaki butondan gönderin.',
+      background_color: '#1a0a0a',
+      surface_color: '#2d1010',
+      text_color: '#ffffff',
+      primary_action_color: '#dc2626',
+      secondary_action_color: '#fbbf24',
+      font_family: 'Playfair Display',
+      font_size: 16
+    };
+
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const title = config.main_title || defaultConfig.main_title;
+        const subtitle = config.subtitle || defaultConfig.subtitle;
+        const desc = config.description_text || defaultConfig.description_text;
+        const bgColor = config.background_color || defaultConfig.background_color;
+        const surfaceColor = config.surface_color || defaultConfig.surface_color;
+        const textColor = config.text_color || defaultConfig.text_color;
+        const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+        const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+        const fontFamily = config.font_family || defaultConfig.font_family;
+        const fontSize = config.font_size || defaultConfig.font_size;
+
+        document.getElementById('main-title').textContent = title;
+        document.getElementById('main-title').style.fontFamily = `${fontFamily}, serif`;
+        document.getElementById('main-title').style.fontSize = `${fontSize * 2.8}px`;
+        document.getElementById('subtitle').textContent = subtitle;
+        document.getElementById('subtitle').style.color = primaryColor;
+        document.getElementById('subtitle').style.fontSize = `${fontSize * 1.25}px`;
+        document.getElementById('description').textContent = desc;
+        document.getElementById('description').style.fontSize = `${fontSize}px`;
+        document.getElementById('description').style.color = textColor;
+
+        const app = document.getElementById('app');
+        app.style.background = `linear-gradient(135deg, ${bgColor} 0%, ${surfaceColor} 30%, ${bgColor} 100%)`;
+
+        document.querySelectorAll('h2').forEach(h => {
+          h.style.color = textColor;
+          h.style.fontFamily = `${fontFamily}, serif`;
+          h.style.fontSize = `${fontSize * 1.5}px`;
+        });
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+          { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['main_title', config.main_title || defaultConfig.main_title],
+        ['subtitle', config.subtitle || defaultConfig.subtitle],
+        ['description_text', config.description_text || defaultConfig.description_text]
+      ])
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9fcc3405b505d5fe',t:'MTc3ODk1MzYwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
