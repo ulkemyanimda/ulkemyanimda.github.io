@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://ulkemyanimda.github.io/icons/favicon.ico" type="image/x-icon">
     <title>Ülkem Yanımda</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Baloo+2:wght@500;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #5c35c9;
@@ -23,7 +26,11 @@
             --shadow-hover: 0 8px 30px rgba(92, 53, 201, 0.22);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
         body {
             font-family: 'Nunito', sans-serif;
@@ -38,17 +45,19 @@
             overflow: hidden;
             height: 260px;
         }
+
         header img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
+
         header::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, transparent 50%, rgba(245,243,255,0.95) 100%);
+            background: linear-gradient(to bottom, transparent 50%, rgba(245, 243, 255, 0.95) 100%);
         }
 
         /* ── DUYURU BANDI ── */
@@ -59,6 +68,7 @@
             align-items: center;
             gap: 12px;
         }
+
         .duyuru-label {
             background: var(--accent2);
             color: var(--primary);
@@ -69,6 +79,7 @@
             white-space: nowrap;
             flex-shrink: 0;
         }
+
         .duyuru-bar iframe {
             border: none;
             overflow: hidden;
@@ -88,12 +99,14 @@
         .category-block {
             margin-bottom: 40px;
         }
+
         .category-header {
             display: flex;
             align-items: center;
             gap: 10px;
             margin-bottom: 18px;
         }
+
         .category-header .cat-icon {
             font-size: 22px;
             width: 42px;
@@ -104,6 +117,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .category-header h2 {
             font-family: 'Baloo 2', cursive;
             font-size: 20px;
@@ -111,6 +125,7 @@
             color: var(--primary);
             letter-spacing: 0.01em;
         }
+
         .category-header .cat-line {
             flex: 1;
             height: 2px;
@@ -133,10 +148,12 @@
             transition: transform 0.22s ease, box-shadow 0.22s ease;
             overflow: hidden;
         }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-hover);
         }
+
         .card a {
             display: flex;
             flex-direction: column;
@@ -149,6 +166,7 @@
             height: 100%;
             min-height: 140px;
         }
+
         .card img {
             width: 64px;
             height: 64px;
@@ -156,6 +174,7 @@
             border-radius: 10px;
             flex-shrink: 0;
         }
+
         .card-label {
             font-size: 12.5px;
             font-weight: 700;
@@ -168,8 +187,14 @@
         .card.featured {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
         }
-        .card.featured .card-label { color: #fff; }
-        .card.featured a { color: #fff; }
+
+        .card.featured .card-label {
+            color: #fff;
+        }
+
+        .card.featured a {
+            color: #fff;
+        }
 
         /* ── FOOTER ── */
         footer {
@@ -178,6 +203,7 @@
             padding: 28px 20px;
             text-align: center;
         }
+
         .footer-logos {
             display: flex;
             justify-content: center;
@@ -185,7 +211,11 @@
             gap: 24px;
             margin-bottom: 18px;
         }
-        .footer-logos img { height: 48px; width: auto; }
+
+        .footer-logos img {
+            height: 48px;
+            width: auto;
+        }
 
         .social-icons {
             display: flex;
@@ -193,6 +223,7 @@
             gap: 14px;
             margin-bottom: 16px;
         }
+
         .social-icons a {
             display: flex;
             align-items: center;
@@ -203,18 +234,37 @@
             background: var(--primary-soft);
             transition: background 0.2s;
         }
-        .social-icons a:hover { background: var(--primary); }
-        .social-icons a:hover img { filter: invert(1) brightness(10); }
-        .social-icons img { height: 18px; width: 18px; }
 
-        footer p { font-size: 13px; color: var(--text-light); }
+        .social-icons a:hover {
+            background: var(--primary);
+        }
+
+        .social-icons a:hover img {
+            filter: invert(1) brightness(10);
+        }
+
+        .social-icons img {
+            height: 18px;
+            width: 18px;
+        }
+
+        footer p {
+            font-size: 13px;
+            color: var(--text-light);
+        }
 
         .globe-wrap {
             display: flex;
             justify-content: center;
             padding: 20px 0 10px;
         }
-        .globe-wrap > div { width: 240px; height: 240px; overflow: hidden; }
+
+        .globe-wrap>div {
+            width: 240px;
+            height: 240px;
+            overflow: hidden;
+        }
+
         .globe-inner {
             transform: scale(0.8);
             transform-origin: top center;
@@ -223,429 +273,451 @@
 
         /* ── RESPONSİF ── */
         @media (max-width: 600px) {
-            .cards-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-            header { height: 180px; }
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 10px;
+            }
+
+            header {
+                height: 180px;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<!-- BANNER -->
-<header>
-    <img src="icons/homebanner.jpg" alt="Ülkem Yanımda Banner">
-</header>
+    <!-- BANNER -->
+    <header>
+        <img src="icons/homebanner.jpg" alt="Ülkem Yanımda Banner">
+    </header>
 
-<!-- DUYURU BANDI -->
-<div class="duyuru-bar">
-    <span class="duyuru-label">📢 DUYURU</span>
-    <iframe src="https://ulkemyanimda.github.io/duyuru/kayanmetin.html"
-        scrolling="no" width="100%" height="46"></iframe>
-</div>
-
-<main>
-
-    <!-- KATEGORİ 1: Ana Platform -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">🏠</div>
-            <h2>Ana Platform</h2>
-            <div class="cat-line"></div>
-        </div>
-        <div class="cards-grid">
-            <div class="card featured">
-                <a href="http://ulkemyanimda.eba.gov.tr/" target="_blank">
-                    <img src="icons/m.png" alt="Ülkem Yanımda">
-                    <span class="card-label">Ülkem Yanımda</span>
-                </a>
-            </div>
-			            <div class="card">
-                <a href="https://materyalfabrikasi.github.io/" target="_blank">
-                    <img src="icons/mf.png" alt="Materyal Fabrikası">
-                    <span class="card-label">Materyal Fabrikası</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="ara.html" target="_blank">
-                    <img src="icons/ara.png" alt="Etkinlik Bul">
-                    <span class="card-label">Etkinlik Bul</span>
-                </a>
-            </div>
-
-            <div class="card">
-                <a href="sss.html" target="_blank">
-                    <img src="icons/bilgi.png" alt="Nasıl Yapılır?">
-                    <span class="card-label">Nasıl Yapılır? | Uygulama Atölyesi</span>
-                </a>
-            </div>
-			            <div class="card">
-                <a href="https://storiesofturkiye.github.io/index.html" target="_blank">
-                    <img src="icons/karamel.png" alt="Karamel’in Maceraları ">
-                    <span class="card-label">Karamel’in Maceraları </span>
-                </a>
-            </div>
-
-            <div class="card">
-                <a href="https://ulkemyanimda.github.io/atolye/kurban.html" target="_blank">
-                    <img src="icons/kurban.jpg" alt="Atölyeler">
-                    <span class="card-label">Kurban Bayramı ve İstanbul'un Fethi Atölyesi</span>
-                </a>
-            </div>
-			
-			
-            <div class="card">
-                <a href="basin.html" target="_blank">
-                    <img src="icons/icobasin.jpg" alt="basında biz ">
-                    <span class="card-label">Basında Biz </span>
-                </a>
-            </div>
-			            <div class="card">
-                <a href="https://turkishcuisineweek.com/" target="_blank">
-                    <img src="icons/mutfak.jpg" alt="basında biz ">
-                    <span class="card-label">Türk Mutfağı</span>
-                </a>
-            </div>
-			
-			
-			
-			
-			
-        </div>
+    <!-- DUYURU BANDI -->
+    <div class="duyuru-bar">
+        <span class="duyuru-label">📢 DUYURU</span>
+        <iframe src="https://ulkemyanimda.github.io/duyuru/kayanmetin.html" scrolling="no" width="100%"
+            height="46"></iframe>
     </div>
 
-    <!-- KATEGORİ 2: Eğitim & Öğretim -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">📚</div>
-            <h2>Eğitim & Öğretim</h2>
-            <div class="cat-line"></div>
+    <main>
+
+        <!-- KATEGORİ 1: Ana Platform -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">🏠</div>
+                <h2>Ana Platform</h2>
+                <div class="cat-line"></div>
+            </div>
+            <div class="cards-grid">
+                <div class="card featured">
+                    <a href="http://ulkemyanimda.eba.gov.tr/" target="_blank">
+                        <img src="icons/m.png" alt="Ülkem Yanımda">
+                        <span class="card-label">Ülkem Yanımda</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="https://materyalfabrikasi.github.io/" target="_blank">
+                        <img src="icons/mf.png" alt="Materyal Fabrikası">
+                        <span class="card-label">Materyal Fabrikası</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="ara.html" target="_blank">
+                        <img src="icons/ara.png" alt="Etkinlik Bul">
+                        <span class="card-label">Etkinlik Bul</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <a href="sss.html" target="_blank">
+                        <img src="icons/bilgi.png" alt="Nasıl Yapılır?">
+                        <span class="card-label">Nasıl Yapılır? | Uygulama Atölyesi</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="https://storiesofturkiye.github.io/index.html" target="_blank">
+                        <img src="icons/karamel.png" alt="Karamel’in Maceraları ">
+                        <span class="card-label">Karamel’in Maceraları </span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <a href="https://ulkemyanimda.github.io/atolye/kurban.html" target="_blank">
+                        <img src="icons/kurban.jpg" alt="Atölyeler">
+                        <span class="card-label">Kurban Bayramı ve İstanbul'un Fethi Atölyesi</span>
+                    </a>
+                </div>
+
+
+                <div class="card">
+                    <a href="basin.html" target="_blank">
+                        <img src="icons/icobasin.jpg" alt="basında biz ">
+                        <span class="card-label">Basında Biz </span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <a href="https://turkishcuisineweek.com/" target="_blank">
+                        <img src="icons/mutfak.jpg" alt="basında biz ">
+                        <span class="card-label">Türk Mutfağı</span>
+                    </a>
+                </div>
+
+
+
+
+
+
+            </div>
         </div>
-        <div class="cards-grid">
-            <div class="card">
-                <a href="ttkd/index.html" target="_blank">
-                    <img src="icons/ttkd.png" alt="TTK Dersi Kitapları">
-                    <span class="card-label">TTK Dersi Kitapları</span>
-                </a>
+
+        <!-- KATEGORİ 2: Eğitim & Öğretim -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">📚</div>
+                <h2>Eğitim & Öğretim</h2>
+                <div class="cat-line"></div>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <a href="ttkd/index.html" target="_blank">
+                        <img src="icons/ttkd.png" alt="TTK Dersi Kitapları">
+                        <span class="card-label">TTK Dersi Kitapları</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <a href="ogretmensandigi/Ogretmenleruretiyor/index.html" target="_blank">
+                        <img src="icons/sandik.png" alt="Öğretmen Sandığı">
+                        <span class="card-label">Öğretmenler Üretiyor</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="https://www.eba.gov.tr/dogm" target="_blank">
+                        <img src="icons/din.png" alt="Din, Ahlak, Değer Alanı">
+                        <span class="card-label">Din, Ahlak, Değer Alanı</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="fen/index.html" target="_blank">
+                        <img src="icons/2.png" alt="Fen Bilimleri Deneyleri">
+                        <span class="card-label">Fen Bilimleri Deneyleri</span>
+                    </a>
+                </div>
+
+
+                <div class="card">
+                    <a href="haftalar/index.html" target="_blank">
+                        <img src="icons/academic.png" alt="Etkinlik Haftaları">
+                        <span class="card-label">Etkinlik Haftaları</span>
+                    </a>
+                </div>
+
+
+
+
+                <div class="card">
+                    <a href="books/ozel.html" target="_blank">
+                        <img src="icons/ozel.jpg" alt="Etkinlik Haftaları">
+                        <span class="card-label">Özel Eğitim Kaynakları</span>
+                    </a>
+                </div>
+
+
+                <div class="card">
+                    <a href="books/temel.html" target="_blank">
+                        <img src="icons/temel.jpg" alt="Etkinlik Haftaları">
+                        <span class="card-label">Temel Eğitim Kaynakları</span>
+                    </a>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="card">
+                    <a href="yz.html" target="_blank">
+                        <img src="icons/yz.png" alt="Etkinlik Haftaları">
+                        <span class="card-label">Eğitimde Yapay Zekâ Kaynakları </span>
+                    </a>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="card">
+                    <a href="kadro/index.html" target="_blank">
+                        <img src="icons/teacher.png" alt="Etkinlik Haftaları">
+                        <span class="card-label">Öğretmenlerimiz</span>
+                    </a>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+        <!-- KATEGORİ 3: Okuma & Yazma -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">✏️</div>
+                <h2>Okuma & Yazma</h2>
+                <div class="cat-line"></div>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <a href="https://www.eba.gov.tr/orgm-detay/131" target="_blank">
+                        <img src="icons/oyh.png" alt="Okuma Yazmaya Hazırlık">
+                        <span class="card-label">Okuma Yazmaya Hazırlık</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="oyun/maarif.html" target="_blank">
+                        <img src="icons/okuma.png" alt="Türkçe İlk Okuma Yazma">
+                        <span class="card-label">Türkçe İlk Okuma Yazma</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="https://www.eba.gov.tr/orgm-detay/121" target="_blank">
+                        <img src="icons/oges.png" alt="OGES">
+                        <span class="card-label">Okumayı Güçlendirme Eğitim Seti</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- KATEGORİ 4: Okul Öncesi -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">🌱</div>
+                <h2>Okul Öncesi</h2>
+                <div class="cat-line"></div>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <a href="OkulOncesiEtkinlikHavuzu/index.html" target="_blank">
+                        <img src="OkulOncesiEtkinlikHavuzu/a.jpg" alt="Okul Öncesi Etkinlik Havuzu">
+                        <span class="card-label">Okul Öncesi Etkinlik Havuzu</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="books/sesli.html" target="_blank">
+                        <img src="icons/okuloncesi.png" alt="Okul Öncesi Kitapları">
+                        <span class="card-label">Okul Öncesi Kitapları</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- KATEGORİ 5: Kitap & Yayınlar -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">📖</div>
+                <h2>Kitap & Yayınlar</h2>
+                <div class="cat-line"></div>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <a href="books.html" target="_blank">
+                        <img src="icons/book.png" alt="Kitaplar">
+                        <span class="card-label">Kitaplar</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="books/piktes.html" target="_blank">
+                        <img src="icons/piktes.png" alt="Hikâye Kitapları">
+                        <span class="card-label">Hikâye Kitapları</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="books/tse.html" target="_blank">
+                        <img src="icons/tse.png" alt="TSE Dergisi">
+                        <span class="card-label">TSE - Öncü Çocuk Dergisi</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="taskentturkokullaridergileri/taskenturkokuludergileri.html" target="_blank">
+                        <img src="icons/t.jpg" alt="Taşkent Dergileri">
+                        <span class="card-label">Taşkent Türk Okulu Dergileri</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="https://masal.gov.tr/" target="_blank">
+                        <img src="icons/tumak.png" alt="TÜMAK">
+                        <span class="card-label">TÜMAK Masal Masal Türkiye</span>
+                    </a>
+                </div>
+
+
+
+
+
+                <div class="card">
+                    <a href="https://tegm.meb.gov.tr/meb_iys_dosyalar/2024_03/21111624_canakkalegecilmez.pdf"
+                        target="_blank">
+                        <img src="icons/canakkale.png" alt="TÜMAK">
+                        <span class="card-label">Çanakkale Çizgi Romanı </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- KATEGORİ 6: Müzik & Sanat -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">🎵</div>
+                <h2>Müzik & Sanat</h2>
+                <div class="cat-line"></div>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <a href="music/index.html" target="_blank">
+                        <img src="icons/note.png" alt="Müzikler">
+                        <span class="card-label">Müzikler</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="enstruman/index.html" target="_blank">
+                        <img src="icons/enstruman.png" alt="Müzik Keşif Alanı">
+                        <span class="card-label">Müzik Keşif Alanı</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="video.html" target="_blank">
+                        <img src="icons/movie.png" alt="Videolar">
+                        <span class="card-label">Videolar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- KATEGORİ 7: Oyun & Eğlence -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">🎮</div>
+                <h2>Oyun & Eğlence</h2>
+                <div class="cat-line"></div>
+            </div>
+            <div class="cards-grid">
+                <div class="card">
+                    <a href="oyun/index.html" target="_blank">
+                        <img src="icons/game.png" alt="Oyunlar">
+                        <span class="card-label">Oyunlar</span>
+                    </a>
+                </div>
+
+                <div class="card">
+                    <a href="kesif/index.html" target="_blank">
+                        <img src="icons/kesif.png" alt="Keşif Yarışması">
+                        <span class="card-label">Keşif Yarışması</span>
+                    </a>
+                </div>
+
             </div>
 
-			            <div class="card">
-                <a href="ogretmensandigi/Ogretmenleruretiyor/index.html" target="_blank">
-                    <img src="icons/sandik.png" alt="Öğretmen Sandığı">
-                    <span class="card-label">Öğretmenler Üretiyor</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="https://www.eba.gov.tr/dogm" target="_blank">
-                    <img src="icons/din.png" alt="Din, Ahlak, Değer Alanı">
-                    <span class="card-label">Din, Ahlak, Değer Alanı</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="fen/index.html" target="_blank">
-                    <img src="icons/2.png" alt="Fen Bilimleri Deneyleri">
-                    <span class="card-label">Fen Bilimleri Deneyleri</span>
-                </a>
-            </div>
 
-			
-			            <div class="card">
-                <a href="haftalar/index.html" target="_blank">
-                    <img src="icons/academic.png" alt="Etkinlik Haftaları">
-                    <span class="card-label">Etkinlik Haftaları</span>
-                </a>
+        </div>
+
+        <!-- KATEGORİ 8: Çevre & Özel Projeler -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">🌍</div>
+                <h2>Çevre & Özel Projeler</h2>
+                <div class="cat-line"></div>
             </div>
-			
-			
-			
-			
-			            <div class="card">
-                <a href="books/ozel.html" target="_blank">
-                    <img src="icons/ozel.jpg" alt="Etkinlik Haftaları">
-                    <span class="card-label">Özel Eğitim Kaynakları</span>
-                </a>
-            </div>			            
-			
-			
-			<div class="card">
-                <a href="books/temel.html" target="_blank">
-                    <img src="icons/temel.jpg" alt="Etkinlik Haftaları">
-                    <span class="card-label">Temel Eğitim Kaynakları</span>
-                </a>
+            <div class="cards-grid">
+                <div class="card">
+                    <a href="./haftalar/yesilvatan.html" target="_blank">
+                        <img src="icons/yesilvatan.jpg" alt="Yeşil Vatan">
+                        <span class="card-label">Yeşil Vatan – Benim Okulum Geleceğe Çare</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <a href="https://orgm.meb.gov.tr/ozelsokagincocuklari/" target="_blank">
+                        <img src="icons/osc.jpg" alt="Özel Sokağın Çocukları">
+                        <span class="card-label">Özel Sokağın Çocukları</span>
+                    </a>
+                </div>
             </div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-									            <div class="card">
-                <a href="yz.html" target="_blank">
-                    <img src="icons/yz.png" alt="Etkinlik Haftaları">
-                    <span class="card-label">Eğitimde Yapay Zekâ Kaynakları </span>
-                </a>
+        </div>
+
+        <!-- KATEGORİ 9: Araçlar -->
+        <div class="category-block">
+            <div class="category-header">
+                <div class="cat-icon">🔧</div>
+                <h2>Araçlar</h2>
+                <div class="cat-line"></div>
             </div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-						            <div class="card">
-                <a href="kadro/index.html" target="_blank">
-                    <img src="icons/teacher.png" alt="Etkinlik Haftaları">
-                    <span class="card-label">Öğretmenlerimiz</span>
-                </a>
+            <div class="cards-grid">
+                <div class="card">
+                    <a href="araclar/index.html" target="_blank">
+                        <img src="icons/fix.png" alt="Araçlar">
+                        <span class="card-label">Araçlar</span>
+                    </a>
+                </div>
             </div>
-			
-			
-			
-			
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logos">
+            <a href="https://yyegm.meb.gov.tr/" target="_blank">
+                <img src="icons/logo2.png" alt="MEB Logo">
+            </a>
+            <a href="https://ulkemyanimda.github.io/" target="_blank">
+                <img src="icons/logo1.png" alt="Ülkem Yanımda Logo">
+            </a>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/ulkemyanimda" target="_blank">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram">
+            </a>
+            <a href="https://twitter.com/ulkemyanimda" target="_blank">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg" alt="Twitter/X">
+            </a>
+            <a href="https://www.facebook.com/ulkemyanimda" target="_blank">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook">
+            </a>
+            <a href="https://www.youtube.com/@ulkem_yanimda" target="_blank">
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube">
+            </a>
+        </div>
+        <p>&copy; 2025 ÜLKEM YANIMDA!</p>
+    </footer>
+
+    <!-- GLOBE -->
+    <div class="globe-wrap">
+        <div>
+            <div class="globe-inner">
+                <script type="text/javascript" id="clstr_globe"
+                    src="//clustrmaps.com/globe.js?d=sRLX3oNGKa899W3hmyHRAS5PjxDqacWTc8b5EPtmv6w">
+                    </script>
+            </div>
         </div>
     </div>
-
-    <!-- KATEGORİ 3: Okuma & Yazma -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">✏️</div>
-            <h2>Okuma & Yazma</h2>
-            <div class="cat-line"></div>
-        </div>
-        <div class="cards-grid">
-            <div class="card">
-                <a href="https://www.eba.gov.tr/orgm-detay/131" target="_blank">
-                    <img src="icons/oyh.png" alt="Okuma Yazmaya Hazırlık">
-                    <span class="card-label">Okuma Yazmaya Hazırlık</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="oyun/maarif.html" target="_blank">
-                    <img src="icons/okuma.png" alt="Türkçe İlk Okuma Yazma">
-                    <span class="card-label">Türkçe İlk Okuma Yazma</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="https://www.eba.gov.tr/orgm-detay/121" target="_blank">
-                    <img src="icons/oges.png" alt="OGES">
-                    <span class="card-label">Okumayı Güçlendirme Eğitim Seti</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- KATEGORİ 4: Okul Öncesi -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">🌱</div>
-            <h2>Okul Öncesi</h2>
-            <div class="cat-line"></div>
-        </div>
-        <div class="cards-grid">
-            <div class="card">
-                <a href="OkulOncesiEtkinlikHavuzu/index.html" target="_blank">
-                    <img src="OkulOncesiEtkinlikHavuzu/a.jpg" alt="Okul Öncesi Etkinlik Havuzu">
-                    <span class="card-label">Okul Öncesi Etkinlik Havuzu</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="books/sesli.html" target="_blank">
-                    <img src="icons/okuloncesi.png" alt="Okul Öncesi Kitapları">
-                    <span class="card-label">Okul Öncesi Kitapları</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- KATEGORİ 5: Kitap & Yayınlar -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">📖</div>
-            <h2>Kitap & Yayınlar</h2>
-            <div class="cat-line"></div>
-        </div>
-        <div class="cards-grid">
-            <div class="card">
-                <a href="books.html" target="_blank">
-                    <img src="icons/book.png" alt="Kitaplar">
-                    <span class="card-label">Kitaplar</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="books/piktes.html" target="_blank">
-                    <img src="icons/piktes.png" alt="Hikâye Kitapları">
-                    <span class="card-label">Hikâye Kitapları</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="books/tse.html" target="_blank">
-                    <img src="icons/tse.png" alt="TSE Dergisi">
-                    <span class="card-label">TSE - Öncü Çocuk Dergisi</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="taskentturkokullaridergileri/taskenturkokuludergileri.html" target="_blank">
-                    <img src="icons/t.jpg" alt="Taşkent Dergileri">
-                    <span class="card-label">Taşkent Türk Okulu Dergileri</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="https://masal.gov.tr/" target="_blank">
-                    <img src="icons/tumak.png" alt="TÜMAK">
-                    <span class="card-label">TÜMAK Masal Masal Türkiye</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- KATEGORİ 6: Müzik & Sanat -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">🎵</div>
-            <h2>Müzik & Sanat</h2>
-            <div class="cat-line"></div>
-        </div>
-        <div class="cards-grid">
-            <div class="card">
-                <a href="music/index.html" target="_blank">
-                    <img src="icons/note.png" alt="Müzikler">
-                    <span class="card-label">Müzikler</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="enstruman/index.html" target="_blank">
-                    <img src="icons/enstruman.png" alt="Müzik Keşif Alanı">
-                    <span class="card-label">Müzik Keşif Alanı</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="video.html" target="_blank">
-                    <img src="icons/movie.png" alt="Videolar">
-                    <span class="card-label">Videolar</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- KATEGORİ 7: Oyun & Eğlence -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">🎮</div>
-            <h2>Oyun & Eğlence</h2>
-            <div class="cat-line"></div>
-        </div>
-        <div class="cards-grid">
-            <div class="card">
-                <a href="oyun/index.html" target="_blank">
-                    <img src="icons/game.png" alt="Oyunlar">
-                    <span class="card-label">Oyunlar</span>
-                </a>
-            </div>
-			
-		            <div class="card">
-                <a href="kesif/index.html" target="_blank">
-                    <img src="icons/kesif.png" alt="Keşif Yarışması">
-                    <span class="card-label">Keşif Yarışması</span>
-                </a>
-            </div>
-			
-        </div>
-		
-
-    </div>
-
-    <!-- KATEGORİ 8: Çevre & Özel Projeler -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">🌍</div>
-            <h2>Çevre & Özel Projeler</h2>
-            <div class="cat-line"></div>
-        </div>
-        <div class="cards-grid">
-            <div class="card">
-                <a href="./haftalar/yesilvatan.html" target="_blank">
-                    <img src="icons/yesilvatan.jpg" alt="Yeşil Vatan">
-                    <span class="card-label">Yeşil Vatan – Benim Okulum Geleceğe Çare</span>
-                </a>
-            </div>
-            <div class="card">
-                <a href="https://orgm.meb.gov.tr/ozelsokagincocuklari/" target="_blank">
-                    <img src="icons/osc.jpg" alt="Özel Sokağın Çocukları">
-                    <span class="card-label">Özel Sokağın Çocukları</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- KATEGORİ 9: Araçlar -->
-    <div class="category-block">
-        <div class="category-header">
-            <div class="cat-icon">🔧</div>
-            <h2>Araçlar</h2>
-            <div class="cat-line"></div>
-        </div>
-        <div class="cards-grid">
-            <div class="card">
-                <a href="araclar/index.html" target="_blank">
-                    <img src="icons/fix.png" alt="Araçlar">
-                    <span class="card-label">Araçlar</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer>
-    <div class="footer-logos">
-        <a href="https://yyegm.meb.gov.tr/" target="_blank">
-            <img src="icons/logo2.png" alt="MEB Logo">
-        </a>
-        <a href="https://ulkemyanimda.github.io/" target="_blank">
-            <img src="icons/logo1.png" alt="Ülkem Yanımda Logo">
-        </a>
-    </div>
-    <div class="social-icons">
-        <a href="https://www.instagram.com/ulkemyanimda" target="_blank">
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram">
-        </a>
-        <a href="https://twitter.com/ulkemyanimda" target="_blank">
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg" alt="Twitter/X">
-        </a>
-        <a href="https://www.facebook.com/ulkemyanimda" target="_blank">
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook">
-        </a>
-        <a href="https://www.youtube.com/@ulkem_yanimda" target="_blank">
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtube.svg" alt="YouTube">
-        </a>
-    </div>
-    <p>&copy; 2025 ÜLKEM YANIMDA!</p>
-</footer>
-
-<!-- GLOBE -->
-<div class="globe-wrap">
-    <div>
-        <div class="globe-inner">
-            <script type="text/javascript" id="clstr_globe"
-                src="//clustrmaps.com/globe.js?d=sRLX3oNGKa899W3hmyHRAS5PjxDqacWTc8b5EPtmv6w">
-            </script>
-        </div>
-    </div>
-</div>
 
 </body>
+
 </html>
