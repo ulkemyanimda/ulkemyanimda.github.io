@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEB Ülkem Yanımda - Stratejik Ekip ve Süreç İnfografiği</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .scroll-custom::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scroll-custom::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .scroll-custom::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .scroll-custom::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- ÜST BİLGİ & HEADER -->
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">T.C. Millî Eğitim Bakanlığı</span>
+                        <span class="bg-indigo-600/50 text-indigo-200 text-xs font-semibold px-2.5 py-1 rounded-full">Yurt Dışı Eğitim</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Ülkem Yanımda Projesi</h1>
+                    <p class="mt-2 text-slate-300 text-sm sm:text-base max-w-2xl">
+                        Stratejik, Yönetimsel, Pedagojik ve Teknik Süreçlerin Ekip Dağılımı & Rol İlişkileri İnteraktif İnfografiği
+                    </p>
+                </div>
+                <!-- Mini Özet Kartları -->
+                <div class="flex flex-wrap gap-4 bg-white/5 p-4 rounded-xl backdrop-blur-sm border border-white/10">
+                    <div class="text-center px-4 border-r border-white/10 last:border-0">
+                        <span class="block text-xs text-slate-400 font-medium">Aktif Öğretmen</span>
+                        <span class="text-xl font-bold text-emerald-400">~100</span>
+                    </div>
+                    <div class="text-center px-4 border-r border-white/10 last:border-0">
+                        <span class="block text-xs text-slate-400 font-medium">Yıllık Başvuru</span>
+                        <span class="text-xl font-bold text-amber-400">2000+</span>
+                    </div>
+                    <div class="text-center px-4">
+                        <span class="block text-xs text-slate-400 font-medium">Eğitim Kademesi</span>
+                        <span class="text-xl font-bold text-sky-400">8 Seviye</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ANA İÇERİK ALANI -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- SOL TARAF: FİLTRELER VE EKİP ŞEMASI -->
+        <div class="flex-1 flex flex-col gap-6">
+            
+            <!-- Arama ve Filtreleme Barı -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row gap-4 justify-between items-center">
+                <div class="relative w-full md:w-72">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <!-- Search Icon -->
+                        <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </span>
+                    <input type="text" id="searchInput" oninput="filterData()" placeholder="Görev veya anahtar kelime ara..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all">
+                </div>
+                
+                <div class="flex flex-wrap gap-2 w-full md:w-auto justify-end">
+                    <button onclick="filterCategory('all')" id="btn-all" class="category-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 text-white shadow-sm transition-all">Tümü</button>
+                    <button onclick="filterCategory('strategic')" id="btn-strategic" class="category-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">Yönetim & Strateji</button>
+                    <button onclick="filterCategory('pedagogy')" id="btn-pedagogy" class="category-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">Eğitim & Pedagoji</button>
+                    <button onclick="filterCategory('communication')" id="btn-communication" class="category-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">İletişim & Koord.</button>
+                    <button onclick="filterCategory('tech')" id="btn-tech" class="category-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">Altyapı & Teknik</button>
+                </div>
+            </div>
+
+            <!-- Kartlar Grid Yapısı -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="teamGrid">
+                
+                <!-- EDİBE KARTI -->
+                <div class="team-card bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer group" onclick="selectMember('edibe')" data-categories="strategic">
+                    <div class="h-2.5 bg-gradient-to-r from-amber-500 to-amber-600"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200 mb-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Stratejik & Yönetimsel
+                                </span>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-amber-600 transition-colors">EDİBE</h3>
+                                <p class="text-xs text-slate-500 font-medium mt-0.5">Süreç Lideri & Üst Yönetim Temsili</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-amber-50 text-amber-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 line-clamp-2 mb-4">Ülke genişleme stratejileri, bütçe yönetimi ve MEB protokol süreçlerinin kurumsal temsilini üstlenir.</p>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>2000+ Başvuru Değerlendirme & Seçim</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Bütçe ve Ek Ders Kaynak Planlaması</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                            <span class="text-slate-400 font-medium">Protokol Düzeyi: <strong class="text-slate-700">Milli Eğitim Uzmanı</strong></span>
+                            <span class="text-amber-600 font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">Detaylar <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AYŞE KARTI -->
+                <div class="team-card bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer group" onclick="selectMember('ayse')" data-categories="pedagogy">
+                    <div class="h-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 mb-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Eğitim & Pedagoji
+                                </span>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">AYŞE</h3>
+                                <p class="text-xs text-slate-500 font-medium mt-0.5">Akademik Süreçler & Müfredat</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-emerald-50 text-emerald-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 line-clamp-2 mb-4">CEFR uyumlu öğretim programı, öğretmen performans takipleri, seviye tespiti ve özel atölyeleri koordine eder.</p>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>CEFR Uyumlu Müfredat Seviye 1-8</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Öğretmen Performans Takibi & Denetim</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                            <span class="text-slate-400 font-medium">Uzmanlık: <strong class="text-slate-700">Müfredat & Kalite</strong></span>
+                            <span class="text-emerald-600 font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">Detaylar <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IŞIL KARTI -->
+                <div class="team-card bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer group" onclick="selectMember('isil')" data-categories="communication">
+                    <div class="h-2.5 bg-gradient-to-r from-blue-500 to-blue-600"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200 mb-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> Koordinasyon & İletişim
+                                </span>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">IŞIL</h3>
+                                <p class="text-xs text-slate-500 font-medium mt-0.5">Operasyonel Koordinasyon</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-blue-50 text-blue-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 line-clamp-2 mb-4">100+ öğretmen, veli, öğrenci ilişkileri ile resmi kurumlar arası resmi yazışmaları yürütür.</p>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>~100 Öğretmenin Görevlendirme & Sevkleri</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-blue-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Resmi Kurum (YEĞİTEK/MEB) Evrak Yönetimi</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                            <span class="text-slate-400 font-medium">Odak: <strong class="text-slate-700">İletişim & Yazışma</strong></span>
+                            <span class="text-blue-600 font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">Detaylar <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İNANÇ KARTI -->
+                <div class="team-card bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer group" onclick="selectMember('inanc')" data-categories="tech">
+                    <div class="h-2.5 bg-gradient-to-r from-indigo-500 to-indigo-600"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200 mb-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Teknik Altyapı & Kayıt
+                                </span>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">İNANÇ</h3>
+                                <p class="text-xs text-slate-500 font-medium mt-0.5">Sistem & Altyapı Yöneticisi</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-indigo-50 text-indigo-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 line-clamp-2 mb-4">Moodle LMS sistemi, YEĞİTEK sunucu koordinasyonu, domain ve periyodik kayıt-kabul dönemlerini yönetir.</p>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Moodle Kullanıcı, Sınıf & Canlı Ders Entegrasyonu</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Temmuz-Ağustos / Ocak Kayıt Dönemleri</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                            <span class="text-slate-400 font-medium">Sistemler: <strong class="text-slate-700">Moodle LMS & Sunucu</strong></span>
+                            <span class="text-indigo-600 font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">Detaylar <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ESMA KARTI -->
+                <div class="team-card bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer group" onclick="selectMember('esma')" data-categories="pedagogy">
+                    <div class="h-2.5 bg-gradient-to-r from-rose-500 to-rose-600"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200 mb-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Materyal & Dijital Tasarım
+                                </span>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-rose-600 transition-colors">ESMA</h3>
+                                <p class="text-xs text-slate-500 font-medium mt-0.5">İçerik ve Tasarım Geliştirme</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-rose-50 text-rose-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 line-clamp-2 mb-4">Dijital çalışma yaprakları, SCORM paketleri, EBA/YEE entegrasyonu ve tasarımcı öğretmen koordinesini yönetir.</p>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Akıllı Araç (Karamel, Kelime vb.) Güncelleme</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-rose-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>GitHub Pages Depo Yönetimi (.github.io)</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                            <span class="text-slate-400 font-medium">Altyapı: <strong class="text-slate-700">Tasarım & GitHub</strong></span>
+                            <span class="text-rose-600 font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">Detaylar <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ESRA KARTI -->
+                <div class="team-card bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden cursor-pointer group" onclick="selectMember('esra')" data-categories="communication">
+                    <div class="h-2.5 bg-gradient-to-r from-orange-500 to-orange-600"></div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-orange-50 text-orange-700 border border-orange-200 mb-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span> Sosyal Medya & Tanıtım
+                                </span>
+                                <h3 class="text-xl font-bold text-slate-900 group-hover:text-orange-600 transition-colors">ESRA</h3>
+                                <p class="text-xs text-slate-500 font-medium mt-0.5">İletişim, Medya ve Dijital Kampanya</p>
+                            </div>
+                            <div class="p-3 rounded-xl bg-orange-50 text-orange-600">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V14"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 line-clamp-2 mb-4">Sosyal medya yayın takvimleri, diaspora hedef kitle analizleri ve atölye tanıtımlarını yönetir.</p>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>Diaspora Toplulukları Tanıtım Kampanyaları</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <svg class="w-4 h-4 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                <span>YouTube Kanal Yönetimi & Yayın Takvimi</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-slate-100 flex justify-between items-center text-xs">
+                            <span class="text-slate-400 font-medium">İş Birliği: <strong class="text-slate-700">Esma'nın Grafik Tasarım Ekibi</strong></span>
+                            <span class="text-orange-600 font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">Detaylar <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Proje Akışı ve Sinerji Bölgesi (Kolektif İşbirlikleri) -->
+            <div class="bg-slate-900 text-white p-6 rounded-2xl shadow-sm border border-slate-800">
+                <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    Kritik Süreç Kesişimleri & İş Birliği Sinerjisi
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
+                        <div class="flex items-center gap-2 mb-2 text-indigo-300 font-semibold text-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span> Esra & Esma (Görsel Tasarım)
+                        </div>
+                        <p class="text-xs text-slate-300">Esra'nın görsel ve afiş şablon ihtiyaçları, Esma'nın koordinasyonundaki tasarımcı öğretmenler (Ömer Kocabıyık vb.) tarafından karşılanır.</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
+                        <div class="flex items-center gap-2 mb-2 text-indigo-300 font-semibold text-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span> İnanç & Işıl (Kayıt / Altyapı)
+                        </div>
+                        <p class="text-xs text-slate-300">Kayıt dönemlerinde alınan veli/öğrenci başvuruları, İnanç'ın yürüttüğü Moodle veri yükleme ve sınıflandırma işlemleriyle koordineli çalışır.</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
+                        <div class="flex items-center gap-2 mb-2 text-indigo-300 font-semibold text-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Ayşe & İnanç (Ders Planlama)
+                        </div>
+                        <p class="text-xs text-slate-300">Ayşe'nin belirlediği seviye tespit ve ders takvimi kararları, İnanç tarafından Moodle takvimlerine, canlı ders linklerine aktarılır.</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-4 rounded-xl">
+                        <div class="flex items-center gap-2 mb-2 text-indigo-300 font-semibold text-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Edibe & Ayşe (Öğretmen Eğitimi)
+                        </div>
+                        <p class="text-xs text-slate-300">Başvurulardan filtrelenen yeni öğretmenlerin oryantasyonu ve uzun vadeli eğitim planlamaları Edibe ve Ayşe ortaklığında yürütülür.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SAĞ TARAF: DETAY / DRAWER GÖRÜNÜMÜ -->
+        <div class="w-full lg:w-[450px] shrink-0">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sticky top-8" id="detailPanel">
+                <!-- Başlangıçtaki Boş Ekran Durumu -->
+                <div id="panelPlaceholder" class="py-16 text-center">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-800">Detaylı İnceleme</h3>
+                    <p class="text-sm text-slate-500 mt-2 px-6">Bir ekip üyesinin görevlerini, paydaş ağını ve süreç analizlerini detaylı incelemek için kartına tıklayın.</p>
+                </div>
+
+                <!-- Dinamik Veri Yüklenecek Panel -->
+                <div id="panelContent" class="hidden">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div id="memberColorBadge" class="w-4 h-4 rounded-full"></div>
+                            <div>
+                                <h2 id="memberName" class="text-2xl font-extrabold text-slate-900 tracking-tight">ÜYE ADI</h2>
+                                <p id="memberTitle" class="text-xs font-semibold uppercase tracking-wider text-slate-400 mt-0.5">Alt Başlık</p>
+                            </div>
+                        </div>
+                        <button onclick="resetPanel()" class="text-slate-400 hover:text-slate-600 p-1 bg-slate-50 hover:bg-slate-100 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Görev Listesi -->
+                    <div class="mb-6">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">TEMEL SORUMLULUK ALANLARI</h4>
+                        <div id="memberTasks" class="space-y-3 max-h-[380px] overflow-y-auto scroll-custom pr-2">
+                            <!-- Görevler JS ile enjekte edilecek -->
+                        </div>
+                    </div>
+
+                    <!-- Ekstra Süreç Detayları -->
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 space-y-3">
+                        <div>
+                            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">İş Birliği & Bağlantılar</span>
+                            <p id="memberCollabs" class="text-sm text-slate-600 mt-1 font-medium">Diğer Ekip Üyeleri...</p>
+                        </div>
+                        <div class="border-t border-slate-200/60 pt-3">
+                            <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Temas Ettiği Sistem & Paydaşlar</span>
+                            <div id="memberTags" class="flex flex-wrap gap-1.5 mt-2">
+                                <!-- Taglar enjekte edilecek -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-400 font-medium">
+        <p>© 2026 MEB Ülkem Yanımda Projesi Koordinasyon Birimi • Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPT -->
+    <script>
+        const teamData = {
+            edibe: {
+                name: "EDİBE",
+                title: "H. Stratejik ve Yönetimsel Süreçler",
+                theme: "amber",
+                color: "#d97706",
+                tagColor: "bg-amber-50 text-amber-800 border-amber-200",
+                badge: "Strateji Lideri",
+                tasks: [
+                    "<strong>Yeni Ülke/Bölge Genişleme Planlaması:</strong> Projenin yayılım göstereceği yeni diasporik coğrafi bölgelerin fizibilitesini yürütür.",
+                    "<strong>Öğretmen Seçim Filtrelemesi:</strong> 2000+ başvuru arasından öğretmen seçim sürecine katılım sağlar ve çok aşamalı filtreleme işlemlerini yönetir.",
+                    "<strong>Öğretmen Eğitim Planı:</strong> Seçilen öğretmenlerin oryantasyonu ve sürekli mesleki gelişim programlarını planlar.",
+                    "<strong>Bütçe ve Kaynak Yönetimi:</strong> Ek ders ücretleri, harcamalar ve bütçe planlamalarını idare eder.",
+                    "<strong>Kurumsal Hafıza:</strong> Dokümantasyon süreçlerini, arşivi ve kurumsal hafıza sürekliliğini kontrol eder.",
+                    "<strong>Risk ve Kriz Planlaması:</strong> Operasyonel riskleri analiz eder ve acil durum kriz planlarını hazırlar.",
+                    "<strong>Üst Yönetim Bağlantısı:</strong> Millî Eğitim Uzmanları ile eş düzeyde resmi protokol yürüterek projenin kurumsal temsiliyetini sağlar."
+                ],
+                collabs: "Ayşe (Eğitim Planlama), Işıl (Öğretmen Görevlendirmeleri), MEB Üst Yönetimi",
+                tags: ["MEB Uzmanları", "Bütçe Yönetimi", "Protokol", "Kriz Planı", "Genişleme Planlaması"]
+            },
+            isil: {
+                name: "IŞIL",
+                title: "D. Koordinasyon ve İletişim",
+                theme: "blue",
+                color: "#2563eb",
+                tagColor: "bg-blue-50 text-blue-800 border-blue-200",
+                badge: "Operasyon & Koordinatör",
+                tasks: [
+                    "<strong>Öğretmen Koordinasyonu:</strong> ~100 öğretmenle düzenli iletişim kurar, görevlendirmeleri, devamsızlık ve vekâlet süreçlerini çözüme kavuşturur; ek ders ek görev tekliflerini yönetir.",
+                    "<strong>Veli İletişimi:</strong> Kayıt, başvuru, seviye değişikliği talepleri, teknik destek yönlendirmesi ve periyodik bilgilendirmeleri üstlenir.",
+                    "<strong>Öğrenci Koordinasyonu:</strong> Sınıf yerleştirme, devamsızlık takibi, motivasyon ve katılım desteği süreçlerini aktif takip eder.",
+                    "<strong>Kurumsal İletişim & Yazışma:</strong> MEB Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü ve YEĞİTEK ile idari yazışma trafiğini ve evrak yönetimini elinde tutar.",
+                    "<strong>Sistem Yönetimi:</strong> Resmi <span class='underline'>ulkemyanimda@meb.gov.tr</span> kurumsal e-posta kutusunun tüm gelen/giden trafiğini kontrol eder."
+                ],
+                collabs: "İnanç (Öğrenci Kayıt & Altyapı), Ayşe (Sınıf Atama & Pedagoji), MEB Genel Müdürlükleri",
+                tags: ["ulkemyanimda@meb.gov.tr", "100+ Öğretmen", "Veli İlişkileri", "Resmi Yazışmalar", "YEĞİTEK"]
+            },
+            ayse: {
+                name: "AYŞE",
+                title: "B. Eğitim ve Pedagoji",
+                theme: "emerald",
+                color: "#059669",
+                tagColor: "bg-emerald-50 text-emerald-800 border-emerald-200",
+                badge: "Pedagojik Koordinatör",
+                tasks: [
+                    "<strong>Müfredat ve Program Takibi:</strong> Öğretim programının CEFR uyumunu, Seviye 1-8 sınıflandırma kalitesini ve şablon ders planı güncellemelerini yönetir.",
+                    "<strong>Ders Organizasyonu:</strong> Sınıf açma/kapatma kararlarını verir, öğretmen-öğrenci eşleştirmelerini yapar, takvimi hazırlar ve seviye tespiti koordine eder.",
+                    "<strong>Öğretmen Desteği & Denetim:</strong> Öğretmenlere pedagojik rehberlik sağlar, ders gözlemleri yapar ve performans takibiyle mesleki gelişimlerini planlar.",
+                    "<strong>Ek Programlar & Atölyeler:</strong> Atölye planlaması, milli bayram etkinlikleri/yarışmaları (Çanakkale, 23 Nisan vb.), tatil dönemi programları ve hikaye yazma/okuma etkinliklerini organize eder."
+                ],
+                collabs: "Edibe (Öğretmen Eğitimleri), Esma (Materyal Entegrasyonu), Işıl (Veli Talepleri/Seviyeler)",
+                tags: ["CEFR Standardı", "Seviye 1-8", "Ders Gözlemi", "Performans Takibi", "Atölyeler"]
+            },
+            inanc: {
+                name: "İNANÇ",
+                title: "A. Teknik Altyapı ve Kayıt-Kabul",
+                theme: "indigo",
+                color: "#4f46e5",
+                tagColor: "bg-indigo-50 text-indigo-800 border-indigo-200",
+                badge: "Sistem Yöneticisi",
+                tasks: [
+                    "<strong>Moodle LMS Yönetimi:</strong> Kullanıcı açma/kapama, sınıf oluşturma, yetkilendirmeler, SCORM yükleme ve canlı ders entegrasyonlarını (bağlantı yönetimi) koordine eder.",
+                    "<strong>Sunucu ve Altyapı:</strong> YEĞİTEK ile sunucu seviyesinde koordinasyon sağlar, erişim, hosting/domain ve güvenlik duvarı (firewall) engellerine müdahale eder.",
+                    "<strong>Kayıt ve Kabul Yönetimi:</strong> Temmuz-Ağustos ve Ocak aylarındaki ana kayıt dönemlerini uçtan uca yönetir; formları işler, seviye tespiti ve kayıt rehber videolarını günceller."
+                ],
+                collabs: "Işıl (Öğrenci Atama), Esma (SCORM & GitHub Entegrasyonu), YEĞİTEK Teknik Ekip",
+                tags: ["Moodle LMS", "SCORM", "YEĞİTEK Sunucu", "Kayıt Dönemi", "Canlı Ders Entegrasyonu"]
+            },
+            esma: {
+                name: "ESMA",
+                title: "C. Materyal Geliştirme",
+                theme: "rose",
+                color: "#e11d48",
+                tagColor: "bg-rose-50 text-rose-800 border-rose-200",
+                badge: "Tasarım & Materyal Şefi",
+                tasks: [
+                    "<strong>Dijital İçerik Üretimi:</strong> Dijital çalışma yaprakları, SCORM paketleri, sesli ve görsel materyallerin üretilmesini sağlar.",
+                    "<strong>Mevcut Kaynak Entegrasyonu:</strong> EBA, Yunus Emre Enstitüsü ve PIKTES materyallerini müfredata uyumlu hale getirir; Karamel, Kelime Haznem ve Memleketim gibi akıllı araçları günceller.",
+                    "<strong>Kalite Kontrol:</strong> Üretilen tüm materyallerin pedagojik uygunluğunu, seviye uyumunu ve telif durumlarını denetler.",
+                    "<strong>Tasarımcı Öğretmen Koordinasyonu:</strong> Tasarım yapan öğretmenlerle (Ömer Kocabıyık vb.) koordinasyon kurarak ek ders karşılığı görevlendirmeleri, teslimatları ve tasarımları koordine eder.",
+                    "<strong>GitHub Depo Yönetimi:</strong> Projenin <span class='underline'>.github.io</span> sitelerinin ve materyal deposunun organizasyonunu ve erişim izinlerini yürütür."
+                ],
+                collabs: "Ayşe (Müfredat Uyumu), Esra (Tanıtım Grafik Desteği), İnanç (SCORM & Altyapı)",
+                tags: ["SCORM Üretimi", "GitHub Pages", "Karamelin Maceraları", "Ömer Kocabıyık", "EBA & PIKTES"]
+            },
+            esra: {
+                name: "ESRA",
+                title: "F. Sosyal Medya ve Tanıtım",
+                theme: "orange",
+                color: "#ea580c",
+                tagColor: "bg-orange-50 text-orange-800 border-orange-200",
+                badge: "Medya Planlayıcısı",
+                tasks: [
+                    "<strong>İçerik & Metin Üretimi:</strong> Gönderi ve duyuru metinlerini hazırlar, yarışma, atölye ve projelerin yazılı tanıtımlarını kurgular.",
+                    "<strong>Görsel Tasarım Entegrasyonu:</strong> Tasarım yönünü desteklemek amacıyla, afiş ve grafik ihtiyaçlarını Esma'nın ekibindeki tasarımcı öğretmenlerden temin eder, kendisi şablonları kullanır.",
+                    "<strong>Kanal Yönetimi:</strong> Sosyal ağların yayın takvimini planlar, yorumları yanıtlar, YouTube kanal içerik yönetimini ve topluluk etkileşimlerini organize eder.",
+                    "<strong>Tanıtım Stratejisi:</strong> Diaspora toplulukları analizi ve hedef kitleye özel uluslararası kampanya planlamalarını yürütür."
+                ],
+                collabs: "Esma (Afiş & Grafik Tasarım Tedariği), Işıl (Veli Bilgilendirmeleri & Duyurular)",
+                tags: ["YouTube Yönetimi", "Sosyal Medya Şablonları", "Diaspora Kampanyası", "Yayın Takvimi"]
+            }
+        };
+
+        let activeCategory = 'all';
+
+        // Sayfa ilk yüklendiğinde Edibe'yi otomatik seçili getir
+        window.onload = function() {
+            selectMember('edibe');
+        };
+
+        function selectMember(memberKey) {
+            // Kartların arka plan ve border aktiflik efektlerini güncelle
+            const cards = document.querySelectorAll('.team-card');
+            cards.forEach(card => {
+                card.classList.remove('ring-2', 'ring-indigo-500', 'border-indigo-500', 'scale-[1.01]');
+            });
+
+            // Seçilen kartı vurgula
+            const selectedCard = event ? event.currentTarget : null;
+            if (selectedCard) {
+                selectedCard.classList.add('ring-2', 'ring-indigo-500', 'border-indigo-500', 'scale-[1.01]');
+            }
+
+            const data = teamData[memberKey];
+            if (!data) return;
+
+            // Panel geçiş animasyonu ve yükleme
+            const placeholder = document.getElementById('panelPlaceholder');
+            const content = document.getElementById('panelContent');
+            
+            placeholder.classList.add('hidden');
+            content.classList.remove('hidden');
+
+            // Verileri Yerleştir
+            const nameEl = document.getElementById('memberName');
+            const titleEl = document.getElementById('memberTitle');
+            const colorBadge = document.getElementById('memberColorBadge');
+            const tasksEl = document.getElementById('memberTasks');
+            const collabsEl = document.getElementById('memberCollabs');
+            const tagsEl = document.getElementById('memberTags');
+
+            nameEl.textContent = data.name;
+            titleEl.textContent = data.title;
+            colorBadge.style.backgroundColor = data.color;
+            collabsEl.textContent = data.collabs;
+
+            // Görev listesini oluştur
+            tasksEl.innerHTML = '';
+            data.tasks.forEach((task, index) => {
+                const taskDiv = document.createElement('div');
+                taskDiv.className = 'flex gap-3 items-start text-sm text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-200/50 hover:bg-slate-100/50 transition-colors duration-150';
+                taskDiv.innerHTML = `
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-white text-xs font-bold shrink-0 text-slate-700 shadow-sm border border-slate-200">${index + 1}</span>
+                    <p class="leading-relaxed">${task}</p>
+                `;
+                tasksEl.appendChild(taskDiv);
+            });
+
+            // Tag'leri oluştur
+            tagsEl.innerHTML = '';
+            data.tags.forEach(tag => {
+                const tagSpan = document.createElement('span');
+                tagSpan.className = `px-2.5 py-1 rounded-md text-xs font-semibold border ${data.tagColor}`;
+                tagSpan.textContent = tag;
+                tagsEl.appendChild(tagSpan);
+            });
+        }
+
+        function resetPanel() {
+            document.getElementById('panelPlaceholder').classList.remove('hidden');
+            document.getElementById('panelContent').classList.add('hidden');
+            const cards = document.querySelectorAll('.team-card');
+            cards.forEach(card => {
+                card.classList.remove('ring-2', 'ring-indigo-500', 'border-indigo-500', 'scale-[1.01]');
+            });
+        }
+
+        // Kategoriye Göre Filtreleme
+        function filterCategory(category) {
+            activeCategory = category;
+            
+            // Buton aktiflik sınıflarını değiştir
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm', 'active');
+                btn.classList.add('bg-white', 'border-slate-200', 'text-slate-600');
+            });
+
+            const activeBtn = document.getElementById(`btn-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'border-slate-200', 'text-slate-600');
+                activeBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm', 'active');
+            }
+
+            filterData();
+        }
+
+        // Arama ve Kategori Filtresini Birleştir
+        function filterData() {
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.team-card');
+
+            cards.forEach(card => {
+                const categories = card.getAttribute('data-categories');
+                const textContent = card.innerText.toLowerCase();
+
+                const matchesCategory = (activeCategory === 'all' || categories.includes(activeCategory));
+                const matchesSearch = textContent.includes(searchValue);
+
+                if (matchesCategory && matchesSearch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
