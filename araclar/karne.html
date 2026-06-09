@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dil Seviyesi Tespit ve Öğrenci Takip Sistemi</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SheetJS (XLSX) for Reading & Writing Excel Files -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -34,7 +31,6 @@
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col justify-between">
 
-    <!-- Header / Navigation -->
     <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -53,13 +49,10 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
     <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow w-full">
         
-        <!-- Setup Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             
-            <!-- Left Side: Course and File Upload -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2 flex flex-col justify-between gap-6">
                 <div>
                     <h2 class="text-lg font-semibold text-slate-900 flex items-center gap-2 mb-4">
@@ -68,7 +61,6 @@
                     </h2>
                     
                     <div class="space-y-4">
-                        <!-- Course Name Input -->
                         <div>
                             <label for="courseName" class="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-1.5">
                                 Kurs Adı <span class="text-red-500">*</span>
@@ -80,11 +72,10 @@
                                 </div>
                                 <input type="text" id="courseName" 
                                        class="block w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition" 
-                                       placeholder="Örn: İngilizce A1 Seviyesi Haftasonu Grubu" value="A1_Ingilizce_Kursu">
+                                       placeholder="Buraya dersinizin kısa kodunu yazın" value="Kurs">
                             </div>
                         </div>
 
-                        <!-- Dropzone File Upload -->
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1.5">Öğrenci Listesi Yükle (.xlsx, .xls, .csv)</label>
                             <div id="dropzone" class="border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/30 transition group relative">
@@ -101,7 +92,6 @@
                     </div>
                 </div>
 
-                <!-- Custom Notification Center -->
                 <div id="fileStatus" class="hidden p-3 rounded-xl text-sm flex items-center justify-between transition-all duration-300">
                     <div class="flex items-center gap-2">
                         <i id="statusIcon" class="fa-solid"></i>
@@ -113,7 +103,6 @@
                 </div>
             </div>
 
-            <!-- Right Side: Info & Quick Start -->
             <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-6 rounded-2xl shadow-sm flex flex-col justify-between">
                 <div>
                     <h2 class="text-lg font-semibold text-yellow-400 flex items-center gap-2 mb-3">
@@ -127,7 +116,7 @@
                         </li>
                         <li class="flex items-start gap-2.5">
                             <span class="mt-1 flex-shrink-0 w-5 h-5 bg-white/10 rounded-full flex items-center justify-center text-xs font-semibold text-yellow-300">2</span>
-                            <span>Öğrencilerin <b>Dil Seviyelerini</b> belirleyin, <b>Devamsızlık</b> durumlarını seçin ve varsa notlarınızı ekleyin.</span>
+                            <span>Her öğrenci için listeden ilgili <b>Dil Seviyesi Kazanımını</b> belirleyin ve devamsızlık durumunu seçin.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
                             <span class="mt-1 flex-shrink-0 w-5 h-5 bg-white/10 rounded-full flex items-center justify-center text-xs font-semibold text-yellow-300">3</span>
@@ -147,16 +136,13 @@
 
         </div>
 
-        <!-- Notification Toast Component -->
         <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl border border-slate-700">
             <span id="toastIcon" class="text-emerald-400 text-lg"></span>
             <span id="toastMessage" class="text-sm font-medium"></span>
         </div>
 
-        <!-- Student Database / Interactive Evaluation Area -->
         <div id="studentSection" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-500">
             
-            <!-- Table Action Header -->
             <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 
                 <div class="w-full md:w-auto">
@@ -170,9 +156,7 @@
                     <p id="progressLabel" class="text-xs text-slate-500 mt-1">Değerlendirilen Öğrenci: 0 / 0 (%0)</p>
                 </div>
 
-                <!-- Filters & Controls -->
                 <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                    <!-- Search Input -->
                     <div class="relative w-full sm:w-60">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
@@ -182,48 +166,37 @@
                                placeholder="İsim veya kullanıcı adı ara...">
                     </div>
 
-                    <!-- Dropdown Bulk Actions -->
-                    <div class="relative inline-block text-left w-full sm:w-auto">
-                        <select id="bulkLevel" onchange="applyBulkLevel(this.value)" 
-                                class="w-full bg-white border border-slate-300 hover:border-slate-400 text-slate-700 px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                            <option value="">-- Tümünü Şöyle Yap --</option>
-                            <option value="Hiç bilmiyor">Tümünü: Hiç bilmiyor</option>
-                            <option value="Anlar ama konuşamaz">Tümünü: Anlar ama konuşamaz</option>
-                            <option value="Konuşabilir">Tümünü: Konuşabilir</option>
-                            <option value="Okur yazar">Tümünü: Okur yazar</option>
-                            <option value="Temizle">Değerlendirmeleri Sıfırla</option>
-                        </select>
-                    </div>
+                    <button onclick="clearAllEvaluations()" 
+                            class="w-full sm:w-auto px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-xl text-sm font-medium transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-trash-can text-slate-500"></i>
+                        Değerlendirmeleri Sıfırla
+                    </button>
                 </div>
 
             </div>
 
-            <!-- Spreadsheet Table Container -->
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-slate-200">
                     <thead class="bg-slate-50">
                         <tr>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-16">No</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Öğrenci Bilgileri</th>
-                            <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider w-40">Devamsızlık Durumu</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-64">Dil Seviyesi</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Öğretmen Yorumu ve Notları</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-1/5">Öğrenci Bilgileri</th>
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider w-32">Devamsızlık</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-2/5">Dil Seviyesi ve Kazanım Durumu</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-1/5">Öğretmen Notları</th>
                             <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider w-24">Durum</th>
                         </tr>
                     </thead>
                     <tbody id="studentTableBody" class="bg-white divide-y divide-slate-200">
-                        <!-- Dynamic Student Rows will be injected here -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
 
-            <!-- Empty Results State -->
             <div id="noResults" class="hidden py-12 text-center">
                 <i class="fa-solid fa-user-slash text-4xl text-slate-300 mb-3"></i>
                 <p class="text-sm text-slate-500">Aradığınız kriterlere uygun öğrenci bulunamadı.</p>
             </div>
 
-            <!-- Bottom Floating Action Bar -->
             <div class="bg-slate-50 p-6 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div class="text-sm text-slate-500">
                     <span id="evaluatedCount">0</span> öğrenci değerlendirildi. Çıktı dosyasını güvenle alabilirsiniz.
@@ -236,7 +209,6 @@
 
         </div>
 
-        <!-- Initial Placeholder (If no data uploaded) -->
         <div id="placeholderSection" class="bg-white rounded-2xl border-2 border-dashed border-slate-200 py-16 px-4 text-center">
             <div class="max-w-md mx-auto space-y-4">
                 <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
@@ -257,15 +229,13 @@
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-slate-100 border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-12">
         <div class="max-w-7xl mx-auto px-4">
-            <p>© 2026 Dil Eğitimi Gelişim ve Değerlendirme Portalı | Öğretmen Panel Sürümü 2.1</p>
+            <p>© 2026 Dil Eğitimi Gelişim ve Değerlendirme Portalı | Öğretmen Panel Sürümü 2.2</p>
             <p class="mt-1 text-slate-400">Verileriniz yerel tarayıcınızda işlenir, sunuculara gönderilmez.</p>
         </div>
     </footer>
 
-    <!-- JS Logic -->
     <script>
         let students = []; // Holds the current list of loaded students
         
@@ -280,7 +250,6 @@
         const studentTableBody = document.getElementById('studentTableBody');
         const searchInput = document.getElementById('searchInput');
         const courseNameInput = document.getElementById('courseName');
-        const bulkLevelSelect = document.getElementById('bulkLevel');
 
         // Setup Dropzone Drag & Drop effects
         dropzone.addEventListener('dragover', (e) => {
@@ -425,10 +394,10 @@
         function loadMockData() {
             courseNameInput.value = "Örnek_A2_Almanca_Grubu";
             students = [
-                { id: 1, firstName: "Ahmet", lastName: "Yılmaz", username: "ahmetyilmaz", absent: false, level: "Konuşabilir", notes: "Derse katılımı yüksek." },
-                { id: 2, firstName: "Zeynep", lastName: "Kaya", username: "zeynep_kaya", absent: false, level: "Anlar ama konuşamaz", notes: "Dinleme becerisi iyi." },
-                { id: 3, firstName: "Mehmet", lastName: "Demir", username: "mdemir99", absent: true, level: "Hiç bilmiyor", notes: "Sürekli devamsız." },
-                { id: 4, firstName: "Elif", lastName: "Çelik", username: "elifcelik", absent: false, level: "Okur yazar", notes: "Yazılı sınavda başarılı." },
+                { id: 1, firstName: "Ahmet", lastName: "Yılmaz", username: "ahmetyilmaz", absent: false, level: "Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir.", notes: "Derse katılımı yüksek." },
+                { id: 2, firstName: "Zeynep", lastName: "Kaya", username: "zeynep_kaya", absent: false, level: "Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir.", notes: "Dinleme becerisi iyi." },
+                { id: 3, firstName: "Mehmet", lastName: "Demir", username: "mdemir99", absent: true, level: "Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir.", notes: "Sürekli devamsız." },
+                { id: 4, firstName: "Elif", lastName: "Çelik", username: "elifcelik", absent: false, level: "Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir.", notes: "Yazılı sınavda başarılı." },
                 { id: 5, firstName: "Can", lastName: "Öztürk", username: "cozturk", absent: false, level: "", notes: "" },
                 { id: 6, firstName: "Ayşe", lastName: "Şahin", username: "ayse_sahin", absent: false, level: "", notes: "" }
             ];
@@ -450,11 +419,21 @@
             students = [];
             fileInput.value = '';
             searchInput.value = '';
-            bulkLevelSelect.value = '';
             fileStatus.classList.add('hidden');
             studentSection.classList.add('hidden');
             placeholderSection.classList.remove('hidden');
             showToast("Sistem başarıyla sıfırlandı.");
+        }
+
+        // Action: Clears all student evaluation inputs locally
+        function clearAllEvaluations() {
+            students.forEach(s => {
+                s.level = '';
+                s.absent = false;
+                s.notes = '';
+            });
+            renderStudents();
+            showToast("Tüm değerlendirmeler temizlendi.");
         }
 
         // Renders student rows in the spreadsheet-style list
@@ -494,19 +473,23 @@
                                    onchange="toggleAbsent(${student.id}, this.checked)"
                                    class="w-4.5 h-4.5 text-red-600 bg-slate-100 border-slate-300 rounded focus:ring-red-500 focus:ring-2 cursor-pointer transition">
                             <label for="absent-${student.id}" class="text-xs font-semibold ${student.absent ? 'text-red-700' : 'text-slate-500'} cursor-pointer">
-                                Devamsız
+                                Yok
                             </label>
                         </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="relative">
+                    <td class="px-6 py-4">
+                        <div class="w-full max-w-xl">
                             <select onchange="updateLevel(${student.id}, this.value)" 
-                                    class="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer ${getLevelColorClass(student.level)}">
+                                    class="block w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer whitespace-normal ${getLevelColorClass(student.level)}">
                                 <option value="" ${student.level === '' ? 'selected' : ''}>-- Seviye Seçin --</option>
-                                <option value="Hiç bilmiyor" ${student.level === 'Hiç bilmiyor' ? 'selected' : ''}>❌ Hiç bilmiyor</option>
-                                <option value="Anlar ama konuşamaz" ${student.level === 'Anlar ama konuşamaz' ? 'selected' : ''}>👂 Anlar ama konuşamaz</option>
-                                <option value="Okur yazar" ${student.level === 'Okur yazar' ? 'selected' : ''}>📚 Okur yazar</option>
-                                <option value="Konuşabilir" ${student.level === 'Konuşabilir' ? 'selected' : ''}>💬 Konuşabilir</option>
+                                <option value="Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir." ${student.level === 'Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir.' ? 'selected' : ''}>👋 Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir.</option>
+                                <option value="Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir." ${student.level === 'Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir.' ? 'selected' : ''}>🎨 Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir.</option>
+                                <option value="Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir." ${student.level === 'Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir.' ? 'selected' : ''}>📅 Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir.</option>
+                                <option value="Türkiye'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir." ${student.level === 'Türkiye\'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir.' ? 'selected' : ''}>🇹🇷 Türkiye'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir.</option>
+                                <option value="Geçmiş alışkanlıklar, aile anıları ve günlük sorumluluklar hakkında konuşabilir; toplumsal kurallara ilişkin görüşünü ifade edebilir." ${student.level === 'Geçmiş alışkanlıklar, aile anıları ve günlük sorumluluklar hakkında konuşabilir; toplumsal kurallara ilişkin görüşünü ifade edebilir.' ? 'selected' : ''}>⏳ Geçmiş alışkanlıklar, aile anıları ve günlük sorumluluklar hakkında konuşabilir; toplumsal kurallara ilişkin görüşünü ifade edebilir.</option>
+                                <option value="Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir." ${student.level === 'Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir.' ? 'selected' : ''}>🌍 Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir.</option>
+                                <option value="Kişilik özellikleri, kariyer hedefleri, sosyal sorumluluk ve çevre konularında ayrıntılı görüş bildirebilir." ${student.level === 'Kişilik özellikleri, kariyer hedefleri, sosyal sorumluluk ve çevre konularında ayrıntılı görüş bildirebilir.' ? 'selected' : ''}>💼 Kişilik özellikleri, kariyer hedefleri, sosyal sorumluluk ve çevre konularında ayrıntılı görüş bildirebilir.</option>
+                                <option value="Kültürel miras ve tarihi yapıları tanıtabilir, farklı bakış açılarını karşılaştırabilir; bilgilendirici metin yazabilir ve diller arası karışıklıkları fark edebilir." ${student.level === 'Kültürel miras ve tarihi yapıları tanıtabilir, farklı bakış açılarını karşılaştırabilir; bilgilendirici metin yazabilir ve diller arası karışıklıkları fark edebilir.' ? 'selected' : ''}>🏛️ Kültürel miras ve tarihi yapıları tanıtabilir, farklı bakış açılarını karşılaştırabilir; bilgilendirici metin yazabilir ve diller arası karışıklıkları fark edebilir.</option>
                             </select>
                         </div>
                     </td>
@@ -528,14 +511,28 @@
             updateStatusCounters();
         }
 
-        // Color coding classes for Language level dropdowns
+        // Color coding classes for Language level dropdowns (Exact Match Architecture)
         function getLevelColorClass(level) {
             switch(level) {
-                case 'Konuşabilir': return 'text-emerald-700 font-semibold bg-emerald-50 border-emerald-300';
-                case 'Okur yazar': return 'text-blue-700 font-semibold bg-blue-50 border-blue-300';
-                case 'Anlar ama konuşamaz': return 'text-amber-700 font-semibold bg-amber-50 border-amber-300';
-                case 'Hiç bilmiyor': return 'text-rose-700 font-semibold bg-rose-50 border-rose-300';
-                default: return 'text-slate-500';
+                case 'Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir.':
+                    return 'text-rose-700 font-semibold bg-rose-50 border-rose-300';
+                case 'Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir.':
+                    return 'text-amber-700 font-semibold bg-amber-50 border-amber-300';
+                case 'Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir.':
+                    return 'text-orange-700 font-semibold bg-orange-50 border-orange-300';
+                case 'Türkiye\'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir.':
+                case "Türkiye'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir.":
+                    return 'text-blue-700 font-semibold bg-blue-50 border-blue-300';
+                case 'Geçmiş alışkanlıklar, aile anıları ve günlük sorumluluklar hakkında konuşabilir; toplumsal kurallara ilişkin görüşünü ifade edebilir.':
+                    return 'text-indigo-700 font-semibold bg-indigo-50 border-indigo-300';
+                case 'Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir.':
+                    return 'text-purple-700 font-semibold bg-purple-50 border-purple-300';
+                case 'Kişilik özellikleri, kariyer hedefleri, sosyal sorumluluk ve çevre konularında ayrıntılı görüş bildirebilir.':
+                    return 'text-cyan-700 font-semibold bg-cyan-50 border-cyan-300';
+                case 'Kültürel miras ve tarihi yapıları tanıtabilir, farklı bakış açılarını karşılaştırabilir; bilgilendirici metin yazabilir ve diller arası karışıklıkları fark edebilir.':
+                    return 'text-emerald-700 font-semibold bg-emerald-50 border-emerald-300';
+                default: 
+                    return 'text-slate-500 bg-white';
             }
         }
 
@@ -555,7 +552,6 @@
             const index = students.findIndex(s => s.id === id);
             if (index !== -1) {
                 students[index].absent = isChecked;
-                // If student is marked absent, we optionally clear level or keep it (keeping is safer but let's re-render row styling)
                 const tr = document.getElementById(`absent-${id}`).closest('tr');
                 if (isChecked) {
                     tr.classList.add('bg-red-50/40', 'opacity-75');
@@ -577,7 +573,7 @@
                 
                 // Update row's dropdown class live to make it colourful
                 const selectElement = document.getElementById(`absent-${id}`).closest('tr').querySelector('select');
-                selectElement.className = `block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer ${getLevelColorClass(value)}`;
+                selectElement.className = `block w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer whitespace-normal ${getLevelColorClass(value)}`;
                 
                 // Update badge live
                 document.getElementById(`badge-${id}`).innerHTML = getStatusBadge(students[index]);
@@ -602,30 +598,6 @@
                 s.username.toLowerCase().includes(term)
             );
             renderStudents(filtered);
-        }
-
-        // Event: Apply bulk action changes to all students
-        function applyBulkLevel(val) {
-            if (!val) return;
-            
-            if (val === 'Temizle') {
-                students.forEach(s => {
-                    s.level = '';
-                    s.absent = false;
-                    s.notes = '';
-                });
-                showToast("Tüm değerlendirmeler sıfırlandı.");
-            } else {
-                students.forEach(s => {
-                    if (!s.absent) { // do not override absent students unless necessary
-                        s.level = val;
-                    }
-                });
-                showToast(`Tüm aktif öğrenciler "${val}" olarak ayarlandı.`);
-            }
-
-            renderStudents();
-            bulkLevelSelect.value = ''; // reset action selector
         }
 
         // Evaluation metrics calculation & updating progress visual indicators
@@ -655,7 +627,7 @@
                 ["KURS ADI:", courseName, "", "", "", ""],
                 ["DEĞERLENDİRME TARİHİ:", new Date().toLocaleDateString('tr-TR'), "", "", "", ""],
                 [], // Empty spacing row
-                ["Öğrencinin Adı", "Öğrencinin Soyadı", "Kullanıcı Adı", "Devamsızlık Durumu", "Dil Seviyesi", "Öğretmen Yorumu"]
+                ["Öğrencinin Adı", "Öğrencinin Soyadı", "Kullanıcı Adı", "Devamsızlık Durumu", "Dil Seviyesi / Kazanım Tanımı", "Öğretmen Yorumu"]
             ];
 
             // 2. Append student objects
@@ -680,7 +652,7 @@
                 { wch: 22 }, // Öğrencinin Soyadı
                 { wch: 18 }, // Kullanıcı Adı
                 { wch: 20 }, // Devamsızlık
-                { wch: 25 }, // Dil Seviyesi
+                { wch: 65 }, // Dil Seviyesi (Uzun metinler için genişletildi)
                 { wch: 45 }  // Yorumlar
             ];
 
