@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkçem Masalımda & Ülkem Yanımda Okuma Atölyesi</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #2d3436;
+            line-height: 1.6;
+            padding: 20px 10px;
+        }
+        .main-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        /* Banner Alanı */
+        .banner-container {
+            width: 100%;
+            position: relative;
+            display: block;
+        }
+        .banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        /* İçerik Alanı */
+        .content-section {
+            padding: 30px;
+        }
+        
+        /* 1. TÜRKÇEM MASALIMDA BÖLÜMÜ */
+        .section-box-1 {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .header-1 {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            padding: 25px 20px;
+            text-align: center;
+            color: white;
+        }
+        .header-1 h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .header-1 p {
+            margin: 8px 0 0 0;
+            font-size: 14.5px;
+            color: #f1f2f6;
+            opacity: 0.95;
+            font-style: italic;
+        }
+        .intro-text {
+            font-size: 15.5px;
+            line-height: 1.7;
+            color: #2d3436;
+            text-align: justify;
+            margin: 25px;
+            background: #f9f9fb;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #6c5ce7;
+        }
+        .cards-container {
+            padding: 0 25px 25px 25px;
+        }
+        .cards-container h3 {
+            color: #2d3436;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0 20px 0;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 10px;
+        }
+        .step-card {
+            margin-bottom: 18px;
+            padding: 18px;
+            border-radius: 12px;
+        }
+        .step-1 { background: #fff9f0; border: 1px solid #ffeaa7; }
+        .step-2 { background: #f0f7ff; border: 1px solid #74b9ff; }
+        .step-3 { background: #f4fff4; border: 1px solid #55efc4; }
+        .step-4 { background: #fff0f5; border: 1px solid #fd79a8; }
+        
+        .step-card h4 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .step-1 h4 { color: #e67e22; }
+        .step-2 h4 { color: #0984e3; }
+        .step-3 h4 { color: #10ac84; }
+        .step-4 h4 { color: #e84393; }
+        
+        .step-card h4 span {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+        .step-card p {
+            margin: 0;
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: #57606f;
+            text-align: justify;
+        }
+        
+        /* 2. ÜLKEM YANIMDA BÖLÜMÜ */
+        .section-box-2 {
+            background: #f8fafc;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .header-2 {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            padding: 25px 20px;
+            text-align: center;
+            color: white;
+        }
+        .header-2 h2 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .header-2 p {
+            margin: 8px 0 0 0;
+            font-size: 14px;
+            color: #e0e6ed;
+            opacity: 0.9;
+        }
+        .section-box-2-content {
+            padding: 25px;
+        }
+        .parent-salutation {
+            font-size: 16px;
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .parent-text {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #334155;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        .info-badge-box {
+            background-color: #ffffff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .badge-amber { border-left: 4px solid #f59e0b; }
+        .badge-green { border-left: 4px solid #10b981; }
+        
+        .info-badge-box h4 {
+            margin: 0 0 6px 0;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-amber h4 { color: #b45309; }
+        .badge-green h4 { color: #047857; }
+        
+        .info-badge-box p {
+            margin: 0;
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: #475569;
+        }
+        .important-list-box {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .important-list-box ul {
+            list-style-type: none;
+        }
+        .important-list-box li {
+            padding: 6px 0;
+            font-size: 14px;
+            color: #334155;
+            display: flex;
+            align-items: center;
+        }
+        .important-list-box li .icon-check {
+            color: #10b981;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .important-list-box li.deadline {
+            color: #ef4444;
+            font-weight: bold;
+            font-size: 14.5px;
+        }
+        .important-list-box li.deadline span {
+            margin-right: 10px;
+        }
+        .closing-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #475569;
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        /* 3. E-KİTAP KARTLARI BÖLÜMÜ */
+        .ekitap-section {
+            margin-bottom: 25px;
+        }
+        .ekitap-title {
+            text-align: center;
+            font-size: 18px;
+            color: #2d3436;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            border-bottom: 2px dashed #e2e8f0;
+            padding-bottom: 10px;
+        }
+        .ekitap-grid {
+            text-align: center;
+        }
+        .ekitap-card {
+            display: inline-block;
+            width: 220px;
+            margin: 12px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            vertical-align: top;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .ekitap-card:hover {
+            transform: translateY(-5px);
+        }
+        .ekitap-img-container {
+            width: 100%;
+            height: 150px;
+            background: #f8fafc;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .ekitap-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            display: block;
+            margin: auto;
+        }
+        .ekitap-info {
+            padding: 15px;
+        }
+        .ekitap-name {
+            font-size: 15px;
+            font-weight: bold;
+            color: #2d3436;
+            margin-bottom: 12px;
+            text-transform: capitalize;
+        }
+        .ekitap-btn {
+            display: inline-block;
+            padding: 8px 18px;
+            background: #6c5ce7;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: background 0.2s;
+        }
+        .ekitap-btn:hover {
+            background: #5b4cc4;
+        }
+        
+        /* Alt İletişim Alanı */
+        .cta-footer {
+            background: #f1f2f6;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e4e7eb;
+        }
+        .teams-btn {
+            display: inline-block;
+            width: 85%;
+            max-width: 340px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #2f3542, #57606f);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+        }
+        .contact-box p {
+            margin: 0 0 6px 0;
+            font-size: 12px;
+            color: #747d8c;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .email-link {
+            display: inline-block;
+            color: #6c5ce7;
+            font-weight: bold;
+            font-size: 15px;
+            text-decoration: none;
+            background: #ffffff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #dcdde1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .signature {
+            margin-top: 20px;
+            border-top: 1px solid #dcdde1;
+            padding-top: 15px;
+        }
+        .signature .title {
+            margin: 0;
+            font-size: 14px;
+            color: #747d8c;
+        }
+        .signature .name {
+            margin: 3px 0 0 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #2f3542;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        
+        <div class="banner-container">
+            <img src="afis.jpg" alt="Türkçem Masalımda Banner" class="banner-img">
+        </div>
+
+        <div class="content-section">
+            
+            <div class="section-box-1">
+                  
+                <p class="intro-text">
+                    <strong><i>Türkçem Masalımda</i></strong> atölyesi; farklı ülkelerde
+                    yaşayan, Türkçe ile büyüyen çocukların dil ile kültür arasındaki köprüyü
+                    masallar aracılığıyla yeniden keşfetmesi için tasarlanmış, etkileşimli ve
+                    yaratıcı bir çevrimiçi çalışma programıdır.
+                </p>
+
+                <div class="cards-container">
+                    <h3>✨ ATÖLYEDE NELER YAPILACAK? ✨</h3>
+                    
+                    <div class="step-card step-1">
+                        <h4><span>🎧</span> 1. Masal Okuma ve Dinleme</h4>
+                        <p>Atölyenin ilk aşamasında öğrenciler, özenle seçilmiş Türk masallarıyla tanışır. Sesli anlatım ve görsel materyallerle desteklenen bu etkinlikte çocuklar, masalı yalnızca dinlemekle kalmaz; kendi sesleriyle canlandırarak metnin içine adım atar. Bu süreç hem Türkçe dinleme ve konuşma becerilerini güçlendirir hem de masalla duygusal bir bağ kurulmasını sağlar.</p>
+                    </div>
+
+                    <div class="step-card step-2">
+                        <h4><span>✍️</span> 2. Kendi Masalını Yaz</h4>
+                        <p>Atölyenin yaratıcı yazarlık aşamasında her öğrenci, yaşadığı ülkeyle Türkiye'yi harmanlayan özgün bir masal oluşturur. Çocuklar bu etkinlik aracılığıyla iki kültür arasında kendi köprülerini kurar; farklı coğrafyalarda büyümenin getirdiği zengin bakış açısını sözcüklere döker. Yazma süreci; fikir geliştirme, taslak oluşturma ve düzeltme aşamalarıyla bütünlüklü bir yazarlık deneyimi sunar.</p>
+                    </div>
+
+                    <div class="step-card step-3">
+                        <h4><span>🔍</span> 3. Kültürel Unsurları Keşfet</h4>
+                        <p>Masallarda geçen gelenekler, kavramlar ve değerler üzerine sınıf içi sohbetler düzenlenir. Öğrenciler, Türk kültürünün izlerini hem masallarda hem de kendi gündelik yaşamlarında arar. Bu etkinlik; kültürel farkındalığı derinleştirirken aidiyet duygusunu da besler.</p>
+                    </div>
+
+                    <div class="step-card step-4">
+                        <h4><span>🚀</span> 4. Paylaş ve Sergile</h4>
+                        <p>Atölyenin son aşamasında tamamlanan masallar paylaşılır. Öğrenciler birbirlerinin eserlerini dinler, geri bildirim verir ve yazarlık deneyimini ortak bir süreç olarak yaşar. Seçilen eserler ise dijital bir masal kitabında bir araya getirilerek kalıcı bir ürüne dönüştürülür ve aileleriyle paylaşılır.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-box-2">
+                <div class="header-2">
+                    <h2>✨ "Ülkem Yanımda" Dijital Masal Kitabı ✨</h2>
+                    <p>Kültürlerimizi Masallarla Bir Araya Getiriyoruz</p>
+                </div>
+                
+                <div class="section-box-2-content">
+                    <p class="parent-salutation">Sayın Velimiz,</p>
+                    <p class="parent-text">
+                        <strong>"Ülkem Yanımda"</strong> projemiz kapsamında, öğrencilerimizin
+                        yaşadığı farklı ülke ve şehirlere ait kültürel değerleri yansıtan bir
+                        <strong>dijital masal kitabı</strong> hazırlanması planlanmaktadır.
+                    </p>
+
+                    <div class="info-badge-box badge-amber">
+                        <h4>📘 Projenin Amacı</h4>
+                        <p>Farklı coğrafyalarda yetişen öğrencilerimizin kültürel birikimlerini bir araya getirerek, hem eğitici hem de çocuk psikolojisine uygun bir kaynak eser oluşturmak; öğrenciler arasında kültürel farkındalık ve dayanışma duygusunu pekiştirmek temel hedefimizdir.</p>
+                    </div>
+
+                    <div class="info-badge-box badge-green">
+                        <h4>💡 Sizden Beklentimiz</h4>
+                        <p>Çocuğunuzun ikamet ettiği şehir veya ülkeye özgü, dikkat çekici ve eğitsel nitelik taşıyan bir masalı <strong>Türkçe</strong> olarak bizlere iletmenizdir. Masalın yerel kültüre, tarihe ya da doğaya dair bir öğe içermesi projenin zenginliği açısından büyük önem taşımaktadır.</p>
+                    </div>
+
+                    <div class="important-list-box">
+                        <ul>
+                            <li><span class="icon-check">✔</span> Katkıda bulunan her öğrencinin ismi kitapta yer alacaktır.</li>
+                            <li><span class="icon-check">✔</span> Masallar incelenerek uygun düzenlemeler yapılabilecektir.</li>
+                            <li class="deadline"><span>⏰</span> Son Gönderim Tarihi: 31 Mayıs 2026</li>
+                        </ul>
+                    </div>
+
+                    <p class="closing-text">Katılımınız ve desteğiniz için şimdiden teşekkür eder, bu anlamlı projeye birlikte imza atmaktan onur duyacağımızı belirtiriz.</p>
+                </div>
+            </div>
+
+            <div class="ekitap-section">
+                <div class="ekitap-title">📚 Dijital Masal Kitaplarımız</div>
+                
+                <div class="ekitap-grid">
+                    
+                    <div class="ekitap-card">
+                        <div class="ekitap-img-container">
+                            <img src="birgramtuz.jpg" alt="Bir Gram Tuz" class="ekitap-img">
+                        </div>
+                        <div class="ekitap-info">
+                            <div class="ekitap-name">Bir Gram Tuz</div>
+                            <a href="birgramtuz/index.html" class="ekitap-btn" target="_blank">E-Kitabı Oku</a>
+                        </div>
+                    </div>
+
+                    <div class="ekitap-card">
+                        <div class="ekitap-img-container">
+                            <img src="kargailebulbul.jpg" alt="Karga ile Bülbül" class="ekitap-img">
+                        </div>
+                        <div class="ekitap-info">
+                            <div class="ekitap-name">Karga ile Bülbül</div>
+                            <a href="kargailebulbul/index.html" class="ekitap-btn" target="_blank">E-Kitabı Oku</a>
+                        </div>
+                    </div>
+
+                    <div class="ekitap-card">
+                        <div class="ekitap-img-container">
+                            <img src="sultansuyu.jpg" alt="Sultan Suyu" class="ekitap-img">
+                        </div>
+                        <div class="ekitap-info">
+                            <div class="ekitap-name">Sultan Suyu</div>
+                            <a href="sultansuyu/index.html" class="ekitap-btn" target="_blank">E-Kitabı Oku</a>
+                        </div>
+                    </div>
+
+                    <div class="ekitap-card">
+                        <div class="ekitap-img-container">
+                            <img src="unye.jpg" alt="Ünye" class="ekitap-img">
+                        </div>
+                        <div class="ekitap-info">
+                            <div class="ekitap-name">Ünye</div>
+                            <a href="unye/index.html" class="ekitap-btn" target="_blank">E-Kitabı Oku</a>
+                        </div>
+                    </div>
+
+                    <div class="ekitap-card">
+                        <div class="ekitap-img-container">
+                            <img src="yogurt.jpg" alt="Yoğurt" class="ekitap-img">
+                        </div>
+                        <div class="ekitap-info">
+                            <div class="ekitap-name">Yoğurt</div>
+                            <a href="yogurt/index.html" class="ekitap-btn" target="_blank">E-Kitabı Oku</a>
+                        </div>
+                    </div>
+
+                    <div class="ekitap-card">
+                        <div class="ekitap-img-container">
+                            <img src="kahve.jpg" alt="Kahve" class="ekitap-img">
+                        </div>
+                        <div class="ekitap-info">
+                            <div class="ekitap-name">Kahve</div>
+                            <a href="kahve/index.html" class="ekitap-btn" target="_blank">E-Kitabı Oku</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="cta-footer">
+            <div>
+                <a class="teams-btn" href="http://teams.microsoft.com/dl/launcher/launcher.html?url=%2F_%23%2Fmeet%2F396001713320%3Fp%3DEdBJAWNFCGj5kOBGUK%26anon%3Dtrue&amp;type=meet&amp;deeplinkId=4112c3a3-47cf-4428-9bf0-99944c4c0de8&amp;directDl=true&amp;msLaunch=true&amp;enableMobilePage=true&amp;suppressPrompt=true" target="_blank" rel="noopener">
+                    💻 ATÖLYE GİRİŞ LİNKİ (TEAMS)
+                </a>
+            </div>
+            
+
+        </div>
+
+    </div>
+
+</body>
+</html>

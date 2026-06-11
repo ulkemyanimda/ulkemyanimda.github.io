@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ünye Kalesi'nin Fethi</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&amp;family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; background: #fefce8; }
+    .book-wrapper { perspective: 1800px; width: 100%; height: 100%; }
+    .page { position: absolute; inset: 0; backface-visibility: hidden; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.4s ease; transform-origin: left center; will-change: transform, opacity; }
+    .page.current { transform: rotateY(0deg); opacity: 1; z-index: 10; }
+    .page.next { transform: rotateY(0deg); opacity: 0; z-index: 5; pointer-events: none; }
+    .page-enter-from-right { animation: enterRight 0.8s forwards; }
+    .page-exit-to-left { animation: exitLeft 0.8s forwards; }
+    .page-enter-from-left { animation: enterLeft 0.8s forwards; }
+    .page-exit-to-right { animation: exitRight 0.8s forwards; }
+    @keyframes enterRight { from { transform: rotateY(40deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+    @keyframes exitLeft { from { transform: rotateY(0deg); opacity: 1; } to { transform: rotateY(-120deg); opacity: 0; } }
+    @keyframes enterLeft { from { transform: rotateY(-40deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+    @keyframes exitRight { from { transform: rotateY(0deg); opacity: 1; } to { transform: rotateY(120deg); opacity: 0; } }
+    .nav-btn { transition: all 0.3s ease; backdrop-filter: blur(8px); cursor: pointer; }
+    .nav-btn:hover { transform: scale(1.1); }
+    .dot { width: 10px; height: 10px; border-radius: 50%; transition: all 0.4s ease; cursor: pointer; }
+    .dot.active { transform: scale(1.4); }
+    .story-text { font-family: 'Quicksand', sans-serif; line-height: 1.75; }
+    .title-font { font-family: 'Baloo 2', cursive; }
+    .img-placeholder { aspect-ratio: 3/2; border-radius: 16px; overflow: hidden; background: #e5e7eb; border: 4px solid white; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+    /* Sayfa Arka Planları */
+    .page-bg-0 { background: linear-gradient(160deg, #fef3c7, #fde68a); }
+    .page-bg-1 { background: linear-gradient(160deg, #ecfdf5, #d1fae5); }
+    .page-bg-2 { background: linear-gradient(160deg, #fff7ed, #ffedd5); }
+    .page-bg-3 { background: linear-gradient(160deg, #eff6ff, #dbeafe); }
+    .page-bg-4 { background: linear-gradient(160deg, #fdf2f8, #fce7f3); }
+    .page-bg-5 { background: linear-gradient(160deg, #fefce8, #fef9c3); }
+    .page-bg-6 { background: linear-gradient(160deg, #f5f3ff, #ede9fe); }
+    .float-anim { animation: floatUp 3s ease-in-out infinite; }
+    @keyframes floatUp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  </style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full flex flex-col items-center justify-center">
+   <div class="relative w-full h-full max-w-2xl mx-auto flex flex-col shadow-2xl overflow-hidden bg-white">
+    
+    <div class="flex-1 relative overflow-hidden book-wrapper" id="bookArea">
+     
+     <div class="page current page-bg-0" data-page="0" id="page-0" style="background-image: url('kapak.jpg'); background-size: cover; background-position: center;">
+      <div class="h-full flex flex-col items-center justify-center p-6 relative bg-amber-50/80">
+       <div class="float-anim mb-4" style="font-size:5rem;">🏰</div>
+       <h1 class="title-font text-5xl font-extrabold text-amber-900 text-center mb-2 leading-tight">Ünye Kalesi'nin Fethi</h1>
+       <p class="story-text text-amber-800 text-xl text-center font-medium">Dânişmend Gazi'nin Zekâsı</p>
+       <div class="mt-12 flex items-center gap-2 text-amber-600 animate-pulse cursor-pointer">
+        <span class="text-sm font-bold tracking-widest">OKUMAYA BAŞLA</span>
+        <i data-lucide="chevron-right"></i>
+       </div>
+      </div>
+     </div>
+
+     <div class="page next page-bg-1" data-page="1" id="page-1">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-emerald-600 mb-2 tracking-widest uppercase">Efsanevi Kale</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="1.jpg" alt="Ünye Kalesi" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+       <h2 class="title-font text-2xl font-bold text-emerald-900 mb-2">ÜNYE KALESİ’NİN FETHİ</h2>
+       <p class="story-text text-gray-800 text-lg">Ünye Kalesi, ilçeye yaklaşık 3 km uzaklıktadır. Bölgeye hâkim ve el değiştirmesi hemen hemen imkânsız bir yapıya sahiptir. Eskiden bu kale çok meşhurmuş. Çünkü burada devrin en önemli silahları bol miktarda bulunmaktaymış. Hatta silahlar burada üretildiği için cephanenin bitmesi de mümkün değilmiş.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-2" data-page="2" id="page-2">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-orange-600 mb-2 tracking-widest uppercase">Kuşatma Başlıyor</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="2.jpg" alt="Kuşatma" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+       <p class="story-text text-gray-800 text-lg">Dânişmend Gazi, Niksar’ı fethedip burayı başkent yaptıktan sonra Ünye tarafına sefer düzenler. Askerleriyle bu kaleyi kuşatır. Fakat düşmanlar sur içinden sürekli ok atmaktadır.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-3" data-page="3" id="page-3">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-blue-600 mb-2 tracking-widest uppercase">Zorlu Bekleyiş</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="3.jpg" alt="Bekleyiş" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+       <p class="story-text text-gray-800 text-lg">Türkler, kale içindeki mevcut okların bitmesi için birkaç gün beklerler. Fakat bitecek gibi görünmez. Artık yapacak bir şey kalmaz.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-4" data-page="4" id="page-4">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-pink-600 mb-2 tracking-widest uppercase">Büyük Plan</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="4.jpg" alt="Keçiler" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+       <p class="story-text text-gray-800 text-lg">Kalenin sadece bir oyun ile ele geçirilebileceğini düşünen Dânişmend Gazi, askerlerine çok sayıda keçi bulmalarını emreder. Askerler çevreye dağılır, keçi toplamaya başlarlar.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-5" data-page="5" id="page-5">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-yellow-600 mb-2 tracking-widest uppercase">Gece Baskını</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="5.jpg" alt="Mumlar ve Keçiler" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+       <p class="story-text text-gray-800 text-lg">Bu arada da planlarından kimseye bahsetmezler. Askerler keçileri bir araya getirirler. Gece karanlığı her tarafı kaplayınca keçilerin boynuzlarına mumlar bağlayarak kale istikametine doğru salarlar.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-6" data-page="6" id="page-6">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-violet-600 mb-2 tracking-widest uppercase">Zafer</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="6.jpg" alt="Teslim" class="w-full h-full object-cover" onerror="this.style.display='none'"></div>
+       <p class="story-text text-gray-800 text-lg">Düşmanlar karanlıkta boynuzlarında ışık yanan keçileri Türk askerleri sanırlar. Bu kadar askere karşı koyamayacaklarını anlayınca hemen teslim olurlar. Böylece Ünye Kalesi, Dânişmend Gazi’nin kıvrak zekâsıyla, Türklerin eline geçmiş olur.</p>
+       <p class="text-center text-violet-600 font-bold title-font mt-8 text-2xl animate-bounce">— SON —</p>
+      </div>
+     </div>
+
+     <button id="prevBtn" class="nav-btn absolute left-4 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-white/90 text-amber-900 flex items-center justify-center shadow-xl" style="display:none;" onclick="prevPage()"><i data-lucide="chevron-left"></i></button>
+     <button id="nextBtn" class="nav-btn absolute right-4 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-white/90 text-amber-900 flex items-center justify-center shadow-xl" onclick="nextPage()"><i data-lucide="chevron-right"></i></button>
+    </div>
+
+    <div class="flex-shrink-0 h-14 border-t flex items-center justify-between px-6 bg-slate-50">
+      <div class="w-10"></div>
+      <div class="dots-container" id="dotsContainer"></div>
+      <button onclick="toggleFullscreen()" class="nav-btn w-10 h-10 flex items-center justify-center text-gray-500 hover:text-amber-600" title="Tam Ekran">
+        <i data-lucide="maximize" id="fsIcon"></i>
+      </button>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    const TOTAL_PAGES = 7;
+    let currentPage = 0;
+    let animating = false;
+
+    const dotsContainer = document.getElementById('dotsContainer');
+    for (let i = 0; i < TOTAL_PAGES; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.onclick = () => goToPage(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateDots() {
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.style.background = i === currentPage ? '#92400e' : '#cbd5e1';
+        d.classList.toggle('active', i === currentPage);
+      });
+    }
+
+    function updateNav() {
+      document.getElementById('prevBtn').style.display = currentPage > 0 ? 'flex' : 'none';
+      document.getElementById('nextBtn').style.display = currentPage < TOTAL_PAGES - 1 ? 'flex' : 'none';
+    }
+
+    function animateTransition(fromIdx, toIdx, direction) {
+      if (animating || fromIdx === toIdx) return;
+      animating = true;
+      const fromEl = document.getElementById('page-' + fromIdx);
+      const toEl = document.getElementById('page-' + toIdx);
+      
+      document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('current', 'page-enter-from-right', 'page-exit-to-left', 'page-enter-from-left', 'page-exit-to-right');
+        if (p.id !== 'page-' + fromIdx && p.id !== 'page-' + toIdx) p.style.opacity = '0';
+      });
+
+      toEl.style.opacity = '1';
+      toEl.style.zIndex = '20';
+      fromEl.style.zIndex = '10';
+
+      if (direction === 'forward') {
+        fromEl.classList.add('page-exit-to-left');
+        toEl.classList.add('page-enter-from-right');
+      } else {
+        fromEl.classList.add('page-exit-to-right');
+        toEl.classList.add('page-enter-from-left');
+      }
+
+      setTimeout(() => {
+        currentPage = toIdx;
+        document.querySelectorAll('.page').forEach((p, idx) => {
+          p.style.opacity = idx === currentPage ? '1' : '0';
+          p.style.zIndex = idx === currentPage ? '10' : '5';
+          p.className = 'page ' + (idx === currentPage ? 'current' : 'next') + ' page-bg-' + idx;
+        });
+        updateDots();
+        updateNav();
+        animating = false;
+      }, 800);
+    }
+
+    function nextPage() { if (currentPage < TOTAL_PAGES - 1) animateTransition(currentPage, currentPage + 1, 'forward'); }
+    function prevPage() { if (currentPage > 0) animateTransition(currentPage, currentPage - 1, 'backward'); }
+    function goToPage(i) { if (i !== currentPage) animateTransition(currentPage, i, i > currentPage ? 'forward' : 'backward'); }
+
+    function toggleFullscreen() {
+      const app = document.getElementById('app');
+      if (!document.fullscreenElement) {
+        app.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    document.getElementById('page-0').addEventListener('click', () => { if(currentPage === 0) nextPage(); });
+    
+    updateDots();
+    updateNav();
+    lucide.createIcons();
+  </script>
+ </body>
+</html>

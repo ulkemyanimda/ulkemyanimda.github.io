@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Müzeyyen Hanım'ın Kahve Hikayesi</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&amp;family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; background: #fafaf9; }
+    .book-wrapper { perspective: 1800px; width: 100%; height: 100%; }
+    .page { position: absolute; inset: 0; backface-visibility: hidden; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.4s ease; transform-origin: left center; }
+    .page.current { transform: rotateY(0deg); opacity: 1; z-index: 10; }
+    .page.next { transform: rotateY(0deg); opacity: 0; z-index: 5; pointer-events: none; }
+    
+    /* Animasyonlar */
+    .page-enter-from-right { animation: enterRight 0.8s forwards; }
+    .page-exit-to-left { animation: exitLeft 0.8s forwards; }
+    .page-enter-from-left { animation: enterLeft 0.8s forwards; }
+    .page-exit-to-right { animation: exitRight 0.8s forwards; }
+    @keyframes enterRight { from { transform: rotateY(40deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+    @keyframes exitLeft { from { transform: rotateY(0deg); opacity: 1; } to { transform: rotateY(-120deg); opacity: 0; } }
+    @keyframes enterLeft { from { transform: rotateY(-40deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+    @keyframes exitRight { from { transform: rotateY(0deg); opacity: 1; } to { transform: rotateY(120deg); opacity: 0; } }
+
+    .story-text { font-family: 'Quicksand', sans-serif; line-height: 1.7; text-align: justify; }
+    .title-font { font-family: 'Baloo 2', cursive; }
+    
+    /* Resim Sarmalama (Float) - 180px boyutu korunmuştur */
+    .img-wrap { 
+      width: 300px; 
+      height: 300px; 
+      border-radius: 15px; 
+      border: 4px solid white; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .float-left { float: left; margin-right: 15px; }
+    .float-right { float: right; margin-left: 15px; }
+    
+    .dot.active { transform: scale(1.5); background: #854d0e !important; }
+    .page-content { height: 100%; overflow-y: auto; padding: 1.5rem; scrollbar-width: none; }
+    .page-content::-webkit-scrollbar { display: none; }
+  </style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full flex flex-col items-center justify-center">
+   <div class="relative w-full h-full max-w-2xl mx-auto flex flex-col shadow-2xl bg-white border-x border-stone-200">
+    
+    <div class="flex-1 relative overflow-hidden book-wrapper" id="bookArea">
+     
+     <div class="page current" data-page="0" id="page-0" style="background-image: url('kapak.jpg'); background-size: cover; background-position: center;">
+      <div class="h-full flex flex-col items-center justify-center p-6 bg-stone-100/80 backdrop-blur-[2px] text-center">
+       <div class="mb-4 text-7xl animate-pulse">☕</div>
+       <h1 class="title-font text-5xl font-extrabold text-amber-950 mb-2 drop-shadow-sm">Müzeyyen Hanım'ın Kahve Hikayesi</h1>
+       <p class="story-text text-amber-900 text-xl font-semibold">Bir Cezve, Bir Fincan, Kırk Yıllık Anı</p>
+       <div class="mt-12 p-3 bg-amber-900 text-white rounded-full px-8 font-bold shadow-lg cursor-pointer hover:bg-amber-950 transition-colors">OKUMAYA BAŞLA</div>
+      </div>
+     </div>
+
+     <div class="page next bg-orange-50" data-page="1" id="page-1">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-amber-900 mb-4 border-b-2 border-orange-200">Kırk Yıllık Cezve</h2>
+        <div class="img-wrap float-left"><img src="1.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Cezve'"></div>
+        <div class="story-text text-gray-800 text-base">
+          Müzeyyen Hanım, kırk yıldır kocası ve kendisi için pişirdiği kahveyi o sabah da neşe içinde ateşe koydu. O sırada gözü mutfak tezgâhının üstünde duran kırmızı kahve makinesine takıldı. Kızı Selma geçen yıl doğum günü hediyesi olarak bu makineyi getirmişti. “Artık cezveyle uğraşmana gerek yok anne, bu makine kısa sürede kahveyi yapıyor.” demişti. Birkaç sefer kahveyi makinede pişirdi Müzeyyen Hanım. Pero ne kendisi ne de kocası Mesut Bey makine işi kahveyi sevemedi bir türlü. “Kahve dediğin kısık ateşte cezvede pişer.” diyerek makineyi kullanmadı bir daha Müzeyyen Hanım. Ama kızı kırılmasın diye tezgâhın üstünden de kaldırmadı. Gözü yavaş yavaş pişen kahvede raftan fincanları indirdi, tepsiye yerleştirdi. Su bardaklarını da doldurup yanlarına koydu. Aklına annesi geldi, fincanlar ondan yadigâr kalmıştı. Kahve sevgisi annesinden geçmişti Müzeyyen Hanım’a. Kahve kokusu ona her zaman annesini hatırlatırdı. Pencere önündeki tekli koltuğunda oturup kitabını okurken kahvesini yudumlayan annesini… Evde kahveleri daima babası pişirirdi. Hatta Müzeyyen Hanım kahveyi yapmayı babasından öğrenmişti. Tıpkı bisiklet sürmeyi, yüzmeyi veya araba kullanmayı da ondan öğrendiği gibi…
+        </div>
+      </div>
+     </div>
+
+     <div class="page next bg-amber-50" data-page="2" id="page-2">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-amber-900 mb-4 border-b-2 border-amber-200">Babasının Tarifi</h2>
+        <div class="img-wrap float-right"><img src="2.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Tarif'"></div>
+        <div class="story-text text-gray-800 text-base">
+          Müzeyyen Hanım, babası gibi bir babaya sahip olduğu için kendini çok şanslı hissederdi. Sabırlı, sevgi dolu, aydın bir adamdı babası Ali Bey. Babası ona kahve pişirmeyi öğrettiğinde henüz on yaşında bir çocuktu Müzeyyen Hanım. O gün, annesi Sabiha Hanım’ın doğum günüydü. Ona doğum günü hediyesi olarak kendi elleriyle pişirdiği kahveyi ikram etmek istiyordu. Aklındakileri babasıyla paylaşıp ondan yardım isteyince babası: “Ne güzel düşünmüşsün kızım. Gel bakalım mutfağa. Annen balkonda çiçekleri suluyor. O fark etmeden pişirirsin kahvesini.” demişti. Müzeyyen Hanım, pişirdiği o ilk kahveyi hiç unutmadı. Ne zaman kahve yapmak için ocağın başına geçse babasının o günkü cümleleri geçti zihninden. “Annen az şekerli içer kahvesini. Önce cezveye bir tatlı kaşığı kahveyi koy bakalım. Üzerine de bir çay kaşığı toz şeker ekle. Şimdi ikisini iyice karıştır.” “Su eklemeden mi karıştıracağım baba?” “Evet. Suyu sonra ekleyeceksin. İyice karıştırdın mı? Tamam, şimdi fincanı al, su ile doldur, suyu cezveye boşalt.” “Soğuk su mu, sıcak su mu koyacağım peki?” “Soğuk su koyacaksın. Sonra da tekrar güzelce karıştıracaksın... Tamam, iyice karışmış. Şimdi ocağı yak, ateşi iyice kıs ama… Çünkü en güzel kahve kısık ateşte pişen kahvedir.
+        </div>
+      </div>
+     </div>
+
+     <div class="page next bg-orange-50" data-page="3" id="page-3">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-amber-800 mb-4 border-b-2 border-orange-200">İlk Kahvenin Köpüğü</h2>
+        <div class="img-wrap float-left"><img src="3.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Köpük'"></div>
+        <div class="story-text text-gray-800 text-base">
+          Müzeyyen Hanım, babasının tarifiyle ocağa koyduğu o ilk kahvenin üzerinin nasıl yavaş yavaş köpüklendiğini, tam taşacakken ocaktan cezveyi nasıl aldıklarını, fincana önce köpüğünü koyduklarını, hepsini daha dün yaşanmış gibi hatırlıyordu. Elleri hafif titreyerek annesine götürmüştü kahvesini. “Ben pişirdim bunu anne. Doğum günün için.” demişti. Nasıl da mutlu olmuştu annesi. 
+        </div>
+      </div>
+     </div>
+
+     <div class="page next bg-amber-50" data-page="4" id="page-4">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-amber-900 mb-4 border-b-2 border-amber-200">Balkon Sefası</h2>
+        <div class="img-wrap float-right"><img src="4.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Balkon'"></div>
+        <div class="story-text text-gray-800 text-base">
+         “Müzeyyen kahve taşıyor baksana. Dalıp gitmişsin, iyi misin neyin var?”  Mesut Bey’in sesi geçmişten sıyırdı Müzeyyen Hanım’ı. Neyse ki taşırmadan son anda almıştı cezveyi ocağın üstünden. Önce köpüğü paylaştırdı fincanlara, sonra buram buram kokan kahveyi doldurdu. Fincanların yanına birer de gül lokumu koydu. “Balkonda içelim mi bugün kahveyi Mesut? Hava çok güzel. Sana ilk kez kahve pişirdiğim günü anlatmış mıydım?”
+          <p class="text-center font-extrabold text-amber-900 mt-6 text-2xl animate-pulse">— SON —</p>
+        </div>
+      </div>
+     </div>
+
+     <button id="prevBtn" class="absolute left-3 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-white/90 shadow-xl flex items-center justify-center hover:scale-110 transition-all" style="display:none;" onclick="prevPage()"><i data-lucide="chevron-left" class="text-amber-950"></i></button>
+     <button id="nextBtn" class="absolute right-3 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-white/90 shadow-xl flex items-center justify-center hover:scale-110 transition-all" onclick="nextPage()"><i data-lucide="chevron-right" class="text-amber-950"></i></button>
+    </div>
+
+    <div class="h-14 border-t flex items-center justify-between px-6 bg-stone-50">
+      <button onclick="toggleFullscreen()" class="p-2 text-stone-400 hover:text-amber-900 transition-colors" title="Tam Ekran"><i data-lucide="maximize"></i></button>
+      <div class="dots-container flex gap-2" id="dotsContainer"></div>
+      <div class="w-10"></div>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    const TOTAL_PAGES = 5; // Kapak + 4 Sayfa
+    let currentPage = 0;
+    let animating = false;
+
+    // Noktaları oluştur
+    const dotsContainer = document.getElementById('dotsContainer');
+    for (let i = 0; i < TOTAL_PAGES; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot w-2 h-2 rounded-full bg-stone-300 transition-all cursor-pointer';
+      dot.onclick = () => goToPage(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateUI() {
+      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentPage));
+      document.getElementById('prevBtn').style.display = currentPage > 0 ? 'flex' : 'none';
+      document.getElementById('nextBtn').style.display = currentPage < TOTAL_PAGES - 1 ? 'flex' : 'none';
+    }
+
+    function animatePage(from, to, dir) {
+      if (animating || from === to) return;
+      animating = true;
+      const fromEl = document.getElementById('page-' + from);
+      const toEl = document.getElementById('page-' + to);
+      
+      toEl.style.opacity = '1';
+      toEl.style.zIndex = '20';
+      
+      if (dir === 'fwd') {
+        fromEl.classList.add('page-exit-to-left');
+        toEl.classList.add('page-enter-from-right');
+      } else {
+        fromEl.classList.add('page-exit-to-right');
+        toEl.classList.add('page-enter-from-left');
+      }
+
+      setTimeout(() => {
+        currentPage = to;
+        document.querySelectorAll('.page').forEach((p, idx) => {
+          p.className = 'page ' + (idx === currentPage ? 'current' : 'next');
+          p.style.opacity = idx === currentPage ? '1' : '0';
+          p.style.zIndex = idx === currentPage ? '10' : '5';
+        });
+        updateUI();
+        animating = false;
+      }, 800);
+    }
+
+    function nextPage() { if (currentPage < TOTAL_PAGES - 1) animatePage(currentPage, currentPage + 1, 'fwd'); }
+    function prevPage() { if (currentPage > 0) animatePage(currentPage, currentPage - 1, 'bwd'); }
+    function goToPage(i) { if (i !== currentPage) animatePage(currentPage, i, i > currentPage ? 'fwd' : 'bwd'); }
+    
+    function toggleFullscreen() {
+      const app = document.getElementById('app');
+      if (!document.fullscreenElement) {
+        app.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // Kapak tıklama ile başlama
+    document.getElementById('page-0').onclick = (e) => { 
+      if(!e.target.closest('.nav-btn')) nextPage(); 
+    };
+    
+    // Klavye kontrolleri
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "ArrowRight") nextPage();
+      if (e.key === "ArrowLeft") prevPage();
+    });
+
+    updateUI();
+    lucide.createIcons();
+  </script>
+ </body>
+</html>
