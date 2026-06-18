@@ -312,7 +312,10 @@
         });
 
         // Confetti button click
-        document.getElementById('confettiBtn').addEventListener('click', triggerConfetti);
+        const confettiBtn = document.getElementById('confettiBtn');
+        if (confettiBtn) {
+            confettiBtn.addEventListener('click', triggerConfetti);
+        }
 
         // Initial launch
         window.onload = () => {
