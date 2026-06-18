@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İyi Tatiller Ülkem Yanımda Ailesi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Custom smooth transition */
+        .transition-all-300 {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Sun rays animation */
+        @keyframes pulse-slow {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+        }
+
+        .animate-pulse-slow {
+            animation: pulse-slow 4s ease-in-out infinite;
+        }
+
+        /* Float animation */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body
+    class="min-h-screen bg-gradient-to-tr from-sky-400 via-amber-100 to-orange-300 flex items-center justify-center p-4 md:p-8 overflow-x-hidden relative">
+
+    <!-- Decorative background elements -->
+    <div
+        class="absolute top-10 left-10 w-32 h-32 bg-yellow-300 rounded-full blur-3xl opacity-60 animate-pulse-slow pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-10 right-10 w-44 h-44 bg-pink-300 rounded-full blur-3xl opacity-50 animate-pulse-slow pointer-events-none">
+    </div>
+
+    <!-- Main Card Container -->
+    <div
+        class="w-full max-w-2xl bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 p-6 md:p-10 relative z-10 transition-all-300 hover:shadow-orange-200/50 hover:shadow-3xl">
+
+        <!-- Logo Section with fallback -->
+        <div class="flex flex-col items-center justify-center mb-6">
+            <div class="relative group">
+                <div
+                    class="absolute -inset-1.5 bg-gradient-to-r from-amber-400 to-orange-500 rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200">
+                </div>
+                <!-- deneme.jpg logo display with professional fallback -->
+                <img src="https://ulkemyanimda.eba.gov.tr/web/index_files/logo.svg" alt="Ülkem Yanımda Logo"
+                    class="relative w-40 h-auto min-h-[50px] object-contain rounded-xl bg-white p-2 shadow-md transition-all-300 hover:scale-105"
+                    onerror="this.onerror=null; this.src='https://placehold.co/200x80/ffedd5/ea580c?text=Ülkem+Yanımda';" />
+            </div>
+        </div>
+
+        <!-- Headline Section -->
+        <div class="text-center mb-8">
+            <h1
+                class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-red-600 tracking-tight leading-tight mb-4 drop-shadow-sm">
+                İyi Tatiller<br class="sm:hidden"> Ülkem Yanımda Ailesi
+            </h1>
+            <p class="text-gray-700 text-base md:text-lg leading-relaxed max-w-xl mx-auto">
+                Koca bir dönemi geride bıraktık! Gösterdiğiniz üstün gayret ve azim için hepinizle gurur duyuyoruz.
+                Şimdi dinlenme, eğlenme ve enerji toplama vakti! 🎉
+            </p>
+        </div>
+
+        <!-- Interactive Confetti Rain Button 
+        <div class="flex justify-center mb-8">
+            <button 
+                id="confettiBtn" 
+                class="px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:from-orange-600 hover:to-amber-600 active:scale-95 transition-all duration-150 flex items-center gap-3 text-lg animate-float"
+            >
+                <i class="fa-solid fa-wand-magic-sparkles text-xl"></i>
+                Tebrik Yağmuru Başlat!
+            </button>
+        </div>-->
+
+        <!-- Summer Checklist Card -->
+        <div
+            class="bg-white/90 rounded-2xl p-6 border border-amber-100 shadow-sm mb-8 transition-all-300 hover:shadow-md">
+            <h3 class="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-list-check text-orange-500"></i>
+                Harika Bir Tatil İçin Küçük Öneriler
+            </h3>
+
+            <div id="checklist" class="space-y-3">
+                <!-- Checklist items will be dynamically generated and updated -->
+            </div>
+        </div>
+
+        <!-- Daily Tip / Suggestion Generator -->
+        <div
+            class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-orange-100 text-center relative overflow-hidden">
+            <div class="absolute -right-6 -bottom-6 text-orange-200/20 text-8xl pointer-events-none">
+                <i class="fa-solid fa-umbrella-beach"></i>
+            </div>
+            <h4 class="text-sm font-semibold uppercase tracking-wider text-orange-600 mb-2">Günün Tatil Eğlencesi</h4>
+            <p id="tipText"
+                class="text-gray-800 font-medium text-base md:text-lg transition-all duration-300 min-h-[50px] flex items-center justify-center px-4">
+                Yaz tatilinde harika bir kitap seçip yeni dünyalara yelken açmaya ne dersin? 📚
+            </p>
+            <button id="nextTipBtn"
+                class="mt-4 px-5 py-2 bg-white text-orange-600 font-semibold text-sm rounded-xl border border-orange-200 hover:bg-orange-50 transition-colors flex items-center gap-2 mx-auto shadow-sm">
+                <i class="fa-solid fa-rotate"></i>
+                Başka Bir Tavsiye Al
+            </button>
+        </div>
+
+        <!-- Beautiful Footer -->
+        <div class="text-center mt-8 pt-6 border-t border-gray-100">
+            <p class="text-sm text-amber-800/80 font-medium">
+                Sevgiyle, sağlıkla ve neşeyle dolu bir tatil dileriz. ✨
+            </p>
+            <p class="text-xs text-gray-400 mt-2">
+                &copy; 2026 Ülkem Yanımda Projesi. Tüm Hakları Saklıdır.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Synthesize nice sounds on interaction using Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTone(freq, type = 'sine', duration = 0.15) {
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log("Audio not allowed yet");
+            }
+        }
+
+        // Fun sound effects
+        const playSuccessSound = () => {
+            playTone(523.25, 'triangle', 0.1); // C5
+            setTimeout(() => playTone(659.25, 'triangle', 0.15), 80); // E5
+            setTimeout(() => playTone(783.99, 'triangle', 0.2), 160); // G5
+        };
+
+        const playCheckSound = (checked) => {
+            if (checked) {
+                playTone(440, 'sine', 0.1); // A4
+                setTimeout(() => playTone(554.37, 'sine', 0.15), 70); // C#5
+            } else {
+                playTone(392, 'sine', 0.1); // G4
+                setTimeout(() => playTone(329.63, 'sine', 0.15), 70); // E4
+            }
+        };
+
+        // Checklist tasks definition
+        const tasks = [
+            { id: 1, text: "Günde en az 20 sayfa keyifli bir kitap oku 📚" },
+            { id: 2, text: "Ailenle veya arkadaşlarınla açık havada yürüyüş yap 🌳" },
+            { id: 3, text: "Yeni bir hobi dene veya bir resim çiz 🎨" },
+            { id: 4, text: "Ekran süreni sınırla ve doğayı keşfet 📱❌" },
+            { id: 5, text: "Bol bol dinlen ve her gün en az 8 saat uyu 💤" },
+            { id: 6, text: "En sevdiğin meyvelerle serinletici bir içecek hazırla 🍹" }
+        ];
+
+        // Tips array
+        const tips = [
+            "Bugün telefonunu bir kenara bırakıp sadece gökyüzünü izlemek için 10 dakika ayır! ☁️",
+            "Yaz tatilinde harika bir kitap seçip yeni dünyalara yelken açmaya ne dersin? 📚",
+            "Eski karton kutulardan, iplerden veya boyalardan tamamen kendine ait bir sanat eseri tasarla! 🎨",
+            "En sevdiğin Türkçe şarkıyı aç ve dans et! 💃🕺",
+            "Bugün evdeki bitkileri sula veya temizlik işlerinde ailene yardım et! 🌱",
+            "Bir kağıda gelecekteki kendine komik bir mektup yaz ve tatilin sonunda okumak üzere sakla! ✉️",
+            "Kendi dondurma tarifini yaratmaya ne dersin? Yoğurt ve taze meyveleri dondurarak dene! 🍦"
+        ];
+
+        // Local Storage for checklist state
+        let checklistState = JSON.parse(localStorage.getItem('ulkem_yanimda_checklist')) || {};
+
+        // Render checklist elements
+        const checklistContainer = document.getElementById('checklist');
+        function renderChecklist() {
+            checklistContainer.innerHTML = '';
+            tasks.forEach(task => {
+                const isChecked = checklistState[task.id] || false;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all-300 ${isChecked ? 'bg-orange-50/50 line-through text-gray-400 border border-orange-100/50' : 'bg-amber-50/30 hover:bg-amber-50 border border-transparent text-gray-700'}`;
+                itemDiv.innerHTML = `
+                    <div class="w-6 h-6 rounded-md border-2 flex items-center justify-center transition-colors ${isChecked ? 'border-orange-500 bg-orange-500 text-white' : 'border-amber-300 bg-white'}">
+                        ${isChecked ? '<i class="fa-solid fa-check text-xs"></i>' : ''}
+                    </div>
+                    <span class="font-medium text-sm md:text-base select-none">${task.text}</span>
+                `;
+                itemDiv.addEventListener('click', () => toggleTask(task.id));
+                checklistContainer.appendChild(itemDiv);
+            });
+        }
+
+        // Toggle task complete status
+        function toggleTask(id) {
+            checklistState[id] = !checklistState[id];
+            localStorage.setItem('ulkem_yanimda_checklist', JSON.stringify(checklistState));
+            playCheckSound(checklistState[id]);
+            renderChecklist();
+
+            // If all items are checked, burst confetti!
+            const allChecked = tasks.every(t => checklistState[t.id]);
+            if (allChecked) {
+                triggerSuperConfetti();
+            }
+        }
+
+        // Confetti triggers
+        function triggerConfetti() {
+            playSuccessSound();
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#f97316', '#f59e0b', '#ef4444', '#3b82f6', '#10b981']
+            });
+        }
+
+        function triggerSuperConfetti() {
+            playSuccessSound();
+            const duration = 2.5 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#f97316', '#f59e0b', '#3b82f6']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#f97316', '#f59e0b', '#3b82f6']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        // Dynamic tip generator
+        const tipText = document.getElementById('tipText');
+        const nextTipBtn = document.getElementById('nextTipBtn');
+        let currentTipIndex = 1;
+
+        nextTipBtn.addEventListener('click', () => {
+            playTone(600, 'sine', 0.08);
+            tipText.style.opacity = 0;
+            setTimeout(() => {
+                currentTipIndex = (currentTipIndex + 1) % tips.length;
+                tipText.textContent = tips[currentTipIndex];
+                tipText.style.opacity = 1;
+            }, 200);
+        });
+
+        // Confetti button click
+        const confettiBtn = document.getElementById('confettiBtn');
+        if (confettiBtn) {
+            confettiBtn.addEventListener('click', triggerConfetti);
+        }
+
+        // Initial launch
+        window.onload = () => {
+            renderChecklist();
+            // Automatically launch light confetti on open to surprise the student
+            setTimeout(triggerConfetti, 800);
+        };
+    </script>
+</body>
+
+</html>
