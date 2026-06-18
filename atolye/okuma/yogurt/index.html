@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Umay'ın Londra Günlüğü</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&amp;family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; background: #f1f5f9; }
+    .book-wrapper { perspective: 1800px; width: 100%; height: 100%; }
+    .page { position: absolute; inset: 0; backface-visibility: hidden; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.4s ease; transform-origin: left center; }
+    .page.current { transform: rotateY(0deg); opacity: 1; z-index: 10; }
+    .page.next { transform: rotateY(0deg); opacity: 0; z-index: 5; pointer-events: none; }
+    
+    /* Animasyonlar */
+    .page-enter-from-right { animation: enterRight 0.8s forwards; }
+    .page-exit-to-left { animation: exitLeft 0.8s forwards; }
+    .page-enter-from-left { animation: enterLeft 0.8s forwards; }
+    .page-exit-to-right { animation: exitRight 0.8s forwards; }
+    @keyframes enterRight { from { transform: rotateY(40deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+    @keyframes exitLeft { from { transform: rotateY(0deg); opacity: 1; } to { transform: rotateY(-120deg); opacity: 0; } }
+    @keyframes enterLeft { from { transform: rotateY(-40deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+    @keyframes exitRight { from { transform: rotateY(0deg); opacity: 1; } to { transform: rotateY(120deg); opacity: 0; } }
+
+    .story-text { font-family: 'Quicksand', sans-serif; line-height: 1.6; text-align: justify; }
+    .title-font { font-family: 'Baloo 2', cursive; }
+    
+    /* Resim Sarmalama (Float) */
+    .img-wrap { 
+      width: 280px; 
+      height: 280px; 
+      border-radius: 15px; 
+      border: 4px solid white; 
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .float-left { float: left; margin-right: 15px; }
+    .float-right { float: right; margin-left: 15px; }
+    
+    .dot.active { transform: scale(1.5); background: #3b82f6 !important; }
+    .page-content { height: 100%; overflow-y: auto; padding: 1.5rem; scrollbar-width: none; }
+    .page-content::-webkit-scrollbar { display: none; }
+  </style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full flex flex-col items-center justify-center">
+   <div class="relative w-full h-full max-w-2xl mx-auto flex flex-col shadow-2xl bg-white border-x border-gray-200">
+    
+    <div class="flex-1 relative overflow-hidden book-wrapper" id="bookArea">
+     
+     <div class="page current" data-page="0" id="page-0" style="background-image: url('kapak.jpg'); background-size: cover; background-position: center;">
+      <div class="h-full flex flex-col items-center justify-center p-6 bg-white/70 backdrop-blur-[2px] text-center">
+       <div class="mb-4 text-7xl animate-bounce">🌍</div>
+       <h1 class="title-font text-5xl font-extrabold text-blue-900 mb-2 drop-shadow-sm">Umay'ın Londra Günlüğü</h1>
+       <p class="story-text text-blue-800 text-xl font-semibold">Bir Yoğurt Keşfi Hikayesi</p>
+       <div class="mt-12 p-3 bg-blue-600 text-white rounded-full px-8 font-bold shadow-lg cursor-pointer hover:bg-blue-700 transition-colors">OKUMAYA BAŞLA</div>
+      </div>
+     </div>
+
+     <div class="page next bg-orange-50" data-page="1" id="page-1">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-orange-800 mb-4 border-b-2 border-orange-200">Merhaba Londra!</h2>
+        <div class="img-wrap float-left"><img src="1.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Umay'"></div>
+        <div class="story-text text-gray-800 text-base">
+          Merhaba, benim adım Umay. Dokuz yaşındayım. Üç ay önce doğup büyüdüğüm İstanbul’dan bir uçağa bindim, annem ve babamla beraber Londra’ya geldim. Babam artık bu şehirde çalışıyor. Dolayısıyla bir süre burada yaşayacağız. Yaklaşık dört beş ay önce bir akşam babam beni karşısına oturtup: —Umay, sen dört beş yaşlarındayken en çok hangi oyunu oynamayı severdin, hatırlıyor musun? diye sordu. — Tabii hatırlıyorum babacığım, “Bu akşam hangi şehirdeyiz?” oyunu. Artık çok fazla oynamasak da hâlâ en sevdiğim oyun bu. Babam, beşinci yaş günümde bana büyük bir küre hediye etmişti. Sonra birlikte bir oyun uydurduk. Her akşam uyumadan önce babamla kürenin başına geçiyor, onu hızlıca çevirip parmağımızı herhangi bir noktada durduruyorduk. Hangi ülkeye denk gelmişsek o akşam oraya gidiyorduk. Tabii ki hayallerimizde… Babamla uzunca bir süre bu oyunu oynadım. Okumayı öğrendikten sonra ise ülkelere olan merakım daha çok arttı. Bu defa da babam çeşitli ülkelere ait tanıtım kitapları getirmeye başladı.
+        </div>
+      </div>
+     </div>
+
+     <div class="page next bg-blue-50" data-page="2" id="page-2">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-blue-800 mb-4 border-b-2 border-blue-200">Yeni Bir Hayat</h2>
+        <div class="img-wrap float-right"><img src="2.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Uçak'"></div>
+        <div class="story-text text-gray-800 text-base">
+          O kitaplar sayesinde dünyanın pek çok noktasıyla ilgili bilgi sahibi oldum. Bu sebeple en büyük hayalim yabancı memleketleri gezebilmek ve görebilmekti. Babam, sözlerine şöyle devam etti: — “Bu akşam hangi şehirdeyiz?” oyununu oynarken çok kez Londra’ya giderdik değil mi Umay? Sonra sen Londra’yla ilgili birçok şey de okudun. O zaman sıkı dur, sana çok sevineceğini düşündüğüm bir haberim var. Şirketim beni Londra’ya gönderiyor. Üç, dört yıl orada yaşayacağız. Bu haber bende adeta bir şok etkisi yaratmıştı. Hani bir şeyin olmasını çok istersin ama aynı zamanda da o şeyin olmasından korkarsın ya... İşte öyle bir duygu. Londra’yı görecek, orada yaşayacak olmak inanılmazdı ama İstanbul’u bırakıp gitmek de can yakıcıydı. Sonrası çok hızlı gelişti. Londra’da yaşayacağımız ev, benim gideceğim okul çabucak ayarlandı. İstanbul’daki evimiz kapatıldı. Vedalar edildi. Uçak yolculuğu ve derken Londra… Burada günlerimiz çok hızlı geçiyor. Her gün biraz daha alışıyoruz. Birçok yeni şey öğreniyoruz. Çok güzel yerler görüyoruz. Yeni insanlar tanıyoruz. Her şeyden önemlisi yepyeni bir dil ve kültür öğreniyoruz. Yaşadığı yerde ana dilinde konuşamamak çoğu zaman insanı zorluyor. Evinde konuştuğun dili sokakta, okulda, markette, pazarda da duymak, konuşmak istiyorsun.
+        </div>
+      </div>
+     </div>
+
+     <div class="page next bg-green-50" data-page="3" id="page-3">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-green-800 mb-4 border-b-2 border-green-200">Yoğurt mu?</h2>
+        <div class="img-wrap float-left"><img src="3.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Market'"></div>
+        <div class="story-text text-gray-800 text-base">
+          Ben okumayı hep çok sevdim. Elime geçen her şeyi okumaya meraklıyımdır. Burada da sık sık aynı şeyi yapıyorum. Her kelimeyi anlamasam da markette, pazarda, otobüste, tabelalarda ne görüyorsam okumaya, anlamaya çalışıyorum. Geçen gün alt sokaktaki markette çok güzel bir an yaşadım. Annemle süt reyonunu ararken çok tanıdık bir kelimeye rastladım: “Yoghurt”. Önce emin olamadım. Anneme: — Bu bizim bildiğimiz yoğurt mu anne? diye sordum. Annem şaşkınlığıma gülerek: — Tabii bizim yoğurt bu. Biliyor musun Umay, yoğurt dünyaya bizim hediyemizdir. Bu yüzden dünyanın neresine gidersen git, yoğurt kelimesine mutlaka rastlarsın. Hadi, ben süt alayım, sen de küçüğünden bir kutu yoğurt al, maya olarak kullanıp biz de evde kendi yoğurdumuzu yaparız, dedi. 
+        </div>
+      </div>
+     </div>
+
+     <div class="page next bg-yellow-50" data-page="4" id="page-4">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-yellow-800 mb-4 border-b-2 border-yellow-200">Mutfağın Ustası</h2>
+        <div class="img-wrap float-right"><img src="4.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Mutfak'"></div>
+        <div class="story-text text-gray-800 text-base">
+          Eve döner dönmez, annemle mutfağa geçtik. Marketten aldığımız çiftlik sütünü kaynattık. Annem sütün birazını sütlaç yapmak için başka bir tencereye boşalttı. Kalanı da soğumaya bıraktık. — Umay, kızım, marketten aldığın küçük yoğurttan iki kaşık al, bir bardağa koy. Tenceredeki ılık sütten de dört, beş kaşık ilave et bardağa. İkisini güzelce karıştır. Ben de sütün sıcaklığını kontrol edeyim. Çok sıcak veya çok soğuk olursa maya tutmaz, yoğurt olmaz. Annem yine ustalığını konuşturuyordu. Sütün sıcaklığını kontrol etti. Benim hazırladığım karışımı süte ekleyip güzelce karıştırdı. Tencerenin kapağını kapattıktan sonra örtüyle tencereyi iyice sardı. — Tamamdır. Altı saat boyunca burada bekleyecek. Sakın kapağını açma, yerini değiştirme. Yoksa yoğurt tutmaz. Anladım ki yoğurt yapmak çok da zor değilmiş. Süt ve maya olarak kullandığımız azıcık yoğurt yeterliymiş. Birden Nasrettin Hoca’nın Akşehir Gölü’ne maya çaldığı fıkra aklıma geldi ve güldüm: Ya tutarsa! Bizim yoğurdumuz tutmuş ve akşam yemeğinde dolmanın yanındaki yerini almıştı.
+        </div>
+      </div>
+     </div>
+
+     <div class="page next bg-purple-50" data-page="5" id="page-5">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-purple-800 mb-4 border-b-2 border-purple-200">Yoğurdun Hikayesi</h2>
+        <div class="img-wrap float-left"><img src="5.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=Tarih'"></div>
+        <div class="story-text text-gray-800 text-base">
+          Aklıma bu sefer de marketteki şaşkınlığım geldi. — Baba biliyor musun, yoğurt dünyanın her yerinde yoğurt diye adlandırılıyormuş. Bunu annemden öğrendim, çok şaşırdım. — Umaycığım, yoğurdu ilk biz yapmışız. Bu nedenle ismi de dünyanın her yerinde yoğurttur. Uzun yıllar önce okuduğum bir tarihî eserde anlatıldığına göre Türklerin atası olduğuna inanılan Türk, çocukken çok hastalanmış. Uygulanan hiçbir tedaviyle çocuğu iyileştirememişler. Sonunda yaşlı bir adam, Türk’ün annesine, “Karınca yumurtası ve kurt sütünü karıştır, ilaç yap ve çocuğa içir. Bu hastalık ondan gitsin.” demiş. Bunun üzerine annesi ona, bir ay boyunca karınca yumurtası ile sütü karıştırıp vermiş. Çocuk iyileşmiş. Kadının süt ile karınca yumurtasının birleşiminden elde ettiği şey, muhtemelen yoğurdun ilk şeklidir. Daha sonra mayalanmış yoğurttan maya örneği alınarak süt mayalanmış ve yoğurt böyle yaygınlaşmıştır. 
+        </div>
+      </div>
+     </div>
+
+     <div class="page next bg-rose-50" data-page="6" id="page-6">
+      <div class="page-content">
+        <h2 class="title-font text-2xl font-bold text-rose-800 mb-4 border-b-2 border-rose-200">İstanbul'a Dönüş</h2>
+        <div class="img-wrap float-right"><img src="6.jpg" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200?text=İstanbul'"></div>
+        <div class="story-text text-gray-800 text-base">
+          — Demek, yoğurt çok eskiden ilaç olarak tüketilirmiş. Ne kadar ilginç! Annem, her zaman yoğurdun çok faydalı bir besin olduğunu söylerdi zaten. O zaman dolmamın üstüne bir kaşık daha yoğurt koyayım ve afiyetle yiyeyim babacığım… Yemeğimizi bitirdikten sonra babam “Bu akşam hangi şehirdeyiz?” oyunu oynamayı teklif etti. Küreyi odamdan getirdim ve masanın üstüne koydum. Hızlıca çevirdim. Parmağım nereye isabet etti dersiniz? Evet, İstanbul’a… Kim bilir belki hayalimizde Kanlıca’ya gider meşhur yoğurdundan da yeriz…
+          <p class="text-center font-extrabold text-rose-600 mt-6 text-2xl animate-pulse">— SON —</p>
+        </div>
+      </div>
+     </div>
+
+     <button id="prevBtn" class="absolute left-3 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-white/90 shadow-xl flex items-center justify-center hover:scale-110 transition-all" style="display:none;" onclick="prevPage()"><i data-lucide="chevron-left" class="text-gray-800"></i></button>
+     <button id="nextBtn" class="absolute right-3 top-1/2 -translate-y-1/2 z-50 w-12 h-12 rounded-full bg-white/90 shadow-xl flex items-center justify-center hover:scale-110 transition-all" onclick="nextPage()"><i data-lucide="chevron-right" class="text-gray-800"></i></button>
+    </div>
+
+    <div class="h-14 border-t flex items-center justify-between px-6 bg-gray-50">
+      <button onclick="toggleFullscreen()" class="p-2 text-gray-400 hover:text-blue-600 transition-colors" title="Tam Ekran"><i data-lucide="maximize"></i></button>
+      <div class="dots-container flex gap-2" id="dotsContainer"></div>
+      <div class="w-10"></div>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    const TOTAL_PAGES = 7;
+    let currentPage = 0;
+    let animating = false;
+
+    const dotsContainer = document.getElementById('dotsContainer');
+    for (let i = 0; i < TOTAL_PAGES; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot w-2 h-2 rounded-full bg-gray-300 transition-all cursor-pointer';
+      dot.onclick = () => goToPage(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateUI() {
+      document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentPage));
+      document.getElementById('prevBtn').style.display = currentPage > 0 ? 'flex' : 'none';
+      document.getElementById('nextBtn').style.display = currentPage < TOTAL_PAGES - 1 ? 'flex' : 'none';
+    }
+
+    function animatePage(from, to, dir) {
+      if (animating || from === to) return;
+      animating = true;
+      const fromEl = document.getElementById('page-' + from);
+      const toEl = document.getElementById('page-' + to);
+      
+      toEl.style.opacity = '1';
+      toEl.style.zIndex = '20';
+      
+      if (dir === 'fwd') {
+        fromEl.classList.add('page-exit-to-left');
+        toEl.classList.add('page-enter-from-right');
+      } else {
+        fromEl.classList.add('page-exit-to-right');
+        toEl.classList.add('page-enter-from-left');
+      }
+
+      setTimeout(() => {
+        currentPage = to;
+        document.querySelectorAll('.page').forEach((p, idx) => {
+          p.className = 'page ' + (idx === currentPage ? 'current' : 'next');
+          p.style.opacity = idx === currentPage ? '1' : '0';
+          p.style.zIndex = idx === currentPage ? '10' : '5';
+        });
+        updateUI();
+        animating = false;
+      }, 800);
+    }
+
+    function nextPage() { if (currentPage < TOTAL_PAGES - 1) animatePage(currentPage, currentPage + 1, 'fwd'); }
+    function prevPage() { if (currentPage > 0) animatePage(currentPage, currentPage - 1, 'bwd'); }
+    function goToPage(i) { if (i !== currentPage) animatePage(currentPage, i, i > currentPage ? 'fwd' : 'bwd'); }
+    function toggleFullscreen() { if (!document.fullscreenElement) document.getElementById('app').requestFullscreen(); else document.exitFullscreen(); }
+
+    document.getElementById('page-0').onclick = (e) => { if(!e.target.closest('.nav-btn')) nextPage(); };
+    updateUI();
+    lucide.createIcons();
+  </script>
+ </body>
+</html>

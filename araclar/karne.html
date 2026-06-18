@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dil Seviyesi Tespit ve Öğrenci Takip Sistemi</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- SheetJS (XLSX) for Reading & Writing Excel Files -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -34,43 +31,38 @@
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col justify-between">
 
-    <!-- Header / Navigation -->
     <header class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 py-5 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
+        <div class="max-w-7xl mx-auto px-4 py-4 sm:py-5 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3 text-center sm:text-left flex-col sm:flex-row">
                 <div class="p-2.5 bg-white/10 rounded-xl">
                     <i class="fa-solid fa-graduation-cap text-3xl text-yellow-300"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl md:text-2xl font-bold tracking-tight">Öğrenci Dil Seviyesi Takip Portalı</h1>
+                    <h1 class="text-lg sm:text-xl md:text-2xl font-bold tracking-tight">Öğrenci Dil Seviyesi Takip Portalı</h1>
                     <p class="text-xs text-blue-100 mt-0.5">Öğrenci listesi yükleyin, değerlendirin ve Excel formatında indirin.</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2 text-xs bg-black/15 px-3 py-1.5 rounded-lg border border-white/10">
+            <div class="flex items-center gap-2 text-xs bg-black/15 px-3 py-1.5 rounded-lg border border-white/10 self-center sm:self-auto">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span>Aktif Çalışma Sayfası</span>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex-grow w-full">
+    <main class="max-w-7xl mx-auto px-4 py-6 sm:py-8 sm:px-6 lg:px-8 flex-grow w-full">
         
-        <!-- Setup Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             
-            <!-- Left Side: Course and File Upload -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2 flex flex-col justify-between gap-6">
+            <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2 flex flex-col justify-between gap-6">
                 <div>
-                    <h2 class="text-lg font-semibold text-slate-900 flex items-center gap-2 mb-4">
+                    <h2 class="text-base sm:text-lg font-semibold text-slate-900 flex items-center gap-2 mb-4">
                         <i class="fa-solid fa-sliders text-blue-600"></i>
                         Kurs ve Liste Bilgileri
                     </h2>
                     
                     <div class="space-y-4">
-                        <!-- Course Name Input -->
                         <div>
-                            <label for="courseName" class="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-1.5">
+                            <label for="courseName" class="block text-sm font-medium text-slate-700 mb-1.5 flex flex-wrap items-center gap-1">
                                 Kurs Adı <span class="text-red-500">*</span>
                                 <span class="text-[10px] text-slate-400 font-normal">(Çıktı bu isimle kaydedilecektir)</span>
                             </label>
@@ -80,63 +72,60 @@
                                 </div>
                                 <input type="text" id="courseName" 
                                        class="block w-full pl-10 pr-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition" 
-                                       placeholder="Örn: İngilizce A1 Seviyesi Haftasonu Grubu" value="A1_Ingilizce_Kursu">
+                                       placeholder="Buraya dersinizin kısa kodunu yazın" value="Kurs">
                             </div>
                         </div>
 
-                        <!-- Dropzone File Upload -->
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-1.5">Öğrenci Listesi Yükle (.xlsx, .xls, .csv)</label>
-                            <div id="dropzone" class="border-2 border-dashed border-slate-300 rounded-2xl p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/30 transition group relative">
+                            <div id="dropzone" class="border-2 border-dashed border-slate-300 rounded-2xl p-4 sm:p-6 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50/30 transition group relative">
                                 <input type="file" id="fileInput" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept=".xlsx, .xls, .csv">
                                 <div class="space-y-2 pointer-events-none">
-                                    <div class="mx-auto w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center group-hover:scale-110 transition">
-                                        <i class="fa-solid fa-file-excel text-xl"></i>
+                                    <div class="mx-auto w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center group-hover:scale-110 transition">
+                                        <i class="fa-solid fa-file-excel text-lg sm:text-xl"></i>
                                     </div>
-                                    <p class="text-sm font-medium text-slate-700">Dosyayı sürükleyin veya göz atmak için tıklayın</p>
-                                    <p class="text-xs text-slate-400">Öğrencinin adı, Öğrencinin soyadı ve Kullanıcı adı sütunlarını içeriyor olmalıdır.</p>
+                                    <p class="text-xs sm:text-sm font-medium text-slate-700">Dosyayı sürükleyin veya göz atmak için tıklayın</p>
+                                    <p class="text-[11px] sm:text-xs text-slate-400">Öğrencinin adı, soyadı ve kullanıcı adı sütunlarını içermelidir.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Custom Notification Center -->
-                <div id="fileStatus" class="hidden p-3 rounded-xl text-sm flex items-center justify-between transition-all duration-300">
-                    <div class="flex items-center gap-2">
+                <div id="fileStatus" class="hidden p-3 rounded-xl text-sm flex flex-col sm:flex-row items-center justify-between gap-2 transition-all duration-300">
+                    <div class="flex items-center gap-2 text-center sm:text-left">
                         <i id="statusIcon" class="fa-solid"></i>
-                        <span id="statusMessage" class="font-medium"></span>
+                        <span id="statusMessage" class="font-medium text-xs sm:text-sm"></span>
                     </div>
-                    <button onclick="resetApp()" class="text-slate-500 hover:text-slate-800 text-xs flex items-center gap-1 transition">
+                    <button onclick="resetApp()" class="text-slate-500 hover:text-slate-800 text-xs flex items-center gap-1 transition shrink-0 bg-white/50 px-2 py-1 rounded-md shadow-sm sm:shadow-none">
                         <i class="fa-solid fa-arrows-rotate"></i> Sıfırla
                     </button>
                 </div>
             </div>
 
-            <!-- Right Side: Info & Quick Start -->
-            <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-6 rounded-2xl shadow-sm flex flex-col justify-between">
+            <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white p-5 sm:p-6 rounded-2xl shadow-sm flex flex-col justify-between gap-4">
                 <div>
-                    <h2 class="text-lg font-semibold text-yellow-400 flex items-center gap-2 mb-3">
+                    <h2 class="text-base sm:text-lg font-semibold text-yellow-400 flex items-center gap-2 mb-3">
                         <i class="fa-solid fa-lightbulb"></i>
                         Hızlı Başlangıç & İpuçları
                     </h2>
-                    <ul class="space-y-3 text-sm text-slate-300">
+                    <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
                         <li class="flex items-start gap-2.5">
-                            <span class="mt-1 flex-shrink-0 w-5 h-5 bg-white/10 rounded-full flex items-center justify-center text-xs font-semibold text-yellow-300">1</span>
+                            <span class="mt-0.5 flex-shrink-0 w-5 h-5 bg-white/10 rounded-full flex items-center justify-center text-xs font-semibold text-yellow-300">1</span>
                             <span>Elinizdeki öğrenci excel listesini yukarıdaki alana yükleyin.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="mt-1 flex-shrink-0 w-5 h-5 bg-white/10 rounded-full flex items-center justify-center text-xs font-semibold text-yellow-300">2</span>
-                            <span>Öğrencilerin <b>Dil Seviyelerini</b> belirleyin, <b>Devamsızlık</b> durumlarını seçin ve varsa notlarınızı ekleyin.</span>
+                            <span class="mt-0.5 flex-shrink-0 w-5 h-5 bg-white/10 rounded-full flex items-center justify-center text-xs font-semibold text-yellow-300">2</span>
+                            <span>Her öğrenci için listeden ilgili <b>Dil Seviyesi Kazanımını</b> belirleyin ve devamsızlık durumunu seçin.</span>
                         </li>
                         <li class="flex items-start gap-2.5">
-                            <span class="mt-1 flex-shrink-0 w-5 h-5 bg-white/10 rounded-full flex items-center justify-center text-xs font-semibold text-yellow-300">3</span>
+                            <span class="mt-0.5 flex-shrink-0 w-5 h-5 bg-white/10 rounded-full flex items-center justify-center text-xs font-semibold text-yellow-300">3</span>
                             <span>"Excel Olarak Kaydet" butonuna basarak güncel listenizi bilgisayarınıza indirin.</span>
                         </li>
                     </ul>
                 </div>
                 
-                <div class="mt-6 pt-5 border-t border-white/10 flex flex-col gap-2">
+                <div class="mt-2 pt-4 border-t border-white/10 flex flex-col gap-2">
                     <span class="text-xs text-slate-400">Excel dosyanız yok mu? Hemen test etmek için:</span>
                     <button onclick="loadMockData()" class="w-full py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold text-white transition flex items-center justify-center gap-2">
                         <i class="fa-solid fa-wand-magic-sparkles text-yellow-300"></i>
@@ -147,22 +136,19 @@
 
         </div>
 
-        <!-- Notification Toast Component -->
-        <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl border border-slate-700">
-            <span id="toastIcon" class="text-emerald-400 text-lg"></span>
-            <span id="toastMessage" class="text-sm font-medium"></span>
+        <div id="toast" class="fixed bottom-5 left-5 right-5 sm:left-auto sm:right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 flex items-center gap-3 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-700">
+            <span id="toastIcon" class="text-emerald-400 text-lg shrink-0"></span>
+            <span id="toastMessage" class="text-xs sm:text-sm font-medium"></span>
         </div>
 
-        <!-- Student Database / Interactive Evaluation Area -->
         <div id="studentSection" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition-all duration-500">
             
-            <!-- Table Action Header -->
-            <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div class="p-4 sm:p-6 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 
                 <div class="w-full md:w-auto">
-                    <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2">
                         <i class="fa-solid fa-users text-indigo-600"></i>
-                        Öğrenci Değerlendirme Tablosu
+                        Öğrenci Değerlendirme Alanı
                     </h3>
                     <div class="mt-2 w-full md:w-72 bg-slate-200 rounded-full h-2">
                         <div id="evaluationProgress" class="bg-indigo-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
@@ -170,9 +156,7 @@
                     <p id="progressLabel" class="text-xs text-slate-500 mt-1">Değerlendirilen Öğrenci: 0 / 0 (%0)</p>
                 </div>
 
-                <!-- Filters & Controls -->
-                <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
-                    <!-- Search Input -->
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
                     <div class="relative w-full sm:w-60">
                         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
@@ -182,50 +166,42 @@
                                placeholder="İsim veya kullanıcı adı ara...">
                     </div>
 
-                    <!-- Dropdown Bulk Actions -->
-                    <div class="relative inline-block text-left w-full sm:w-auto">
-                        <select id="bulkLevel" onchange="applyBulkLevel(this.value)" 
-                                class="w-full bg-white border border-slate-300 hover:border-slate-400 text-slate-700 px-3 py-2 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                            <option value="">-- Tümünü Şöyle Yap --</option>
-                            <option value="Hiç bilmiyor">Tümünü: Hiç bilmiyor</option>
-                            <option value="Anlar ama konuşamaz">Tümünü: Anlar ama konuşamaz</option>
-                            <option value="Konuşabilir">Tümünü: Konuşabilir</option>
-                            <option value="Okur yazar">Tümünü: Okur yazar</option>
-                            <option value="Temizle">Değerlendirmeleri Sıfırla</option>
-                        </select>
-                    </div>
+                    <button onclick="clearAllEvaluations()" 
+                            class="w-full sm:w-auto px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-xl text-sm font-medium transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-trash-can text-slate-500"></i>
+                        Verileri Temizle
+                    </button>
                 </div>
 
             </div>
 
-            <!-- Spreadsheet Table Container -->
-            <div class="overflow-x-auto">
+            <div class="hidden md:block overflow-x-auto">
                 <table class="min-w-full divide-y divide-slate-200">
                     <thead class="bg-slate-50">
                         <tr>
                             <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-16">No</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Öğrenci Bilgileri</th>
-                            <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider w-40">Devamsızlık Durumu</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-64">Dil Seviyesi</th>
-                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Öğretmen Yorumu ve Notları</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-1/5">Öğrenci Bilgileri</th>
+                            <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider w-32">Devamsızlık</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-2/5">Dil Seviyesi ve Kazanım Durumu</th>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider w-1/5">Öğretmen Notları</th>
                             <th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider w-24">Durum</th>
                         </tr>
                     </thead>
                     <tbody id="studentTableBody" class="bg-white divide-y divide-slate-200">
-                        <!-- Dynamic Student Rows will be injected here -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
 
-            <!-- Empty Results State -->
-            <div id="noResults" class="hidden py-12 text-center">
+            <div id="studentMobileContainer" class="block md:hidden bg-slate-50 p-4 space-y-4">
+                </div>
+
+            <div id="noResults" class="hidden py-12 text-center bg-white">
                 <i class="fa-solid fa-user-slash text-4xl text-slate-300 mb-3"></i>
                 <p class="text-sm text-slate-500">Aradığınız kriterlere uygun öğrenci bulunamadı.</p>
             </div>
 
-            <!-- Bottom Floating Action Bar -->
-            <div class="bg-slate-50 p-6 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <div class="text-sm text-slate-500">
+            <div class="bg-slate-50 p-4 sm:p-6 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="text-xs sm:text-sm text-slate-500 text-center sm:text-left">
                     <span id="evaluatedCount">0</span> öğrenci değerlendirildi. Çıktı dosyasını güvenle alabilirsiniz.
                 </div>
                 <button onclick="exportToExcel()" class="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl text-sm transition-all duration-200 shadow-md flex items-center justify-center gap-2.5 group">
@@ -236,18 +212,17 @@
 
         </div>
 
-        <!-- Initial Placeholder (If no data uploaded) -->
-        <div id="placeholderSection" class="bg-white rounded-2xl border-2 border-dashed border-slate-200 py-16 px-4 text-center">
+        <div id="placeholderSection" class="bg-white rounded-2xl border-2 border-dashed border-slate-200 py-12 px-4 text-center">
             <div class="max-w-md mx-auto space-y-4">
-                <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
-                    <i class="fa-solid fa-users-viewfinder text-2xl"></i>
+                <div class="w-14 h-14 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+                    <i class="fa-solid fa-users-viewfinder text-xl"></i>
                 </div>
                 <div>
-                    <h3 class="text-base font-semibold text-slate-900">Henüz Öğrenci Listesi Yüklenmedi</h3>
-                    <p class="text-sm text-slate-500 mt-1">Öğretmen paneline erişmek ve değerlendirmeye başlamak için lütfen üstteki alandan öğrenci listesi yükleyin ya da örnek listeyi kullanın.</p>
+                    <h3 class="text-sm sm:text-base font-semibold text-slate-900">Henüz Öğrenci Listesi Yüklenmedi</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">Öğretmen paneline erişmek ve değerlendirmeye başlamak için lütfen üstteki alandan öğrenci listesi yükleyin ya da örnek listeyi kullanın.</p>
                 </div>
-                <div class="pt-2">
-                    <button onclick="loadMockData()" class="inline-flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 font-medium transition">
+                <div class="pt-1">
+                    <button onclick="loadMockData()" class="inline-flex items-center gap-2 text-xs sm:text-sm text-blue-600 hover:text-blue-800 font-medium transition">
                         <i class="fa-solid fa-wand-magic-sparkles"></i>
                         Örnek veriyle hemen dene
                     </button>
@@ -257,15 +232,13 @@
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-100 border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-12">
+    <footer class="bg-slate-100 border-t border-slate-200 py-6 text-center text-[11px] sm:text-xs text-slate-500 mt-12">
         <div class="max-w-7xl mx-auto px-4">
-            <p>© 2026 Dil Eğitimi Gelişim ve Değerlendirme Portalı | Öğretmen Panel Sürümü 2.1</p>
+            <p>© 2026 Dil Eğitimi Gelişim ve Değerlendirme Portalı | Öğretmen Panel Sürümü 2.3 (Responsive)</p>
             <p class="mt-1 text-slate-400">Verileriniz yerel tarayıcınızda işlenir, sunuculara gönderilmez.</p>
         </div>
     </footer>
 
-    <!-- JS Logic -->
     <script>
         let students = []; // Holds the current list of loaded students
         
@@ -278,9 +251,9 @@
         const studentSection = document.getElementById('studentSection');
         const placeholderSection = document.getElementById('placeholderSection');
         const studentTableBody = document.getElementById('studentTableBody');
+        const studentMobileContainer = document.getElementById('studentMobileContainer');
         const searchInput = document.getElementById('searchInput');
         const courseNameInput = document.getElementById('courseName');
-        const bulkLevelSelect = document.getElementById('bulkLevel');
 
         // Setup Dropzone Drag & Drop effects
         dropzone.addEventListener('dragover', (e) => {
@@ -316,10 +289,10 @@
             toastMessage.textContent = message;
             if (type === 'success') {
                 toastIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
-                toastIcon.className = 'text-emerald-400 text-lg';
+                toastIcon.className = 'text-emerald-400 text-lg shrink-0';
             } else {
                 toastIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i>';
-                toastIcon.className = 'text-red-400 text-lg';
+                toastIcon.className = 'text-red-400 text-lg shrink-0';
             }
 
             toast.classList.remove('translate-y-20', 'opacity-0');
@@ -335,8 +308,7 @@
         function handleFile(file) {
             const reader = new FileReader();
             
-            // Show status loading
-            fileStatus.className = "flex p-3 rounded-xl text-sm items-center justify-between bg-blue-50 text-blue-700 border border-blue-200 mt-4";
+            fileStatus.className = "flex p-3 rounded-xl text-sm items-center justify-between bg-blue-50 text-blue-700 border border-blue-200 mt-4 flex-col sm:flex-row gap-2";
             statusIcon.className = "fa-solid fa-spinner animate-spin text-blue-600";
             statusMessage.textContent = "Dosya okunuyor, lütfen bekleyin...";
             fileStatus.classList.remove('hidden');
@@ -348,25 +320,21 @@
                     const firstSheetName = workbook.SheetNames[0];
                     const worksheet = workbook.Sheets[firstSheetName];
                     
-                    // Convert Worksheet to Raw JSON matrix (headers included)
                     const rawRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
                     
                     if (rawRows.length < 2) {
                         throw new Error("Dosya boş veya başlık satırı dışında veri içermiyor.");
                     }
 
-                    // Discover the header indices automatically
                     const headers = rawRows[0].map(h => String(h).trim().toLowerCase());
                     
-                    // Map headers to find match targets
                     let firstNameIdx = headers.findIndex(h => h.includes('ad') && !h.includes('soyad') && !h.includes('kullanıcı'));
                     let lastNameIdx = headers.findIndex(h => h.includes('soyad'));
                     let usernameIdx = headers.findIndex(h => h.includes('kullanıcı') || h.includes('username') || h.includes('user_name'));
 
-                    // Fallback heuristics if precise columns not found
-                    if (firstNameIdx === -1) firstNameIdx = 0; // default to 1st col
-                    if (lastNameIdx === -1) lastNameIdx = 1;  // default to 2nd col
-                    if (usernameIdx === -1) usernameIdx = 2;  // default to 3rd col
+                    if (firstNameIdx === -1) firstNameIdx = 0;
+                    if (lastNameIdx === -1) lastNameIdx = 1;
+                    if (usernameIdx === -1) usernameIdx = 2;
 
                     const parsedStudents = [];
 
@@ -374,7 +342,6 @@
                         const row = rawRows[i];
                         if (!row || row.length === 0) continue;
 
-                        // Skip if name is absolutely empty
                         const nameVal = row[firstNameIdx] ? String(row[firstNameIdx]).trim() : '';
                         if (!nameVal) continue;
 
@@ -386,9 +353,9 @@
                             firstName: nameVal,
                             lastName: surnameVal,
                             username: usernameVal || `user_${i}`,
-                            absent: false, // Default active/attending
-                            level: '', // Default unassigned
-                            notes: '' // Default no notes
+                            absent: false,
+                            level: '',
+                            notes: ''
                         });
                     }
 
@@ -399,19 +366,17 @@
                     students = parsedStudents;
                     renderStudents();
                     
-                    // Update File Success Status Panel
-                    fileStatus.className = "flex p-3 rounded-xl text-sm items-center justify-between bg-emerald-50 text-emerald-800 border border-emerald-200 mt-4";
+                    fileStatus.className = "flex p-3 rounded-xl text-sm items-center justify-between bg-emerald-50 text-emerald-800 border border-emerald-200 mt-4 flex-col sm:flex-row gap-2";
                     statusIcon.className = "fa-solid fa-circle-check text-emerald-600";
                     statusMessage.textContent = `${students.length} öğrenci başarıyla listelendi.`;
                     
-                    // Hide placeholder and show interactive assessment view
                     placeholderSection.classList.add('hidden');
                     studentSection.classList.remove('hidden');
                     
                     showToast(`${students.length} öğrenci başarıyla yüklendi!`);
                 } catch (err) {
                     console.error(err);
-                    fileStatus.className = "flex p-3 rounded-xl text-sm items-center justify-between bg-red-50 text-red-800 border border-red-200 mt-4";
+                    fileStatus.className = "flex p-3 rounded-xl text-sm items-center justify-between bg-red-50 text-red-800 border border-red-200 mt-4 flex-col sm:flex-row gap-2";
                     statusIcon.className = "fa-solid fa-triangle-exclamation text-red-600";
                     statusMessage.textContent = `Hata: ${err.message}`;
                     showToast("Dosya ayrıştırılamadı. Lütfen formatı kontrol edin.", "error");
@@ -421,19 +386,19 @@
             reader.readAsArrayBuffer(file);
         }
 
-        // Mock Data Injector (For effortless preview testing)
+        // Mock Data Injector
         function loadMockData() {
             courseNameInput.value = "Örnek_A2_Almanca_Grubu";
             students = [
-                { id: 1, firstName: "Ahmet", lastName: "Yılmaz", username: "ahmetyilmaz", absent: false, level: "Konuşabilir", notes: "Derse katılımı yüksek." },
-                { id: 2, firstName: "Zeynep", lastName: "Kaya", username: "zeynep_kaya", absent: false, level: "Anlar ama konuşamaz", notes: "Dinleme becerisi iyi." },
-                { id: 3, firstName: "Mehmet", lastName: "Demir", username: "mdemir99", absent: true, level: "Hiç bilmiyor", notes: "Sürekli devamsız." },
-                { id: 4, firstName: "Elif", lastName: "Çelik", username: "elifcelik", absent: false, level: "Okur yazar", notes: "Yazılı sınavda başarılı." },
+                { id: 1, firstName: "Ahmet", lastName: "Yılmaz", username: "ahmetyilmaz", absent: false, level: "Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir.", notes: "Derse katılımı yüksek." },
+                { id: 2, firstName: "Zeynep", lastName: "Kaya", username: "zeynep_kaya", absent: false, level: "Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir.", notes: "Dinleme becerisi iyi." },
+                { id: 3, firstName: "Mehmet", lastName: "Demir", username: "mdemir99", absent: true, level: "Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir.", notes: "Sürekli devamsız." },
+                { id: 4, firstName: "Elif", lastName: "Çelik", username: "elifcelik", absent: false, level: "Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir.", notes: "Yazılı sınavda başarılı." },
                 { id: 5, firstName: "Can", lastName: "Öztürk", username: "cozturk", absent: false, level: "", notes: "" },
                 { id: 6, firstName: "Ayşe", lastName: "Şahin", username: "ayse_sahin", absent: false, level: "", notes: "" }
             ];
             
-            fileStatus.className = "flex p-3 rounded-xl text-sm items-center justify-between bg-indigo-50 text-indigo-800 border border-indigo-200 mt-4";
+            fileStatus.className = "flex p-3 rounded-xl text-sm items-center justify-between bg-indigo-50 text-indigo-800 border border-indigo-200 mt-4 flex-col sm:flex-row gap-2";
             statusIcon.className = "fa-solid fa-wand-magic-sparkles text-indigo-600";
             statusMessage.textContent = `Örnek liste yüklendi (${students.length} Öğrenci)`;
             fileStatus.classList.remove('hidden');
@@ -445,21 +410,32 @@
             showToast("Örnek öğrenci verileri başarıyla yüklendi!");
         }
 
-        // Resets the system back to empty/ready-to-load state
+        // Resets the system
         function resetApp() {
             students = [];
             fileInput.value = '';
             searchInput.value = '';
-            bulkLevelSelect.value = '';
             fileStatus.classList.add('hidden');
             studentSection.classList.add('hidden');
             placeholderSection.classList.remove('hidden');
             showToast("Sistem başarıyla sıfırlandı.");
         }
 
-        // Renders student rows in the spreadsheet-style list
+        // Action: Clears local inputs
+        function clearAllEvaluations() {
+            students.forEach(s => {
+                s.level = '';
+                s.absent = false;
+                s.notes = '';
+            });
+            renderStudents();
+            showToast("Tüm değerlendirmeler temizlendi.");
+        }
+
+        // Renders student elements (Handles both Desktop Table and Mobile View Cards)
         function renderStudents(filteredList = students) {
             studentTableBody.innerHTML = '';
+            studentMobileContainer.innerHTML = '';
             
             if (filteredList.length === 0) {
                 document.getElementById('noResults').classList.remove('hidden');
@@ -470,10 +446,22 @@
             }
 
             filteredList.forEach((student, index) => {
+                const selectOptionsHTML = `
+                    <option value="" ${student.level === '' ? 'selected' : ''}>-- Seviye Seçin --</option>
+                    <option value="Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir." ${student.level === 'Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir.' ? 'selected' : ''}>👋 Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir.</option>
+                    <option value="Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir." ${student.level === 'Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir.' ? 'selected' : ''}>🎨 Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir.</option>
+                    <option value="Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir." ${student.level === 'Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir.' ? 'selected' : ''}>📅 Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir.</option>
+                    <option value="Türkiye'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir." ${student.level === 'Türkiye\'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir.' ? 'selected' : ''}>🇹🇷 Türkiye'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir.</option>
+                    <option value="Geçmiş alışkanlıklar, aile anıları ve günlük sorumluluklar hakkında konuşabilir; toplumsal kurallara ilişkin görüşünü ifade edebilir." ${student.level === 'Geçmiş alışkanlıklar, aile anıları ve günlük sorumluluklar hakkında konuşabilir; toplumsal kurallara ilişkin görüşünü ifade edebilir.' ? 'selected' : ''}>⏳ Geçmiş alışkanlıklar, aile anıları ve günlük sorumluluklar hakkında konuşabilir; toplumsal kurallara ilişkin görüşünü ifade edebilir.</option>
+                    <option value="Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir." ${student.level === 'Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir.' ? 'selected' : ''}>🌍 Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir.</option>
+                    <option value="Kişilik özellikleri, kariyer hedefleri, sosyal sorumluluk ve çevre konularında ayrıntılı görüş bildirebilir." ${student.level === 'Kişilik özellikleri, kariyer hedefleri, sosyal sorumluluk ve çevre konularında ayrıntılı görüş bildirebilir.' ? 'selected' : ''}>💼 Kişilik özellikleri, kariyer hedefleri, sosyal sorumluluk ve çevre konularında ayrıntılı görüş bildirebilir.</option>
+                    <option value="Kültürel miras ve tarihi yapıları tanıtabilir, farklı bakış açılarını karşılaştırabilir; bilgilendirici metin yazabilir ve diller arası karışıklıkları fark edebilir." ${student.level === 'Kültürel miras ve tarihi yapıları tanıtabilir, farklı bakış açılarını karşılaştırabilir; bilgilendirici metin yazabilir ve diller arası karışıklıkları fark edebilir.' ? 'selected' : ''}>🏛️ Kültürel miras ve tarihi yapıları tanıtabilir, farklı bakış açılarını karşılaştırabilir; bilgilendirici metin yazabilir ve diller arası karışıklıkları fark edebilir.</option>
+                `;
+
+                // 1. Masaüstü Tablo Satırı İnşası
                 const tr = document.createElement('tr');
+                tr.id = `desktop-row-${student.id}`;
                 tr.className = `hover:bg-slate-50 transition ${student.absent ? 'bg-red-50/40 opacity-75' : ''}`;
-                
-                // Construct the dynamic row content
                 tr.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400 font-medium">${index + 1}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
@@ -489,107 +477,214 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
                         <div class="inline-flex items-center gap-1.5 cursor-pointer select-none">
-                            <input type="checkbox" id="absent-${student.id}" 
+                            <input type="checkbox" id="absent-desktop-${student.id}" 
                                    ${student.absent ? 'checked' : ''} 
                                    onchange="toggleAbsent(${student.id}, this.checked)"
                                    class="w-4.5 h-4.5 text-red-600 bg-slate-100 border-slate-300 rounded focus:ring-red-500 focus:ring-2 cursor-pointer transition">
-                            <label for="absent-${student.id}" class="text-xs font-semibold ${student.absent ? 'text-red-700' : 'text-slate-500'} cursor-pointer">
-                                Devamsız
+                            <label for="absent-desktop-${student.id}" class="text-xs font-semibold ${student.absent ? 'text-red-700' : 'text-slate-500'} cursor-pointer">
+                                Yok
                             </label>
                         </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="relative">
-                            <select onchange="updateLevel(${student.id}, this.value)" 
-                                    class="block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer ${getLevelColorClass(student.level)}">
-                                <option value="" ${student.level === '' ? 'selected' : ''}>-- Seviye Seçin --</option>
-                                <option value="Hiç bilmiyor" ${student.level === 'Hiç bilmiyor' ? 'selected' : ''}>❌ Hiç bilmiyor</option>
-                                <option value="Anlar ama konuşamaz" ${student.level === 'Anlar ama konuşamaz' ? 'selected' : ''}>👂 Anlar ama konuşamaz</option>
-                                <option value="Okur yazar" ${student.level === 'Okur yazar' ? 'selected' : ''}>📚 Okur yazar</option>
-                                <option value="Konuşabilir" ${student.level === 'Konuşabilir' ? 'selected' : ''}>💬 Konuşabilir</option>
+                    <td class="px-6 py-4">
+                        <div class="w-full max-w-xl">
+                            <select id="level-desktop-${student.id}" onchange="updateLevel(${student.id}, this.value)" 
+                                    class="block w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer whitespace-normal ${getLevelColorClass(student.level)}">
+                                ${selectOptionsHTML}
                             </select>
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <textarea oninput="updateNotes(${student.id}, this.value)"
+                        <textarea id="notes-desktop-${student.id}" oninput="updateNotes(${student.id}, this.value)"
                                   rows="1"
-                                  placeholder="Öğretmen yorumu yazın..."
+                                  placeholder="Öğretmen yorumu..."
                                   class="block w-full px-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition resize-y min-h-[36px]">${student.notes}</textarea>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                        <span id="badge-${student.id}">
+                        <span id="badge-desktop-${student.id}">
                             ${getStatusBadge(student)}
                         </span>
                     </td>
                 `;
                 studentTableBody.appendChild(tr);
+
+                // 2. Mobil Kart Düzeni İnşası
+                const card = document.createElement('div');
+                card.id = `mobile-card-${student.id}`;
+                card.className = `bg-white p-4 rounded-xl shadow-sm border ${student.absent ? 'border-red-200 bg-red-50/20 opacity-90' : 'border-slate-200'} space-y-3 transition`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xs">
+                                ${student.firstName[0]}${student.lastName ? student.lastName[0] : ''}
+                            </div>
+                            <div class="ml-2.5">
+                                <div class="text-xs font-bold text-slate-900">${index + 1}. ${student.firstName} ${student.lastName}</div>
+                                <div class="text-[10px] text-slate-400">@${student.username}</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span id="badge-mobile-${student.id}">${getStatusBadge(student)}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2 items-center">
+                        <span class="text-[11px] font-medium text-slate-500">Devamsızlık Durumu:</span>
+                        <div class="flex justify-end">
+                            <label class="inline-flex items-center gap-1.5 cursor-pointer bg-slate-50 px-2 py-1 rounded-md border border-slate-200 text-xs">
+                                <input type="checkbox" id="absent-mobile-${student.id}" 
+                                       ${student.absent ? 'checked' : ''} 
+                                       onchange="toggleAbsent(${student.id}, this.checked)"
+                                       class="text-red-600 bg-slate-100 border-slate-300 rounded focus:ring-red-500">
+                                <span class="text-[11px] font-semibold ${student.absent ? 'text-red-700' : 'text-slate-600'}">Yok İşaretle</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-medium text-slate-500">Dil Seviyesi / Kazanım:</label>
+                        <select id="level-mobile-${student.id}" onchange="updateLevel(${student.id}, this.value)" 
+                                class="block w-full px-2 py-2 text-[11px] bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 whitespace-normal break-words ${getLevelColorClass(student.level)}">
+                            ${selectOptionsHTML}
+                        </select>
+                    </div>
+
+                    <div class="space-y-1">
+                        <label class="block text-[11px] font-medium text-slate-500">Gelişim Notu:</label>
+                        <textarea id="notes-mobile-${student.id}" oninput="updateNotes(${student.id}, this.value)"
+                                  rows="1"
+                                  placeholder="Öğretmen yorumu ekleyin..."
+                                  class="block w-full px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:outline-none transition resize-y min-h-[34px]">${student.notes}</textarea>
+                    </div>
+                `;
+                studentMobileContainer.appendChild(card);
             });
 
             updateStatusCounters();
         }
 
-        // Color coding classes for Language level dropdowns
+        // Color coding classes for Language level dropdowns (Exact Match Architecture)
         function getLevelColorClass(level) {
             switch(level) {
-                case 'Konuşabilir': return 'text-emerald-700 font-semibold bg-emerald-50 border-emerald-300';
-                case 'Okur yazar': return 'text-blue-700 font-semibold bg-blue-50 border-blue-300';
-                case 'Anlar ama konuşamaz': return 'text-amber-700 font-semibold bg-amber-50 border-amber-300';
-                case 'Hiç bilmiyor': return 'text-rose-700 font-semibold bg-rose-50 border-rose-300';
-                default: return 'text-slate-500';
+                case 'Temel selamlaşma, kendini tanıtma ve aile bireylerini tanıtma gibi en basit iletişim ifadelerini kullanabilir.':
+                    return 'text-rose-700 font-semibold bg-rose-50 border-rose-300';
+                case 'Renkleri, şekilleri, sayıları ve günlük nesnelerin adlarını kullanabilir; kısa yönergeleri anlayabilir ve Türk alfabesini tanıyabilir.':
+                    return 'text-amber-700 font-semibold bg-amber-50 border-amber-300';
+                case 'Kendisini ve ailesini kişisel özelliklerle ayrıntılı tanıtabilir; saat, gün, ay ve hava durumu gibi günlük ifadeleri kullanabilir.':
+                    return 'text-orange-700 font-semibold bg-orange-50 border-orange-300';
+                case 'Türkiye\'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir.':
+                case "Türkiye'nin şehirlerini, coğrafi güzelliklerini, millî bayramlarını ve Atatürk başta olmak üzere Türk büyüklerini tanıyabilir; kısa bir metni anlayabilir.":
+                    return 'text-blue-700 font-semibold bg-blue-50 border-blue-300';
+                case 'Geçmiş alışkanlıklar, aile anıları ve günlük sorumluluklar hakkında konuşabilir; toplumsal kurallara ilişkin görüşünü ifade edebilir.':
+                    return 'text-indigo-700 font-semibold bg-indigo-50 border-indigo-300';
+                case 'Kültürel farklılıkları karşılaştırabilir, bir seyahati anlatabilir; metni kendi cümlesiyle özetleyebilir ve atasözü ile deyimleri kullanabilir.':
+                    return 'text-purple-700 font-semibold bg-purple-50 border-purple-300';
+                case 'Kişilik özellikleri, kariyer hedefleri, sosyal sorumluluk ve çevre konularında ayrıntılı görüş bildirebilir.':
+                    return 'text-cyan-700 font-semibold bg-cyan-50 border-cyan-300';
+                case 'Kültürel miras ve tarihi yapıları tanıtabilir, farklı bakış açılarını karşılaştırabilir; bilgilendirici metin yazabilir ve diller arası karışıklıkları fark edebilir.':
+                    return 'text-emerald-700 font-semibold bg-emerald-50 border-emerald-300';
+                default: 
+                    return 'text-slate-600 bg-white border-slate-300';
             }
         }
 
         // Status badge calculations
         function getStatusBadge(student) {
             if (student.absent) {
-                return `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-semibold bg-red-100 text-red-800 border border-red-200"><i class="fa-solid fa-user-xmark mr-1"></i> Yok</span>`;
+                return `<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-red-100 text-red-800 border border-red-200"><i class="fa-solid fa-user-xmark mr-1"></i> Yok</span>`;
             }
             if (student.level) {
-                return `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200"><i class="fa-solid fa-circle-check mr-1"></i> Tamam</span>`;
+                return `<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200"><i class="fa-solid fa-circle-check mr-1"></i> Tamam</span>`;
             }
-            return `<span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-500 border border-slate-200"><i class="fa-solid fa-clock mr-1"></i> Bekliyor</span>`;
+            return `<span class="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold bg-slate-100 text-slate-500 border border-slate-200"><i class="fa-solid fa-clock mr-1"></i> Bekliyor</span>`;
         }
 
-        // Event: Toggle individual attendance
+        // Event: Synchronized Attendance Toggle
         function toggleAbsent(id, isChecked) {
             const index = students.findIndex(s => s.id === id);
             if (index !== -1) {
                 students[index].absent = isChecked;
-                // If student is marked absent, we optionally clear level or keep it (keeping is safer but let's re-render row styling)
-                const tr = document.getElementById(`absent-${id}`).closest('tr');
-                if (isChecked) {
-                    tr.classList.add('bg-red-50/40', 'opacity-75');
-                } else {
-                    tr.classList.remove('bg-red-50/40', 'opacity-75');
+                
+                // Sync desktop element inputs
+                const desktopCb = document.getElementById(`absent-desktop-${id}`);
+                if(desktopCb) desktopCb.checked = isChecked;
+                
+                // Sync mobile element inputs
+                const mobileCb = document.getElementById(`absent-mobile-${id}`);
+                if(mobileCb) mobileCb.checked = isChecked;
+                
+                // Update Desktop Row Styles
+                const dTr = document.getElementById(`desktop-row-${id}`);
+                if(dTr) {
+                    if (isChecked) dTr.classList.add('bg-red-50/40', 'opacity-75');
+                    else dTr.classList.remove('bg-red-50/40', 'opacity-75');
+                }
+
+                // Update Mobile Card Styles
+                const mCard = document.getElementById(`mobile-card-${id}`);
+                if(mCard) {
+                    if (isChecked) {
+                        mCard.classList.add('border-red-200', 'bg-red-50/20', 'opacity-90');
+                    } else {
+                        mCard.classList.remove('border-red-200', 'bg-red-50/20', 'opacity-90');
+                    }
                 }
                 
-                // Update badge live
-                document.getElementById(`badge-${id}`).innerHTML = getStatusBadge(students[index]);
+                // Redraw status badge sync points
+                const badgeD = document.getElementById(`badge-desktop-${id}`);
+                const badgeM = document.getElementById(`badge-mobile-${id}`);
+                const generalBadgeHTML = getStatusBadge(students[index]);
+                
+                if(badgeD) badgeD.innerHTML = generalBadgeHTML;
+                if(badgeM) badgeM.innerHTML = generalBadgeHTML;
+                
                 updateStatusCounters();
             }
         }
 
-        // Event: Update individual level
+        // Event: Synchronized Level Changes
         function updateLevel(id, value) {
             const index = students.findIndex(s => s.id === id);
             if (index !== -1) {
                 students[index].level = value;
                 
-                // Update row's dropdown class live to make it colourful
-                const selectElement = document.getElementById(`absent-${id}`).closest('tr').querySelector('select');
-                selectElement.className = `block w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer ${getLevelColorClass(value)}`;
+                // Sync Desktop UI Selectors
+                const dSelect = document.getElementById(`level-desktop-${id}`);
+                if(dSelect) {
+                    dSelect.value = value;
+                    dSelect.className = `block w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer whitespace-normal ${getLevelColorClass(value)}`;
+                }
                 
-                // Update badge live
-                document.getElementById(`badge-${id}`).innerHTML = getStatusBadge(students[index]);
+                // Sync Mobile UI Selectors
+                const mSelect = document.getElementById(`level-mobile-${id}`);
+                if(mSelect) {
+                    mSelect.value = value;
+                    mSelect.className = `block w-full px-2 py-2 text-[11px] bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 whitespace-normal break-words ${getLevelColorClass(value)}`;
+                }
+                
+                // Badge synchronizations
+                const badgeD = document.getElementById(`badge-desktop-${id}`);
+                const badgeM = document.getElementById(`badge-mobile-${id}`);
+                const generalBadgeHTML = getStatusBadge(students[index]);
+                
+                if(badgeD) badgeD.innerHTML = generalBadgeHTML;
+                if(badgeM) badgeM.innerHTML = generalBadgeHTML;
+                
                 updateStatusCounters();
             }
         }
 
-        // Event: Update teacher notes
+        // Event: Synchronized Teacher Notes Changes
         function updateNotes(id, text) {
             const index = students.findIndex(s => s.id === id);
             if (index !== -1) {
                 students[index].notes = text;
+                
+                const dNotes = document.getElementById(`notes-desktop-${id}`);
+                if(dNotes && dNotes.value !== text) dNotes.value = text;
+                
+                const mNotes = document.getElementById(`notes-mobile-${id}`);
+                if(mNotes && mNotes.value !== text) mNotes.value = text;
             }
         }
 
@@ -604,31 +699,7 @@
             renderStudents(filtered);
         }
 
-        // Event: Apply bulk action changes to all students
-        function applyBulkLevel(val) {
-            if (!val) return;
-            
-            if (val === 'Temizle') {
-                students.forEach(s => {
-                    s.level = '';
-                    s.absent = false;
-                    s.notes = '';
-                });
-                showToast("Tüm değerlendirmeler sıfırlandı.");
-            } else {
-                students.forEach(s => {
-                    if (!s.absent) { // do not override absent students unless necessary
-                        s.level = val;
-                    }
-                });
-                showToast(`Tüm aktif öğrenciler "${val}" olarak ayarlandı.`);
-            }
-
-            renderStudents();
-            bulkLevelSelect.value = ''; // reset action selector
-        }
-
-        // Evaluation metrics calculation & updating progress visual indicators
+        // Metrics Engine Tracker
         function updateStatusCounters() {
             const total = students.length;
             const evaluated = students.filter(s => s.absent || s.level !== '').length;
@@ -643,22 +714,18 @@
             if (evaluatedCount) evaluatedCount.textContent = evaluated;
         }
 
-        // Generate and download the professional Excel Workbook
+        // Professional Excel Document Engine
         function exportToExcel() {
             const courseName = courseNameInput.value.trim() || 'Kurs_Değerlendirme_Listesi';
-            
-            // Format course title for clean file output
             const safeCourseName = courseName.replace(/[^a-zA-Z0-9_ÇŞĞÜÖİçşğüöı-]/g, '_');
 
-            // 1. Prepare raw Excel worksheet data structure
             const excelRows = [
                 ["KURS ADI:", courseName, "", "", "", ""],
                 ["DEĞERLENDİRME TARİHİ:", new Date().toLocaleDateString('tr-TR'), "", "", "", ""],
-                [], // Empty spacing row
-                ["Öğrencinin Adı", "Öğrencinin Soyadı", "Kullanıcı Adı", "Devamsızlık Durumu", "Dil Seviyesi", "Öğretmen Yorumu"]
+                [], 
+                ["Öğrencinin Adı", "Öğrencinin Soyadı", "Kullanıcı Adı", "Devamsızlık Durumu", "Dil Seviyesi / Kazanım Tanımı", "Öğretmen Yorumu"]
             ];
 
-            // 2. Append student objects
             students.forEach(s => {
                 excelRows.push([
                     s.firstName,
@@ -670,25 +737,20 @@
                 ]);
             });
 
-            // 3. Construct Workbook
             const wb = XLSX.utils.book_new();
             const ws = XLSX.utils.aoa_to_sheet(excelRows);
 
-            // Configure spreadsheet column widths for immediate readability
             ws['!cols'] = [
-                { wch: 22 }, // Öğrencinin Adı
-                { wch: 22 }, // Öğrencinin Soyadı
-                { wch: 18 }, // Kullanıcı Adı
-                { wch: 20 }, // Devamsızlık
-                { wch: 25 }, // Dil Seviyesi
-                { wch: 45 }  // Yorumlar
+                { wch: 22 }, 
+                { wch: 22 }, 
+                { wch: 18 }, 
+                { wch: 20 }, 
+                { wch: 65 }, 
+                { wch: 45 }  
             ];
 
             XLSX.utils.book_append_sheet(wb, ws, "Dil Değerlendirme Raporu");
-
-            // 4. Download file safely
             XLSX.writeFile(wb, `${safeCourseName}.xlsx`);
-            
             showToast(`${safeCourseName}.xlsx başarıyla indirildi!`);
         }
     </script>

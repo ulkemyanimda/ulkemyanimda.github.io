@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="tr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sultan Suyu Masalı</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&amp;family=Quicksand:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; background: #f0f9ff; }
+    .book-wrapper { perspective: 1800px; width: 100%; height: 100%; }
+    .page { position: absolute; inset: 0; backface-visibility: hidden; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.4s ease; transform-origin: left center; will-change: transform, opacity; }
+    .page.current { transform: rotateY(0deg); opacity: 1; z-index: 10; }
+    .page.next { transform: rotateY(0deg); opacity: 0; z-index: 5; pointer-events: none; }
+    .page-enter-from-right { animation: enterRight 0.8s forwards; }
+    .page-exit-to-left { animation: exitLeft 0.8s forwards; }
+    .page-enter-from-left { animation: enterLeft 0.8s forwards; }
+    .page-exit-to-right { animation: exitRight 0.8s forwards; }
+    @keyframes enterRight { from { transform: rotateY(40deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+    @keyframes exitLeft { from { transform: rotateY(0deg); opacity: 1; } to { transform: rotateY(-120deg); opacity: 0; } }
+    @keyframes enterLeft { from { transform: rotateY(-40deg); opacity: 0; } to { transform: rotateY(0deg); opacity: 1; } }
+    @keyframes exitRight { from { transform: rotateY(0deg); opacity: 1; } to { transform: rotateY(120deg); opacity: 0; } }
+    .nav-btn { transition: all 0.3s ease; backdrop-filter: blur(8px); cursor: pointer; }
+    .nav-btn:hover { transform: scale(1.1); }
+    .dot { width: 10px; height: 10px; border-radius: 50%; transition: all 0.4s ease; cursor: pointer; }
+    .dot.active { transform: scale(1.4); }
+    .story-text { font-family: 'Quicksand', sans-serif; line-height: 1.8; }
+    .title-font { font-family: 'Baloo 2', cursive; }
+    .img-placeholder { aspect-ratio: 3/2; border-radius: 16px; overflow: hidden; background: #e2e8f0; border: 4px solid white; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+    .page-bg-0 { background: linear-gradient(160deg, #fffbeb, #fef3c7); }
+    .page-bg-1 { background: linear-gradient(160deg, #f0fdfa, #ccfbf1); }
+    .page-bg-2 { background: linear-gradient(160deg, #fff7ed, #ffedd5); }
+    .page-bg-3 { background: linear-gradient(160deg, #eff6ff, #dbeafe); }
+    .page-bg-4 { background: linear-gradient(160deg, #fdf2f8, #fce7f3); }
+    .page-bg-5 { background: linear-gradient(160deg, #fefce8, #fef9c3); }
+    .page-bg-6 { background: linear-gradient(160deg, #f5f3ff, #ede9fe); }
+    .float-anim { animation: floatUp 3s ease-in-out infinite; }
+    @keyframes floatUp { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  </style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full flex flex-col items-center justify-center">
+   <div class="relative w-full h-full max-w-2xl mx-auto flex flex-col shadow-2xl overflow-hidden bg-white">
+    
+    <div class="flex-1 relative overflow-hidden book-wrapper" id="bookArea">
+     
+     <div class="page current page-bg-0" data-page="0" id="page-0" style="background-image: url('kapak.jpg'); background-size: cover; background-position: center;">
+      <div class="h-full flex flex-col items-center justify-center p-6 relative bg-white/70">
+       <div class="float-anim mb-4" style="font-size:5rem;">💧</div>
+       <h1 class="title-font text-5xl font-extrabold text-blue-900 text-center mb-2">Sultan Suyu</h1>
+       <p class="story-text text-blue-800 text-xl text-center font-medium">Fatih Sultan Mehmet'in Hikayesi</p>
+       <div class="mt-10 flex items-center gap-2 text-blue-600 animate-pulse">
+        <span class="text-sm font-bold">BAŞLAMAK İÇİN TIKLA</span>
+        <i data-lucide="chevron-right"></i>
+       </div>
+      </div>
+     </div>
+
+     <div class="page next page-bg-1" data-page="1" id="page-1">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-teal-600 mb-2 tracking-widest">BÖLÜM 1</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="1.jpg" alt="Sultan Mehmet" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Sayfa+1'"></div>
+       <p class="story-text text-gray-800 text-lg">Türk sultanlarından Fatih Sultan Mehmet, Trabzon’u almak için sefere çıkmış. Zigana dağlarına geldiğinde çok susamış. Çok da yorgunmuş. Dağın tepesine yürüyerek çıktığı için terlemiş. Çeşmeye yaklaşmış.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-2" data-page="2" id="page-2">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-orange-600 mb-2 tracking-widest">BÖLÜM 2</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="2.jpg" alt="Kız ve Çeşme" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Sayfa+2'"></div>
+       <p class="story-text text-gray-800 text-lg italic bg-white/50 p-4 rounded-xl shadow-sm">Güzel bir kız çeşmede su dolduruyormuş. Sultan Mehmet: — Güzel kızım! Bana bir tas su verir misin? demiş.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-3" data-page="3" id="page-3">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-blue-600 mb-2 tracking-widest">BÖLÜM 3</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="3.jpg" alt="Su dökme" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Sayfa+3'"></div>
+       <p class="story-text text-gray-800 text-lg">Kız tasını doldurmuş. Fatih Sultan Mehmet’in yanına gelince suyu yere dökmüş. Kız, tekrar çeşmeye dönmüş. Bu hareketi üç kez tekrarlamış. Dördüncüde doldurduğu suyu Fatih Sultan Mehmet’e uzatmış.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-4" data-page="4" id="page-4">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-pink-600 mb-2 tracking-widest">BÖLÜM 4</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="4.jpg" alt="Diyalog" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Sayfa+4'"></div>
+       <div class="story-text text-gray-800 text-lg">
+        <p class="mb-3">Fatih Sultan Mehmet suyu içmiş. Sonra kıza: —Güzel kızım! Neden üç kez suyu döktün? Neden dördüncüde verdin? demiş.</p>
+        <p class="font-bold text-pink-900 border-l-4 border-pink-400 pl-4 bg-pink-50/50 py-2">Kız, Fatih Sultan Mehmet’e şöyle cevap vermiş: —Sultanım! Hava çok sıcak, terlemişsinizdir. Bu su çok soğuktur. Terliyken içip hastalanmayasın diye öyle yaptım.</p>
+       </div>
+      </div>
+     </div>
+
+     <div class="page next page-bg-5" data-page="5" id="page-5">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-yellow-600 mb-2 tracking-widest">BÖLÜM 5</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="5.jpg" alt="Teşekkür" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Sayfa+5'"></div>
+       <p class="story-text text-gray-800 text-lg">Fatih Sultan Mehmet, güzel kızın bu düşüncesinden çok hoşlanmış. Ona teşekkür etmiş. Kıza hediyeler vermiş.</p>
+      </div>
+     </div>
+
+     <div class="page next page-bg-6" data-page="6" id="page-6">
+      <div class="h-full flex flex-col p-6 overflow-auto">
+       <div class="text-xs font-bold text-violet-600 mb-2 tracking-widest">BÖLÜM 6</div>
+       <div class="img-placeholder mb-4 flex-shrink-0"><img src="6.jpg" alt="Fetih" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Sayfa+6'"></div>
+       <p class="story-text text-gray-800 text-lg">Sonra atına binmiş. Trabzon’u fethetmeye gitmiş. O günden sonra da bu çeşmenin adı Sultan suyu olarak anılmış.</p>
+       <p class="text-center text-violet-600 font-bold title-font mt-8 text-2xl animate-bounce">— SON —</p>
+      </div>
+     </div>
+
+     <button id="prevBtn" class="nav-btn absolute left-4 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-white/90 text-blue-900 flex items-center justify-center shadow-xl" style="display:none;" onclick="prevPage()"><i data-lucide="chevron-left"></i></button>
+     <button id="nextBtn" class="nav-btn absolute right-4 top-1/2 -translate-y-1/2 z-40 w-12 h-12 rounded-full bg-white/90 text-blue-900 flex items-center justify-center shadow-xl" onclick="nextPage()"><i data-lucide="chevron-right"></i></button>
+    </div>
+
+    <div class="flex-shrink-0 h-14 border-t flex items-center justify-between px-6 bg-slate-50">
+      <div class="w-10"></div> <div class="dots-container" id="dotsContainer"></div>
+      <button onclick="toggleFullscreen()" class="nav-btn w-10 h-10 flex items-center justify-center text-gray-500 hover:text-blue-600" title="Tam Ekran">
+        <i data-lucide="maximize" id="fsIcon"></i>
+      </button>
+    </div>
+   </div>
+  </div>
+
+  <script>
+    const TOTAL_PAGES = 7;
+    let currentPage = 0;
+    let animating = false;
+
+    // Noktaları oluştur
+    const dotsContainer = document.getElementById('dotsContainer');
+    for (let i = 0; i < TOTAL_PAGES; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.onclick = () => goToPage(i);
+      dotsContainer.appendChild(dot);
+    }
+
+    function updateDots() {
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.style.background = i === currentPage ? '#1e40af' : '#cbd5e1';
+        d.classList.toggle('active', i === currentPage);
+      });
+    }
+
+    function updateNav() {
+      document.getElementById('prevBtn').style.display = currentPage > 0 ? 'flex' : 'none';
+      document.getElementById('nextBtn').style.display = currentPage < TOTAL_PAGES - 1 ? 'flex' : 'none';
+    }
+
+    function animateTransition(fromIdx, toIdx, direction) {
+      if (animating || fromIdx === toIdx) return;
+      animating = true;
+
+      const fromEl = document.getElementById('page-' + fromIdx);
+      const toEl = document.getElementById('page-' + toIdx);
+      
+      // Temizlik
+      document.querySelectorAll('.page').forEach(p => {
+        p.classList.remove('current', 'page-enter-from-right', 'page-exit-to-left', 'page-enter-from-left', 'page-exit-to-right');
+        if (p.id !== 'page-' + fromIdx && p.id !== 'page-' + toIdx) p.style.opacity = '0';
+      });
+
+      toEl.style.opacity = '1';
+      toEl.style.zIndex = '20';
+      fromEl.style.zIndex = '10';
+
+      if (direction === 'forward') {
+        fromEl.classList.add('page-exit-to-left');
+        toEl.classList.add('page-enter-from-right');
+      } else {
+        fromEl.classList.add('page-exit-to-right');
+        toEl.classList.add('page-enter-from-left');
+      }
+
+      setTimeout(() => {
+        currentPage = toIdx;
+        document.querySelectorAll('.page').forEach((p, idx) => {
+          p.style.opacity = idx === currentPage ? '1' : '0';
+          p.style.zIndex = idx === currentPage ? '10' : '5';
+          p.className = 'page ' + (idx === currentPage ? 'current' : 'next') + ' page-bg-' + idx;
+        });
+        updateDots();
+        updateNav();
+        animating = false;
+      }, 800);
+    }
+
+    function nextPage() { if (currentPage < TOTAL_PAGES - 1) animateTransition(currentPage, currentPage + 1, 'forward'); }
+    function prevPage() { if (currentPage > 0) animateTransition(currentPage, currentPage - 1, 'backward'); }
+    function goToPage(i) { if (i !== currentPage) animateTransition(currentPage, i, i > currentPage ? 'forward' : 'backward'); }
+
+    function toggleFullscreen() {
+      const app = document.getElementById('app');
+      const icon = document.getElementById('fsIcon');
+      if (!document.fullscreenElement) {
+        app.requestFullscreen();
+        icon.setAttribute('data-lucide', 'minimize');
+      } else {
+        document.exitFullscreen();
+        icon.setAttribute('data-lucide', 'maximize');
+      }
+      lucide.createIcons();
+    }
+
+    // Kapak tıklama ile başlama
+    document.getElementById('page-0').addEventListener('click', () => { if(currentPage === 0) nextPage(); });
+    
+    // Klavye kontrolleri
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "ArrowRight") nextPage();
+      if (e.key === "ArrowLeft") prevPage();
+    });
+
+    updateDots();
+    updateNav();
+    lucide.createIcons();
+  </script>
+ </body>
+</html>
