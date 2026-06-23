@@ -118,9 +118,9 @@
             background-color: #f8fafc; 
         }
 
-        /* 8 Seviyeli Dil Grupları Grid Yapısı (Tablosuz, modern kartlar) */
+        /* Dil Grupları Grid Yapısı (Tablosuz, modern kartlar) */
         .level-grid {
-            display: block; /* WeasyPrint ve genel uyum için blok akışlı ve marginli temiz yerleşim */
+            display: block; 
         }
 
         .level-card {
@@ -155,6 +155,15 @@
             margin-bottom: 8px;
             font-size: 1.1rem;
         }
+        
+        .level-desc {
+            font-size: 0.95rem;
+            color: #546e7a;
+            margin-bottom: 8px;
+            font-style: italic;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 8px;
+        }
 
         /* Afiş / Görsel Alanları */
         .poster-container {
@@ -176,6 +185,13 @@
             display: block;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .poster-note {
+            font-size: 0.95rem;
+            color: #2c3e50;
+            margin-top: 10px;
+            font-weight: bold;
         }
 
         /* Örnek / Kombinasyon Alanı */
@@ -223,10 +239,10 @@
 
     <p class="intro-text">
         Yurt dışındaki öğrencilerimiz için özel olarak geliştirilen "Ülkem Yanımda" platformunda sınıflarımız; 
-        öğrencilerin <strong>yaş gelişim akademik kademelerine</strong> ve <strong>8 aşamalı dil yetkinlik seviyelerine</strong> göre tam optimize şekilde yapılandırılmaktadır.
+        öğrencilerin <strong>yaş gelişim akademik kademelerine</strong> ve <strong>sarmal dil yetkinlik seviyelerine</strong> göre tam optimize şekilde yapılandırılmaktadır.
     </p>
 
-    <!-- AFİŞ 1: YAŞ GRUPLARI -->
+    <!-- YAŞ GRUPLARI -->
     <h2>1. Yaş Gruplarımız (Akademik Kademeler)</h2>
     <p>Öğrencilerimizin yaş gelişimine uygun pedagojik yaklaşımı ve materyalleri belirlemek için 4 ana kademe esas alınır:</p>
 
@@ -243,22 +259,22 @@
                 <tr>
                     <td><strong>Tohum</strong></td>
                     <td>5-6 yaş</td>
-                    <td>Okul öncesi, oyun ve şarkı odaklı başlangıç düzeyi farkındalık etkinlikleri.</td>
+                    <td>Okul öncesi kademe; oyun, şarkı ve hikâye odaklı etkinliklerle Türkçe ve Türk kültürüne ilk adım.</td>
                 </tr>
                 <tr>
                     <td><strong>Filiz</strong></td>
                     <td>7-9 yaş</td>
-                    <td>İlkokul kademesi; temel okuma-yazmaya hazırlık, kelime dağarcığı geliştirme ve görsel destekli öğrenim.</td>
+                    <td>İlkokul kademesi; görsel ve oyun ağırlıklı etkinliklerle sözlü becerilerden yazılı becerilere, temel iletişimden bağımsız konuşmaya uzanan dil gelişimi ve kültürel anlama.</td>
                 </tr>
                 <tr>
                     <td><strong>Fidan</strong></td>
                     <td>10-12 yaş</td>
-                    <td>Ortaokul kademesi; aktif iletişim, okuduğunu anlama, temel dil bilgisi ve kültürel ögeler.</td>
+                    <td>Ortaokul kademesi; okuma-yazma odaklı akademik etkinliklerle sözlü becerilerden yazılı becerilere, temel iletişimden bağımsız konuşmaya uzanan dil gelişimi ve kültürel karşılaştırma.</td>
                 </tr>
                 <tr>
                     <td><strong>Çınar</strong></td>
                     <td>13-16 yaş</td>
-                    <td>Lise ve ileri düzey grubu; edebi ve kültürel derinleşme, kompozisyon, akıcı tartışma ve eleştirel okuma.</td>
+                    <td>Lise kademesi; akademik etkinliklerle sözlü becerilerden yazılı becerilere, temel iletişimden eleştirel okuma ve akıcı tartışmaya uzanan dil gelişimi ve kültürel derinleşme.</td>
                 </tr>
             </tbody>
         </table>
@@ -266,86 +282,85 @@
 
     <!-- Yaş Afişi Entegrasyonu -->
     <div class="poster-container">
-
+        <div class="poster-note">
+            Okul öncesi: farkındalık ve hazırlık <br>
+            İlkokul: başlangıç, temel ve orta <br>
+            Ortaokul: başlangıç, temel ve orta <br>
+            Lise: başlangıç, temel, orta ve ileri
+        </div>
         <img src="yas.jpg" alt="Ülkem Yanımda Yaş Grupları Afişi" class="poster-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
         <div style="display:none; padding: 20px; color: #666; font-style: italic;">[ yas.jpg afişiniz bu alanda görüntülenecektir. Dosyanın web sayfasıyla aynı klasörde olduğundan emin olunuz. ]</div>
     </div>
 
 
-    <!-- 8 SEVİYELİ DİL GRUPLARI -->
-    <h2>2. Dil Seviye Grupları (8 Kademeli Sarmal Yapı)</h2>
-    <p>Milli Eğitim Bakanlığı müfredatı ve uluslararası dil portfolyolarına uygun olarak güncellenen 8 aşamalı seviye yapımız:</p>
+    <!-- DİL SEVİYE GRUPLARI -->
+    <h2>2. Dil Seviye Grupları (Sarmal Yapı)</h2>
+    <p>Milli Eğitim Bakanlığı müfredatı ve uluslararası dil portfolyolarına uygun olarak güncellenen aşamalı seviye yapımız:</p>
 
     <div class="level-grid">
         
         <div class="level-card">
-            <div class="level-badge">Seviye 1</div>
-            <div class="level-title">Farkındalık ve İlk Adım (A1.1)</div>
-            <div>Türkçeyle yeni tanışan, hiç bilmeyen ya da sadece birkaç kelime duymuş olan çocuklar için temel ses, alfabe ve tanışma adımları.</div>
+            <div class="level-badge">Okul Öncesi</div>
+            <div class="level-title">Farkındalık (5-6 Yaş)</div>
+            <div class="level-desc">Oyun, şarkı ve hikâye yoluyla temel selamlama ve sözcükleri tanıma, basit yönergeleri anlama ve Türk kültürüne ilk temas.</div>
+            <div><strong>Görsel / Yetkinlik Tanımı:</strong> Türkçe selamlama ifadelerini ve temel sözcükleri duyduğunda tanıyabilir; basit yönergeleri anlayabilir; Türk kültürüne ait şarkı ve tekerlemelere eşlik edebilir.</div>
         </div>
 
         <div class="level-card">
-            <div class="level-badge">Seviye 2</div>
-            <div class="level-title">Temel İletişim / Dinleyici (A1.2)</div>
-            <div>Günlük hayattaki çok basit ve somut ifadeleri, talimatları anlayabilen ancak kendisini ifade etmekte yoğun desteğe ihtiyaç duyanlar.</div>
+            <div class="level-badge">Okul Öncesi</div>
+            <div class="level-title">Hazırlık (5-6 Yaş)</div>
+            <div class="level-desc">Oyun, şarkı ve hikâye yoluyla günlük iletişim kurma, duygu ve ihtiyaçlarını ifade etme ve Türk kültürüne ilk temas.</div>
+            <div><strong>Görsel / Yetkinlik Tanımı:</strong> Günlük ihtiyaçlarını ve duygularını Türkçe ifade edebilir; aile üyelerini, renkleri, sayıları ve hayvanları Türkçe söyleyebilir; Türk kültürüne ait oyun, şarkı ve geleneklere etkin katılabilir.</div>
         </div>
 
         <div class="level-card">
-            <div class="level-badge">Seviye 3</div>
-            <div class="level-title">Kendini İfade Etme / Başlangıç Konuşmacı (A2.1)</div>
-            <div>Ailesi ve yakın çevresiyle ilgili basit cümleler kurabilen, temel ihtiyaçlarını (açlık, oyun, istekler) Türkçe ifade edebilen seviye.</div>
+            <div class="level-badge">Seviye Grupları</div>
+            <div class="level-title">Başlangıç</div>
+            <div class="level-desc">Temel selamlama ve tanışmadan günlük hayatı tarif etmeye uzanan iletişim becerilerini kullanma ve Türk kültürünü tanıma ve fark etme.</div>
+            <div><strong>Görsel / Yetkinlik Tanımı:</strong> Temel selamlama ve tanışma kalıplarını kullanabilir; kendini, ailesini ve günlük hayatını basit cümlelerle tarif edebilir; saat, gün ve sayıları kullanabilir; Türk yemeklerini, geleneksel oyunları, bayramları ve Nasreddin Hoca gibi kültürel figürleri tanıyabilir.</div>
         </div>
 
         <div class="level-card">
-            <div class="level-badge">Seviye 4</div>
-            <div class="level-title">Gelişen Konuşma ve Akıcılık (A2.2)</div>
-            <div>Karşılıklı konuşmaları rahatça takip edip katılan, ancak okuma ve yazma gibi akademik becerilerde henüz yolun başında olanlar.</div>
+            <div class="level-badge">Seviye Grupları</div>
+            <div class="level-title">Temel</div>
+            <div class="level-desc">Günlük hayatı betimleme ve gerekçelendirmeden plan ve öneri sunmaya uzanan iletişim becerilerini kullanma ve Türk kültürünü anlama ve uygulama.</div>
+            <div><strong>Görsel / Yetkinlik Tanımı:</strong> Kendini ve çevresini ayrıntılı betimleyebilir; duygu ve durumlarını nedenleriyle açıklayabilir; plan ve öneri sunabilir; Türk kültürüne ait bayram geleneklerini, bölgesel yemekleri ve sofra adabını doğru bağlamda kullanabilir.</div>
         </div>
 
         <div class="level-card">
-            <div class="level-badge">Seviye 5</div>
-            <div class="level-title">Okuryazarlık Köprüsü (B1.1)</div>
-            <div>Türkçe konuşmada yetkin olup, okuma-yazma kurallarını, harf-ses ilişkilerini akademik düzeyde yeni öğrenmeye başlayanlar.</div>
+            <div class="level-badge">Seviye Grupları</div>
+            <div class="level-title">Orta</div>
+            <div class="level-desc">Kişisel deneyim ve geçmişi anlatmadan kültürel kimlik ve aidiyet üzerine karşılaştırmalı yorumlar yapmaya uzanan iletişim becerilerini kullanma ve Türk kültürünü diğer kültürlerle karşılaştırma ve yorumlama.</div>
+            <div><strong>Görsel / Yetkinlik Tanımı:</strong> Kişisel geçmişini ve deneyimlerini bağlantılı cümlelerle anlatabilir; farklı yaşam biçimlerini ve kültürel değerleri karşılaştırabilir; aidiyet, göç ve kültürel kimlik üzerine yorumlar yapabilir; Türk kültürünü yaşadığı ülkenin kültürüyle karşılaştırabilir.</div>
         </div>
 
         <div class="level-card">
-            <div class="level-badge">Seviye 6</div>
-            <div class="level-title">Bağımsız Kullanıcı / Metin Çözümleme (B1.2)</div>
-            <div>Kendi başına kısa hikayeler okuyabilen, basit kompozisyonlar yazabilen ve soyut kavramlar üzerine basit düzeyde fikir yürütenler.</div>
-        </div>
-
-        <div class="level-card">
-            <div class="level-badge">Seviye 7</div>
-            <div class="level-title">Kültürel Yetkinlik ve Akıcı Dil (B2.1)</div>
-            <div>Türkçeyi hem sosyal hem de yapısal olarak doğru kullanan; atasözleri, deyimler ve Türk kültür ögelerini rahatça yorumlayabilen grup.</div>
-        </div>
-
-        <div class="level-card">
-            <div class="level-badge">Seviye 8</div>
-            <div class="level-title">Tam Akademik Yetkinlik (B2.2 ve Üzeri)</div>
-            <div>Anadil seviyesinde anlama, konuşma, okuma ve yazma becerisine sahip; edebi metinleri analiz edebilen en ileri düzey akademik grup.</div>
+            <div class="level-badge">Seviye Grupları</div>
+            <div class="level-title">İleri</div>
+            <div class="level-desc">Kimlik, kültür ve toplumsal konularda eleştirel analiz ve sistematik argüman geliştirmeden kişisel vizyon ve değerleri savunmaya uzanan iletişim becerilerini kullanma ve Türk kültürünü derinlemesine analiz etme ve tartışma.</div>
+            <div><strong>Görsel / Yetkinlik Tanımı:</strong> Kimlik, kültür ve toplumsal konularda sistematik argüman geliştirebilir ve savunabilir; nesiller arası farklılıkları ve sosyal değişimi eleştirel gözle analiz edebilir; kişisel vizyon ve değerlerini derinlemesine ifade edebilir; Türk kültürünü küresel bağlamda tartışabilir ve analiz edebilir.</div>
         </div>
 
     </div>
 
     <!-- Dil Afişi Entegrasyonu -->
     <div class="poster-container">
-
         <img src="dil.jpg" alt="Ülkem Yanımda Dil Seviyeleri Afişi" class="poster-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
         <div style="display:none; padding: 20px; color: #666; font-style: italic;">[ dil.jpg afişiniz bu alanda görüntülenecektir. Dosyanın web sayfasıyla aynı klasörde olduğundan emin olunuz. ]</div>
     </div>
 
 
-    <!-- NASIL SINIF OLUŞTURULUYOR? -->
-    <h2>3. Dinamik Sınıf Optimizasyonu</h2>
-    <p>Pedagojik verimlilik açısından sınıflarımız oluşturulurken bu iki ana kriter (Yaş Grubu + Dil Seviyesi) matris şeklinde birleştirilir:</p>
+    <!-- DINAMIK DIL OPTIMIZASYONU -->
+    <h2>3. Dinamik Dil Optimizasyonu</h2>
+    <p>Pedagojik verimlilik açısından sınıflarımız oluşturulurken akademik kademeler ile dil seviyeleri en ideal şekilde eşleştirilir:</p>
 
     <div class="example-box">
         <h3>Sınıf Kombinasyon Örnekleri:</h3>
         <ul>
-            <li><strong>Fidan - Seviye 3 (Ortaokul Başlangıç Konuşmacı):</strong> 10-12 yaş grubunda olup, Türkçeyi evde anlayabilen ancak cümle kurma aşamasında olan öğrencilerin bir arada olduğu sınıf.</li>
-            <li><strong>Çınar - Seviye 7 (Lise İleri Kültürel Yetkinlik):</strong> 13-16 yaş aralığında, Türkçeye yapısal olarak hâkim ve kültürel derinleşme dersi alan gençlerimiz.</li>
-            <li><strong>Tohum - Seviye 1 (Okul Öncesi İlk Adım):</strong> 5-6 yaş grubunda, Türkçe ile ilk defa oyunlar ve şarkılar vasıtasıyla tanışan miniklerimizin sınıfı.</li>
+            <li><strong>Tohum - Farkındalık:</strong> 5-6 yaş grubunda olup Türkçeye henüz adım atmamış, oyun ve şarkılarla dile ilk kez tanışan öğrencilerin bir arada olduğu sınıf.</li>
+            <li><strong>Filiz - Başlangıç:</strong> 7-9 yaş grubunda olup Türkçeyi evde duyarak büyümüş ancak kendini ifade etmekte desteğe ihtiyaç duyan öğrencilerin bir arada olduğu sınıf.</li>
+            <li><strong>Fidan - Orta:</strong> 10-12 yaş grubunda olup Türkçeyi akıcı konuşabilen ancak okuma-yazma becerilerini geliştirme aşamasında olan öğrencilerin bir arada olduğu sınıf.</li>
+            <li><strong>Çınar - İleri:</strong> 13-16 yaş grubunda olup Türkçeyi hem sözlü hem yazılı olarak güçlü kullanan ve kültürel derinleşme hedefleyen öğrencilerin bir arada olduğu sınıf.</li>
         </ul>
     </div>
 
