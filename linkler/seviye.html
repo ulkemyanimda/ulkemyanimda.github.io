@@ -5,127 +5,355 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ülkem Yanımda: Türkçe ve Türk Kültürü Dersi - Sınıf Belirleme ve Seviye Grupları Rehberi</title>
     <style>
+        /* Modern ve Kurumsal Renk Paleti: Derin Turkuaz, Kiremit, Yumuşak Krem ve Gri */
+        :root {
+            --primary-color: #0b4c5f;
+            --primary-light: #126d87;
+            --accent-color: #e05a47;
+            --text-color: #2c3e50;
+            --bg-light: #fdfbf7;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body { 
-            font-family: Arial, Helvetica, sans-serif; 
-            margin: 40px; 
-            line-height: 1.6; 
-            color: #333; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.7; 
+            color: var(--text-color);
+            background-color: var(--bg-light);
         }
-        h1 { 
-            text-align: center; 
-            color: #2c3e50; 
+
+        /* Üst Bilgi / Banner */
+        .header-banner {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--accent-color);
+            position: relative;
         }
+
+        .header-banner h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-banner p {
+            margin: 10px 0 0 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        /* Ana Konteyner */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #546e7a;
+        }
+
+        /* Başlık Stilleri */
         h2 { 
-            color: #2980b9; 
-            border-bottom: 2px solid #3498db; 
-            padding-bottom: 8px; 
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
         }
+
+        h3 {
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        /* Tablo Tasarımı */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 25px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
         table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin: 20px 0; 
+            background-color: var(--card-bg);
         }
+
         th, td { 
-            border: 1px solid #bdc3c7; 
-            padding: 12px; 
-            text-align: left; 
-        }
-        th { 
-            background-color: #3498db; 
-            color: white; 
-        }
-        tr:nth-child(even) { 
-            background-color: #f9f9f9; 
-        }
-        ul { 
-            margin-left: 20px; 
-        }
-        .example { 
-            background-color: #ecf0f1; 
             padding: 15px; 
-            border-left: 5px solid #3498db; 
-            margin: 20px 0; 
+            text-align: left; 
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th { 
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) { 
+            background-color: #f8fafc; 
+        }
+
+        /* 8 Seviyeli Dil Grupları Grid Yapısı (Tablosuz, modern kartlar) */
+        .level-grid {
+            display: block; /* WeasyPrint ve genel uyum için blok akışlı ve marginli temiz yerleşim */
+        }
+
+        .level-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+
+        .level-card:hover {
+            border-color: var(--primary-light);
+            background-color: #fafbfc;
+        }
+
+        .level-badge {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .level-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* Afiş / Görsel Alanları */
+        .poster-container {
+            background-color: #f0f4f8;
+            border: 2px dashed var(--primary-light);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .poster-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            background-color: #fff;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Örnek / Kombinasyon Alanı */
+        .example-box { 
+            background-color: #edf7ed; 
+            padding: 25px; 
+            border-left: 5px solid #2e7d32; 
+            border-radius: 4px;
+            margin: 30px 0; 
+        }
+
+        .example-box h3 {
+            color: #2e7d32;
+            margin-top: 0;
+        }
+
+        .example-box ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .example-box li {
+            margin-bottom: 10px;
+        }
+
+        /* Sayfa Sonu */
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-<h1>Ülkem Yanımda: Türkçe ve Türk Kültürü Dersi</h1>
-
-<h2>Sınıf Belirleme ve Seviye Grupları Rehberi</h2>
-
-<p>Sınıflarımız, öğrencilerin yaş grubuna ve dil yetkinliklerine (Seviye) göre optimize edilmiştir.</p>
-
-<h2>1. Yaş Gruplarımız (Akademik Kademeler)</h2>
-
-<p>Öğrencilerimizin yaş gelişimine uygun pedagojik yaklaşımı belirlemek için yaş aralıklarını esas alıyoruz:</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Grup Adı</th>
-            <th>Yaş Aralığı</th>
-            <th>Hedef Kitle</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Tohum</td>
-            <td>5-6 yaş</td>
-            <td>Okul öncesi ve başlangıç düzeyi</td>
-        </tr>
-        <tr>
-            <td>Filiz</td>
-            <td>7-9 yaş</td>
-            <td>İlkokul kademesi</td>
-        </tr>
-        <tr>
-            <td>Fidan</td>
-            <td>10-12 yaş</td>
-            <td>Ortaokul  kademesi</td>
-        </tr>
-        <tr>
-            <td>Çınar</td>
-            <td>13-16 yaş</td>
-            <td>ileri düzey grubu</td>
-        </tr>
-    </tbody>
-</table>
-
-<h2>2. Dil Seviye Grupları</h2>
-
-<p>Eğitim içeriğimiz, çocuğunuzun mevcut Türkçe bilgisine göre özelleştirilir:</p>
-
-<h3>Seviye 1: Başlangıç</h3>
-<ul>
-    <li>Türkçeyi hiç bilmeyenler için temel tanışma ve farkındalık.</li>
-</ul>
-
-<h3>Seviye 2: Dinleyici</h3>
-<ul>
-    <li>Türkçeyi anlayabilen fakat konuşmakta zorluk çekenler için ifade odaklı eğitim.</li>
-</ul>
-
-<h3>Seviye 3: Konuşmacı</h3>
-<ul>
-    <li>Türkçeyi anlayıp konuşabilen ancak okuma-yazma becerisini geliştirmesi gerekenler.</li>
-</ul>
-
-<h3>Seviye 4: Tam Yetkinlik</h3>
-<ul>
-    <li>Türkçeyi anlayan, konuşan ve yazabilenler için akademik ve kültürel derinleşme.</li>
-</ul>
-
-<h2>Nasıl Sınıf Oluşturuyoruz?</h2>
-
-<p>Sınıflar oluşturulurken bu iki kriter birleştirilir. Örneğin:</p>
-
-<div class="example">
-    <ul>
-        <li><strong>Fidan - Seviye 2</strong>: 10-12 yaşında, Türkçeyi anlayabilen ama konuşmakta zorlanan bir öğrenci grubu.</li>
-        <li><strong>Çınar - Seviye 4</strong>: 13-16 yaşında, Türkçeye tam hâkim olan öğrencilerin bulunduğu ileri düzey grup.</li>
-    </ul>
+<div class="header-banner">
+    <h1>Ülkem Yanımda: Türkçe ve Türk Kültürü Dersi</h1>
+    <p>Sınıf Belirleme ve Seviye Grupları Kılavuzu</p>
 </div>
+
+<div class="container">
+
+    <p class="intro-text">
+        Yurt dışındaki öğrencilerimiz için özel olarak geliştirilen "Ülkem Yanımda" platformunda sınıflarımız; 
+        öğrencilerin <strong>yaş gelişim akademik kademelerine</strong> ve <strong>8 aşamalı dil yetkinlik seviyelerine</strong> göre tam optimize şekilde yapılandırılmaktadır.
+    </p>
+
+    <!-- AFİŞ 1: YAŞ GRUPLARI -->
+    <h2>1. Yaş Gruplarımız (Akademik Kademeler)</h2>
+    <p>Öğrencilerimizin yaş gelişimine uygun pedagojik yaklaşımı ve materyalleri belirlemek için 4 ana kademe esas alınır:</p>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Grup Adı</th>
+                    <th>Yaş Aralığı</th>
+                    <th>Eğitim Yaklaşımı ve Hedef Kitle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Tohum</strong></td>
+                    <td>5-6 yaş</td>
+                    <td>Okul öncesi, oyun ve şarkı odaklı başlangıç düzeyi farkındalık etkinlikleri.</td>
+                </tr>
+                <tr>
+                    <td><strong>Filiz</strong></td>
+                    <td>7-9 yaş</td>
+                    <td>İlkokul kademesi; temel okuma-yazmaya hazırlık, kelime dağarcığı geliştirme ve görsel destekli öğrenim.</td>
+                </tr>
+                <tr>
+                    <td><strong>Fidan</strong></td>
+                    <td>10-12 yaş</td>
+                    <td>Ortaokul kademesi; aktif iletişim, okuduğunu anlama, temel dil bilgisi ve kültürel ögeler.</td>
+                </tr>
+                <tr>
+                    <td><strong>Çınar</strong></td>
+                    <td>13-16 yaş</td>
+                    <td>Lise ve ileri düzey grubu; edebi ve kültürel derinleşme, kompozisyon, akıcı tartışma ve eleştirel okuma.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Yaş Afişi Entegrasyonu -->
+    <div class="poster-container">
+
+        <img src="yas.jpg" alt="Ülkem Yanımda Yaş Grupları Afişi" class="poster-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div style="display:none; padding: 20px; color: #666; font-style: italic;">[ yas.jpg afişiniz bu alanda görüntülenecektir. Dosyanın web sayfasıyla aynı klasörde olduğundan emin olunuz. ]</div>
+    </div>
+
+
+    <!-- 8 SEVİYELİ DİL GRUPLARI -->
+    <h2>2. Dil Seviye Grupları (8 Kademeli Sarmal Yapı)</h2>
+    <p>Milli Eğitim Bakanlığı müfredatı ve uluslararası dil portfolyolarına uygun olarak güncellenen 8 aşamalı seviye yapımız:</p>
+
+    <div class="level-grid">
+        
+        <div class="level-card">
+            <div class="level-badge">Seviye 1</div>
+            <div class="level-title">Farkındalık ve İlk Adım (A1.1)</div>
+            <div>Türkçeyle yeni tanışan, hiç bilmeyen ya da sadece birkaç kelime duymuş olan çocuklar için temel ses, alfabe ve tanışma adımları.</div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-badge">Seviye 2</div>
+            <div class="level-title">Temel İletişim / Dinleyici (A1.2)</div>
+            <div>Günlük hayattaki çok basit ve somut ifadeleri, talimatları anlayabilen ancak kendisini ifade etmekte yoğun desteğe ihtiyaç duyanlar.</div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-badge">Seviye 3</div>
+            <div class="level-title">Kendini İfade Etme / Başlangıç Konuşmacı (A2.1)</div>
+            <div>Ailesi ve yakın çevresiyle ilgili basit cümleler kurabilen, temel ihtiyaçlarını (açlık, oyun, istekler) Türkçe ifade edebilen seviye.</div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-badge">Seviye 4</div>
+            <div class="level-title">Gelişen Konuşma ve Akıcılık (A2.2)</div>
+            <div>Karşılıklı konuşmaları rahatça takip edip katılan, ancak okuma ve yazma gibi akademik becerilerde henüz yolun başında olanlar.</div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-badge">Seviye 5</div>
+            <div class="level-title">Okuryazarlık Köprüsü (B1.1)</div>
+            <div>Türkçe konuşmada yetkin olup, okuma-yazma kurallarını, harf-ses ilişkilerini akademik düzeyde yeni öğrenmeye başlayanlar.</div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-badge">Seviye 6</div>
+            <div class="level-title">Bağımsız Kullanıcı / Metin Çözümleme (B1.2)</div>
+            <div>Kendi başına kısa hikayeler okuyabilen, basit kompozisyonlar yazabilen ve soyut kavramlar üzerine basit düzeyde fikir yürütenler.</div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-badge">Seviye 7</div>
+            <div class="level-title">Kültürel Yetkinlik ve Akıcı Dil (B2.1)</div>
+            <div>Türkçeyi hem sosyal hem de yapısal olarak doğru kullanan; atasözleri, deyimler ve Türk kültür ögelerini rahatça yorumlayabilen grup.</div>
+        </div>
+
+        <div class="level-card">
+            <div class="level-badge">Seviye 8</div>
+            <div class="level-title">Tam Akademik Yetkinlik (B2.2 ve Üzeri)</div>
+            <div>Anadil seviyesinde anlama, konuşma, okuma ve yazma becerisine sahip; edebi metinleri analiz edebilen en ileri düzey akademik grup.</div>
+        </div>
+
+    </div>
+
+    <!-- Dil Afişi Entegrasyonu -->
+    <div class="poster-container">
+
+        <img src="dil.jpg" alt="Ülkem Yanımda Dil Seviyeleri Afişi" class="poster-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+        <div style="display:none; padding: 20px; color: #666; font-style: italic;">[ dil.jpg afişiniz bu alanda görüntülenecektir. Dosyanın web sayfasıyla aynı klasörde olduğundan emin olunuz. ]</div>
+    </div>
+
+
+    <!-- NASIL SINIF OLUŞTURULUYOR? -->
+    <h2>3. Dinamik Sınıf Optimizasyonu</h2>
+    <p>Pedagojik verimlilik açısından sınıflarımız oluşturulurken bu iki ana kriter (Yaş Grubu + Dil Seviyesi) matris şeklinde birleştirilir:</p>
+
+    <div class="example-box">
+        <h3>Sınıf Kombinasyon Örnekleri:</h3>
+        <ul>
+            <li><strong>Fidan - Seviye 3 (Ortaokul Başlangıç Konuşmacı):</strong> 10-12 yaş grubunda olup, Türkçeyi evde anlayabilen ancak cümle kurma aşamasında olan öğrencilerin bir arada olduğu sınıf.</li>
+            <li><strong>Çınar - Seviye 7 (Lise İleri Kültürel Yetkinlik):</strong> 13-16 yaş aralığında, Türkçeye yapısal olarak hâkim ve kültürel derinleşme dersi alan gençlerimiz.</li>
+            <li><strong>Tohum - Seviye 1 (Okul Öncesi İlk Adım):</strong> 5-6 yaş grubunda, Türkçe ile ilk defa oyunlar ve şarkılar vasıtasıyla tanışan miniklerimizin sınıfı.</li>
+        </ul>
+    </div>
+
+</div>
+
+<footer>
+    &copy; 2026 Ülkem Yanımda Projesi - T.C. Millî Eğitim Bakanlığı. Tüm Hakları Saklıdır.
+</footer>
 
 </body>
 </html>
