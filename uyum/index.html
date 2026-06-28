@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yurt Dışı Göreve Uyum Eğitimi 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F1E7;
+    --paper:#FBF8F2;
+    --ink:#1E2A45;
+    --ink-soft:#4A5670;
+    --gold:#C49A4A;
+    --teal:#2F6F62;
+    --teal-soft:#E4EFEA;
+    --rust:#B6552F;
+    --rust-soft:#F4E5DC;
+    --line:#D9CFBA;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  .bg-texture{
+    position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(196,154,74,0.08) 0%, transparent 35%),
+      radial-gradient(circle at 85% 75%, rgba(47,111,98,0.08) 0%, transparent 35%);
+  }
+  .wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:0 28px;}
+
+  header{padding:56px 0 18px;text-align:center;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--gold);font-weight:700;margin-bottom:18px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(34px,5vw,58px);
+    line-height:1.05;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--teal);
+    font-weight:500;
+  }
+  .sub{
+    margin:18px auto 0;
+    max-width:560px;
+    font-size:16px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+
+  .runway{
+    position:relative;
+    margin:50px 0 10px;
+    height:1px;
+    background:var(--line);
+  }
+  .runway::before,.runway::after{
+    content:'✈';
+    position:absolute;top:50%;transform:translateY(-50%);
+    font-size:13px;color:var(--gold);
+  }
+  .runway::before{left:0;}
+  .runway::after{right:0;transform:translateY(-50%) scaleX(-1);}
+
+  .tickets{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:36px;
+    padding:48px 0 30px;
+  }
+  @media (max-width:820px){
+    .tickets{grid-template-columns:1fr;}
+  }
+
+  .ticket{
+    position:relative;
+    display:block;
+    text-decoration:none;
+    color:inherit;
+    background:var(--paper);
+    border-radius:18px;
+    border:1px solid var(--line);
+    box-shadow:0 1px 2px rgba(30,42,69,0.04), 0 18px 40px -22px rgba(30,42,69,0.25);
+    overflow:hidden;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
+  }
+  .ticket:hover{
+    transform:translateY(-6px);
+    box-shadow:0 1px 2px rgba(30,42,69,0.06), 0 30px 60px -25px rgba(30,42,69,0.32);
+  }
+  .ticket-accent{height:7px;}
+  .ticket.a .ticket-accent{background:linear-gradient(90deg,var(--teal),#5a9a8b);}
+  .ticket.b .ticket-accent{background:linear-gradient(90deg,var(--rust),#d98257);}
+
+  .ticket-body{padding:30px 28px 22px;}
+  .route{
+    display:flex;align-items:center;gap:14px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;letter-spacing:.06em;color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .route .code{
+    font-weight:700;font-size:20px;color:var(--ink);letter-spacing:0;
+  }
+  .route .dash{flex:1;height:1px;background:var(--line);position:relative;}
+  .route .dash::after{
+    content:'›';position:absolute;right:-2px;top:-9px;color:var(--gold);font-size:14px;
+  }
+  .ticket.a .route .code:first-child{color:var(--teal);}
+  .ticket.b .route .code:first-child{color:var(--rust);}
+
+  .ticket h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:25px;
+    line-height:1.2;
+    margin:10px 0 8px;
+    color:var(--ink);
+  }
+  .ticket p.desc{
+    font-size:14.5px;color:var(--ink-soft);line-height:1.6;margin-bottom:18px;
+  }
+
+  .meta-grid{
+    display:grid;grid-template-columns:1fr 1fr 1fr;
+    gap:14px;
+    padding-top:16px;border-top:1px dashed var(--line);
+  }
+  .meta-grid div{display:flex;flex-direction:column;gap:3px;}
+  .meta-label{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);opacity:.75;
+  }
+  .meta-val{font-size:14px;font-weight:600;color:var(--ink);}
+  .ticket.a .meta-val.accentv{color:var(--teal);}
+  .ticket.b .meta-val.accentv{color:var(--rust);}
+
+  .perforation{
+    position:relative;height:0;
+  }
+  .stub{
+    border-top:1px dashed var(--line);
+    margin:0 28px;
+    padding:14px 0 18px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .stub .cta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;font-weight:700;letter-spacing:.04em;
+    display:flex;align-items:center;gap:8px;
+  }
+  .ticket.a .stub .cta{color:var(--teal);}
+  .ticket.b .stub .cta{color:var(--rust);}
+  .stub .cta .arrow{transition:transform .3s ease;}
+  .ticket:hover .stub .cta .arrow{transform:translateX(5px);}
+  .stub .pax{
+    font-size:12px;color:var(--ink-soft);
+  }
+
+  .notch{
+    position:absolute;width:18px;height:18px;border-radius:50%;
+    background:var(--cream);
+  }
+
+  footer{
+    text-align:center;padding:50px 0 60px;
+    color:var(--ink-soft);font-size:13px;
+  }
+  footer .line{
+    width:46px;height:2px;background:var(--gold);margin:0 auto 16px;border-radius:2px;
+  }
+</style>
+</head>
+<body>
+<div class="bg-texture"></div>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">T.C. Milli Eğitim Bakanlığı · Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü</div>
+    <h1>Yurt Dışı Göreve <em>Uyum</em> Eğitimi</h1>
+    <p class="sub">2026 yılında yurt dışında görevlendirilecek öğretmen, okutman ve eğitim görevlileri için hazırlanan iki ayrı uyum semineri. Devam etmek istediğiniz programı seçin.</p>
+  </header>
+
+  <div class="runway"></div>
+
+  <section class="tickets">
+    <a class="ticket a" href="program-okutmanlar.html">
+      <div class="ticket-accent"></div>
+      <div class="ticket-body">
+        <div class="route">
+          <span class="code">TTK</span>
+          <span class="dash"></span>
+          <span class="code" style="color:var(--ink)">29 HAZ&nbsp;–&nbsp;02 TEM</span>
+        </div>
+        <h2>Öğretmen ve Okutmanlar Oryantasyonu</h2>
+        <p class="desc">Yurt dışında Türkçe ve Türk Kültürü, TÖMER ve eğitim kurumlarında görevlendirilecek öğretmen/okutmanlar için 4 günlük, pedagoji odaklı oryantasyon programı.</p>
+        <div class="meta-grid">
+          <div>
+            <span class="meta-label">Tarih</span>
+            <span class="meta-val accentv">29 Haz – 6 Tem</span>
+          </div>
+          <div>
+            <span class="meta-label">Süre</span>
+            <span class="meta-val">4 Gün</span>
+          </div>
+          <div>
+            <span class="meta-label">Grup</span>
+            <span class="meta-val">TTK Öğrt. / Okutman</span>
+          </div>
+        </div>
+      </div>
+      <div class="stub">
+        <span class="cta">PROGRAMI GÖR <span class="arrow">→</span></span>
+        <span class="pax">4 Gün İçerik · Ülke Masaları</span>
+      </div>
+    </a>
+
+    <a class="ticket b" href="program-okullar.html">
+      <div class="ticket-accent"></div>
+      <div class="ticket-body">
+        <div class="route">
+          <span class="code">OKL</span>
+          <span class="dash"></span>
+          <span class="code" style="color:var(--ink)">03 TEM&nbsp;–&nbsp;06 TEM</span>
+        </div>
+        <h2>Okullar Bölgesi Uyum Semineri</h2>
+        <p class="desc">Bakanlığa bağlı yurt dışı eğitim kurumlarına ve KKTC'ye 2026'da görevlendirilecek 404 öğretmen için 4 günlük uyum semineri.</p>
+        <div class="meta-grid">
+          <div>
+            <span class="meta-label">Tarih</span>
+            <span class="meta-val accentv">3 – 6 Temmuz</span>
+          </div>
+          <div>
+            <span class="meta-label">Süre</span>
+            <span class="meta-val">4 Gün</span>
+          </div>
+          <div>
+            <span class="meta-label">Katılımcı</span>
+            <span class="meta-val">404 Öğretmen</span>
+          </div>
+        </div>
+      </div>
+      <div class="stub">
+        <span class="cta">PROGRAMI GÖR <span class="arrow">→</span></span>
+        <span class="pax">KKTC · Çevrim İçi Ülke Oturumları</span>
+      </div>
+    </a>
+  </section>
+
+  <footer>
+    <div class="line"></div>
+    Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü · 2026
+  </footer>
+</div>
+</body>
+</html>

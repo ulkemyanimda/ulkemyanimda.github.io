@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Öğretmen ve Okutmanlar Oryantasyonu · 29 Haziran – 2 Temmuz 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F6F1E7; --paper:#FBF8F2; --ink:#1E2A45; --ink-soft:#4A5670;
+  --gold:#C49A4A; --teal:#2F6F62; --teal-soft:#E4EFEA; --line:#D9CFBA;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px 80px;}
+
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(246,241,231,0.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{max-width:980px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.back{
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.04em;
+  color:var(--ink-soft);text-decoration:none;display:flex;align-items:center;gap:6px;
+}
+.back:hover{color:var(--teal);}
+.daynav{display:flex;gap:6px;overflow-x:auto;}
+.daynav a{
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;
+  color:var(--ink-soft);text-decoration:none;padding:6px 11px;border-radius:20px;
+  border:1px solid var(--line);white-space:nowrap;transition:all .2s ease;
+}
+.daynav a:hover{border-color:var(--teal);color:var(--teal);background:var(--teal-soft);}
+
+header.hero{padding:54px 0 30px;}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--teal);font-weight:700;margin-bottom:16px;
+}
+h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(30px,4.2vw,46px);line-height:1.08;}
+.hero-sub{margin-top:16px;max-width:640px;color:var(--ink-soft);font-size:15.5px;line-height:1.65;}
+
+.statrow{display:flex;flex-wrap:wrap;gap:28px;margin-top:32px;padding-top:24px;border-top:1px dashed var(--line);}
+.stat .n{font-family:'Fraunces',serif;font-size:28px;font-weight:600;color:var(--teal);}
+.stat .l{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px;}
+
+.day{margin-top:64px;}
+.day-head{display:flex;align-items:baseline;gap:16px;margin-bottom:22px;}
+.day-badge{
+  font-family:'Fraunces',serif;font-weight:700;font-size:15px;
+  background:var(--teal);color:var(--paper);padding:7px 16px;border-radius:30px;
+}
+.day-title{font-family:'Fraunces',serif;font-weight:600;font-size:24px;}
+.day-date{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--ink-soft);}
+
+.session{
+  display:grid;grid-template-columns:128px 1fr;gap:20px;
+  padding:18px 0;border-top:1px solid var(--line);position:relative;
+}
+.session:first-of-type{border-top:1px solid var(--line);}
+.session.break{opacity:.7;}
+.time{
+  font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--teal);font-weight:700;
+  display:flex;flex-direction:column;gap:2px;
+}
+.time .dur{font-size:10.5px;color:var(--ink-soft);font-weight:500;}
+.content h3{font-family:'Inter',sans-serif;font-weight:600;font-size:15.5px;line-height:1.4;color:var(--ink);}
+.content .who{font-size:13px;color:var(--ink-soft);margin-top:4px;line-height:1.5;}
+.content .venue{
+  display:inline-block;margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--teal);background:var(--teal-soft);
+  padding:3px 9px;border-radius:5px;
+}
+.session.break .content h3{color:var(--ink-soft);font-style:italic;font-weight:500;}
+
+.note{
+  margin-top:60px;padding:24px 26px;background:var(--paper);border:1px solid var(--line);
+  border-radius:14px;font-size:14px;color:var(--ink-soft);line-height:1.7;
+}
+.note b{color:var(--ink);}
+
+footer{text-align:center;padding:60px 0 20px;color:var(--ink-soft);font-size:13px;}
+@media(max-width:640px){
+  .session{grid-template-columns:84px 1fr;}
+  .daynav{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="back" href="index.html">← Ana Sayfa</a>
+    <nav class="daynav">
+      <a href="#gun1">29 Haz</a>
+      <a href="#gun2">30 Haz</a>
+      <a href="#gun3">1 Tem</a>
+      <a href="#gun4">2 Tem</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">TTK Öğretmenleri ve Okutmanlar · Oryantasyon Programı</div>
+    <h1>Yurt Dışında Görevlendirilecek Öğretmen ve Okutmanların Oryantasyon Toplantısı</h1>
+    <p class="hero-sub">29 Haziran – 2 Temmuz 2026 tarihleri arasında düzenlenen programın ilk dört gününe ait detaylı oturum planı aşağıda yer almaktadır. Program; yurt dışı göreve hazırlık, kültürel diplomasi, Türkçe ve Türk Kültürü öğretimi pedagojisi ile ülke masaları oturumlarını kapsamaktadır.</p>
+    <div class="statrow">
+      <div class="stat"><div class="n">29.06–02.07</div><div class="l">Program Tarih Aralığı</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">Gün · Detaylı Oturum</div></div>
+      <div class="stat"><div class="n">20+</div><div class="l">Konuşmacı / Eğitim Görevlisi</div></div>
+    </div>
+  </header>
+
+  <section class="day" id="gun1">
+    <div class="day-head">
+      <span class="day-badge">1. GÜN</span>
+      <span class="day-title">Açılış ve Yurt Dışı Görev Esasları</span>
+      <span class="day-date">29.06.2026 · Pazartesi</span>
+    </div>
+
+    <div class="session"><div class="time">09:30<span class="dur">30 dk</span></div><div class="content"><h3>Açılış Konuşması</h3><p class="who">Faruk Berat AKÇEŞME — Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürü</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">10:00<span class="dur">45 dk</span></div><div class="content"><h3>Açılış Konuşması — Bakan Yardımcımız Hitapları</h3><p class="who">Doç. Dr. Celile Eren ÖKTEN</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">10:45<span class="dur">15 dk</span></div><div class="content"><h3>Ara</h3></div></div>
+    <div class="session"><div class="time">11:00<span class="dur">30 dk</span></div><div class="content"><h3>Yurt Dışı Öğretmenlik Misyonu</h3><p class="who">Eyüp TANYILDIZ — Yükseköğretim ve Yurt Dışı Eğitim Genel Müdür Yardımcısı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">11:30<span class="dur">45 dk</span></div><div class="content"><h3>Bakanlığımızın Yurt Dışı Eğitim Faaliyetleri</h3><p class="who">Cabir DURAK — YYEGM Yurt Dışı Eğitim Daire Başkanı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">12:30<span class="dur">90 dk</span></div><div class="content"><h3>Öğle Yemeği</h3></div></div>
+    <div class="session"><div class="time">14:00<span class="dur">40 dk</span></div><div class="content"><h3>Avrupa'da Ayrımcılık ve Türk Dış Politikası</h3><p class="who">Yusuf ERTÜRK — Ataşe, Dışişleri Bakanlığı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">14:40<span class="dur">40 dk</span></div><div class="content"><h3>Diplomatik Güvenlik</h3><p class="who">Mehmet DÜZGÜN — Diplomatik Güvenlik Genel Müdürü, Dışişleri Bakanlığı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">15:20<span class="dur">40 dk</span></div><div class="content"><h3>Türk Kültürü ve Türk Milletinin Erdemleri</h3><p class="who">Prof. Dr. Dursun Ali TÖKEL — Fatih Sultan Mehmet Vakıf Üniversitesi</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">16:00<span class="dur">15 dk</span></div><div class="content"><h3>Ara</h3></div></div>
+    <div class="session"><div class="time">16:15<span class="dur">45 dk</span></div><div class="content"><h3>Kamu Diplomasisi Aracı Olarak Müfredatlar: Türkiye Yüzyılı Maarif Modeli</h3><p class="who">Mustafa Kandırmaz — Temel Eğitim Genel Müdürlüğü, Program ve Öğretim Materyalleri Dairesi Başkanı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">17:00<span class="dur">60 dk</span></div><div class="content"><h3>Yurt Dışı İş ve İşlemler Grup Çalışması: Görev Usul ve Esasları</h3><p class="who">Naci GILIÇ, İrfan YURTDOĞAN — Şube Müdürleri, Yurt Dışı Teşkilat Daire Başkanlığı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">18:00<span class="dur">90 dk</span></div><div class="content"><h3>Akşam Yemeği</h3></div></div>
+  </section>
+
+  <section class="day" id="gun2">
+    <div class="day-head">
+      <span class="day-badge">2. GÜN</span>
+      <span class="day-title">Kurumlar Arası İş Birliği ve Psiko-Sosyal Uyum</span>
+      <span class="day-date">30.06.2026 · Salı</span>
+    </div>
+    <div class="session"><div class="time">09:30<span class="dur">30 dk</span></div><div class="content"><h3>Türkiye Maarif Vakfı ve Yurt Dışı Eğitim Faaliyetleri</h3><p class="who">Doç. Dr. Metin Çelik — TMV Başkan Müşaviri</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">10:00<span class="dur">30 dk</span></div><div class="content"><h3>Yunus Emre Enstitüsü ve Türkçe/Kültür Faaliyetleri</h3><p class="who">Cem SEVİNDİK — Türk Kültürü ve Sanatı Daire Başkanlığı, YEE</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">10:30<span class="dur">15 dk</span></div><div class="content"><h3>Ara</h3></div></div>
+    <div class="session"><div class="time">10:45<span class="dur">30 dk</span></div><div class="content"><h3>Yurtdışı Türkler ve Akraba Topluluklar Başkanlığı Faaliyetleri</h3><p class="who">Ayşe GENEZ — Yurt Dışı Vatandaşlar Daire Başkan V.</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">11:15<span class="dur">30 dk</span></div><div class="content"><h3>DİTİB / Diyanet Yurt Dışı Faaliyetleri ve Öğretmenlerle İş Birliği</h3><p class="who">Dr. Nurullah KARAKAŞ — Diyanet İşleri Başkanlığı, Yurt Dışı Eğitim ve Rehberlik Daire Başkanı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">11:45<span class="dur">30 dk</span></div><div class="content"><h3>TİKA ve Yurt Dışı Faaliyetleri</h3><p class="who">Ömer GÜNDOĞDU — Akademi Koordinatörü, TİKA</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">12:30<span class="dur">90 dk</span></div><div class="content"><h3>Öğle Yemeği</h3></div></div>
+    <div class="session"><div class="time">14:00<span class="dur">40 dk</span></div><div class="content"><h3>Anadolu Mektebi Yazar Okuma Programı</h3><p class="who">Prof. Dr. Sami GÜÇLÜ — Anadolu Mektebi</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">14:40<span class="dur">40 dk</span></div><div class="content"><h3>Ülkem Yanımda Uygulaması ve İçeriklerinin Tanıtımı</h3><p class="who">Dr. Kahraman Koştaş — Millî Eğitim Uzmanı, Yurt Dışı Eğitim Daire Başkanlığı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">15:20<span class="dur">15 dk</span></div><div class="content"><h3>Ara</h3></div></div>
+    <div class="session"><div class="time">15:35<span class="dur">60 dk</span></div><div class="content"><h3>Yurt Dışı Göreve Psiko-Sosyal Uyum</h3><p class="who">Dr. Zeynep TÜRKOĞLU MUTLU & Serap BAYRAM — YLSY / PDR Birimi</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">16:35<span class="dur">85 dk</span></div><div class="content"><h3>Yurt Dışı Görevinde Mali Konular</h3><p class="who">Rüştü GEDİK — Şube Müdürü, İdari ve Mali İşler Daire Başkanlığı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">18:00<span class="dur">90 dk</span></div><div class="content"><h3>Akşam Yemeği</h3></div></div>
+  </section>
+
+  <section class="day" id="gun3">
+    <div class="day-head">
+      <span class="day-badge">3. GÜN</span>
+      <span class="day-title">Türkçe ve Türk Kültürü Öğretimi Pedagojisi</span>
+      <span class="day-date">01.07.2026 · Çarşamba</span>
+    </div>
+    <div class="session"><div class="time">09:30<span class="dur">45 dk</span></div><div class="content"><h3>Türkçe ve Türk Kültürü Eğitim Materyallerini Etkili Kullanma Yöntemleri</h3><p class="who">YDE TTKD Materyal Ekibi</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">10:15<span class="dur">45 dk</span></div><div class="content"><h3>Dil Öğreniminde Yeterlik Basamakları ve Pedagojik Yansımaları</h3><p class="who">Dr. Öğr. Üyesi Aslı KOÇAK — Bandırma Onyedi Eylül Üniversitesi</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">11:00<span class="dur">15 dk</span></div><div class="content"><h3>Ara</h3></div></div>
+    <div class="session"><div class="time">11:15<span class="dur">45 dk</span></div><div class="content"><h3>İki Dillilere Türkçe ve Türk Kültürü Öğretiminde Sınıf Yönetimi</h3><p class="who">Doç. Dr. Umut BAŞAR — Tahran Eğitim Müşaviri</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">12:30<span class="dur">90 dk</span></div><div class="content"><h3>Öğle Yemeği</h3></div></div>
+    <div class="session"><div class="time">14:00<span class="dur">45 dk</span></div><div class="content"><h3>Türkçe ve Türk Kültürü Derslerinde Oyun ve Dramanın Kullanılması (I)</h3><p class="who">Prof. Dr. Tolga ERDOĞAN — Trabzon Üniversitesi</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">14:45<span class="dur">45 dk</span></div><div class="content"><h3>Türkçe ve Türk Kültürü Derslerinde Oyun ve Dramanın Kullanılması (II)</h3><p class="who">Prof. Dr. Tolga ERDOĞAN — Trabzon Üniversitesi</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">15:30<span class="dur">15 dk</span></div><div class="content"><h3>Ara</h3></div></div>
+    <div class="session"><div class="time">15:45<span class="dur">45 dk</span></div><div class="content"><h3>Birleştirilmiş Sınıflarda Türkçe ve Türk Kültürü Öğretimi</h3><p class="who">Aytaç Dinç YILDIRIM — Başöğretmen</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">16:30<span class="dur">40 dk</span></div><div class="content"><h3>İki Dillilere Türkçe Öğretiminde Yöntem ve Teknikler</h3><p class="who">Doç. Dr. Gülşat BİCAN — Uzman Öğretmen, Ankara Eğitim ve Uygulama Merkezi Müdürlüğü</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session"><div class="time">17:10<span class="dur">50 dk</span></div><div class="content"><h3>İki Dilli Türk Çocuklarının Dil Edinim Süreçlerinde Ebeveynlerin Rolü</h3><p class="who">Dr. Büşra AKGÜN EZİN — Millî Eğitim Uzmanı, Yurt Dışı Eğitim Daire Başkanlığı</p><span class="venue">Ana Salon</span></div></div>
+    <div class="session break"><div class="time">18:00<span class="dur">90 dk</span></div><div class="content"><h3>Akşam Yemeği</h3></div></div>
+    <div class="session"><div class="time">20:00<span class="dur">50 dk</span></div><div class="content"><h3>Uygulamalı Türkçe ve Türk Kültürü Dersi Atölyeleri</h3><p class="who">YDE TTKD Materyal Ekibi — Gidilecek ülke ve kişi sayısına göre çalışma gruplarına ayrılacaktır</p><span class="venue">Büyük Salon</span></div></div>
+  </section>
+
+  <section class="day" id="gun4">
+    <div class="day-head">
+      <span class="day-badge">4. GÜN</span>
+      <span class="day-title">Ülke Masaları ve Çevrim İçi Ülke Oturumları</span>
+      <span class="day-date">02.07.2026 · Perşembe</span>
+    </div>
+    <div class="session"><div class="time">09:30<span class="dur">20 dk</span></div><div class="content"><h3>Ülke Masaları: Gidilecek Ülke Hakkında Bilgilendirme</h3><p class="who">TTK Ülke Masaları Personeli — 1. Grup: Almanya · 2. Grup: Fransa · 3. Grup: Belçika, İsviçre · 4. Grup: Birleşik Krallık, İtalya</p><span class="venue">Büyük Salon</span></div></div>
+    <div class="session"><div class="time">09:50<span class="dur">30 dk</span></div><div class="content"><h3>Eğitim Müşaviri ile Çevrim İçi Ülke Oturumu</h3><p class="who">İlgili Ülke Eğitim Müşaviri / Ataşesi</p><span class="venue">Büyük Salon</span></div></div>
+    <div class="session break"><div class="time">10:20<span class="dur">10 dk</span></div><div class="content"><h3>Ara</h3></div></div>
+    <div class="session"><div class="time">11:30<span class="dur">50 dk</span></div><div class="content"><h3>Eğitim Ataşesi ile Çevrim İçi Ülke Oturumu · Merkez Öğretmen Koordinatörleri ile Deneyim Paylaşımı</h3><p class="who">İlgili Ülke Merkez Öğretmen Koordinatörleri</p><span class="venue">Büyük Salon</span></div></div>
+    <div class="session"><div class="time">12:00<span class="dur">10 dk</span></div><div class="content"><h3>Merkez Öğretmen Koordinatörleri ile Deneyim Paylaşımı</h3><p class="who">TTK Ülke Masaları Ekibi</p><span class="venue">Büyük Salon</span></div></div>
+    <div class="session break"><div class="time">12:30<span class="dur">90 dk</span></div><div class="content"><h3>Öğle Yemeği</h3></div></div>
+  </section>
+
+  <div class="note">
+    <b>Not:</b> Program toplamda 29 Haziran – 2 Temmuz 2026 tarihlerini kapsamaktadır.
+  </div>
+
+  <footer>Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü · 2026</footer>
+</div>
+</body>
+</html>
