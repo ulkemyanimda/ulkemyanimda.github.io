@@ -61,6 +61,7 @@
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
         }
 
         .step {
@@ -161,6 +162,7 @@
             border-radius: 15px;
             text-align: center;
             margin-top: 30px;
+            margin-bottom: 30px;
             display: none;
         }
 
@@ -226,6 +228,36 @@
             font-weight: bold;
         }
 
+        /* Yeni Eklenen Buton Stili */
+        .calendar-btn-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .calendar-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd93d 0%, #ff9a00 100%);
+            color: #4a2d00;
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(255, 154, 0, 0.4);
+            transition: all 0.3s ease;
+            border: 2px solid #ffffff;
+        }
+
+        .calendar-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(255, 154, 0, 0.6);
+            background: linear-gradient(135deg, #ffe066 0%, #ffb300 100%);
+        }
+
+        .calendar-btn:active {
+            transform: translateY(1px);
+        }
+
         @media (max-width: 600px) {
             .header h1 {
                 font-size: 1.8em;
@@ -237,6 +269,11 @@
             
             .checkbox {
                 margin-bottom: 15px;
+            }
+
+            .calendar-btn {
+                font-size: 0.95em;
+                padding: 12px 20px;
             }
         }
     </style>
@@ -314,6 +351,11 @@
 
             <div class="important-note" style="margin-top: 20px; background: #e3f2fd; border-color: #2196f3;">
                 <p>📢 <strong>Unutma!</strong> Duyurularımızı takip etmeyi unutma. Eylül ayı başında sınıf seçimleri başlayacak!</p>
+            </div>
+
+            <!-- Yeni Eklenen Buton Bölümü -->
+            <div class="calendar-btn-container">
+                <a href="takvim.html" target="_blank" class="calendar-btn">📅 Kayıt Süreci & Takvimi Daha Ayrıntılı Görmek İçin Tıklayınız</a>
             </div>
         </div>
 
