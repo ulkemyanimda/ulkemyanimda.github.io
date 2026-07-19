@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f4f4f4; display: flex; justify-content: center; }
+  .poster { width: 680px; background: #ffffff; font-family: 'Segoe UI', Arial, sans-serif; overflow: hidden; }
+  .header { background: #C0392B; padding: 18px 32px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .logo-wrap { background: #fff; border-radius: 8px; padding: 10px 18px; display: flex; align-items: center; }
+  .logo-wrap img { height: 44px; width: auto; display: block; }
+  .meb-badge { color: #fff; font-size: 10px; opacity: 0.82; text-align: right; line-height: 1.7; letter-spacing: 0.2px; }
+  .hero { background: linear-gradient(135deg, #1A7A8A 0%, #15909E 60%, #0FA3A3 100%); padding: 34px 40px 30px; text-align: center; }
+  .hero-tag { display: inline-block; background: rgba(255,255,255,0.18); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.35); margin-bottom: 16px; }
+  .hero h1 { color: #ffffff; font-size: 26px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
+  .hero h1 span { color: #FFD166; }
+  .hero p { color: rgba(255,255,255,0.88); font-size: 13.5px; line-height: 1.65; max-width: 480px; margin: 0 auto; }
+  .age-band { background: #C0392B; color: #fff; text-align: center; padding: 10px; font-size: 13px; font-weight: 600; }
+  .age-band span { background: #fff; color: #C0392B; font-weight: 800; padding: 1px 8px; border-radius: 4px; margin: 0 4px; }
+  .timeline-section { padding: 32px 40px 24px; background: #fff; }
+  .section-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #C0392B; margin-bottom: 22px; }
+  .steps { display: flex; flex-direction: column; }
+  .step { display: flex; gap: 20px; }
+  .step-left { display: flex; flex-direction: column; align-items: center; width: 48px; flex-shrink: 0; }
+  .step-num { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 800; color: #fff; flex-shrink: 0; }
+  .s1 { background: #1A7A8A; } .s2 { background: #C0392B; } .s3 { background: #2C3E50; } .s4 { background: #6D4C8E; }
+  .step-line { width: 2px; flex: 1; min-height: 24px; background: #e0e0e0; margin: 4px 0; }
+  .step-body { padding: 4px 0 28px; flex: 1; }
+  .step-date { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+  .d1 { color: #1A7A8A; } .d2 { color: #C0392B; } .d3 { color: #2C3E50; } .d4 { color: #6D4C8E; }
+  .step-title { font-size: 16px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: #555; line-height: 1.6; }
+  .step-note { display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; background: #FFF8E1; border-left: 3px solid #F0A500; padding: 5px 10px; border-radius: 0 5px 5px 0; font-size: 12px; color: #7a5200; font-weight: 500; }
+  .features { background: #F8F9FA; padding: 24px 40px; border-top: 1px solid #eee; }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .feature-card { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; }
+  .feature-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 17px; }
+  .fi-1 { background: #E8F5E9; } .fi-2 { background: #E3F2FD; } .fi-3 { background: #FFF3E0; } .fi-4 { background: #FCE4EC; }
+  .ft { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 2px; }
+  .fs { font-size: 12px; color: #666; line-height: 1.4; }
+  .footer { background: #2C3E50; padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .fl-label, .fr-label { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; color: #fff; }
+  .fl-url { font-size: 14px; font-weight: 700; color: #4FC3F7; }
+  .fr-mail { font-size: 13px; font-weight: 600; color: #80DEEA; }
+  .footer-right { text-align: right; }
+  .footer-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.15); }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-wrap">
+      <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+DQo8IS0tIENyZWF0ZWQgd2l0aCBJbmtzY2FwZSAoaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvKSAtLT4NCg0KPHN2Zw0KICAgd2lkdGg9IjE5Ni4zMDY3Nm1tIg0KICAgaGVpZ2h0PSI1Ny4zMTczMThtbSINCiAgIHZpZXdCb3g9IjAgMCAxOTYuMzA2NzYgNTcuMzE3MzE4Ig0KICAgdmVyc2lvbj0iMS4xIg0KICAgaWQ9InN2ZzU0NyINCiAgIGlua3NjYXBlOnZlcnNpb249IjEuMi4yICg3MzJhMDFkYTYzLCAyMDIyLTEyLTA5KSINCiAgIHNvZGlwb2RpOmRvY25hbWU9Im9yamluYWwuc3ZnIg0KICAgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiDQogICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiDQogICB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciDQogICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCiAgPHNvZGlwb2RpOm5hbWVkdmlldw0KICAgICBpZD0ibmFtZWR2aWV3NTQ5Ig0KICAgICBwYWdlY29sb3I9IiNmZmZmZmYiDQogICAgIGJvcmRlcmNvbG9yPSIjMDAwMDAwIg0KICAgICBib3JkZXJvcGFjaXR5PSIwLjI1Ig0KICAgICBpbmtzY2FwZTpzaG93cGFnZXNoYWRvdz0iMiINCiAgICAgaW5rc2NhcGU6cGFnZW9wYWNpdHk9IjAuMCINCiAgICAgaW5rc2NhcGU6cGFnZWNoZWNrZXJib2FyZD0iMCINCiAgICAgaW5rc2NhcGU6ZGVza2NvbG9yPSIjZDFkMWQxIg0KICAgICBpbmtzY2FwZTpkb2N1bWVudC11bml0cz0ibW0iDQogICAgIHNob3dncmlkPSJmYWxzZSINCiAgICAgaW5rc2NhcGU6em9vbT0iMC41MzkyMTg1MiINCiAgICAgaW5rc2NhcGU6Y3g9IjM1My4yODkwNSINCiAgICAgaW5rc2NhcGU6Y3k9IjYwMC44Njk1NyINCiAgICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxNDUwIg0KICAgICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSIxMDIwIg0KICAgICBpbmtzY2FwZTp3aW5kb3cteD0iNDIyIg0KICAgICBpbmtzY2FwZTp3aW5kb3cteT0iMjc2Ig0KICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIwIg0KICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjEiIC8+DQogIDxkZWZzDQogICAgIGlkPSJkZWZzNTQ0IiAvPg0KICA8Zw0KICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSINCiAgICAgaW5rc2NhcGU6Z3JvdXBtb2RlPSJsYXllciINCiAgICAgaWQ9ImxheWVyMSINCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIuMTA2NjQ4LC01My4yMjQ1MTgpIj4NCiAgICA8Zw0KICAgICAgIGlkPSJnMjAwIg0KICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDAuMzUyNzc3NzcsMCwwLC0wLjM1Mjc3Nzc3LDY2LjUyNDQ4Myw3MS4yMTc4NzcpIj4NCiAgICAgIDxwYXRoDQogICAgICAgICBkPSJtIDAsMCBoIC0yNy40NDkgYyAwLC0yNC43NDUgLTEwLjcwNSwtNDYuOTg2IC0yNy43MywtNjIuMzU4IC0xNy42NDgsMTUuMzk4IC0yOC44MTcsMzguMDMyIC0yOC44MTcsNjMuMjkzIGggLTI3LjQ1IGMgMCwtMzAuNjE4IDEyLjM4LC01OC4zMTggMzIuMzY4LC03OC40NTkgLTkuOTYyLC00LjE2NSAtMjAuODk1LC02LjQ3MiAtMzIuMzY4LC02LjQ3MiB2IC0yNy40NSBDIC00OS44OTYsLTExMS40NDYgMCwtNjEuNTUgMCwwIg0KICAgICAgICAgc3R5bGU9ImZpbGw6IzQwYmVhYTtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSINCiAgICAgICAgIGlkPSJwYXRoMjAyIiAvPg0KICAgIDwvZz4NCiAgICA8Zw0KICAgICAgIGlkPSJnMjA0Ig0KICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDAuMzUyNzc3NzcsMCwwLC0wLjM1Mjc3Nzc3LDguNDM0MDEzOSw2NS43MzE1NDgpIj4NCiAgICAgIDxwYXRoDQogICAgICAgICBkPSJtIDAsMCBjIDkuNzksMCAxNy43MjYsNy45MzYgMTcuNzI2LDE3LjcyNiAwLDkuNzkgLTcuOTM2LDE3LjcyNyAtMTcuNzI2LDE3LjcyNyAtOS43OSwwIC0xNy43MjYsLTcuOTM3IC0xNy43MjYsLTE3LjcyNyBDIC0xNy43MjYsNy45MzYgLTkuNzksMCAwLDAiDQogICAgICAgICBzdHlsZT0iZmlsbDojZDIyMDI3O2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lIg0KICAgICAgICAgaWQ9InBhdGgyMDYiIC8+DQogICAgPC9nPg0KICAgIDxnDQogICAgICAgaWQ9ImcyMDgiDQogICAgICAgdHJhbnNmb3JtPSJtYXRyaXgoMC4zNTI3Nzc3NywwLDAsLTAuMzUyNzc3NzcsNDUuOTgzNzUsNjUuNzMxNTQ4KSI+DQogICAgICA8cGF0aA0KICAgICAgICAgZD0ibSAwLDAgYyA5Ljc5LDAgMTcuNzI2LDcuOTM2IDE3LjcyNiwxNy43MjYgMCw5Ljc5IC03LjkzNiwxNy43MjcgLTE3LjcyNiwxNy43MjcgLTkuNzksMCAtMTcuNzI2LC03LjkzNyAtMTcuNzI2LC0xNy43MjcgQyAtMTcuNzI2LDcuOTM2IC05Ljc5LDAgMCwwIg0KICAgICAgICAgc3R5bGU9ImZpbGw6I2QyMjAyNztmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSINCiAgICAgICAgIGlkPSJwYXRoMjEwIiAvPg0KICAgIDwvZz4NCiAgICA8Zw0KICAgICAgIGlkPSJnMjEyIg0KICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDAuMzUyNzc3NzcsMCwwLC0wLjM1Mjc3Nzc3LDE4NC4yMDAxMSwxMTAuMjg2MjUpIj4NCiAgICAgIDxwYXRoDQogICAgICAgICBkPSJNIDAsMCAtMTguMDI1LDQ1Ljg4MiBIIC0zMC40NzggTCAtNDguNTAzLDAgaCAxMy4xMDkgbCAyLjY4Nyw3Ljg2NSBoIDE2LjI1NSBMIC0xMy43NjQsMCBaIG0gLTE5Ljg2LDE3LjY5NyBoIC05LjUwNCBsIDQuNzg1LDEzLjgzIHogbSAtMjkuMjYsNS40NCBjIDAsNi41NTUgLTIuMzgyLDExLjk4NCAtNy4xNDUsMTYuMjg4IC00Ljc2Myw0LjMwNSAtMTAuODM2LDYuNDU3IC0xOC4yMjEsNi40NTcgSCAtOTEuNzI1IFYgMCBoIDE2Ljg0NiBjIDcuMzg0LDAgMTMuNTI0LDIuMjE4IDE4LjQxOCw2LjY1MyA0Ljg5NCw0LjQzNSA3LjM0MSw5LjkzIDcuMzQxLDE2LjQ4NCBtIC0xMi40NTQsLTAuMTk2IGMgMCwtMy41NCAtMS4yMDEsLTYuNDQ2IC0zLjYwNSwtOC43MTggLTIuNDAzLC0yLjI3MiAtNS40NjIsLTMuNDA4IC05LjE3NiwtMy40MDggaCAtNC45MTYgdiAyNC4yNTIgaCA0LjkxNiBjIDMuNzE0LDAgNi43NzMsLTEuMTM2IDkuMTc2LC0zLjQwOSAyLjQwNCwtMi4yNzIgMy42MDUsLTUuMTc4IDMuNjA1LC04LjcxNyBtIC0zNS4zOTgsNDEuOTIyIGggMTEuOTk0IHYgNDUuODgyIGggLTEyLjEyNSBsIC0xMi4xMjYsLTIzLjk5IC0xMi4xMjYsMjMuOTkgaCAtMTIuNzgyIFYgNjQuODYzIGggMTEuOTk1IHYgMjQuOTczIGwgOS4zMDgsLTE4LjQxOCBoIDYuNTU0IGwgOS4zMDgsMTguNDE4IHogbSAtMjguMTQyLC00Mi45NzEgLTEyLjEyNiwyMy45OSBoIC0xMi43ODEgViAwIGggMTEuOTk0IHYgMjQuOTczIGwgOS4zMDgsLTE4LjQxOSBoIDYuNTU0IGwgOS4zMDgsMTguNDE5IFYgMCBoIDExLjk5NSB2IDQ1Ljg4MiBoIC0xMi4xMjYgeiBtIC01MS42MjYsNDIuOTcxIGggMzUuMzk0IHYgMTAuODE1IGggLTIyLjk0MSB2IDcuNTM4IGggMTkuMDA4IHYgMTAuMTYgaCAtMTkuMDA4IHYgNi41NTQgaCAyMi4yODUgdiAxMC44MTUgaCAtMzQuNzM4IHogbSAtMy45MzMsMCAtMTkuMDA4LDI0LjI1MiAxNy42OTcsMjEuNjMgaCAtMTQuNzQ3IGwgLTE1LjA3NiwtMjAuNTE2IHYgMjAuNTE2IEggLTIyNC4yNiBWIDY0Ljg2MyBoIDEyLjQ1MyBWIDg2LjY5IGwgMTYuMzg3LC0yMS44MjcgeiBtIC0zMC44ODMsLTE4Ljk4MSBoIC0xMi43ODEgViAwIGggMTIuMTI2IFYgMjcuMjAxIEwgLTE5My44NTgsMCBoIDEyLjEyNSB2IDQ1Ljg4MiBoIC0xMi4xMjUgViAxOS41OTggWiBNIC0yNDIuNjUxLDAgaCAxMy43NjUgbCAtMTguMDI1LDQ1Ljg4MiBoIC0xMi40NTQgTCAtMjc3LjM5LDAgaCAxMy4xMSBsIDIuNjg3LDcuODY1IGggMTYuMjU1IHogbSAtNi4wOTUsMTcuNjk3IGggLTkuNTA0IGwgNC43ODQsMTMuODMgeiBtIC0xNC4xODYsNDcuMTY2IGggMzMuNDI4IHYgMTEuMTQzIGggLTIwLjk3NCB2IDM0LjczOSBoIC0xMi40NTQgeiBtIC0yMy41OTUsLTQ4LjQ3NyAxNy4wNDIsMjkuNDk2IGggLTEzLjc2NSBsIC05LjE3NiwtMTcuNTY2IC05LjE3NywxNy41NjYgaCAtMTQuNDE5IGwgMTcuMDQxLC0yOS40OTYgViAwIGggMTIuNDU0IHogbSA5LjQwNiw1My4yNjIgYyAzLjc3OSwzLjYyNyA1LjY2OSw4LjQzNCA1LjY2OSwxNC40MiB2IDI2LjY3NyBoIC0xMi4yNTcgViA4NC4xOTkgYyAwLC0yLjYyMiAtMC43MSwtNC42OTcgLTIuMTMsLTYuMjI3IC0xLjQyLC0xLjUyOSAtMy4zMzIsLTIuMjk0IC01LjczNSwtMi4yOTQgLTIuNDAzLDAgLTQuMzE1LDAuNzY1IC01LjczNSwyLjI5NCAtMS40MiwxLjUzIC0yLjEzMSwzLjYwNSAtMi4xMzEsNi4yMjcgdiAyNi41NDYgaCAtMTIuNjUgdiAtMjcuMDcgYyAwLC01Ljk4NyAxLjgyNCwtMTAuNzI4IDUuNDczLC0xNC4yMjMgMy42NDksLTMuNDk2IDguNTMyLC01LjI0NCAxNC42NSwtNS4yNDQgNi4xMTcsMCAxMS4wNjYsMS44MTMgMTQuODQ2LDUuNDQgbSAtMi41ODksNDYuNDA3IGMgMS4xMzYsMS4xMzYgMS43MDQsMi41NTYgMS43MDQsNC4yNiAwLDEuNzA0IC0wLjU0NiwzLjEwMiAtMS42MzksNC4xOTUgLTEuMDkyLDEuMDkyIC0yLjQ5MSwxLjYzOSAtNC4xOTUsMS42MzkgLTEuNzA0LDAgLTMuMTI0LC0wLjU2OSAtNC4yNiwtMS43MDUgLTEuMTM2LC0xLjEzNiAtMS43MDQsLTIuNTU2IC0xLjcwNCwtNC4yNiAwLC0xLjcwNCAwLjU0NiwtMy4xMDMgMS42MzgsLTQuMTk1IDEuMDkzLC0xLjA5MiAyLjQ5MSwtMS42MzkgNC4xOTUsLTEuNjM5IDEuNzA0LDAgMy4xMjQsMC41NjggNC4yNjEsMS43MDUgbSAtMTUuMDc2LDAgYyAxLjEzNiwxLjEzNiAxLjcwNCwyLjU1NiAxLjcwNCw0LjI2IDAsMS43MDQgLTAuNTQ2LDMuMTAyIC0xLjYzOCw0LjE5NSAtMS4wOTMsMS4wOTIgLTIuNDkxLDEuNjM5IC00LjE5NSwxLjYzOSAtMS43MDQsMCAtMy4xMjQsLTAuNTY5IC00LjI2MSwtMS43MDUgLTEuMTM2LC0xLjEzNiAtMS43MDQsLTIuNTU2IC0xLjcwNCwtNC4yNiAwLC0xLjcwNCAwLjU0NiwtMy4xMDMgMS42MzksLTQuMTk1IDEuMDkyLC0xLjA5MiAyLjQ5MSwtMS42MzkgNC4xOTUsLTEuNjM5IDEuNzA0LDAgMy4xMjQsMC41NjggNC4yNiwxLjcwNSBtIDEzNS4zLC03MC4xNzMgaCAtMTIuNzgxIFYgMCBoIDEyLjc4MSB6Ig0KICAgICAgICAgc3R5bGU9ImZpbGw6IzIzMWYyMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSINCiAgICAgICAgIGlkPSJwYXRoMjE0IiAvPg0KICAgIDwvZz4NCiAgICA8Zw0KICAgICAgIGlkPSJnMjE2Ig0KICAgICAgIHRyYW5zZm9ybT0ibWF0cml4KDAuMzUyNzc3NzcsMCwwLC0wLjM1Mjc3Nzc3LC0xMi4xMDY2NDgsNzEuMjE3ODc3KSI+DQogICAgICA8cGF0aA0KICAgICAgICAgZD0ibSAwLDAgaCAyNy40NDkgYyAwLC00Ni4zOSAzNy42MDcsLTgzLjk5NiA4My45OTcsLTgzLjk5NiAwLDAgOS40NjEsLTEyLjA0NyAyOC4xNywtMjMuODgxIC0xNC43NCwtNC4xMSAtMjguMTcsLTMuNTY5IC0yOC4xNywtMy41NjkgQyA0OS44OTYsLTExMS40NDYgMCwtNjEuNTUgMCwwIg0KICAgICAgICAgc3R5bGU9ImZpbGw6I2QyMjAyNztmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZSINCiAgICAgICAgIGlkPSJwYXRoMjE4IiAvPg0KICAgIDwvZz4NCiAgPC9nPg0KPC9zdmc+DQo=" alt="Ülkem Yanımda" />
+    </div>
+    <div class="meb-badge">T.C. Millî Eğitim Bakanlığı<br>Yükseköğretim ve Yurt Dışı Eğitim<br>Genel Müdürlüğü</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">2026 – 2027 Eğitim Öğretim Yılı · Güz Dönemi</div>
+    <h1>Yurt Dışındaki Türk Çocukları için<br><span>Ücretsiz Türkçe Dersleri</span></h1>
+    <p>Canlı, çevrim içi dersler — alanında uzman öğretmenler, kültürel etkinlikler ve oyunlarla dolu bir program sizi bekliyor.</p>
+  </div>
+
+  <div class="age-band">Hedef Kitle: <span>5 – 16 Yaş</span> Türk vatandaşları ve soydaşlarımızın çocukları</div>
+
+  <!-- TIMELINE -->
+  <div class="timeline-section">
+    <div class="section-label">Kayıt Süreci &amp; Takvim</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-left"><div class="step-num s1">1</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-date d1">13 Temmuz – 31 Ağustos 2026</div>
+          <div class="step-title">Kayıt</div>
+          <div class="step-desc">Çocuğunuzu programa kaydettirin. Kayıt yapılmadan bir sonraki aşamaya geçilemez.</div>
+          <div class="step-note">⚠ Sınava girebilmek için kayıt zorunludur.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num s2">2</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-date d2">13 Temmuz - 31 Ağustos 2026</div>
+          <div class="step-title">Öğrenci Tanıma Sınavı</div>
+          <div class="step-desc">Kayıtlı öğrenciler seviye belirleme sınavına girer. Sınav sonucuna göre uygun seviyedeki sınıfa yönlendirilir.</div>
+          <div class="step-note">⚠ Yalnızca kayıtlı öğrenciler sınava girebilir.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num s3">3</div><div class="step-line"></div></div>
+        <div class="step-body">
+          <div class="step-date d3">1 – 6 Eylül 2026</div>
+          <div class="step-title">Saat Seçimi</div>
+          <div class="step-desc">Öğrenciler, seviyelerine uygun sınıflar arasından tercih ettikleri ders saatini seçer.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-left"><div class="step-num s4">4</div></div>
+        <div class="step-body">
+          <div class="step-date d4">21 Eylül 2026</div>
+          <div class="step-title">Dersler Başlıyor</div>
+          <div class="step-desc">Tüm seviyelerde dersler başlar. Öğrenciler seçtikleri saatte çevrim içi derse katılır.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features">
+    <div class="section-label">Programın Özellikleri</div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon fi-1">🎓</div><div><div class="ft">Uzman Öğretmenler</div><div class="fs">Alanında deneyimli, sertifikalı öğretmenler</div></div></div>
+      <div class="feature-card"><div class="feature-icon fi-2">💻</div><div><div class="ft">Canlı Online Dersler</div><div class="fs">Dünyanın her yerinden katılım imkânı</div></div></div>
+      <div class="feature-card"><div class="feature-icon fi-3">🎉</div><div><div class="ft">Kültürel Etkinlikler</div><div class="fs">Oyunlar, yarışmalar ve kültür aktiviteleri</div></div></div>
+      <div class="feature-card"><div class="feature-icon fi-4">🆓</div><div><div class="ft">Tamamen Ücretsiz</div><div class="fs">Kayıt dahil tüm program ücretsizdir</div></div></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div><div class="fl-label">Web sitesi</div><div class="fl-url">ulkemyanimda.eba.gov.tr</div></div>
+    <div class="footer-divider"></div>
+    <div class="footer-right"><div class="fr-label">İletişim</div><div class="fr-mail">ulkemyanimda@meb.gov.tr</div></div>
+  </div>
+
+</div>
+</body>
+</html>
