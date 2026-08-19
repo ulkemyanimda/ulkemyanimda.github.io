@@ -16,6 +16,8 @@
     --sky:#3E6E8E;
     --line:#E4DCC8;
     --muted:#8A8270;
+    --ataturk:#000000;
+    --turkuaz:#17A2A0;
   }
 
   *{box-sizing:border-box;}
@@ -115,6 +117,8 @@
   .swatch.holiday{background:var(--terra);}
   .swatch.atolye{background:var(--gold);}
   .swatch.yariyil{background:var(--sky);}
+  .swatch.ataturk{background:var(--ataturk);}
+  .swatch.turkuaz{background:var(--turkuaz);}
   .legend-note{
     font-size:12.5px;
     color:var(--muted);
@@ -210,6 +214,8 @@
   .day.holiday{background:var(--terra);}
   .day.atolye{background:var(--gold); color:var(--ink);}
   .day.yariyil{background:var(--sky);}
+  .day.ataturk{background:var(--ataturk); color:#ffffff;}
+  .day.turkuaz{background:var(--turkuaz); color:#ffffff;}
 
   .day.range-start{border-top-left-radius:8px;border-bottom-left-radius:8px;}
   .day.range-end{border-top-right-radius:8px;border-bottom-right-radius:8px;}
@@ -316,6 +322,8 @@
   <div class="legend-item"><span class="swatch holiday"></span> Resmi / Dini Bayram Tatili</div>
   <div class="legend-item"><span class="swatch atolye"></span> Atölye</div>
   <div class="legend-item"><span class="swatch yariyil"></span> Yarıyıl Tatili</div>
+  <div class="legend-item"><span class="swatch ataturk"></span> Atatürk'ü Anma</div>
+  <div class="legend-item"><span class="swatch turkuaz"></span> Kültürel Keşif Yarışması</div>
   <div class="legend-note">Atölye isimleri yakında eklenecektir.</div>
 </div>
 
@@ -360,13 +368,37 @@ const events = [
     desc:"Müzikten halk oyunlarına, sanattan eğlenceli oyunlara uzanan etkinliklerle 29 Ekim’in coşkusunu birlikte yaşıyoruz."
   },
   {
-    start:d(2026,10,9), end:d(2026,10,15),
-    type:"atolye", tag:"Atölye",
+    start:d(2026,10,10), end:d(2026,10,10),
+    type:"ataturk", tag:"Anma Günü",
     title:"Atatürk'ün İzinde",
     desc:"Atatürk Haftası’nda öğrenciler, Materyal Fabrikası’ndaki etkileşimli etkinliklerle Atatürk’ü daha yakından tanıyor; onun fikirlerini ve Cumhuriyet’e uzanan yolculuğunu keşfediyor."
   },
   {
-    start:d(2026,10,16), end:d(2026,10,22),
+    start:d(2026,10,17), end:d(2026,10,17),
+    type:"atolye", tag:"Atölye",
+    title:"Dönüşen Dünyam",
+    desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
+  },
+   {
+    start:d(2026,10,18), end:d(2026,10,18),
+    type:"atolye", tag:"Atölye",
+    title:"Dönüşen Dünyam",
+    desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
+  },
+   {
+    start:d(2026,10,19), end:d(2026,10,19),
+    type:"atolye", tag:"Atölye",
+    title:"Dönüşen Dünyam",
+    desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
+  },
+  {
+    start:d(2026,10,21), end:d(2026,10,21),
+    type:"atolye", tag:"Atölye",
+    title:"Dönüşen Dünyam",
+    desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
+  },
+  {
+    start:d(2026,10,22), end:d(2026,10,22),
     type:"atolye", tag:"Atölye",
     title:"Dönüşen Dünyam",
     desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
@@ -378,28 +410,75 @@ const events = [
     desc:"Türkiye’nin tarımdan teknolojiye uzanan yerli ve millî üretim gücünü keşfedeceğimiz, eğlenceli ve etkileşimli bir atölye."
   },
   {
-    start:d(2027,0,25), end:d(2027,0,31),
-    type:"atolye", tag:"Atölye",
-    title:"Ayın En Güzel Hâli: Ramazan",
+    start:d(2027,0,30), end:d(2027,0,30),
+    type:"turkuaz", tag:"Yarışma",
+    title:"Kültürel Keşif Yarışması - 1. Aşama",
+    desc:"Öğrencilerimizin tarih ve kültür bilincini artıran, milli değerlerimizi eğlenceli bir yarışma ortamında tanıtan unutulmaz bir deneyime davetlisiniz."
+  },
+  {
+    start:d(2027,0,31), end:d(2027,0,31),
+    type:"turkuaz", tag:"Yarışma",
+    title:"Kültürel Keşif Yarışması - 2. Aşama",
     desc:"Ramazan’ın geleneklerini, paylaşma ve dayanışma kültürünü eğlenceli, yaratıcı ve etkileşimli etkinliklerle keşfedeceğimiz özel bir atölye serisi."
+  },
+  {
+    start:d(2027,0,26), end:d(2027,0,28),
+    type:"atolye", tag:"Atölye",
+    title:"Hoş Geldin Ramazan",
+    desc:"Ramazan’ın güzelliklerini, geleneklerini ve paylaşmanın mutluluğunu birlikte keşfediyoruz."
   },
   {
     start:d(2027,1,1), end:d(2027,1,7),
     type:"yariyil", tag:"Tatil",
     title:"Yarıyıl Tatili",
-    desc:"1-7 Şubat 2027 tarihleri arasında yarıyıl tatili uygulanacaktır."
+    desc:"1-7 Şubat 2027 tarihleri arasında yarıyıl tatilindeyiz! Dinlenmek, eğlenmek ve yeni döneme enerji toplamak için güzel bir mola seni bekliyor."
+  },
+  {
+    start:d(2027,1,14), end:d(2027,1,14),
+    type:"atolye", tag:"Atölye",
+    title:"Ayın En Güzel Hâli: Ramazan",
+    desc:"Ramazan’ın geleneklerini, paylaşma ve dayanışma kültürünü eğlenceli, yaratıcı ve etkileşimli etkinliklerle keşfedeceğimiz özel bir atölye serisi."
+  },
+  {
+    start:d(2027,1,21), end:d(2027,1,21),
+    type:"atolye", tag:"Atölye",
+    title:"Ayın En Güzel Hâli: Ramazan",
+    desc:"Ramazan’ın geleneklerini, paylaşma ve dayanışma kültürünü eğlenceli, yaratıcı ve etkileşimli etkinliklerle keşfedeceğimiz özel bir atölye serisi."
+  },
+  {
+    start:d(2027,1,28), end:d(2027,1,28),
+    type:"atolye", tag:"Atölye",
+    title:"Ayın En Güzel Hâli: Ramazan",
+    desc:"Ramazan’ın geleneklerini, paylaşma ve dayanışma kültürünü eğlenceli, yaratıcı ve etkileşimli etkinliklerle keşfedeceğimiz özel bir atölye serisi."
+  },{
+    start:d(2027,2,7), end:d(2027,2,7),
+    type:"atolye", tag:"Atölye",
+    title:"Ayın En Güzel Hâli: Ramazan",
+    desc:"Ramazan’ın geleneklerini, paylaşma ve dayanışma kültürünü eğlenceli, yaratıcı ve etkileşimli etkinliklerle keşfedeceğimiz özel bir atölye serisi."
   },
   {
     start:d(2027,2,8), end:d(2027,2,11),
     type:"holiday", tag:"Dini Bayram",
     title:"Ramazan Bayramı Tatili",
-    desc:"8-11 Mart 2027 tarihleri arasında Ramazan Bayramı tatili uygulanacaktır."
+    desc:"8-11 Mart 2027 tarihleri arasında Ramazan Bayramı tatilindeyiz. Sevdiklerinizle birlikte geçireceğiniz sıcacık, neşeli ve güzel bir bayram dileriz."
   },
   {
     start:d(2027,2,12), end:d(2027,2,14),
     type:"atolye", tag:"Atölye",
-    title:"Atölye Çalışması",
-    desc:"12-14 Mart 2027 tarihleri arasında atölye çalışması düzenlenecektir. (Atölye adı yakında eklenecek)"
+    title:"Bahar Kapıda",
+    desc:"Baharın gelişini keşfediyor, doğanın renkleri ve güzellikleriyle yeni mevsimi karşılıyoruz."
+  },
+  {
+    start:d(2027,2,22), end:d(2027,2,22),
+    type:"atolye", tag:"Atölye",
+    title:"Kitapların İzinde Türkiye",
+    desc:"Türkiye’nin önemli ve tarihî kütüphanelerini keşfediyor, kitapların dünyasında keyifli bir yolculuğa çıkıyoruz."
+  },
+  {
+    start:d(2027,3,23), end:d(2027,3,23),
+    type:"atolye", tag:"Atölye",
+    title:"Çocuklar Gülsün, Dünya Güzelleşsin",
+    desc:"Atatürk’ün çocuklara armağan ettiği 23 Nisan’ın anlamını keşfediyor, bu özel günü neşe ve oyunlarla kutluyoruz."
   },
   {
     start:d(2027,4,15), end:d(2027,4,19),
@@ -408,10 +487,28 @@ const events = [
     desc:"15-19 Mayıs 2027 tarihleri arasında Kurban Bayramı tatili uygulanacaktır."
   },
   {
+    start:d(2027,4,20), end:d(2027,4,20),
+    type:"atolye", tag:"Atölye",
+    title:"19 Mayıs Coşkusu ve Ritmi",
+    desc:"19 Mayıs’ın coşkusunu müzik ve ritimle sürdürüyor, Gençlik Marşı eşliğinde birlikte söylüyor, ritim tutuyor ve kendi müziklerimizi oluşturuyoruz."
+  },
+  {
+    start:d(2027,4,21), end:d(2027,4,21),
+    type:"atolye", tag:"Atölye",
+    title:"19 Mayıs Coşkusu ve Ritmi",
+    desc:"19 Mayıs’ın coşkusunu müzik ve ritimle sürdürüyor, Gençlik Marşı eşliğinde birlikte söylüyor, ritim tutuyor ve kendi müziklerimizi oluşturuyoruz."
+  },
+  {
     start:d(2027,4,20), end:d(2027,4,21),
     type:"atolye", tag:"Atölye",
     title:"Atölye Çalışması",
     desc:"20-21 Mayıs 2027 tarihleri arasında atölye çalışması düzenlenecektir. (Atölye adı yakında eklenecek)"
+  },
+  {
+    start:d(2027,4,29), end:d(2027,4,29),
+    type:"atolye", tag:"Atölye",
+    title:"Fatih’in İzinde: Mühendislik ve Fetih",
+    desc:"19 Mayıs’ın coşkusunu müzik ve ritimle sürdürüyor, Gençlik Marşı eşliğinde birlikte söylüyor, ritim tutuyor ve kendi müziklerimizi oluşturuyoruz."
   },
   {
     start:d(2027,5,20), end:d(2027,5,20),
