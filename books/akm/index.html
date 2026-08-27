@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Çok Dilli Masallar — Atatürk Kültür Merkezi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Vazirmatn:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2A4A;        /* gece lacivert - tezhip zemini */
+    --ink-deep:#111c33;
+    --cini:#0F6B62;       /* çini yeşili */
+    --gold:#CBA135;       /* varak altın */
+    --gold-light:#E8CE86;
+    --kilim:#A3313A;      /* kilim kırmızısı - vurgu */
+    --paper:#F3E9D2;      /* eskitilmiş kağıt */
+    --paper-soft:#FAF4E6;
+    --ink-text:#241C15;
+    --shadow: 0 18px 40px -18px rgba(17,28,51,0.55);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(203,161,53,0.10), transparent 40%),
+      radial-gradient(circle at 90% 85%, rgba(15,107,98,0.18), transparent 45%),
+      var(--ink);
+    color:var(--paper);
+    font-family:'Vazirmatn', 'Noto Naskh Arabic', sans-serif;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none;}
+  .display{font-family:'Amiri', 'Noto Naskh Arabic', serif;}
+
+  /* ---------- top ornament band ---------- */
+  .band{
+    height:10px;
+    background:
+      repeating-linear-gradient(135deg,
+        var(--gold) 0 10px,
+        var(--cini) 10px 20px,
+        var(--kilim) 20px 30px);
+    opacity:0.9;
+  }
+
+  header.hero{
+    max-width:1180px;
+    margin:0 auto;
+    padding:64px 28px 40px;
+    text-align:center;
+    position:relative;
+  }
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:13px;
+    letter-spacing:0.32em;
+    text-transform:uppercase;
+    color:var(--gold-light);
+    margin-bottom:22px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:"";
+    width:34px;height:1px;
+    background:var(--gold-light);
+    opacity:0.7;
+  }
+  h1.title{
+    font-size:clamp(2.4rem, 5vw, 4.2rem);
+    line-height:1.08;
+    margin:0 0 18px;
+    font-weight:700;
+    color:var(--paper-soft);
+  }
+  h1.title em{
+    font-style:italic;
+    color:var(--gold-light);
+  }
+  .subtitle{
+    max-width:640px;
+    margin:0 auto;
+    color:rgba(243,233,210,0.72);
+    font-size:1.05rem;
+    line-height:1.6;
+  }
+  .lang-strip{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:8px;
+    font-size:0.82rem;
+    color:rgba(243,233,210,0.55);
+  }
+  .lang-strip span{
+    padding:4px 12px;
+    border:1px solid rgba(203,161,53,0.35);
+    border-radius:999px;
+  }
+
+  /* ---------- grid ---------- */
+  main{max-width:1180px;margin:0 auto;padding:10px 28px 100px;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(210px, 1fr));
+    gap:28px 24px;
+  }
+  .card{
+    display:block;
+    background:var(--paper);
+    border-radius:6px;
+    padding:10px 10px 16px;
+    box-shadow:var(--shadow);
+    transform:translateY(0);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+    position:relative;
+    cursor:pointer;
+    border:1px solid rgba(203,161,53,0.25);
+  }
+  .card:hover, .card:focus-visible{
+    transform:translateY(-8px);
+    box-shadow:0 28px 55px -18px rgba(17,28,51,0.75);
+    outline:none;
+  }
+  .cover-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:845/684;
+    border-radius:3px;
+    overflow:hidden;
+    background:linear-gradient(135deg, #ded0ab, #c9b98a);
+    border:1px solid rgba(36,28,21,0.15);
+  }
+  .cover-wrap img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+  .cover-wrap::after{
+    content:"";
+    position:absolute;inset:0;
+    box-shadow:inset 0 0 0 1px rgba(203,161,53,0.5), inset 0 -40px 40px -30px rgba(17,28,51,0.35);
+    pointer-events:none;
+  }
+  .badge{
+    position:absolute;
+    top:8px; left:8px;
+    background:var(--ink);
+    color:var(--gold-light);
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:4px 9px;
+    border-radius:999px;
+    border:1px solid rgba(203,161,53,0.6);
+  }
+  .badge.soon{
+    background:rgba(163,49,58,0.92);
+    color:var(--paper-soft);
+    border-color:rgba(255,255,255,0.25);
+  }
+  .card-title{
+    margin:12px 4px 2px;
+    font-family:'Amiri', serif;
+    font-weight:700;
+    font-size:1.05rem;
+    color:var(--ink-text);
+    line-height:1.3;
+  }
+  .card-meta{
+    margin:0 4px;
+    font-size:0.78rem;
+    color:#6b5c3f;
+  }
+
+  footer{
+    text-align:center;
+    padding:34px 20px 60px;
+    color:rgba(243,233,210,0.4);
+    font-size:0.82rem;
+  }
+
+  /* ---------- detail view ---------- */
+  #detail{display:none;}
+  body.detail-open #home{display:none;}
+  body.detail-open #detail{display:block;}
+
+  .back-link{
+    display:inline-flex;align-items:center;gap:8px;
+    margin:26px 0 10px;
+    color:var(--gold-light);
+    font-size:0.92rem;
+    letter-spacing:0.02em;
+  }
+  .back-link:hover{text-decoration:underline;}
+
+  .story-wrap{
+    display:grid;
+    grid-template-columns: 320px 1fr;
+    gap:44px;
+    align-items:start;
+    padding:20px 0 40px;
+  }
+  @media (max-width:820px){
+    .story-wrap{grid-template-columns:1fr;}
+  }
+
+  .frame{
+    position:relative;
+    padding:14px;
+    background:linear-gradient(160deg, var(--gold-light), var(--gold) 60%, #8a6a1e);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+  }
+  .frame .cover-wrap{aspect-ratio:845/684;border-radius:4px;}
+  .corner{
+    position:absolute;width:26px;height:26px;
+    border:2px solid var(--ink-deep);
+    opacity:0.35;
+  }
+  .corner.tl{top:6px;left:6px;border-right:none;border-bottom:none;}
+  .corner.tr{top:6px;right:6px;border-left:none;border-bottom:none;}
+  .corner.bl{bottom:6px;left:6px;border-right:none;border-top:none;}
+  .corner.br{bottom:6px;right:6px;border-left:none;border-top:none;}
+
+  .story-title{
+    font-size:clamp(1.8rem, 3.4vw, 2.6rem);
+    margin:0 0 6px;
+    color:var(--paper-soft);
+  }
+  .story-sub{
+    color:rgba(243,233,210,0.65);
+    margin:0 0 26px;
+    font-size:0.95rem;
+  }
+
+  .lang-row{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin-bottom:26px;
+  }
+  .lang-btn{
+    padding:10px 18px;
+    border-radius:999px;
+    border:1px solid rgba(203,161,53,0.45);
+    background:rgba(255,255,255,0.03);
+    color:var(--paper-soft);
+    font-size:0.95rem;
+    cursor:pointer;
+    transition:all .2s;
+    font-family:'Amiri','Noto Naskh Arabic', serif;
+  }
+  .lang-btn[dir="rtl"]{font-family:'Noto Naskh Arabic', serif;}
+  .lang-btn:hover{border-color:var(--gold-light); background:rgba(203,161,53,0.12);}
+  .lang-btn.active{
+    background:var(--gold);
+    color:var(--ink-deep);
+    border-color:var(--gold);
+    font-weight:700;
+  }
+
+  .player{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    background:#0a1120;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    border:1px solid rgba(203,161,53,0.3);
+  }
+  .player iframe{width:100%;height:100%;border:0;display:block;}
+
+  .empty-note{
+    padding:38px 30px;
+    background:rgba(255,255,255,0.04);
+    border:1px dashed rgba(203,161,53,0.45);
+    border-radius:10px;
+    color:rgba(243,233,210,0.8);
+    line-height:1.6;
+    font-size:1rem;
+  }
+  .empty-note strong{color:var(--gold-light);}
+
+  .visually-hidden{
+    position:absolute; width:1px;height:1px; overflow:hidden; clip:rect(0 0 0 0);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="band"></div>
+
+<!-- ================= HOME ================= -->
+<div id="home">
+  <header class="hero">
+    <div class="eyebrow">Atatürk Kültür Merkezi</div>
+    <h1 class="title">Dokuz Dilde <em>Söylenen</em><br>Masallar</h1>
+    <p class="subtitle">Aşağıdaki kapaklardan birine tıklayın, hikâyenin sayfasında dinlemek istediğiniz dili seçin ve masalı izleyin.</p>
+    <div class="lang-strip">
+      <span>Türkçe</span><span>English</span><span>Deutsch</span><span>Français</span>
+      <span dir="rtl">العربية</span><span>Русский</span><span>日本語</span><span>Español</span><span dir="rtl">فارسی</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<!-- ================= DETAIL ================= -->
+<div id="detail">
+  <main>
+    <a href="#" class="back-link" id="backLink">&larr; Tüm masallara dön</a>
+    <div class="story-wrap">
+      <div class="frame">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="cover-wrap"><img id="detailCover" src="" alt=""></div>
+      </div>
+      <div class="story-body">
+        <h2 class="story-title display" id="detailTitle"></h2>
+        <p class="story-sub" id="detailSub"></p>
+        <div id="langArea"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer>Atatürk Kültür Merkezi — Çok Dilli Kitaplar &middot; Videolar Ülkem Yanımda YouTube kanalından alınmıştır.</footer>
+
+<script>
+/* =========================================================================
+   VERİ TABANI
+   -------------------------------------------------------------------------
+   Yeni bir masalın videosu eklendiğinde: ilgili story nesnesinin "videos"
+   alanına dil kodunu ve YouTube video ID'sini ekleyin. Video yoksa alanı
+   boş obje {} bırakın; site otomatik olarak "yakında" mesajı gösterir.
+   ========================================================================= */
+
+  // Dil sırası: 08 -> 00 (TR, EN, DE, FR, AR, RU, JA, ES, FA)
+  const LANGS = [
+    { code:'tr', label:'Türkçe' },
+    { code:'en', label:'English' },
+    { code:'de', label:'Deutsch' },
+    { code:'fr', label:'Français' },
+    { code:'ar', label:'العربية', rtl:true },
+    { code:'ru', label:'Русский' },
+    { code:'ja', label:'日本語' },
+    { code:'es', label:'Español' },
+    { code:'fa', label:'فارسی', rtl:true },
+  ];
+
+  const STORIES = [
+    { slug:'keloglan-ve-tarhana-tozu', title:'Keloğlan Ve Tarhana Tozu', cover:'keloglanvetarhanatozu.jpg',
+      videos:{tr:'vdE0CEg9P94', ru:'4YGQJQ5WaO8', ja:'dzRKx8s-OcM', ar:'DK13VMNIVe8', es:'KPOm8-TrN3c', en:'KktxnC5mGNc', fa:'cgC6pIT-szc', de:'rPhq5c4JWEY', fr:'uqgEyplMAys'} },
+    { slug:'kaplumbaga-yavrusu', title:'Kaplumbağa Yavrusu', cover:'kaplumbaga-yavrusu.jpg',
+      videos:{fr:'-fAwmGahQ1o', ja:'GjkD3Lv39IY', ar:'JXnV6DPBp6E', en:'NH0tyWLePEo', fa:'PTWKCRqKknY', es:'bnPDiRC4cro', tr:'kJSbXBDshRE', de:'nJzmJzGFkQU', ru:'tKnjbJjSRyY'} },
+    { slug:'ihtiyar-balikci', title:'İhtiyar Balıkçı', cover:'ihtiyar-balikci.jpg',
+      videos:{tr:'3m79PexKtq0', en:'Z9Jki8FxrtY', fr:'bp4hDTltYb0', ja:'dnh79nBFEOs', ru:'gWT12KgQUfM', de:'lFbi9Gm7cqM', ar:'nGBDUoBPh7U', fa:'wKlRClxBgIs', es:'y74WcufglNw'} },
+    { slug:'gumus-yeleli-aslan', title:'Gümüş Yeleli Aslan', cover:'GumusYeleliAslan.jpg',
+      videos:{ar:'ilJU32jfzjA', de:'qJu9UH1L4_U', tr:'vcVvkox4lWo', ru:'-hT8kdvyjds', fr:'50aqbemqNGM', fa:'NMtqzIzSCbU', en:'g01CpW0dfwg', ja:'tfvxvd4hVnA', es:'xxyVAj5JnYI'} },
+    { slug:'gokten-gelen-kirazlar', title:'Gökten Gelen Kirazlar', cover:'gokten-gelen-kirazlar.jpg',
+      videos:{en:'-pg3Xe0usZ0', ru:'6-fi4TL5qjE', ar:'KVEp_-Wir-I', fr:'LWtJb7A3_nw', de:'PgFzBI-wo34', ja:'fqPFrNuHsNk', es:'jtFtH_5HD8M', fa:'nUlKU5srUo0', tr:'sL5zKpP_DAI'} },
+    { slug:'golgesini-kaybeden-tilki', title:'Gölgesini Kaybeden Tilki', cover:'golgesinikaybedentilki.jpg',
+      videos:{tr:'0YRRjGVnpgE', ja:'5HWtuEhXCN0', ru:'5lgDl113gfE', fa:'GVoPjziMo_4', es:'diDfEDGRxug', fr:'ew-6DZ3GI2k', ar:'jCmOxvJiqQA', de:'qiiEcBGz_Wo', en:'ww0xLF8o844'} },
+    { slug:'dilek-tasi', title:'Dilek Taşı', cover:'dilek-tasi.jpg',
+      videos:{en:'CRZU0dq8eVk', es:'CdXVhbjuapU', tr:'IGAvQJPEuUo', ru:'RqXFvQz8HY0', fr:'VbVaXKPHXjI', ja:'fG6DEqOXgRA', fa:'VThARvcvUD4', ar:'fLQTXCntG6g', de:'luk2ZXU2_TM'} },
+    { slug:'artsin-eksilmesin-tassin-dokulmesin', title:'Artsın Eksilmesin Taşsın Dökülmesin', cover:'artsin-eksilmesin-on-kapak.jpg',
+      videos:{tr:'-Ih4w07XieA', es:'EgTRNAipZD4', ru:'PAm8XFEejbM', en:'PImG5ZbSqqY', ar:'ZPZX3jqr_jk', ja:'aN5QvFe6BzU', fr:'idvxriDsqFQ', de:'tO9AQKIzRhc', fa:'vmFYOngOsZQ'} },
+    { slug:'deniz-kizi', title:'Deniz Kızı', cover:'denizkizi-on-kapak.jpg',
+      videos:{de:'1CvHUnHKs8o', fr:'2PiMv7FbX5s', fa:'39q1sDotFpM', ru:'6BSlHrOjRr0', en:'E9D6V-LdYr0', es:'QmomZ2sQMl8', ja:'Zrw7DyeXaVY', ar:'e3KqNcnmYOE', tr:'eA_0D5jCWUw'} },
+    { slug:'beyaz-guvercin', title:'Beyaz Güvercin', cover:'Beyaz-Guvercin-on-Kapak.jpg',
+      videos:{en:'1NoXVG4Rg3c', es:'GKS2YbUaQY8', ar:'K4K0QlBP0mo', fa:'PlhNvZq912E', tr:'S2dhqaxlSFo', ja:'iM532QIG_jA', ru:'j-LMAXYqTh8', fr:'r5oWDi_jj1I', de:'t98xKzyXKlQ'} },
+    { slug:'ak-kiz-ile-kara-kiz', title:'Ak Kız ile Kara Kız', cover:'Ak-kiz-ile-kara-kiz.jpg',
+      videos:{fa:'0G4uT-C4LFA', de:'1MtCOB-5LTE', es:'4C50Z5OX9rU', fr:'84uWpC-MmBY', en:'Rg5APrjM10M', ja:'S7J1-2SvVcE', tr:'SkaTnhUNS38', ar:'bqAvcEDHcOs', ru:'g1L5DwTnqYg'} },
+    { slug:'altin-dilli-kiz', title:'Altın Dilli Kız', cover:'AltinDilliKiz.jpg',
+      videos:{es:'5hDtR24T1Pw', fa:'BhkqWQyZKwY', en:'CTzNFDMcDos', ar:'K1NFVa14oy8', tr:'ZFt0mzjFnfg', ja:'jHBK7X6311w', fr:'mvEVJ1tm4qI', ru:'tOj06EVnlto', de:'x-m5LQG-_50'} },
+    { slug:'altin-pullu-balik', title:'Altın Pullu Balık', cover:'Altin-pullu-balik-on-kapak.jpg',
+      videos:{ar:'7hhHqaURZmw', fa:'DpOKxHw-kII', tr:'FyhG-m64S-E', de:'O0P3oHgd6QE', ja:'Q4y5_tTx1q0', en:'e0swJ7yxd_M', es:'rfZqBAmDoB8', fr:'tAXCDqITGcQ', ru:'x5uDcyyA8oc'} },
+    { slug:'konusan-yaprak', title:'Konuşan Yaprak', cover:'Konusan-Yaprak.jpg',
+      videos:{tr:'-bZO74YF-Xw', es:'31aoTcngQak', de:'HzO9jwuIeVc', ru:'OdloWSSSJXw', ar:'gLsUTYA1rGA', fr:'kPSh5c2bDjY', en:'o5zdOZcNoS4', fa:'t5j8B9t6hhQ', ja:'yDL3pZRJZ8A'} },
+
+    /* -------- Henüz videosu eklenmemiş masallar (CSV güncellenince videos: {} doldurulacak) -------- */
+    { slug:'menekse-sesli-kiz', title:'Menekşe Sesli Kız', cover:'Menekse-sesli-kiz-kapak.jpg', videos:{} },
+    { slug:'menekse-sesli-kiz-ve-bulbuller', title:'Menekşe Sesli Kız ve Bülbüller', cover:'Menekseseslikizvebulbuller.jpg', videos:{} },
+    { slug:'nerdesin-burdayim', title:'Nerdesin Burdayım', cover:'Nerdesinburdayim.jpg', videos:{} },
+    { slug:'sihirli-cekic', title:'Sihirli Çekiç', cover:'Sihirli-Cekic.jpg', videos:{} },
+    { slug:'tintin-kabacik', title:'Tıntın Kabacık', cover:'TintinKabacik.jpg', videos:{} },
+    { slug:'uc-ogut', title:'Üç Öğüt', cover:'Uc-Ogut.jpg', videos:{} },
+    { slug:'uc-kardes', title:'Üç Kardeş', cover:'uckardes.jpg', videos:{} },
+    { slug:'ugurbocegi-ve-karinca', title:'Uğurböceği ve Karınca', cover:'ugurbocegiverkarinca.jpg', videos:{} },
+    { slug:'uzumlu-koy', title:'Üzümlü Köy', cover:'uzumlukoy.jpg', videos:{} },
+    { slug:'yeraltinda-dunya-var', title:'Yeraltında Dünya Var', cover:'Yeraltinda-Dunya-var.jpg', videos:{} },
+    { slug:'yumurta-kabugu-ve-coban-kizi', title:'Yumurta Kabuğu ve Çoban Kızı', cover:'yumurtakabuguvecobankizi.jpg', videos:{} },
+  ];
+
+/* ========================================================================= */
+
+  const grid = document.getElementById('grid');
+
+  function langCount(story){ return Object.keys(story.videos).length; }
+
+  STORIES.forEach(story=>{
+    const has = langCount(story) > 0;
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = '#/' + story.slug;
+    card.innerHTML = `
+      <div class="cover-wrap">
+        <img src="${story.cover}" alt="${story.title}" loading="lazy">
+        ${has ? `<span class="badge">${langCount(story)} dil</span>` : `<span class="badge soon">Yakında</span>`}
+      </div>
+      <div class="card-title">${story.title}</div>
+      <div class="card-meta">${has ? 'Video seçilebilir dillerde mevcut' : 'Video yakında eklenecek'}</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  const detailCover = document.getElementById('detailCover');
+  const detailTitle = document.getElementById('detailTitle');
+  const detailSub   = document.getElementById('detailSub');
+  const langArea    = document.getElementById('langArea');
+
+  function renderStory(story){
+    detailCover.src = story.cover;
+    detailCover.alt = story.title;
+    detailTitle.textContent = story.title;
+
+    const available = LANGS.filter(l => story.videos[l.code]);
+
+    if(available.length === 0){
+      detailSub.textContent = 'Atatürk Kültür Merkezi — Çok Dilli Kitaplar';
+      langArea.innerHTML = `
+        <div class="empty-note">
+          <strong>Bu masalın videosu yakında eklenecek.</strong><br>
+          Şu an için ${story.title} için 9 dilde kayıt hazırlanıyor. Video listesi güncellendiğinde bu sayfa otomatik olarak dil seçenekleriyle görünecek.
+        </div>`;
+      return;
+    }
+
+    detailSub.textContent = `${available.length} dilde izleyebilirsiniz — bir dil seçin.`;
+
+    const btnRow = document.createElement('div');
+    btnRow.className = 'lang-row';
+    available.forEach((l, i)=>{
+      const b = document.createElement('button');
+      b.className = 'lang-btn' + (i===0 ? ' active' : '');
+      b.textContent = l.label;
+      if(l.rtl) b.dir = 'rtl';
+      b.addEventListener('click', ()=>{
+        btnRow.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        setVideo(l.code);
+      });
+      btnRow.appendChild(b);
+    });
+
+    const playerWrap = document.createElement('div');
+    playerWrap.className = 'player';
+    playerWrap.innerHTML = `<iframe id="ytFrame" src="" title="${story.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+
+    langArea.innerHTML = '';
+    langArea.appendChild(btnRow);
+    langArea.appendChild(playerWrap);
+
+    function setVideo(code){
+      const id = story.videos[code];
+      document.getElementById('ytFrame').src = `https://www.youtube.com/embed/${id}`;
+    }
+    setVideo(available[0].code);
+  }
+
+  function bySlug(slug){ return STORIES.find(s => s.slug === slug); }
+
+  function route(){
+    const hash = location.hash; // "#/slug"
+    if(hash.startsWith('#/')){
+      const slug = decodeURIComponent(hash.slice(2));
+      const story = bySlug(slug);
+      if(story){
+        document.body.classList.add('detail-open');
+        renderStory(story);
+        window.scrollTo(0,0);
+        return;
+      }
+    }
+    document.body.classList.remove('detail-open');
+    // duraklat: sayfadan çıkınca video durdurulsun
+    const f = document.getElementById('ytFrame');
+    if(f) f.src = '';
+  }
+
+  window.addEventListener('hashchange', route);
+  document.getElementById('backLink').addEventListener('click', (e)=>{
+    e.preventDefault();
+    location.hash = '';
+  });
+
+  route();
+</script>
+</body>
+</html>
