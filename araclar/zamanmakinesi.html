@@ -1,0 +1,427 @@
+<!-- =========================================================
+     DERS SAATİ ÇEVİRİCİ — gömülebilir widget
+     Kullanım: Bu dosyanın <body> içindeki <div id="tzw-root">...</div>
+     bloğunu ve <style>/<script> içeriğini olduğu gibi sitenize kopyalayın.
+     Stiller "tzw-" ön ekiyle sınırlandırılmıştır, mevcut site CSS'iyle çakışmaz.
+
+     Not: Yaz/kış saati (DST) uygulayan ülkeler için fark otomatik ve doğru
+     hesaplanır — sabit ofset yerine gerçek IANA saat dilimleri (ör. Europe/Berlin)
+     ve tarayıcının Intl API'si kullanılır. Türkiye 2016'dan beri DST uygulamadığı
+     için sabit UTC+3 kabul edilir.
+     ========================================================= -->
+<div id="tzw-root" class="tzw-root">
+  <div class="tzw-card">
+
+    <div class="tzw-head">
+      <span class="tzw-eyebrow">🕒 Ders Saati Çevirici</span>
+      <h2 class="tzw-title">Saatini kendi ülkene göre gör</h2>
+    </div>
+
+    <div class="tzw-row">
+      <div class="tzw-field">
+        <label for="tzw-time">Türkiye saati</label>
+        <div class="tzw-time-input">
+          <input type="time" id="tzw-time" value="19:00">
+          <button type="button" id="tzw-now" title="Şu anki Türkiye saatini al">Şu an</button>
+        </div>
+      </div>
+
+      <div class="tzw-field">
+        <label for="tzw-country">Ülken</label>
+        <select id="tzw-country"></select>
+      </div>
+    </div>
+
+    <div class="tzw-result">
+      <div class="tzw-result-side">
+        <span class="tzw-result-label">🇹🇷 Türkiye</span>
+        <span class="tzw-result-time" id="tzw-tr-time">19:00</span>
+      </div>
+      <div class="tzw-arrow" aria-hidden="true">→</div>
+      <div class="tzw-result-side">
+        <span class="tzw-result-label" id="tzw-country-label">Ülke</span>
+        <span class="tzw-result-time tzw-accent" id="tzw-local-time">--:--</span>
+      </div>
+      <div class="tzw-daybadge" id="tzw-daybadge"></div>
+    </div>
+
+    <div class="tzw-strip-wrap">
+      <div class="tzw-strip" id="tzw-strip">
+        <div class="tzw-strip-hours" id="tzw-strip-hours"></div>
+        <div class="tzw-pin tzw-pin-tr" id="tzw-pin-tr"><span>TR</span></div>
+        <div class="tzw-pin tzw-pin-local" id="tzw-pin-local"><span id="tzw-pin-local-flag">🏳️</span></div>
+      </div>
+      <div class="tzw-strip-caption" id="tzw-strip-caption"></div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  #tzw-root, #tzw-root * { box-sizing: border-box; }
+  #tzw-root {
+    --tzw-bg: #10152a;
+    --tzw-card: #171d38;
+    --tzw-card-2: #1d2444;
+    --tzw-line: #2b3560;
+    --tzw-text: #eef0fb;
+    --tzw-muted: #8891bf;
+    --tzw-gold: #f2b544;
+    --tzw-coral: #ff7a59;
+    --tzw-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    --tzw-sans: -apple-system, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+
+    max-width: 480px;
+    margin: 0 auto;
+    font-family: var(--tzw-sans);
+    color: var(--tzw-text);
+  }
+
+  .tzw-card {
+    background: linear-gradient(180deg, var(--tzw-card), var(--tzw-card-2));
+    border: 1px solid var(--tzw-line);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 12px 30px rgba(5, 8, 20, 0.35);
+  }
+
+  .tzw-head { margin-bottom: 18px; }
+  .tzw-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--tzw-gold);
+    background: rgba(242, 181, 68, 0.12);
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .tzw-title { margin: 0; font-size: 19px; font-weight: 650; line-height: 1.3; }
+
+  .tzw-row { display: flex; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .tzw-field { flex: 1 1 180px; display: flex; flex-direction: column; gap: 6px; }
+  .tzw-field label { font-size: 12.5px; color: var(--tzw-muted); }
+
+  .tzw-time-input { display: flex; gap: 8px; }
+  #tzw-time {
+    flex: 1;
+    font-family: var(--tzw-mono);
+    font-size: 16px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--tzw-line);
+    background: #0e1330;
+    color: var(--tzw-text);
+    min-width: 0;
+  }
+  #tzw-now {
+    font-size: 12.5px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid var(--tzw-line);
+    background: transparent;
+    color: var(--tzw-muted);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  #tzw-now:hover { color: var(--tzw-text); border-color: var(--tzw-gold); }
+
+  #tzw-country {
+    font-size: 14.5px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--tzw-line);
+    background: #0e1330;
+    color: var(--tzw-text);
+    appearance: none;
+  }
+
+  #tzw-time:focus, #tzw-country:focus, #tzw-now:focus {
+    outline: 2px solid var(--tzw-gold);
+    outline-offset: 1px;
+  }
+
+  .tzw-result {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    background: #0e1330;
+    border: 1px solid var(--tzw-line);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .tzw-result-side { display: flex; flex-direction: column; gap: 4px; align-items: center; flex: 1; }
+  .tzw-result-label { font-size: 12.5px; color: var(--tzw-muted); text-align: center; }
+  .tzw-result-time { font-family: var(--tzw-mono); font-size: 28px; font-weight: 600; letter-spacing: 0.02em; }
+  .tzw-accent { color: var(--tzw-coral); }
+  .tzw-arrow { color: var(--tzw-muted); font-size: 18px; }
+  .tzw-daybadge {
+    position: absolute;
+    top: -10px;
+    right: 14px;
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--tzw-gold);
+    color: #1a1200;
+    font-weight: 700;
+    display: none;
+  }
+
+  .tzw-strip-wrap { }
+  .tzw-strip {
+    position: relative;
+    height: 34px;
+    border-radius: 8px;
+    overflow: visible;
+    background: linear-gradient(90deg,
+      #0b1130 0%, #16204f 16%, #3a4a8a 29%,
+      #f2b544 42%, #ffd98a 50%, #f2b544 58%,
+      #3a4a8a 71%, #16204f 84%, #0b1130 100%);
+  }
+  .tzw-strip-hours {
+    position: absolute; inset: 0;
+    display: flex; justify-content: space-between;
+    padding: 0 2px;
+    pointer-events: none;
+  }
+  .tzw-strip-hours span {
+    font-family: var(--tzw-mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.55);
+    align-self: flex-end;
+    transform: translateY(11px);
+  }
+  .tzw-pin {
+    position: absolute;
+    top: -14px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: left 0.25s ease;
+  }
+  .tzw-pin span {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .tzw-pin::after {
+    content: '';
+    width: 2px; height: 16px;
+    background: currentColor;
+    margin-top: 1px;
+  }
+  .tzw-pin-tr { color: var(--tzw-gold); }
+  .tzw-pin-tr span { background: var(--tzw-gold); color: #1a1200; }
+  .tzw-pin-local { color: var(--tzw-coral); }
+  .tzw-pin-local span { background: var(--tzw-coral); color: #2a0800; }
+
+  .tzw-strip-caption {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--tzw-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 380px) {
+    .tzw-result-time { font-size: 22px; }
+  }
+</style>
+
+<script>
+(function () {
+  // Türkiye 2016'dan beri DST uygulamıyor -> sabit UTC+3 (180 dk).
+  const TR_TZ = 'Europe/Istanbul';
+  const TR_OFFSET_MIN = 180;
+
+  // Ülkeler gerçek IANA saat dilimleriyle tanımlanır, böylece yaz/kış saati
+  // (DST) otomatik ve her tarihte doğru hesaplanır — sabit ofset kullanılmaz.
+  const countries = {
+    TR:   {name:'Türkiye',                 flag:'🇹🇷', tz:'Europe/Istanbul',      region:'europe', locked:true},
+    BG:   {name:'Bulgaristan',             flag:'🇧🇬', tz:'Europe/Sofia',         region:'europe'},
+    RO:   {name:'Romanya',                 flag:'🇷🇴', tz:'Europe/Bucharest',     region:'europe'},
+    FI:   {name:'Finlandiya',              flag:'🇫🇮', tz:'Europe/Helsinki',      region:'europe'},
+    NL:   {name:'Hollanda',                flag:'🇳🇱', tz:'Europe/Amsterdam',     region:'europe'},
+    SE:   {name:'İsveç',                   flag:'🇸🇪', tz:'Europe/Stockholm',     region:'europe'},
+    NO:   {name:'Norveç',                  flag:'🇳🇴', tz:'Europe/Oslo',          region:'europe'},
+    DK:   {name:'Danimarka',               flag:'🇩🇰', tz:'Europe/Copenhagen',    region:'europe'},
+    IT:   {name:'İtalya',                  flag:'🇮🇹', tz:'Europe/Rome',          region:'europe'},
+    ES:   {name:'İspanya',                 flag:'🇪🇸', tz:'Europe/Madrid',        region:'europe'},
+    BA:   {name:'Bosna Hersek',            flag:'🇧🇦', tz:'Europe/Sarajevo',      region:'europe'},
+    ME:   {name:'Karadağ',                 flag:'🇲🇪', tz:'Europe/Podgorica',     region:'europe'},
+    IE:   {name:'İrlanda',                 flag:'🇮🇪', tz:'Europe/Dublin',        region:'europe'},
+    DE:   {name:'Almanya',                 flag:'🇩🇪', tz:'Europe/Berlin',        region:'europe'},
+    FR:   {name:'Fransa',                  flag:'🇫🇷', tz:'Europe/Paris',         region:'europe'},
+    GB:   {name:'İngiltere',               flag:'🇬🇧', tz:'Europe/London',        region:'europe'},
+    PL:   {name:'Polonya',                 flag:'🇵🇱', tz:'Europe/Warsaw',        region:'europe'},
+    UA:   {name:'Ukrayna',                 flag:'🇺🇦', tz:'Europe/Kyiv',          region:'europe'},
+    RU:   {name:'Rusya (Moskova)',         flag:'🇷🇺', tz:'Europe/Moscow',        region:'europe'},
+    CN:   {name:'Çin',                     flag:'🇨🇳', tz:'Asia/Shanghai',        region:'asia'},
+    AZ:   {name:'Azerbaycan',              flag:'🇦🇿', tz:'Asia/Baku',            region:'asia'},
+    GE:   {name:'Gürcistan',               flag:'🇬🇪', tz:'Asia/Tbilisi',         region:'asia'},
+    KZ:   {name:'Kazakistan (Almatı)',     flag:'🇰🇿', tz:'Asia/Almaty',          region:'asia'},
+    UZ:   {name:'Özbekistan',              flag:'🇺🇿', tz:'Asia/Tashkent',        region:'asia'},
+    SA:   {name:'Suudi Arabistan',         flag:'🇸🇦', tz:'Asia/Riyadh',          region:'asia'},
+    AE:   {name:'Birleşik Arap Emirlikleri', flag:'🇦🇪', tz:'Asia/Dubai',         region:'asia'},
+    PK:   {name:'Pakistan',                flag:'🇵🇰', tz:'Asia/Karachi',         region:'asia'},
+    IN:   {name:'Hindistan',               flag:'🇮🇳', tz:'Asia/Kolkata',         region:'asia'},
+    JP:   {name:'Japonya',                 flag:'🇯🇵', tz:'Asia/Tokyo',           region:'asia'},
+    KR:   {name:'Güney Kore',              flag:'🇰🇷', tz:'Asia/Seoul',           region:'asia'},
+    SN:   {name:'Senegal',                 flag:'🇸🇳', tz:'Africa/Dakar',         region:'africa'},
+    EG:   {name:'Mısır',                   flag:'🇪🇬', tz:'Africa/Cairo',         region:'africa'},
+    'US-ET': {name:'ABD – Doğu (New York)',        flag:'🇺🇸', tz:'America/New_York',    region:'americas'},
+    'US-CT': {name:'ABD – Merkez (Chicago)',       flag:'🇺🇸', tz:'America/Chicago',     region:'americas'},
+    'US-MT': {name:'ABD – Dağ (Denver)',           flag:'🇺🇸', tz:'America/Denver',      region:'americas'},
+    'US-PT': {name:'ABD – Pasifik (LA)',           flag:'🇺🇸', tz:'America/Los_Angeles', region:'americas'},
+    'CA-ET': {name:'Kanada – Doğu (Toronto)',      flag:'🇨🇦', tz:'America/Toronto',     region:'americas'},
+    'CA-PT': {name:'Kanada – Pasifik (Vancouver)', flag:'🇨🇦', tz:'America/Vancouver',   region:'americas'},
+    'AU-ET': {name:'Avustralya (Sydney)',          flag:'🇦🇺', tz:'Australia/Sydney',    region:'oceania'},
+  };
+
+  const regionNames = {
+    europe: 'Avrupa', asia: 'Asya', africa: 'Afrika',
+    americas: 'Amerika', oceania: 'Okyanusya'
+  };
+
+  const root = document.getElementById('tzw-root');
+  const timeInput   = root.querySelector('#tzw-time');
+  const nowBtn      = root.querySelector('#tzw-now');
+  const countrySel  = root.querySelector('#tzw-country');
+  const trTimeEl    = root.querySelector('#tzw-tr-time');
+  const localTimeEl = root.querySelector('#tzw-local-time');
+  const countryLbl  = root.querySelector('#tzw-country-label');
+  const dayBadge    = root.querySelector('#tzw-daybadge');
+  const pinTr       = root.querySelector('#tzw-pin-tr');
+  const pinLocal    = root.querySelector('#tzw-pin-local');
+  const pinLocalFlag= root.querySelector('#tzw-pin-local-flag');
+  const stripHours  = root.querySelector('#tzw-strip-hours');
+  const stripCaption= root.querySelector('#tzw-strip-caption');
+
+  // Şerit üstündeki saat etiketleri (0, 4, 8, 12, 16, 20)
+  [0,4,8,12,16,20].forEach(h => {
+    const span = document.createElement('span');
+    span.textContent = String(h).padStart(2,'0');
+    stripHours.appendChild(span);
+  });
+
+  // Ülke listesini bölgelere göre grupla ve select'i doldur
+  const grouped = {};
+  Object.entries(countries).forEach(([code, c]) => {
+    if (c.locked) return; // TR sabit referans, seçilecek liste dışı
+    (grouped[c.region] = grouped[c.region] || []).push([code, c]);
+  });
+
+  Object.keys(regionNames).forEach(region => {
+    if (!grouped[region]) return;
+    const og = document.createElement('optgroup');
+    og.label = regionNames[region];
+    grouped[region]
+      .sort((a,b) => a[1].name.localeCompare(b[1].name, 'tr'))
+      .forEach(([code, c]) => {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = `${c.flag} ${c.name}`;
+        og.appendChild(opt);
+      });
+    countrySel.appendChild(og);
+  });
+
+  // Varsayılan: Almanya varsa onu, yoksa ilk seçeneği seç
+  countrySel.value = countries.DE ? 'DE' : countrySel.options[0].value;
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  // Belirli bir anda (date), verilen saat diliminin UTC'den farkını dakika
+  // cinsinden döndürür. DST dahil, her zaman güncel ve doğrudur.
+  function getOffsetMinutes(date, timeZone) {
+    const dtf = new Intl.DateTimeFormat('en-US', {
+      timeZone, hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+    const parts = {};
+    dtf.formatToParts(date).forEach(p => { if (p.type !== 'literal') parts[p.type] = parseInt(p.value, 10); });
+    const hour = parts.hour === 24 ? 0 : parts.hour;
+    const asUTC = Date.UTC(parts.year, parts.month - 1, parts.day, hour, parts.minute, parts.second);
+    return Math.round((asUTC - date.getTime()) / 60000);
+  }
+
+  // Bugünün Türkiye'deki takvim gününü (yıl/ay/gün) al
+  function getTrDateParts(date) {
+    const dtf = new Intl.DateTimeFormat('en-US', {
+      timeZone: TR_TZ, year: 'numeric', month: '2-digit', day: '2-digit'
+    });
+    const parts = {};
+    dtf.formatToParts(date).forEach(p => { if (p.type !== 'literal') parts[p.type] = parseInt(p.value, 10); });
+    return parts;
+  }
+
+  function compute() {
+    const [h, m] = timeInput.value.split(':').map(Number);
+    if (Number.isNaN(h) || Number.isNaN(m)) return;
+
+    const target = countries[countrySel.value];
+    const now = new Date();
+    const trDate = getTrDateParts(now); // bugünün TR takvim günü
+
+    // Girilen TR saatini, TR sabit UTC+3 kabul ederek bir UTC ana çevir
+    const instant = Date.UTC(trDate.year, trDate.month - 1, trDate.day, h - 3, m, 0);
+    const instantDate = new Date(instant);
+
+    // Bu anda hedef ülkenin gerçek (DST dahil) UTC farkı
+    const targetOffsetMin = getOffsetMinutes(instantDate, target.tz);
+    const diffMin = targetOffsetMin - TR_OFFSET_MIN;
+
+    const trMinutes = h * 60 + m;
+    let totalMinutes = trMinutes + diffMin;
+    let dayShift = Math.floor(totalMinutes / 1440);
+    let mod = ((totalMinutes % 1440) + 1440) % 1440;
+    const lh = Math.floor(mod / 60);
+    const lm = Math.round(mod % 60);
+
+    trTimeEl.textContent = `${pad(h)}:${pad(m)}`;
+    localTimeEl.textContent = `${pad(lh)}:${pad(lm)}`;
+    countryLbl.textContent = `${target.flag} ${target.name}`;
+    pinLocalFlag.textContent = target.flag;
+
+    if (dayShift === 0) {
+      dayBadge.style.display = 'none';
+    } else {
+      dayBadge.style.display = 'inline-block';
+      dayBadge.textContent = dayShift > 0 ? 'ertesi gün' : 'bir önceki gün';
+    }
+
+    // Şerit üzerindeki pinleri konumlandır
+    const trPct = (trMinutes / 1440) * 100;
+    const localPct = (mod / 1440) * 100;
+    pinTr.style.left = trPct + '%';
+    pinLocal.style.left = localPct + '%';
+
+    const diffHours = diffMin / 60;
+    const diffLabel = Number.isInteger(diffHours) ? diffHours : diffHours.toFixed(1);
+    const sign = diffHours > 0 ? '+' : '';
+    stripCaption.textContent =
+      `Türkiye'ye göre fark: ${sign}${diffLabel} saat` +
+      (dayShift !== 0 ? ` · öğrencinin ekranında ${dayShift > 0 ? 'ertesi güne' : 'bir önceki güne'} denk gelir` : '');
+  }
+
+  nowBtn.addEventListener('click', () => {
+    const trNow = new Date().toLocaleTimeString('tr-TR', {
+      timeZone: TR_TZ, hour: '2-digit', minute: '2-digit', hour12: false
+    });
+    timeInput.value = trNow;
+    compute();
+  });
+
+  timeInput.addEventListener('input', compute);
+  countrySel.addEventListener('change', compute);
+
+  compute();
+})();
+</script>
