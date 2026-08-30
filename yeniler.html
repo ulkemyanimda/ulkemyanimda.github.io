@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Öğretmen Oryantasyon Rehberi | Ülkem Yanımda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #10b981;
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 4rem;
+        }
+
+        /* Header & Progress Bar */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem 1rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-container {
+            max-width: 800px;
+            margin: -2rem auto 2rem;
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+            width: 90%;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .progress-bar-bg {
+            background-color: var(--border);
+            height: 12px;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            background-color: var(--success);
+            height: 100%;
+            width: 0%;
+            border-radius: 99px;
+            transition: width 0.4s ease-in-out;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .phase-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary);
+            transition: transform 0.2s;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .phase-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .phase-desc {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Checklist Items */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-top: 0.25rem;
+            width: 1.2rem;
+            height: 1.2rem;
+            cursor: pointer;
+            accent-color: var(--success);
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .checklist-item input[type="checkbox"]:checked + label {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .highlight-box {
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .warning-box {
+            background-color: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a3412;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .link-list {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .link-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .link-list a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        .reset-btn {
+            background: none;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: var(--text-muted);
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.5rem; }
+            .phase-card { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🍎 Ülkem Yanımda</h1>
+    <p>Yeni Öğretmenler İçin Görev Takip Çizelgesi</p>
+</header>
+
+<div class="progress-container">
+    <div class="progress-label">
+        <span>İlerleme Durumu</span>
+        <span id="progress-text">0%</span>
+    </div>
+    <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+</div>
+
+<main>
+    <!-- Aşama 1 -->
+    <div class="phase-card">
+        <div class="phase-title">📝 1. Aşama: Üyelik ve Profil Oluşturma</div>
+        <div class="phase-desc">Platforma kayıt olarak ailedeki yerini al.</div>
+        
+        <div class="checklist-item">
+            <input type="checkbox" id="task1">
+            <label for="task1"><strong>"Ülkem Yanımda"</strong> platformuna üye ol.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task2">
+            <label for="task2"><strong>Öğrenci</strong> statüsünde kayıt oluştur. (Gerçek ad, soyad, e-posta ve telefon bilgilerini eksiksiz gir.)</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task3">
+            <label for="task3">Profil bilgilerini aşağıdaki önerilen şekilde doldur:
+                <div class="highlight-box">
+                    🌍 <strong>Ülke:</strong> Zimbabwe<br>
+                    🎂 <strong>Doğum yılı:</strong> 2010<br>
+                    👤 <strong>Veli adı:</strong> Adem<br>
+                    <em>(Diğer alanlar önemli değil, rast gele doldurabilrsiniz.)</em>
+                </div>
+            </label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task4">
+            <label for="task4"><em>(Opsiyonel ama Önerilir)</em> Kendini tanıtan kısa bir paragraf ve fotoğrafını <strong>Kahraman</strong>'a gönder. Böylece <a href="https://ulkemyanimda.github.io/kadro/" target="_blank">Kadro sayfamıza</a> eklenebilir ve öğrenciler seni tanıyabilir.</label>
+        </div>
+    </div>
+
+    <!-- Aşama 2 -->
+    <div class="phase-card">
+        <div class="phase-title">💻 2. Aşama: Sistem ve Kurslara Erişim</div>
+        <div class="phase-desc">Pratik yapmaya başlamak için gerekli alanlara erişim sağla.</div>
+        
+        <div class="checklist-item">
+            <input type="checkbox" id="task5">
+            <label for="task5">"Ülkem Yanımda" hesabına giriş yap.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task6">
+            <label for="task6"><strong>Kurslarım</strong> bölümüne git ve <strong>"DENEME-YANILMAMA"</strong> isimli kursu bul.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task7">
+            <label for="task7">Kursun içine gir, sana tanımlanan alanda pratiklerini yap.
+			
+			<div class="checklist-item">
+            <input type="checkbox" id="task11">
+            <label for="task11"><a href="https://ulkemyanimda.github.io/sss.html" target="_blank">Nasıl Yapılır Atölyesi</a> sayfasını incele ve işine yarayacak uygulamaları yapmaya çalış.</label>
+        </div>
+			
+                <div class="warning-box">
+                    ⚠️ <strong>Not:</strong> Bu kursu göremiyorsan 24 saat bekle veya doğrudan Kahraman'a yaz.
+                </div>
+            </label>
+        </div>
+    </div>
+
+    <!-- Aşama 3 -->
+    <div class="phase-card">
+        <div class="phase-title">🛠️ 3. Aşama: Teknik Kurulum ve İletişim</div>
+        <div class="phase-desc">İletişim ve ders araçlarını resmi prosedüre uygun kur.</div>
+        
+        <div class="checklist-item">
+            <input type="checkbox" id="task8">
+            <label for="task8"><strong>31 Ağustos Pazartesi</strong> gününden itibaren <strong>İnanç</strong> ile iletişime geç ve MS Teams hesabını al.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task9">
+            <label for="task9">
+                <div class="warning-box">
+                    🚨 <strong>ÇOK ÖNEMLİ:</strong> Aldığın MS Teams şifresini <strong>ASLA DEĞİŞTİRME</strong>.
+                </div>
+            </label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task10">
+            <label for="task10">MS Teams uygulamasını indir ve temel kullanımını öğren.</label>
+        </div>
+    </div>
+
+    <!-- Aşama 4 -->
+    <div class="phase-card">
+        <div class="phase-title">🚀 4. Aşama: Eğitim, Pratik ve Gelişim</div>
+        <div class="phase-desc">Kendini ve materyallerini geliştir, sistemi ezberle.</div>
+        
+        <div class="checklist-item">
+            <input type="checkbox" id="task11">
+            <label for="task11"><a href="https://ulkemyanimda.github.io/sss.html" target="_blank">Nasıl Yapılır Atölyesi</a> sayfasını incele ve işine yarayacak uygulamaları yapmaya çalış.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task12">
+            <label for="task12"><strong>Fırat’ın 1 saatlik dersini</strong> mutlaka izle: <a href="https://www.youtube.com/watch?v=3PfVWZQS-HI" target="_blank">📺 YouTube Ders Linki</a>. (Ufuk açıcı ve kesinlikle tavsiye edilir!)</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task13">
+            <label for="task13">Bir hafta boyunca sistem üzerinde aktif olarak pratik yap ve kendini geliştir.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task14">
+            <label for="task14">Aşağıdaki siteleri detaylıca incele ("altını üstüne getir"), nasıl daha iyisini yapabileceğin konusunda kafa yor:
+                <ul class="link-list">
+                    <li>🔗 <a href="https://ulkemyanimda.github.io/" target="_blank">Ülkem Yanımda Ana Sayfa</a></li>
+                    <li>🔗 <a href="https://materyalfabrikasi.github.io/" target="_blank">Materyal Fabrikası</a></li>
+                    <li>🔗 <a href="https://dijitalkopru.github.io/" target="_blank">Dijital Köprü</a></li>
+                </ul>
+            </label>
+        </div>
+    </div>
+
+    <!-- Aşama 5 -->
+    <div class="phase-card">
+        <div class="phase-title">🤝 5. Aşama: Oryantasyon Toplantısı</div>
+        <div class="phase-desc">Büyük buluşmaya hazırlan.</div>
+        
+        <div class="checklist-item">
+            <input type="checkbox" id="task15">
+            <label for="task15"><strong>7 Eylül Pazartesi, saat 20:00</strong>'deki oryantasyon toplantısı için takvimine hatırlatıcı ekle.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task16">
+            <label for="task16">Toplantıya kadar kendini mümkün olduğunca hazırla. Toplantı Linki: <a href="https://kahramankostas.github.io/toplan.html" target="_blank">Toplantı Rehberi</a></label>
+        </div>
+    </div>
+
+    <!-- Aşama 6 -->
+    <div class="phase-card">
+        <div class="phase-title">📱 6. Aşama: Sosyal Medya ve Paylaşım Kuralları</div>
+        <div class="phase-desc">Instagram paylaşımlarında resmi süreci yönetelim.</div>
+        
+        <div class="checklist-item">
+            <input type="checkbox" id="task17">
+            <label for="task17">Instagram'da "Ülkem Yanımda" ile ilgili paylaşım yapacaksan ve hesabın <strong>gizliyse</strong>, resmi hesabımız seni göremez.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task18">
+            <label for="task18">Bu durumda <strong>@kahramankostas</strong> hesabından seni takip etmesini rica et.</label>
+        </div>
+        <div class="checklist-item">
+            <input type="checkbox" id="task19">
+            <label for="task19">Paylaşmak istediğin içeriği mesaj olarak <strong>@kahramankostas</strong>'a gönder; resmi hesapta yayınlanmasını birlikte sağlayalım!</label>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <button class="reset-btn" onclick="resetProgress()">🔄 İlerlemeyi Sıfırla</button>
+    </div>
+</main>
+
+<footer>
+    <p>© 2026 Ülkem Yanımda | Yeni Öğretmenler İçin Hazırlanmıştır.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;">Bu sayfa tarayıcınızda yerel olarak kaydedilir. Verileriniz sunuculara gönderilmez.</p>
+</footer>
+
+<script>
+    // Tüm checkbox'ları seç
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+
+    // Sayfa yüklendiğinde kayıtlı durumu geri yükle
+    window.addEventListener('DOMContentLoaded', () => {
+        checkboxes.forEach((checkbox, index) => {
+            const savedState = localStorage.getItem(`teacher_checklist_${index}`);
+            if (savedState === 'true') {
+                checkbox.checked = true;
+            }
+        });
+        updateProgress();
+    });
+
+    // Her checkbox değiştiğinde durumu kaydet ve ilerlemeyi güncelle
+    checkboxes.forEach((checkbox, index) => {
+        checkbox.addEventListener('change', () => {
+            localStorage.setItem(`teacher_checklist_${index}`, checkbox.checked);
+            updateProgress();
+        });
+    });
+
+    // İlerleme çubuğunu güncelleme fonksiyonu
+    function updateProgress() {
+        const total = checkboxes.length;
+        const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+        const percentage = Math.round((checked / total) * 100);
+        
+        progressBar.style.width = `${percentage}%`;
+        progressText.textContent = `${percentage}%`;
+
+        // Renk değişimi (tamamlandığında yeşil tonu)
+        if (percentage === 100) {
+            progressBar.style.backgroundColor = '#059669'; // Daha koyu yeşil
+        } else {
+            progressBar.style.backgroundColor = '#10b981'; // Standart yeşil
+        }
+    }
+
+    // İlerlemeyi sıfırlama fonksiyonu
+    function resetProgress() {
+        if (confirm('Tüm işaretlemelerinizi sıfırlamak istediğinize emin misiniz?')) {
+            checkboxes.forEach((checkbox, index) => {
+                checkbox.checked = false;
+                localStorage.removeItem(`teacher_checklist_${index}`);
+            });
+            updateProgress();
+        }
+    }
+</script>
+
+</body>
+</html>
