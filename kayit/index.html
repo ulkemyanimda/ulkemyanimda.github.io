@@ -1,475 +1,786 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ülkem Yanımda - Kayıt Rehberi</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sınıf Tercih Adımları | Ülkem Yanımda</title>
 
-        body {
-            font-family: 'Comic Sans MS', 'Chalkboard', cursive, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #f59e0b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
 
-        .header {
-            text-align: center;
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+      --warning-bg: #fffbeb;
+      --warning-border: #fef3c7;
+      --warning-text: #b45309;
 
-        .header h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
+      --radius: 16px;
+      --shadow:
+        0 10px 25px -5px rgba(0, 0, 0, 0.05),
+        0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    }
 
-        .header p {
-            color: #666;
-            font-size: 1.2em;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .mascot-container {
-            text-align: center;
-            margin: 20px 0;
-        }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 24px 16px 40px;
+    }
 
-        .mascot-container img {
-            max-width: 200px;
-            border-radius: 50%;
-            border: 5px solid #ffd93d;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-        }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
 
-        .checklist {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            margin-bottom: 30px;
-        }
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
 
-        .step {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            padding: 25px;
-            background: #f8f9ff;
-            border-radius: 15px;
-            border-left: 6px solid #667eea;
-            transition: transform 0.3s ease;
-            position: relative;
-        }
+    .logo-wrapper {
+      margin-bottom: 14px;
+    }
 
-        .step:hover {
-            transform: translateX(10px);
-            background: #eef0ff;
-        }
+    .logo {
+      max-height: 175px;
+      width: auto;
+      object-fit: contain;
+    }
 
-        .step.completed {
-            border-left-color: #6bcf7f;
-            background: #e8f5e9;
-        }
+    .title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
 
-        .checkbox {
-            min-width: 40px;
-            height: 40px;
-            border: 3px solid #667eea;
-            border-radius: 50%;
-            margin-right: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            color: #667eea;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .badge-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-top: 10px;
+      border: 1px solid #dbeafe;
+    }
 
-        .step.completed .checkbox {
-            background: #6bcf7f;
-            border-color: #6bcf7f;
-            color: white;
-        }
+    /* QUICK ACTIONS (YENİ EKLENEN BUTONLAR) */
+    .action-buttons-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
 
-        .step-content h3 {
-            color: #667eea;
-            font-size: 1.4em;
-            margin-bottom: 10px;
-        }
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow);
+    }
 
-        .step.completed .step-content h3 {
-            color: #2e7d32;
-        }
+    .action-btn-home {
+      background-color: #ffffff;
+      color: var(--text-main);
+      border: 1.5px solid var(--border);
+    }
 
-        .step-content p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
+    .action-btn-home:hover {
+      background-color: #f1f5f9;
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+    }
 
-        .step-content a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 8px;
-            padding: 8px 16px;
-            background: #eef0ff;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
+    .action-btn-choice {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: 1.5px solid var(--primary);
+    }
 
-        .step-content a:hover {
-            background: #667eea;
-            color: white;
-            transform: scale(1.05);
-        }
+    .action-btn-choice:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
 
-        /* Video Bölümü Tasarımı */
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            height: 0;
-            margin: 15px 0;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
+    /* PROGRESS */
+    .progress-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
 
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
 
-        .important-note {
-            background: #fff3cd;
-            border-left: 6px solid #ffc107;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
+    .progress-bar-bg {
+      height: 10px;
+      background: var(--border);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
 
-        .important-note p {
-            color: #856404;
-            margin: 0;
-        }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(
+        90deg,
+        var(--primary),
+        var(--success)
+      );
+      border-radius: 9999px;
+      transition: width 0.35s ease;
+    }
 
-        .success-message {
-            background: linear-gradient(135deg, #6bcf7f 0%, #4ade80 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            display: none;
-        }
+    /* VIDEO */
+    .video-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
 
-        .success-message.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
+    .video-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    .video-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eff6ff;
+      border-radius: 10px;
+      font-size: 1.25rem;
+    }
 
-        .success-message h2 {
-            font-size: 2em;
-            margin-bottom: 15px;
-        }
+    .video-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.35;
+    }
 
-        .timeline {
-            background: #e3f2fd;
-            border-left: 6px solid #2196f3;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
+    .video-description {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
 
-        .timeline h3 {
-            color: #1976d2;
-            margin-bottom: 10px;
-        }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #0f172a;
+    }
 
-        .timeline-item {
-            margin: 10px 0;
-            padding: 10px;
-            background: white;
-            border-radius: 8px;
-        }
+    .video-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
 
-        .progress-bar {
-            background: #e0e0e0;
-            border-radius: 10px;
-            height: 30px;
-            margin: 30px 0;
-            overflow: hidden;
-            position: relative;
-        }
+    .video-link {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: var(--primary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
 
-        .progress-fill {
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            height: 100%;
-            width: 0%;
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
+    .video-link:hover {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
 
-        .calendar-btn-container {
-            text-align: center;
-            margin-top: 25px;
-        }
+    /* SECTION TITLE */
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 2px 14px;
+    }
 
-        .calendar-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #ffd93d 0%, #ff9a00 100%);
-            color: #4a2d00;
-            font-size: 1.1em;
-            font-weight: bold;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            box-shadow: 0 6px 20px rgba(255, 154, 0, 0.4);
-            transition: all 0.3s ease;
-            border: 2px solid #ffffff;
-        }
+    .section-heading h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
 
-        .calendar-btn:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(255, 154, 0, 0.6);
-            background: linear-gradient(135deg, #ffe066 0%, #ffb300 100%);
-        }
+    .section-heading p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-left: auto;
+    }
 
-        .calendar-btn:active {
-            transform: translateY(1px);
-        }
+    /* CHECKLIST */
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
 
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .step {
-                flex-direction: column;
-            }
-            
-            .checkbox {
-                margin-bottom: 15px;
-            }
+    .item {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
 
-            .calendar-btn {
-                font-size: 0.95em;
-                padding: 12px 20px;
-            }
-        }
-    </style>
+    .item:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+
+    .item.completed {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .item.completed .item-title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #cbd5e1;
+      border-radius: 7px;
+      outline: none;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      margin-top: 2px;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .checkbox:checked {
+      background-color: var(--success);
+      border-color: var(--success);
+    }
+
+    .checkbox:checked::before {
+      content: "";
+      width: 6px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      margin-bottom: 2px;
+    }
+
+    .item-content {
+      flex: 1;
+    }
+
+    .item-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .item-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .item-desc ul {
+      margin-top: 8px;
+      padding-left: 20px;
+    }
+
+    .item-desc li {
+      margin-bottom: 5px;
+    }
+
+    /* WARNING */
+    .warning-box {
+      background-color: var(--warning-bg);
+      border: 1.5px solid var(--warning-border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 28px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .warning-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .warning-content h3 {
+      color: var(--warning-text);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .warning-content p {
+      color: #78350f;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .btn-link {
+      display: inline-block;
+      background-color: #d97706;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-link:hover {
+      background-color: #b45309;
+    }
+
+    /* FOOTER */
+    .info-footer {
+      background: linear-gradient(
+        135deg,
+        #1e293b,
+        #0f172a
+      );
+      color: #f8fafc;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .info-footer-icon {
+      font-size: 1.75rem;
+    }
+
+    .info-footer-text h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .info-footer-text p {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 520px) {
+      body {
+        padding: 18px 12px 30px;
+      }
+
+      .action-buttons-group {
+        grid-template-columns: 1fr;
+      }
+
+      .title {
+        font-size: 1.4rem;
+      }
+
+      .logo {
+        max-height: 145px;
+      }
+
+      .badge-date {
+        font-size: 0.78rem;
+      }
+
+      .progress-card {
+        padding: 14px 16px;
+      }
+
+      .video-card {
+        padding: 14px;
+      }
+
+      .video-title {
+        font-size: 0.98rem;
+      }
+
+      .item {
+        padding: 16px;
+      }
+
+      .item-title {
+        font-size: 0.98rem;
+      }
+
+      .item-desc {
+        font-size: 0.86rem;
+      }
+
+      .warning-box {
+        padding: 16px;
+      }
+
+      .info-footer {
+        padding: 16px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎓 Ülkem Yanımda</h1>
-            <p>Kayıt ve Seviye Belirleme Rehberi</p>
-            <div class="mascot-container">
-                <img src="leylo.png" alt="Leylo - Maskotumuz">
-            </div>
-            <p style="color: #667eea; font-weight: bold; margin-top: 10px;">Merhaba! Ben Leylo 👋</p>
-            <p style="color: #888;">Seni Ülkem Yanımda platformunda görmekten mutluluk duyacağım!</p>
+
+  <div class="container">
+
+    <header class="header">
+      <div class="logo-wrapper">
+        <img
+          src="leylo.png"
+          alt="Ülkem Yanımda"
+          class="logo"
+        >
+      </div>
+
+      <h1 class="title">
+        Sınıf Tercih Adımları
+      </h1>
+
+      <div class="badge-date">
+        <span>📅 Tercih Tarihleri: 1 – 9 Eylül</span>
+      </div>
+    </header>
+
+    <div class="progress-card">
+      <div class="progress-header">
+        <span>İlerleme Durumu</span>
+        <span id="progress-text">
+          0/4 Tamamlandı
+        </span>
+      </div>
+
+      <div class="progress-bar-bg">
+        <div
+          class="progress-bar-fill"
+          id="progress-bar">
         </div>
-
-        <div class="checklist">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar">0% Tamamlandı</div>
-            </div>
-
-            <!-- ADIM 1 -->
-            <div class="step" data-step="1">
-                <div class="checkbox" onclick="toggleStep(this)">○</div>
-                <div class="step-content" style="width: 100%;">
-                    <h3>1️⃣ İlk Adım: Kayıt Kontrolü</h3>
-                    <p><strong>Daha önce Ülkem Yanımda platformundan ders aldın mı?</strong></p>
-                    
-                    <!-- Eklenen Video Rehber Bölümü -->
-                    <p style="color: #667eea; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">🎬 Görüntülü Kayıt Rehberi (Adım Adım):</p>
-                    <div class="video-container">
-                        <iframe 
-                            src="https://www.youtube.com/embed/Q4kB8L142Kc" 
-                            title="2026-2027 Ülkem Yanımda Kayıt Rehberi" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-
-                    <div class="important-note">
-                        <p>📌 <strong>Hayır, ilk defa kayıt olacağım:</strong> Hemen kayıt olmalısın!</p>
-                        <a href="https://ulkemyanimda.eba.gov.tr/moodle/login/signup.php" target="_blank">👉 Kayıt Ol</a>
-                    </div>
-                    <div class="important-note" style="margin-top: 10px; background: #d4edda; border-color: #28a745;">
-                        <p>✅ <strong>Evet, daha önce kayıt oldum:</strong> Harika! Kullanıcı adı ve şifren ile giriş yapabilirsin. Tekrar kayıt olmana gerek yok.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ADIM 2 -->
-            <div class="step" data-step="2">
-                <div class="checkbox" onclick="toggleStep(this)">○</div>
-                <div class="step-content">
-                    <h3>2️⃣ İkinci Adım: Seviye Belirleme Formu</h3>
-                    <p>Kaydını tamamladıysan şimdi <strong>Seviye Belirleme Formu</strong>'nu doldurmalısın.</p>
-                    <p>Bu form, seni en uygun sınıfa yerleştirebilmemiz için çok önemli! </p>
-                    <a href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=382" target="_blank"> Seviye Belirleme Formuna Git</a>
-                    <div class="important-note">
-                        <p>💡 <strong>Önemli:</strong> Bu formu mümkünse velinle birlikte, vakit ayırarak ve tüm soruları dikkatlice cevaplayarak doldur.</p>
-                    </div>
-                    <div class="important-note" style="margin-top: 10px;">
-                        <p>⚠️ <strong>Sayfayı göremiyorsan:</strong> Kaydını tamamladığından ve giriş yaptığından emin ol.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ADIM 3 -->
-            <div class="step" data-step="3">
-                <div class="checkbox" onclick="toggleStep(this)">○</div>
-                <div class="step-content">
-                    <h3>3️⃣ Üçüncü Adım: Tebrikler! 🎉</h3>
-                    <p>Seviye belirleme formunu tamamladığında benden bir tebrik mesajı göreceksin!</p>
-                    <p>Tebrik mesajını görünceye kadar tüm formları tamamlamayı ihmal etme.</p>
-                    <p><em>"Harikasın! Seviye belirleme işlemin artık tamamlandı. Şu an yapman gereken tüm adımları tamamladın."</em></p>
-                </div>
-            </div>
-
-            <div class="timeline">
-                <h3>📅 Önemli Tarihler</h3>
-                <div class="timeline-item">
-                    <strong>🎯 Şimdi - Ağustos Sonu:</strong> Kayıt ve seviye belirleme işlemlerini tamamla
-                </div>
-                <div class="timeline-item">
-                    <strong> Eylül'ün İlk Haftası:</strong> Sınıf seçimlerini yapabileceksin
-                </div>
-                <div class="timeline-item">
-                    <strong>🚀 21 Eylül Pazartesi:</strong> Ülkem Yanımda dersleri başlıyor!
-                </div>
-            </div>
-
-            <div class="important-note" style="margin-top: 20px; background: #e3f2fd; border-color: #2196f3;">
-                <p>📢 <strong>Unutma!</strong> Duyurularımızı takip etmeyi unutma. Eylül ayı başında sınıf seçimleri başlayacak!</p>
-            </div>
-
-            <div class="calendar-btn-container">
-                <a href="takvim.html" target="_blank" class="calendar-btn">📅 Kayıt Süreci & Takvimi Daha Ayrıntılı Görmek İçin Tıklayınız</a>
-            </div>
-        </div>
-
-        <div class="success-message" id="successMessage">
-            <h2>🎉 Tebrikler!</h2>
-            <p>Tüm adımları başarıyla tamamladın!</p>
-            <p style="margin-top: 15px; font-size: 1.2em;">Eylül ayında sınıf seçimlerinde görüşürüz! </p>
-        </div>
+      </div>
     </div>
 
-    <script>
-        function toggleStep(checkbox) {
-            const step = checkbox.parentElement;
-            const allSteps = document.querySelectorAll('.step');
-            let completedSteps = 0;
-            
-            if (checkbox.innerHTML === '○') {
-                checkbox.innerHTML = '✓';
-                step.classList.add('completed');
-            } else {
-                checkbox.innerHTML = '○';
-                step.classList.remove('completed');
-            }
-            
-            allSteps.forEach(s => {
-                if (s.classList.contains('completed')) {
-                    completedSteps++;
-                }
-            });
-            
-            const percentage = Math.round((completedSteps / allSteps.length) * 100);
-            const progressBar = document.getElementById('progressBar');
-            progressBar.style.width = percentage + '%';
-            progressBar.textContent = percentage + '% Tamamlandı';
-            
-            const successMessage = document.getElementById('successMessage');
-            if (completedSteps === allSteps.length) {
-                successMessage.classList.add('show');
-            } else {
-                successMessage.classList.remove('show');
-            }
-            
-            saveProgress();
+    <section class="video-card">
+      <div class="video-header">
+        <div class="video-icon">
+          🎥
+        </div>
+
+        <div>
+          <div class="video-title">
+            Tercihe başlamadan önce videoyu izle
+          </div>
+
+          <div class="video-description">
+            Sınıf tercihini nasıl yapacağını 4 dakikada öğren.
+          </div>
+        </div>
+      </div>
+
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/U1ykaZAbp4s"
+          title="Ülkem Yanımda | Sınıf Tercihi Nasıl Yapılır?"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <a
+        href="https://www.youtube.com/watch?v=U1ykaZAbp4s"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="video-link">
+        ▶ Videoyu YouTube'da aç
+      </a>
+    </section>
+
+    <div class="action-buttons-group">
+      <a
+        href="https://ulkemyanimda.eba.gov.tr/moodle/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-btn action-btn-home">
+        🏠 Anasayfaya Git
+      </a>
+
+      <a
+        href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=202"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-btn action-btn-choice">
+        📝 Sınıf Seçim Sayfası
+      </a>
+    </div>
+
+    <div class="section-heading">
+      <h2>
+        📋 Sınıf tercih adımları
+      </h2>
+
+      <p>
+        4 adım
+      </p>
+    </div>
+
+    <main class="checklist">
+
+      <label class="item">
+        <input
+          type="checkbox"
+          class="checkbox"
+        >
+
+        <div class="item-content">
+          <div class="item-title">
+            1️⃣ İlk Adım: Giriş Yap
+          </div>
+
+          <div class="item-desc">
+            Ülkem Yanımda sistemine giriş yap ve
+            anasayfada yer alan
+            <strong>"Sınıf Tercihleri"</strong>
+            görseline/butonuna tıkla.
+          </div>
+        </div>
+      </label>
+
+      <label class="item">
+        <input
+          type="checkbox"
+          class="checkbox"
+        >
+
+        <div class="item-content">
+          <div class="item-title">
+            2️⃣ İkinci Adım: Direktifleri Oku
+          </div>
+
+          <div class="item-desc">
+            Açılan sayfada tercih yapmadan önce
+            şu kurallara dikkat et:
+
+            <ul>
+              <li>
+                <strong>Tek Tercih Hakkı:</strong>
+                Bir kez tercih yapabilirsin ve bu tercihi
+                daha sonra değiştiremezsin.
+              </li>
+              <li>
+                <strong>Saat Farkı:</strong>
+                Dersler Türkiye saatine göredir.
+                <em>Ders Saati Çevirici</em> ile
+                ülkende saat kaça denk geldiğini kontrol et.
+              </li>
+              <li>
+                <strong>Öğretmen Bilgisi:</strong>
+                Ders saatlerinin yanında öğretmen isimleri
+                yer alır; kadromuz bölümünden öğretmenini
+                inceleyebilirsin.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </label>
+
+      <label class="item">
+        <input
+          type="checkbox"
+          class="checkbox"
+        >
+
+        <div class="item-content">
+          <div class="item-title">
+            3️⃣ Tercihini Kaydet
+          </div>
+
+          <div class="item-desc">
+            Sana en uygun dersi seçtikten sonra
+            <strong>"Seçeneğimi Kaydet"</strong>
+            butonuna bas ve
+            <em>"Seçiminiz kaydedildi"</em>
+            uyarısını gördüğünden emin ol.
+          </div>
+        </div>
+      </label>
+
+      <label class="item">
+        <input
+          type="checkbox"
+          class="checkbox"
+        >
+
+        <div class="item-content">
+          <div class="item-title">
+            4️⃣ Öğretmen İletişimini Bekle
+          </div>
+
+          <div class="item-desc">
+            Sınıf seçimleri tamamlandıktan sonra
+            öğretmenin seninle iletişime geçecek.
+          </div>
+        </div>
+      </label>
+
+    </main>
+
+    <section class="warning-box">
+      <div class="warning-icon">
+        ❓
+      </div>
+
+      <div class="warning-content">
+        <h3>
+          Tercih edebileceğin bir kurs görünmüyor mu?
+        </h3>
+
+        <p>
+          Sayfada yalnızca uyarı ve direktifler varsa,
+          <strong>Seviye Belirleme Formu</strong>'nu
+          doldurmayı unutmuş olabilirsin.
+        </p>
+
+        <p>
+          Aşağıdaki bağlantıdan formu hemen doldur.
+          <strong>24 saat bekledikten sonra</strong>
+          sayfayı tekrar ziyaret ettiğinde sınıf seçimi
+          sana da açılacaktır.
+        </p>
+
+        <a
+          href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=382"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-link">
+          Seviye Belirleme Formunu Doldur ↗
+        </a>
+      </div>
+    </section>
+
+    <footer class="info-footer">
+      <div class="info-footer-icon">
+        🚀
+      </div>
+
+      <div class="info-footer-text">
+        <h4>
+          21 Eylül Pazartesi: Dersler Başlıyor!
+        </h4>
+
+        <p>
+          9 Eylül sınıf seçimi için son gündür.
+          Duyurularımızı düzenli takip etmeyi unutma!
+        </p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const checkboxes =
+      document.querySelectorAll('.checkbox');
+
+    const progressBar =
+      document.getElementById('progress-bar');
+
+    const progressText =
+      document.getElementById('progress-text');
+
+    function updateProgress() {
+      const total = checkboxes.length;
+      let completed = 0;
+
+      checkboxes.forEach((cb) => {
+        const item = cb.closest('.item');
+
+        if (cb.checked) {
+          completed++;
+          item.classList.add('completed');
+        } else {
+          item.classList.remove('completed');
         }
-        
-        function saveProgress() {
-            const steps = [];
-            document.querySelectorAll('.step').forEach(step => {
-                steps.push(step.classList.contains('completed'));
-            });
-            localStorage.setItem('ulkemYanimdaProgress', JSON.stringify(steps));
-        }
-        
-        function loadProgress() {
-            const saved = localStorage.getItem('ulkemYanimdaProgress');
-            if (saved) {
-                const steps = JSON.parse(saved);
-                const stepElements = document.querySelectorAll('.step');
-                
-                steps.forEach((completed, index) => {
-                    if (completed && stepElements[index]) {
-                        const checkbox = stepElements[index].querySelector('.checkbox');
-                        checkbox.innerHTML = '✓';
-                        stepElements[index].classList.add('completed');
-                    }
-                });
-                
-                const completedSteps = steps.filter(s => s).length;
-                const percentage = Math.round((completedSteps / steps.length) * 100);
-                const progressBar = document.getElementById('progressBar');
-                progressBar.style.width = percentage + '%';
-                progressBar.textContent = percentage + '% Tamamlandı';
-                
-                if (completedSteps === steps.length) {
-                    document.getElementById('successMessage').classList.add('show');
-                }
-            }
-        }
-        
-        window.onload = loadProgress;
-    </script>
+      });
+
+      const percentage = (completed / total) * 100;
+      progressBar.style.width = percentage + '%';
+      progressText.textContent = `${completed}/${total} Tamamlandı`;
+    }
+
+    checkboxes.forEach((cb) => {
+      cb.addEventListener('change', updateProgress);
+    });
+  </script>
+
 </body>
 </html>
