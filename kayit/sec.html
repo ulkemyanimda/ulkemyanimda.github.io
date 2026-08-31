@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
@@ -52,7 +51,6 @@
     }
 
     /* HEADER */
-
     .header {
       text-align: center;
       margin-bottom: 28px;
@@ -89,8 +87,53 @@
       border: 1px solid #dbeafe;
     }
 
-    /* PROGRESS */
+    /* QUICK ACTIONS (YENİ EKLENEN BUTONLAR) */
+    .action-buttons-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
 
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .action-btn-home {
+      background-color: #ffffff;
+      color: var(--text-main);
+      border: 1.5px solid var(--border);
+    }
+
+    .action-btn-home:hover {
+      background-color: #f1f5f9;
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+    }
+
+    .action-btn-choice {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: 1.5px solid var(--primary);
+    }
+
+    .action-btn-choice:hover {
+      background-color: var(--primary-hover);
+      border-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    /* PROGRESS */
     .progress-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -128,7 +171,6 @@
     }
 
     /* VIDEO */
-
     .video-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
@@ -203,7 +245,6 @@
     }
 
     /* SECTION TITLE */
-
     .section-heading {
       display: flex;
       align-items: center;
@@ -223,7 +264,6 @@
     }
 
     /* CHECKLIST */
-
     .checklist {
       display: flex;
       flex-direction: column;
@@ -317,7 +357,6 @@
     }
 
     /* WARNING */
-
     .warning-box {
       background-color: var(--warning-bg);
       border: 1.5px solid var(--warning-border);
@@ -366,7 +405,6 @@
     }
 
     /* FOOTER */
-
     .info-footer {
       background: linear-gradient(
         135deg,
@@ -399,11 +437,13 @@
     }
 
     /* MOBILE */
-
     @media (max-width: 520px) {
-
       body {
         padding: 18px 12px 30px;
+      }
+
+      .action-buttons-group {
+        grid-template-columns: 1fr;
       }
 
       .title {
@@ -451,330 +491,263 @@
       }
     }
   </style>
-
 </head>
 
 <body>
 
   <div class="container">
 
-```
-<!-- HEADER -->
-
-<header class="header">
-
-  <div class="logo-wrapper">
-    <img
-      src="leylo.png"
-      alt="Ülkem Yanımda"
-      class="logo"
-    >
-  </div>
-
-  <h1 class="title">
-    Sınıf Tercih Adımları
-  </h1>
-
-  <div class="badge-date">
-    <span>📅 Tercih Tarihleri: 1 – 9 Eylül</span>
-  </div>
-
-</header>
-
-
-<!-- PROGRESS -->
-
-<div class="progress-card">
-
-  <div class="progress-header">
-    <span>İlerleme Durumu</span>
-    <span id="progress-text">
-      0/4 Tamamlandı
-    </span>
-  </div>
-
-  <div class="progress-bar-bg">
-    <div
-      class="progress-bar-fill"
-      id="progress-bar">
-    </div>
-  </div>
-
-</div>
-
-
-<!-- VIDEO -->
-
-<section class="video-card">
-
-  <div class="video-header">
-
-    <div class="video-icon">
-      🎥
-    </div>
-
-    <div>
-      <div class="video-title">
-        Tercihe başlamadan önce videoyu izle
+    <header class="header">
+      <div class="logo-wrapper">
+        <img
+          src="leylo.png"
+          alt="Ülkem Yanımda"
+          class="logo"
+        >
       </div>
 
-      <div class="video-description">
-        Sınıf tercihini nasıl yapacağını 4 dakikada öğren.
+      <h1 class="title">
+        Sınıf Tercih Adımları
+      </h1>
+
+      <div class="badge-date">
+        <span>📅 Tercih Tarihleri: 1 – 9 Eylül</span>
+      </div>
+    </header>
+
+    <div class="progress-card">
+      <div class="progress-header">
+        <span>İlerleme Durumu</span>
+        <span id="progress-text">
+          0/4 Tamamlandı
+        </span>
+      </div>
+
+      <div class="progress-bar-bg">
+        <div
+          class="progress-bar-fill"
+          id="progress-bar">
+        </div>
       </div>
     </div>
 
-  </div>
+    <section class="video-card">
+      <div class="video-header">
+        <div class="video-icon">
+          🎥
+        </div>
 
-  <div class="video-wrapper">
+        <div>
+          <div class="video-title">
+            Tercihe başlamadan önce videoyu izle
+          </div>
 
-    <iframe
-      src="https://www.youtube.com/embed/U1ykaZAbp4s"
-      title="Ülkem Yanımda | Sınıf Tercihi Nasıl Yapılır?"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen>
-    </iframe>
-
-  </div>
-
-  <a
-    href="https://www.youtube.com/watch?v=U1ykaZAbp4s"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="video-link">
-    ▶ Videoyu YouTube'da aç
-  </a>
-
-</section>
-
-
-<!-- CHECKLIST TITLE -->
-
-<div class="section-heading">
-
-  <h2>
-    📋 Sınıf tercih adımları
-  </h2>
-
-  <p>
-    4 adım
-  </p>
-
-</div>
-
-
-<!-- CHECKLIST -->
-
-<main class="checklist">
-
-
-  <!-- STEP 1 -->
-
-  <label class="item">
-
-    <input
-      type="checkbox"
-      class="checkbox"
-    >
-
-    <div class="item-content">
-
-      <div class="item-title">
-        1️⃣ İlk Adım: Giriş Yap
+          <div class="video-description">
+            Sınıf tercihini nasıl yapacağını 4 dakikada öğren.
+          </div>
+        </div>
       </div>
 
-      <div class="item-desc">
-        Ülkem Yanımda sistemine giriş yap ve
-        anasayfada yer alan
-        <strong>"Sınıf Tercihleri"</strong>
-        görseline/butonuna tıkla.
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/U1ykaZAbp4s"
+          title="Ülkem Yanımda | Sınıf Tercihi Nasıl Yapılır?"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
       </div>
 
+      <a
+        href="https://www.youtube.com/watch?v=U1ykaZAbp4s"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="video-link">
+        ▶ Videoyu YouTube'da aç
+      </a>
+    </section>
+
+    <div class="action-buttons-group">
+      <a
+        href="https://ulkemyanimda.eba.gov.tr/moodle/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-btn action-btn-home">
+        🏠 Anasayfaya Git
+      </a>
+
+      <a
+        href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=202"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="action-btn action-btn-choice">
+        📝 Sınıf Seçim Sayfası
+      </a>
     </div>
 
-  </label>
+    <div class="section-heading">
+      <h2>
+        📋 Sınıf tercih adımları
+      </h2>
 
-
-  <!-- STEP 2 -->
-
-  <label class="item">
-
-    <input
-      type="checkbox"
-      class="checkbox"
-    >
-
-    <div class="item-content">
-
-      <div class="item-title">
-        2️⃣ İkinci Adım: Direktifleri Oku
-      </div>
-
-      <div class="item-desc">
-
-        Açılan sayfada tercih yapmadan önce
-        şu kurallara dikkat et:
-
-        <ul>
-
-          <li>
-            <strong>Tek Tercih Hakkı:</strong>
-            Bir kez tercih yapabilirsin ve bu tercihi
-            daha sonra değiştiremezsin.
-          </li>
-
-          <li>
-            <strong>Saat Farkı:</strong>
-            Dersler Türkiye saatine göredir.
-            <em>Ders Saati Çevirici</em> ile
-            ülkende saat kaça denk geldiğini kontrol et.
-          </li>
-
-          <li>
-            <strong>Öğretmen Bilgisi:</strong>
-            Ders saatlerinin yanında öğretmen isimleri
-            yer alır; kadromuz bölümünden öğretmenini
-            inceleyebilirsin.
-          </li>
-
-        </ul>
-
-      </div>
-
+      <p>
+        4 adım
+      </p>
     </div>
 
-  </label>
+    <main class="checklist">
 
+      <label class="item">
+        <input
+          type="checkbox"
+          class="checkbox"
+        >
 
-  <!-- STEP 3 -->
+        <div class="item-content">
+          <div class="item-title">
+            1️⃣ İlk Adım: Giriş Yap
+          </div>
 
-  <label class="item">
+          <div class="item-desc">
+            Ülkem Yanımda sistemine giriş yap ve
+            anasayfada yer alan
+            <strong>"Sınıf Tercihleri"</strong>
+            görseline/butonuna tıkla.
+          </div>
+        </div>
+      </label>
 
-    <input
-      type="checkbox"
-      class="checkbox"
-    >
+      <label class="item">
+        <input
+          type="checkbox"
+          class="checkbox"
+        >
 
-    <div class="item-content">
+        <div class="item-content">
+          <div class="item-title">
+            2️⃣ İkinci Adım: Direktifleri Oku
+          </div>
 
-      <div class="item-title">
-        3️⃣ Tercihini Kaydet
+          <div class="item-desc">
+            Açılan sayfada tercih yapmadan önce
+            şu kurallara dikkat et:
+
+            <ul>
+              <li>
+                <strong>Tek Tercih Hakkı:</strong>
+                Bir kez tercih yapabilirsin ve bu tercihi
+                daha sonra değiştiremezsin.
+              </li>
+              <li>
+                <strong>Saat Farkı:</strong>
+                Dersler Türkiye saatine göredir.
+                <em>Ders Saati Çevirici</em> ile
+                ülkende saat kaça denk geldiğini kontrol et.
+              </li>
+              <li>
+                <strong>Öğretmen Bilgisi:</strong>
+                Ders saatlerinin yanında öğretmen isimleri
+                yer alır; kadromuz bölümünden öğretmenini
+                inceleyebilirsin.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </label>
+
+      <label class="item">
+        <input
+          type="checkbox"
+          class="checkbox"
+        >
+
+        <div class="item-content">
+          <div class="item-title">
+            3️⃣ Tercihini Kaydet
+          </div>
+
+          <div class="item-desc">
+            Sana en uygun dersi seçtikten sonra
+            <strong>"Seçeneğimi Kaydet"</strong>
+            butonuna bas ve
+            <em>"Seçiminiz kaydedildi"</em>
+            uyarısını gördüğünden emin ol.
+          </div>
+        </div>
+      </label>
+
+      <label class="item">
+        <input
+          type="checkbox"
+          class="checkbox"
+        >
+
+        <div class="item-content">
+          <div class="item-title">
+            4️⃣ Öğretmen İletişimini Bekle
+          </div>
+
+          <div class="item-desc">
+            Sınıf seçimleri tamamlandıktan sonra
+            öğretmenin seninle iletişime geçecek.
+          </div>
+        </div>
+      </label>
+
+    </main>
+
+    <section class="warning-box">
+      <div class="warning-icon">
+        ❓
       </div>
 
-      <div class="item-desc">
+      <div class="warning-content">
+        <h3>
+          Tercih edebileceğin bir kurs görünmüyor mu?
+        </h3>
 
-        Sana en uygun dersi seçtikten sonra
-        <strong>"Seçeneğimi Kaydet"</strong>
-        butonuna bas ve
-        <em>"Seçiminiz kaydedildi"</em>
-        uyarısını gördüğünden emin ol.
+        <p>
+          Sayfada yalnızca uyarı ve direktifler varsa,
+          <strong>Seviye Belirleme Formu</strong>'nu
+          doldurmayı unutmuş olabilirsin.
+        </p>
 
+        <p>
+          Aşağıdaki bağlantıdan formu hemen doldur.
+          <strong>24 saat bekledikten sonra</strong>
+          sayfayı tekrar ziyaret ettiğinde sınıf seçimi
+          sana da açılacaktır.
+        </p>
+
+        <a
+          href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=382"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-link">
+          Seviye Belirleme Formunu Doldur ↗
+        </a>
+      </div>
+    </section>
+
+    <footer class="info-footer">
+      <div class="info-footer-icon">
+        🚀
       </div>
 
-    </div>
+      <div class="info-footer-text">
+        <h4>
+          21 Eylül Pazartesi: Dersler Başlıyor!
+        </h4>
 
-  </label>
-
-
-  <!-- STEP 4 -->
-
-  <label class="item">
-
-    <input
-      type="checkbox"
-      class="checkbox"
-    >
-
-    <div class="item-content">
-
-      <div class="item-title">
-        4️⃣ Öğretmen İletişimini Bekle
+        <p>
+          9 Eylül sınıf seçimi için son gündür.
+          Duyurularımızı düzenli takip etmeyi unutma!
+        </p>
       </div>
-
-      <div class="item-desc">
-
-        Sınıf seçimleri tamamlandıktan sonra
-        öğretmenin seninle iletişime geçecek.
-
-      </div>
-
-    </div>
-
-  </label>
-
-
-</main>
-
-
-<!-- WARNING -->
-
-<section class="warning-box">
-
-  <div class="warning-icon">
-    ❓
-  </div>
-
-  <div class="warning-content">
-
-    <h3>
-      Tercih edebileceğin bir kurs görünmüyor mu?
-    </h3>
-
-    <p>
-      Sayfada yalnızca uyarı ve direktifler varsa,
-      <strong>Seviye Belirleme Formu</strong>'nu
-      doldurmayı unutmuş olabilirsin.
-    </p>
-
-    <p>
-      Aşağıdaki bağlantıdan formu hemen doldur.
-      <strong>24 saat bekledikten sonra</strong>
-      sayfayı tekrar ziyaret ettiğinde sınıf seçimi
-      sana da açılacaktır.
-    </p>
-
-    <a
-      href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=382"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="btn-link">
-      Seviye Belirleme Formunu Doldur ↗
-    </a>
+    </footer>
 
   </div>
-
-</section>
-
-
-<!-- FOOTER -->
-
-<footer class="info-footer">
-
-  <div class="info-footer-icon">
-    🚀
-  </div>
-
-  <div class="info-footer-text">
-
-    <h4>
-      21 Eylül Pazartesi: Dersler Başlıyor!
-    </h4>
-
-    <p>
-      9 Eylül sınıf seçimi için son gündür.
-      Duyurularımızı düzenli takip etmeyi unutma!
-    </p>
-
-  </div>
-
-</footer>
-```
-
-  </div>
-
-  <!-- SCRIPT -->
 
   <script>
-
     const checkboxes =
       document.querySelectorAll('.checkbox');
 
@@ -784,58 +757,29 @@
     const progressText =
       document.getElementById('progress-text');
 
-
     function updateProgress() {
-
       const total = checkboxes.length;
-
       let completed = 0;
 
-
       checkboxes.forEach((cb) => {
-
-        const item =
-          cb.closest('.item');
-
+        const item = cb.closest('.item');
 
         if (cb.checked) {
-
           completed++;
-
           item.classList.add('completed');
-
         } else {
-
           item.classList.remove('completed');
-
         }
-
       });
 
-
-      const percentage =
-        (completed / total) * 100;
-
-
-      progressBar.style.width =
-        percentage + '%';
-
-
-      progressText.textContent =
-        `${completed}/${total} Tamamlandı`;
-
+      const percentage = (completed / total) * 100;
+      progressBar.style.width = percentage + '%';
+      progressText.textContent = `${completed}/${total} Tamamlandı`;
     }
 
-
     checkboxes.forEach((cb) => {
-
-      cb.addEventListener(
-        'change',
-        updateProgress
-      );
-
+      cb.addEventListener('change', updateProgress);
     });
-
   </script>
 
 </body>
