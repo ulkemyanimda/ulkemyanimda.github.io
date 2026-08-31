@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sınıf Tercih Kılavuzu & Checklist | Ülkem Yanımda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent: #f59e0b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning-bg: #fffbeb;
+      --warning-border: #fef3c7;
+      --warning-text: #b45309;
+      --radius: 16px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header & Logo */
+    .header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo-wrapper {
+      margin-bottom: 14px;
+    }
+
+    .logo {
+      max-height: 175px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .badge-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: var(--primary);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-top: 10px;
+      border: 1px solid #dbeafe;
+    }
+
+    /* Progress Card */
+    .progress-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar-bg {
+      height: 10px;
+      background: var(--border);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+      border-radius: 9999px;
+      transition: width 0.35s ease;
+    }
+
+    /* Checklist Section */
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .item {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .item:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
+    }
+
+    .item.completed {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .item.completed .item-title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #cbd5e1;
+      border-radius: 7px;
+      outline: none;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      margin-top: 2px;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+
+    .checkbox:checked {
+      background-color: var(--success);
+      border-color: var(--success);
+    }
+
+    .checkbox:checked::before {
+      content: "";
+      width: 6px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+      margin-bottom: 2px;
+    }
+
+    .item-content {
+      flex: 1;
+    }
+
+    .item-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    .item-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .item-desc ul {
+      margin-top: 8px;
+      padding-left: 20px;
+    }
+
+    .item-desc li {
+      margin-bottom: 5px;
+    }
+
+    /* Warning / Help Box */
+    .warning-box {
+      background-color: var(--warning-bg);
+      border: 1.5px solid var(--warning-border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 28px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .warning-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .warning-content h3 {
+      color: var(--warning-text);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .warning-content p {
+      color: #78350f;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .btn-link {
+      display: inline-block;
+      background-color: #d97706;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .btn-link:hover {
+      background-color: #b45309;
+    }
+
+    /* Info Banner */
+    .info-footer {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #f8fafc;
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .info-footer-icon {
+      font-size: 1.75rem;
+    }
+
+    .info-footer-text h4 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .info-footer-text p {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <header class="header">
+      <div class="logo-wrapper">
+        <img src="leylo.png" alt="Logo" class="logo">
+      </div>
+      <h1 class="title">Sınıf Tercih Adımları</h1>
+      <div class="badge-date">
+        <span>📅 Tercih Tarihleri: 1 – 9 Eylül</span>
+      </div>
+    </header>
+
+    <div class="progress-card">
+      <div class="progress-header">
+        <span>İlerleme Durumu</span>
+        <span id="progress-text">0/4 Tamamlandı</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+    </div>
+
+    <main class="checklist">
+      
+      <label class="item">
+        <input type="checkbox" class="checkbox">
+        <div class="item-content">
+          <div class="item-title">1️⃣ İlk Adım: Giriş Yap</div>
+          <div class="item-desc">
+            Ülkem Yanımda sistemine giriş yap ve anasayfada yer alan <strong>"Sınıf Tercihleri"</strong> görseline/butonuna tıkla.
+          </div>
+        </div>
+      </label>
+
+      <label class="item">
+        <input type="checkbox" class="checkbox">
+        <div class="item-content">
+          <div class="item-title">2️⃣ İkinci Adım: Direktifleri Oku</div>
+          <div class="item-desc">
+            Açılan sayfada tercih yapmadan önce şu kurallara dikkat et:
+            <ul>
+              <li><strong>Tek Tercih Hakkı:</strong> Bir kez tercih yapabilirsin ve bu tercihi daha sonra değiştiremezsin.</li>
+              <li><strong>Saat Farkı:</strong> Dersler Türkiye saatine göredir. <em>Ders Saati Çevirici</em> ile ülkende saat kaça denk geldiğini kontrol et.</li>
+              <li><strong>Öğretmen Bilgisi:</strong> Ders saatlerinin yanında öğretmen isimleri yer alır; kadromuz bölümünden öğretmenini inceleyebilirsin.</li>
+            </ul>
+          </div>
+        </div>
+      </label>
+
+      <label class="item">
+        <input type="checkbox" class="checkbox">
+        <div class="item-content">
+          <div class="item-title">3️⃣ Tercihini Kaydet</div>
+          <div class="item-desc">
+            Sana en uygun dersi seçtikten sonra <strong>"Seçeneğimi Kaydet"</strong> butonuna bas ve <em>"Seçiminiz kaydedildi"</em> uyarısını gördüğünden emin ol.
+          </div>
+        </div>
+      </label>
+
+      <label class="item">
+        <input type="checkbox" class="checkbox">
+        <div class="item-content">
+          <div class="item-title">4️⃣ Öğretmen İletişimini Bekle</div>
+          <div class="item-desc">
+            Sınıf seçimleri tamamlandıktan sonra öğretmenin seninle iletişime geçecek.
+          </div>
+        </div>
+      </label>
+
+    </main>
+
+    <section class="warning-box">
+      <div class="warning-icon">❓</div>
+      <div class="warning-content">
+        <h3>Tercih edebileceğin bir kurs görünmüyor mu?</h3>
+        <p>Sayfada yalnızca uyarı ve direktifler varsa, <strong>Seviye Belirleme Formu</strong>'nu doldurmayı unutmuş olabilirsin.</p>
+        <p>Aşağıdaki bağlantıdan formu hemen doldur. <strong>24 saat bekledikten sonra</strong> sayfayı tekrar ziyaret ettiğinde sınıf seçimi sana da açılacaktır.</p>
+        <a href="https://ulkemyanimda.eba.gov.tr/moodle/course/view.php?id=382" target="_blank" rel="noopener noreferrer" class="btn-link">Seviye Belirleme Formunu Doldur ↗</a>
+      </div>
+    </section>
+
+    <footer class="info-footer">
+      <div class="info-footer-icon">🚀</div>
+      <div class="info-footer-text">
+        <h4>21 Eylül Pazartesi: Dersler Başlıyor!</h4>
+        <p>9 Eylül sınıf seçimi için son gündür. Duyurularımızı düzenli takip etmeyi unutma!</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('.checkbox');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+
+    function updateProgress() {
+      const total = checkboxes.length;
+      let completed = 0;
+
+      checkboxes.forEach((cb) => {
+        const item = cb.closest('.item');
+        if (cb.checked) {
+          completed++;
+          item.classList.add('completed');
+        } else {
+          item.classList.remove('completed');
+        }
+      });
+
+      const percentage = (completed / total) * 100;
+      progressBar.style.width = percentage + '%';
+      progressText.textContent = `${completed}/${total} Tamamlandı`;
+    }
+
+    checkboxes.forEach((cb) => {
+      cb.addEventListener('change', updateProgress);
+    });
+  </script>
+</body>
+</html>
