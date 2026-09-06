@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ülkem Yanımda - Öğretmen Oryantasyon Toplantısı</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #172554;
+      --accent: #e11d48;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2.5rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      background: var(--card-bg);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+      overflow: hidden;
+    }
+
+    .header-banner {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .header-banner h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-banner p {
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+
+    .content {
+      padding: 2rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .info-item {
+      background: #f1f5f9;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      border: 1px solid var(--border);
+    }
+
+    .info-item .label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .info-item .value {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .countdown-box {
+      border: 1px dashed var(--border);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      background: #fff;
+    }
+
+    .countdown-title {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .countdown-timer {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--primary);
+    }
+
+    .timer-part span {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .agenda {
+      margin-bottom: 2rem;
+    }
+
+    .agenda h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .agenda ul {
+      list-style-position: inside;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .cta-area {
+      text-align: center;
+    }
+
+    .join-button {
+      display: block;
+      width: 100%;
+      background-color: #464eb8; /* Teams Moru */
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 4px 6px -1px rgba(70, 78, 184, 0.2);
+    }
+
+    .join-button:hover {
+      background-color: #3b429f;
+      transform: translateY(-1px);
+    }
+
+    .join-button:active {
+      transform: translateY(0);
+    }
+
+    .footer-note {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      .header-banner {
+        padding: 2rem 1.25rem;
+      }
+      .content {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header class="header-banner">
+      <div class="badge">Oryantasyon Programı</div>
+      <h1>Ülkem Yanımda Platformu</h1>
+      <p>Yeni Görev Alacak Öğretmenlerimiz İçin Bilgilendirme ve Tanıtım</p>
+    </header>
+
+    <main class="content">
+      <section class="info-grid">
+        <div class="info-item">
+          <div class="label">Tarih</div>
+          <div class="value">7 Eylül 2026, Pazartesi</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Saat</div>
+          <div class="value">20:00 (TSİ)</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Platform</div>
+          <div class="value">Microsoft Teams</div>
+        </div>
+        <div class="info-item">
+          <div class="label">Hedef Kitle</div>
+          <div class="value">İlk Kez Görev Alacak Öğretmenler</div>
+        </div>
+      </section>
+
+      <section class="countdown-box">
+        <div class="countdown-title">Toplantının Başlamasına Kalan Süre</div>
+        <div class="countdown-timer" id="timer">
+          <div class="timer-part"><span id="days">00</span>Gün</div>
+          <div class="timer-part"><span id="hours">00</span>Saat</div>
+          <div class="timer-part"><span id="minutes">00</span>Dakika</div>
+          <div class="timer-part"><span id="seconds">00</span>Saniye</div>
+        </div>
+      </section>
+
+      <section class="agenda">
+        <h2>Gündem Başlıkları</h2>
+        <ul>
+          <li>Ülkem Yanımda platformunun genel işleyişi ve vizyonu</li>
+          <li>Öğretmen paneli ve ders yönetim araçlarının kullanımı</li>
+          <li>Öğrenci iletişim süreçleri ve teknik destek kanalları</li>
+          <li>Soru-cevap ve değerlendirme</li>
+        </ul>
+      </section>
+
+      <section class="cta-area">
+        <a 
+          href="https://teams.microsoft.com/meet/382263473399561?p=q3aMrd6MlBltKiodey" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="join-button"
+        >
+          Microsoft Teams ile Katıl
+        </a>
+        <p class="footer-note">Toplantıya katılmadan önce mikrofon ve kamera izinlerinizi kontrol etmeniz önerilir.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // 7 Eylül 2026, 20:00:00 GMT+0300 (Türkiye Saati)
+    const targetDate = new Date("2026-09-07T20:00:00+03:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) {
+        document.getElementById("timer").innerHTML = "Toplantı Zamanı Geldı veya Başladı";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60))Ülkem Yanımda platformunda ilk kez görev alacak öğretmenler için hazırlanan, modern, duyarlı (responsive) ve doğrudan toplantıya katılım sağlayan tek sayfalık web sitesi şablonu:
+
+```html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ülkem Yanımda - Öğretmen Oryantasyon Toplantısı</title>
+  <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
+  <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+  <link href="[https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap](https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap)" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #c92a2a;
+      --primary-dark: #a61e1e;
+      --secondary: #1e293b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #334155;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand span {
+      color: var(--primary);
+    }
+
+    main {
+      flex: 1;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--secondary);
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .meeting-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .detail-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .detail-val {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    .cta-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn-join {
+      background: var(--primary);
+      color: #ffffff;
+      padding: 0.9rem 1.75rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s ease;
+    }
+
+    .btn-join:hover {
+      background: var(--primary-dark);
+    }
+
+    .link-copy {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .agenda-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+    }
+
+    .agenda-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .agenda-list li {
+      position: relative;
+      padding-left: 1.75rem;
+      color: var(--text);
+    }
+
+    .agenda-list li::before {
+      content: "•";
+      color: var(--primary);
+      position: absolute;
+      left: 0.5rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: #ffffff;
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 1.5rem;
+      }
+      .hero-title {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      Ülkem <span>Yanımda</span>
+    </div>
+    <div style="font-size: 0.85rem; color: var(--text-muted);">Eğitim Koordinatörlüğü</div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h1 class="hero-title">Öğretmen Oryantasyon Toplantısı</h1>
+      <p class="hero-desc">
+        Ülkem Yanımda platformu bünyesinde aramıza yeni katılan değerli öğretmenlerimiz için süreçleri, ders işleyiş dinamiklerini ve teknik detayları ele alacağımız bilgilendirme oturumuna davetlisiniz.
+      </p>
+
+      <div class="meeting-details">
+        <div class="detail-item">
+          <span class="detail-label">Tarih</span>
+          <span class="detail-val">7 Eylül 2026</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Gün / Saat</span>
+          <span class="detail-val">Pazartesi — 20:00 (TSİ)</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Platform</span>
+          <span class="detail-val">Microsoft Teams</span>
+        </div>
+      </div>
+
+      <div class="cta-container">
+        <a href="[https://teams.microsoft.com/meet/382263473399561?p=q3aMrd6MlBltKiodey](https://teams.microsoft.com/meet/382263473399561?p=q3aMrd6MlBltKiodey)" target="_blank" rel="noopener noreferrer" class="btn-join">
+          Toplantıya Katıl
+        </a>
+        <span class="link-copy" onclick="copyMeetingLink()">Toplantı bağlantısını kopyala</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2 class="agenda-title">Toplantı Gündemi & Önemli Notlar</h2>
+      <ul class="agenda-list">
+        <li><strong>Platform İşleyişi:</strong> Ders yönetim paneli, içerik kaynakları ve öğrenci etkileşimi.</li>
+        <li><strong>Ders Standartları:</strong> Çevrim içi ders akış kuralları ve materyal paylaşım ilkeleri.</li>
+        <li><strong>Teknik Destek:</strong> Sık karşılaşılan sorunlar ve çözüm kanalları.</li>
+        <li><strong>Soru & Cevap:</strong> Katılımcı öğretmenlerin sorularının yanıtlanması.</li>
+      </ul>
+      <div style="margin-top: 1.5rem; padding: 1rem; background: #fff1f2; border-left: 4px solid var(--primary); border-radius: 4px; font-size: 0.9rem; color: #9f1239;">
+        <strong>Hatırlatma:</strong> Bağlantı sorunu yaşamamak adına toplantı saatinden 5-10 dakika önce Teams uygulaması üzerinden veya tarayıcı aracılığıyla giriş yapmanız önerilir.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2026 Ülkem Yanımda Platformu. Tüm hakları saklıdır.
+  </footer>
+
+  <script>
+    function copyMeetingLink() {
+      const url = "[https://teams.microsoft.com/meet/382263473399561?p=q3aMrd6MlBltKiodey](https://teams.microsoft.com/meet/382263473399561?p=q3aMrd6MlBltKiodey)";
+      navigator.clipboard.writeText(url).then(() => {
+        alert("Toplantı bağlantısı panoya kopyalandı!");
+      }).catch(err => {
+        console.error("Kopyalama başarısız:", err);
+      });
+    }
+  </script>
+
+</body>
+</html>
