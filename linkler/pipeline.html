@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Öğrenci Tanıma ve Yerleştirme Süreci</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #eef1e5;
+    --paper: #ffffff;
+    --ink: #22301f;
+    --ink-soft: #5b6a55;
+    --line: #cdd5c2;
+
+    --tohum:      #c9a227;
+    --tohum-dark: #8a6c14;
+    --filiz:      #7fa876;
+    --filiz-dark: #4c7346;
+    --fidan:      #4c8355;
+    --fidan-dark: #2e5c39;
+    --cinar:      #234d33;
+    --cinar-dark: #123321;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 500px at 10% -10%, #f3f6ea 0%, transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, #e6ece0 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    padding:48px 6vw 32px;
+    display:flex;
+    align-items:flex-start;
+    gap:28px;
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--line);
+  }
+  .logo-slot{
+    width:120px; height:120px;
+    flex:0 0 auto;
+    border:2px dashed #9db08c;
+    border-radius:18px;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center;
+    font-family:'Inter';
+    font-size:11px;
+    line-height:1.4;
+    color:#6b7a63;
+    background:rgba(255,255,255,.5);
+    padding:8px;
+    letter-spacing:.02em;
+  }
+  .title-block{ flex:1 1 380px; min-width:280px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--fidan-dark);
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-optical-sizing:auto;
+    font-size:clamp(28px, 4vw, 44px);
+    line-height:1.08;
+    margin:0 0 12px;
+    letter-spacing:-.01em;
+  }
+  header p.desc{
+    max-width:640px;
+    color:var(--ink-soft);
+    font-size:15.5px;
+    line-height:1.65;
+    margin:0;
+  }
+
+  /* ---------- Growth timeline ---------- */
+  .growth-timeline{
+    padding:26px 6vw 8px;
+    display:flex;
+    align-items:stretch;
+    gap:0;
+    max-width:1400px;
+    margin:0 auto;
+  }
+  .growth-step{ flex:1; text-align:center; padding:14px 6px 0; position:relative; }
+  .growth-step .bar{ height:6px; border-radius:4px; margin-bottom:10px; }
+  .growth-step.tohum .bar{ background:var(--tohum);}
+  .growth-step.filiz .bar{ background:var(--filiz);}
+  .growth-step.fidan .bar{ background:var(--fidan);}
+  .growth-step.cinar .bar{ background:var(--cinar);}
+  .growth-step .icon{ font-size:22px; display:block; margin-bottom:4px;}
+  .growth-step .name{ font-family:'Fraunces', serif; font-weight:600; font-size:15px; }
+  .growth-step .years{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-soft); margin-top:2px; }
+
+  /* ---------- Entry node ---------- */
+  .entry-wrap{ display:flex; justify-content:center; padding:30px 6vw 6px; }
+  .entry-node{
+    background:var(--ink); color:#fff;
+    font-family:'Fraunces', serif; font-weight:600; font-size:17px;
+    padding:16px 34px; border-radius:12px;
+    box-shadow:0 8px 24px -8px rgba(20,30,15,.35);
+    text-align:center;
+  }
+  .entry-node span{ display:block; font-family:'Inter'; font-weight:400; font-size:12.5px; color:#cfd8c6; margin-top:4px; }
+  .entry-arrow{ display:flex; justify-content:center; color:var(--ink-soft); font-size:22px; padding:2px 0 8px; }
+
+  /* ---------- Legend ---------- */
+  .legend{ display:flex; flex-wrap:wrap; gap:18px; justify-content:center; padding:4px 6vw 30px; font-size:13px; color:var(--ink-soft); }
+  .legend-item{ display:flex; align-items:center; gap:8px; }
+  .swatch{ width:16px; height:16px; border-radius:5px; flex:0 0 auto; }
+  .swatch.stage{ background:var(--ink); }
+  .swatch.form{ background:#fff; border:2px solid var(--fidan-dark); }
+  .swatch.result{ background:var(--fidan-dark); }
+
+  /* ---------- Tracks ---------- */
+  main{ padding:10px 3vw 70px; }
+  .tracks{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(280px, 1fr));
+    gap:22px;
+    max-width:1600px;
+    margin:0 auto;
+    align-items:start;
+  }
+  .track{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:22px 16px 24px;
+    box-shadow:0 12px 30px -18px rgba(20,30,15,.25);
+  }
+  .track-head{ text-align:center; margin-bottom:18px; padding-bottom:16px; border-bottom:1px dashed var(--line); }
+  .track-head .icon{ font-size:26px; }
+  .track-head h2{ font-family:'Fraunces', serif; font-weight:700; font-size:22px; margin:4px 0 2px; }
+  .track-head .years{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-soft); }
+  .track-tohum .track-head h2{ color:var(--tohum-dark); }
+  .track-filiz .track-head h2{ color:var(--filiz-dark); }
+  .track-fidan .track-head h2{ color:var(--fidan-dark); }
+  .track-cinar .track-head h2{ color:var(--cinar-dark); }
+
+  /* ---------- Indented flow tree (robust, no overlap) ---------- */
+  .flow{ display:flex; flex-direction:column; }
+  .node{
+    display:block;
+    width:100%;
+    border-radius:10px;
+    padding:10px 12px;
+    font-family:'Inter';
+    font-weight:600;
+    font-size:12.5px;
+    line-height:1.35;
+    word-wrap:break-word;
+  }
+  .node .range{
+    display:inline-block;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:500;
+    font-size:10.5px;
+    margin-top:3px;
+    padding:2px 6px;
+    border-radius:5px;
+    background:rgba(255,255,255,.35);
+  }
+  .node.stage{ background:var(--ink); color:#fff; }
+  .node.form{ background:#fff; color:var(--ink); border:2px solid; }
+  .node.result{ color:#fff; font-family:'Fraunces', serif; font-weight:700; font-size:13px; }
+  .node.result .range{ background:rgba(255,255,255,.22); }
+
+  .track-tohum .node.form{ border-color:var(--tohum); }
+  .track-tohum .node.result{ background:var(--tohum-dark); }
+  .track-filiz .node.form{ border-color:var(--filiz); }
+  .track-filiz .node.result{ background:var(--filiz-dark); }
+  .track-fidan .node.form{ border-color:var(--fidan); }
+  .track-fidan .node.result{ background:var(--fidan-dark); }
+  .track-cinar .node.form{ border-color:var(--cinar); }
+  .track-cinar .node.result{ background:var(--cinar-dark); }
+
+  /* connector: down-arrow between a node and the group below it */
+  .down{
+    display:flex; justify-content:center; align-items:center;
+    color:var(--line);
+    font-size:14px;
+    margin:2px 0;
+    height:16px;
+  }
+  .down::before{
+    content:'';
+    width:2px; height:100%;
+    background:var(--line);
+  }
+
+  /* group = indented children of a node, connected with an elbow guide */
+  .group{
+    margin:0 0 4px 16px;
+    padding-left:16px;
+    border-left:2px dashed var(--line);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .branch{ display:flex; flex-direction:column; position:relative; }
+  .branch::before{
+    content:'';
+    position:absolute;
+    left:-16px; top:16px;
+    width:14px; height:2px;
+    background:var(--line);
+  }
+  .leaf-row{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin:0 0 0 16px;
+    padding-left:16px;
+    border-left:2px dashed var(--line);
+  }
+  .leaf{ position:relative; }
+  .leaf::before{
+    content:'';
+    position:absolute;
+    left:-16px; top:14px;
+    width:14px; height:2px;
+    background:var(--line);
+  }
+
+  .note{
+    margin-top:16px;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    background:#f4f6ef;
+    border:1px dashed var(--line);
+    border-radius:10px;
+    padding:10px 12px;
+    line-height:1.5;
+  }
+
+  footer{ text-align:center; padding:28px 6vw 50px; color:var(--ink-soft); font-size:12.5px; }
+
+  @media (max-width: 1150px){
+    .tracks{ grid-template-columns:repeat(2, minmax(280px,1fr)); }
+  }
+  @media (max-width: 620px){
+    .tracks{ grid-template-columns:1fr; }
+    .growth-timeline{ flex-wrap:wrap; gap:14px; }
+    .growth-step{ flex:1 1 40%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-slot">ULKEM YANIMDA<br>LOGO ALANI</div>
+  <div class="title-block">
+    <div class="eyebrow">Süreç Şeması</div>
+    <h1>Öğrenci Tanıma ve Yerleştirme</h1>
+    <p class="desc">
+      Ulkem Yanımda portalinden kayıt olan her öğrenci, doğum yılına göre dört büyüme
+      grubundan birine yönlenir. Her grup kendi anketini/formunu doldurur, aldığı puana göre
+      bir sonraki adıma ya da nihai sınıfına yerleşir. Yukarıdan aşağıya takip ederek bir
+      öğrencinin baştan sona hangi yoldan geçtiğini görebilirsiniz.
+    </p>
+  </div>
+</header>
+
+<div class="growth-timeline">
+  <div class="growth-step tohum"><span class="icon">🌰</span><div class="bar"></div><div class="name">Tohum</div><div class="years">2020 – 2022</div></div>
+  <div class="growth-step filiz"><span class="icon">🌱</span><div class="bar"></div><div class="name">Filiz</div><div class="years">2017 – 2019</div></div>
+  <div class="growth-step fidan"><span class="icon">🌿</span><div class="bar"></div><div class="name">Fidan</div><div class="years">2014 – 2016</div></div>
+  <div class="growth-step cinar"><span class="icon">🌳</span><div class="bar"></div><div class="name">Çınar</div><div class="years">2010 – 2013</div></div>
+</div>
+
+<div class="entry-wrap">
+  <div class="entry-node">Portal Kaydı<span>Öğrenci ulkemyanımda.com üzerinden kayıt olur</span></div>
+</div>
+<div class="entry-arrow">↓ doğum yılına göre ayrılır ↓</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="swatch stage"></span> Doğum yılı grubu</div>
+  <div class="legend-item"><span class="swatch form"></span> Doldurulan anket / form</div>
+  <div class="legend-item"><span class="swatch result"></span> Yerleşilen sınıf (sonuç)</div>
+</div>
+
+<main>
+<div class="tracks">
+
+  <!-- TOHUM -->
+  <section class="track track-tohum">
+    <div class="track-head"><span class="icon">🌰</span><h2>Tohum</h2><div class="years">2020 • 2021 • 2022 doğumlu</div></div>
+    <div class="flow">
+      <div class="node stage">Kayıt<span class="range">2020–2022</span></div>
+      <div class="down"></div>
+      <div class="node form">Veli Anketi</div>
+      <div class="leaf-row">
+        <div class="leaf"><div class="node result">Tohum – Farkındalık<span class="range">0–50 puan</span></div></div>
+        <div class="leaf"><div class="node result">Tohum – Hazırlık<span class="range">51+ puan</span></div></div>
+      </div>
+    </div>
+    <div class="note">Veli anketi tek adımda sonuca götürür; ek form yoktur.</div>
+  </section>
+
+  <!-- FİLİZ -->
+  <section class="track track-filiz">
+    <div class="track-head"><span class="icon">🌱</span><h2>Filiz</h2><div class="years">2017 • 2018 • 2019 doğumlu</div></div>
+    <div class="flow">
+      <div class="node stage">Kayıt<span class="range">2017–2019</span></div>
+      <div class="down"></div>
+      <div class="node form">Yerleştirme Formu</div>
+
+      <div class="group">
+        <div class="branch">
+          <div class="node form">Başlangıç Formu<span class="range"></span></div>
+          <div class="leaf-row">
+            <div class="leaf"><div class="node result">Filiz – Başlangıç<span class="range">0–36 puan</span></div></div>
+            <div class="leaf"><div class="node result">Filiz – Temel<span class="range">37–66 puan</span></div></div>
+          </div>
+        </div>
+        <div class="branch">
+          <div class="node form">Temel Formu<span class="range"></span></div>
+          <div class="leaf-row">
+            <div class="leaf"><div class="node result">Filiz – Temel<span class="range">0–41 puan</span></div></div>
+            <div class="leaf"><div class="node result">Filiz – Orta<span class="range">42–69 puan</span></div></div>
+          </div>
+        </div>
+        <div class="branch">
+          <div class="node form">Orta Formu<span class="range"></span></div>
+          <div class="leaf-row">
+            <div class="leaf"><div class="node result">Filiz – Temel<span class="range">0–36 puan</span></div></div>
+            <div class="leaf"><div class="node result">Filiz – Orta<span class="range">37–60 puan</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">Yerleştirme Formundan 0-14 arası puan alan öğrenci Başlangıç; 15-29 arası puan alan öğrenci Temel ve 30-45 arası puan alan öğrenci Orta seviye formuna yönlendirilir; o formun puanı nihai sınıfı belirler.</div>
+  </section>
+
+  <!-- FİDAN -->
+  <section class="track track-fidan">
+    <div class="track-head"><span class="icon">🌿</span><h2>Fidan</h2><div class="years">2014 • 2015 • 2016 doğumlu</div></div>
+    <div class="flow">
+      <div class="node stage">Kayıt<span class="range">2014–2016</span></div>
+      <div class="down"></div>
+      <div class="node form">Yerleştirme Formu</div>
+
+      <div class="group">
+        <div class="branch">
+          <div class="node form">Başlangıç Formu<span class="range"></span></div>
+          <div class="leaf-row">
+            <div class="leaf"><div class="node result">Fidan – Başlangıç<span class="range">0–36 puan</span></div></div>
+            <div class="leaf"><div class="node result">Fidan – Temel<span class="range">37–66 puan</span></div></div>
+          </div>
+        </div>
+        <div class="branch">
+          <div class="node form">Temel Formu<span class="range"></span></div>
+          <div class="leaf-row">
+            <div class="leaf"><div class="node result">Fidan – Temel<span class="range">0–41 puan</span></div></div>
+            <div class="leaf"><div class="node result">Fidan – Orta<span class="range">42–69 puan</span></div></div>
+          </div>
+        </div>
+        <div class="branch">
+          <div class="node form">Orta Formu<span class="range"></span></div>
+          <div class="leaf-row">
+            <div class="leaf"><div class="node result">Fidan – Temel<span class="range">0–36 puan</span></div></div>
+            <div class="leaf"><div class="node result">Fidan – Orta<span class="range">37–60 puan</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">Yerleştirme Formundan 0-14 arası puan alan öğrenci Başlangıç; 15-29 arası puan alan öğrenci Temel ve 30-45 arası puan alan öğrenci Orta seviye formuna yönlendirilir</div>
+  </section>
+
+  <!-- ÇINAR -->
+  <section class="track track-cinar">
+    <div class="track-head"><span class="icon">🌳</span><h2>Çınar</h2><div class="years">2010 • 2011 • 2012 • 2013 doğumlu</div></div>
+    <div class="flow">
+      <div class="node stage">Kayıt<span class="range">2010–2013</span></div>
+      <div class="down"></div>
+      <div class="node form">Yerleştirme Formu</div>
+
+      <div class="group">
+        <div class="branch">
+          <div class="node form">Başlangıç Formu<span class="range">0–14 puan</span></div>
+          <div class="leaf-row">
+            <div class="leaf"><div class="node result">Çınar – Başlangıç<span class="range">0–36 puan</span></div></div>
+            <div class="leaf"><div class="node result">Çınar – Temel<span class="range">37–66 puan</span></div></div>
+          </div>
+        </div>
+        <div class="branch">
+          <div class="node form">Temel Formu<span class="range"></span></div>
+          <div class="leaf-row">
+            <div class="leaf"><div class="node result">Çınar – Temel<span class="range">0–41 puan</span></div></div>
+            <div class="leaf"><div class="node result">Çınar – Orta<span class="range">42–69 puan</span></div></div>
+          </div>
+        </div>
+        <div class="branch">
+          <div class="node form">Orta Formu<span class="range"></span></div>
+          <div class="leaf-row">
+             <div class="leaf"><div class="node result">Çınar – Orta<span class="range">0–36 puan</span></div></div>
+            <div class="leaf"><div class="node result">Çınar – İleri<span class="range">37–60 puan</span></div></div>
+			</div>
+        </div>
+            <div class="branch">
+              <div class="node form">İleri Formu<span class="range"></span></div>
+              <div class="leaf-row">
+                <div class="leaf"><div class="node result">Çınar – Orta<span class="range">0–32 puan</span></div></div>
+                <div class="leaf"><div class="node result">Çınar – İleri<span class="range">33–54 puan</span></div></div>
+               </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">Yerleştirme Formundan 0-14 arası puan alan öğrenci Başlangıç; 15-29 arası puan alan öğrenci Temel ve 30-44 arası puan alan öğrenci Orta; 45-60 puan alan öğrenci İleri seviye formuna yönlendirilir, ek olarak İleri Formu'na yönlenir; nihai sınıf o formun puanıyla belirlenir.</div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  Öğrenci Tanıma ve Yerleştirme Süreci — Ulkem Yanımda · her kutu bir adımı, her ok bir yönlendirmeyi gösterir.
+</footer>
+
+</body>
+</html>
