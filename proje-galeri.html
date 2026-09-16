@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proje Kayıt Galerisi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root{
+    --paper:#F3F4EF;
+    --card:#FFFFFF;
+    --ink:#16211D;
+    --ink-soft:#57645C;
+    --ink-faint:#8B968E;
+    --line:#DBDED3;
+    --accent:#2F6F5E;
+    --accent-ink:#1E4A3E;
+    --accent-soft:#E3EEE8;
+    --accent2:#A9793F;
+    --accent2-soft:#F4E9D8;
+    --danger:#A94B3F;
+    --danger-soft:#F6E4E0;
+    --shadow: 0 1px 2px rgba(22,33,29,.06), 0 1px 1px rgba(22,33,29,.04);
+    --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --sans: 'IBM Plex Sans', 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#111713;
+      --card:#182019;
+      --ink:#ECEEE9;
+      --ink-soft:#A9B4AC;
+      --ink-faint:#6E7A72;
+      --line:#2A332C;
+      --accent:#5FB89D;
+      --accent-ink:#8ED2BB;
+      --accent-soft:#1D2E28;
+      --accent2:#D3AB6E;
+      --accent2-soft:#31281A;
+      --danger:#E28B7D;
+      --danger-soft:#332120;
+      --shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#111713;
+    --card:#182019;
+    --ink:#ECEEE9;
+    --ink-soft:#A9B4AC;
+    --ink-faint:#6E7A72;
+    --line:#2A332C;
+    --accent:#5FB89D;
+    --accent-ink:#8ED2BB;
+    --accent-soft:#1D2E28;
+    --accent2:#D3AB6E;
+    --accent2-soft:#31281A;
+    --danger:#E28B7D;
+    --danger-soft:#332120;
+    --shadow: 0 1px 2px rgba(0,0,0,.35), 0 1px 1px rgba(0,0,0,.25);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  a{color:var(--accent-ink);}
+
+  .wrap{
+    max-width:920px;
+    margin:0 auto;
+    padding:36px 20px 80px;
+  }
+
+  /* ---- Masthead ---- */
+  .masthead{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    padding-bottom:18px;
+    border-bottom:2px solid var(--ink);
+    margin-bottom:26px;
+  }
+  .masthead h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:2rem;
+    letter-spacing:-0.01em;
+    margin:0 0 4px;
+  }
+  .masthead p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:.94rem;
+    max-width:56ch;
+  }
+  .theme-toggle{
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink-soft);
+    border-radius:6px;
+    padding:6px 10px;
+    font-size:.78rem;
+    font-family:var(--sans);
+    cursor:pointer;
+    flex:0 0 auto;
+  }
+  .theme-toggle:hover{color:var(--ink);border-color:var(--ink-faint);}
+
+  /* ---- Dropzone ---- */
+  .dropzone{
+    border:1.5px dashed var(--ink-faint);
+    border-radius:10px;
+    background:var(--card);
+    padding:44px 24px;
+    text-align:center;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .dropzone:hover, .dropzone.drag{
+    border-color:var(--accent);
+    background:var(--accent-soft);
+  }
+  .dropzone .dz-icon{font-size:2.1rem;margin-bottom:10px;display:block;}
+  .dropzone h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1.2rem;
+    margin:0 0 6px;
+  }
+  .dropzone p{margin:0;color:var(--ink-soft);font-size:.9rem;}
+  .dropzone .dz-hint{
+    margin-top:14px;
+    font-size:.78rem;
+    color:var(--ink-faint);
+  }
+  #fileInput{display:none;}
+
+  .status-banner{
+    margin-top:14px;
+    padding:11px 14px;
+    border-radius:8px;
+    font-size:.88rem;
+    display:none;
+  }
+  .status-banner.show{display:block;}
+  .status-banner.error{background:var(--danger-soft);color:var(--danger);border:1px solid var(--danger);}
+  .status-banner.info{background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent);}
+
+  /* ---- Toolbar ---- */
+  .toolbar{
+    display:none;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin:22px 0 18px;
+    padding-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .toolbar.show{display:flex;}
+  .toolbar input[type="search"],
+  .toolbar select{
+    font-family:var(--sans);
+    font-size:.88rem;
+    padding:8px 11px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:var(--card);
+    color:var(--ink);
+  }
+  .toolbar input[type="search"]{flex:1 1 220px;min-width:180px;}
+  .toolbar select{flex:0 1 180px;}
+  .toolbar .reload-btn{
+    margin-left:auto;
+    font-size:.82rem;
+    color:var(--ink-soft);
+    background:none;
+    border:1px solid var(--line);
+    border-radius:7px;
+    padding:8px 12px;
+    cursor:pointer;
+    font-family:var(--sans);
+  }
+  .toolbar .reload-btn:hover{color:var(--ink);border-color:var(--ink-faint);}
+  .result-count{
+    display:none;
+    font-size:.82rem;
+    color:var(--ink-faint);
+    margin-bottom:14px;
+  }
+  .result-count.show{display:block;}
+
+  /* ---- Cards ---- */
+  #gallery{display:flex;flex-direction:column;gap:12px;}
+
+  .rec-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:9px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .rec-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 16px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .rec-stripe{
+    flex:0 0 4px;
+    align-self:stretch;
+    border-radius:3px;
+    background:var(--accent);
+    margin-right:2px;
+  }
+  .rec-main{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .rec-office{
+    font-size:.74rem;
+    color:var(--ink-faint);
+    font-weight:500;
+  }
+  .rec-title-row{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .rec-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--ink);
+  }
+  .rec-id{font-size:.76rem;color:var(--ink-faint);}
+  .rec-status{
+    flex:0 0 auto;
+    font-size:.74rem;
+    font-weight:600;
+    padding:4px 10px;
+    border-radius:4px;
+    border:1px solid var(--accent2);
+    color:var(--accent2);
+    background:var(--accent2-soft);
+    white-space:nowrap;
+  }
+  .rec-toggle{
+    flex:0 0 auto;
+    border:1px solid var(--line);
+    background:transparent;
+    color:var(--ink-soft);
+    width:30px;height:30px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.9rem;
+    transition:transform .2s ease, border-color .15s ease, color .15s ease;
+  }
+  .rec-head:hover .rec-toggle{border-color:var(--accent);color:var(--accent);}
+  .rec-card.open .rec-toggle{transform:rotate(180deg);}
+
+  .rec-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .28s ease;
+    border-top:0 solid var(--line);
+  }
+  .rec-card.open .rec-body{border-top-width:1px;}
+  .rec-body-inner{padding:6px 20px 20px 20px;}
+
+  .field-group{margin-top:18px;}
+  .field-group-title{
+    font-family:var(--serif);
+    font-size:.94rem;
+    font-weight:600;
+    color:var(--accent-ink);
+    border-left:3px solid var(--accent);
+    padding-left:9px;
+    margin-bottom:10px;
+  }
+  .field-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:12px 20px;
+  }
+  .field-item{min-width:0;}
+  .field-item.full{grid-column:1 / -1;}
+  .field-label{
+    font-size:.72rem;
+    color:var(--ink-faint);
+    margin-bottom:2px;
+  }
+  .field-value{
+    font-size:.92rem;
+    color:var(--ink);
+    word-wrap:break-word;
+  }
+  .field-value p{margin:0 0 .5em;}
+  .field-value p:last-child{margin-bottom:0;}
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{
+    display:inline-block;
+    font-size:.78rem;
+    padding:3px 9px;
+    border-radius:4px;
+    background:var(--accent-soft);
+    color:var(--accent-ink);
+    border:1px solid var(--accent);
+  }
+
+  .file-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .file-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:.82rem;
+    padding:6px 10px;
+    border-radius:6px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .file-chip:hover{border-color:var(--accent);color:var(--accent-ink);}
+  .file-thumb{
+    width:64px;height:64px;object-fit:cover;border-radius:6px;
+    border:1px solid var(--line);
+  }
+  .file-missing{
+    font-size:.78rem;color:var(--ink-faint);font-style:italic;
+  }
+
+  .empty-msg, .no-results{
+    text-align:center;
+    padding:40px 20px;
+    color:var(--ink-faint);
+    font-size:.92rem;
+  }
+
+  @media (max-width:560px){
+    .rec-head{padding:12px 12px;gap:10px;}
+    .rec-title{font-size:.98rem;}
+    .toolbar select{flex:1 1 140px;}
+    .toolbar .reload-btn{margin-left:0;flex:1 1 100%;text-align:center;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div>
+      <h1>Proje Kayıt Galerisi</h1>
+      <p>Moodle Veritabanı etkinliğinden dışa aktarılan (export) ZIP veya CSV dosyasını yükleyin; her proje tek satırlık özetiyle listelenir, ayrıntılar tıklandığında açılır.</p>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button">Koyu / Açık</button>
+  </header>
+
+  <div id="dropzone" class="dropzone">
+    <span class="dz-icon">🗂️</span>
+    <h2>ZIP veya CSV dosyasını buraya bırakın</h2>
+    <p>ya da tıklayıp bilgisayarınızdan seçin — Moodle Veritabanı "Dışa Aktar" çıktısı: dosya ekleri de olsun isterseniz CSV + files klasörü içeren .zip, yalnızca veriler yetiyorsa tek başına .csv</p>
+    <div class="dz-hint">Her şey tarayıcınızda işlenir; dosya hiçbir sunucuya yüklenmez.</div>
+    <input type="file" id="fileInput" accept=".zip,.csv">
+  </div>
+
+  <div id="statusBanner" class="status-banner"></div>
+
+  <div id="toolbar" class="toolbar">
+    <input type="search" id="searchInput" placeholder="Proje adı, ataşelik, ID ara…">
+    <select id="statusFilter"><option value="">Tüm durumlar</option></select>
+    <select id="officeFilter"><option value="">Tüm ataşelik/müşavirlikler</option></select>
+    <button class="reload-btn" id="reloadBtn" type="button">Başka dosya yükle</button>
+  </div>
+
+  <div id="resultCount" class="result-count"></div>
+
+  <div id="gallery"></div>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- Theme toggle ---------------- */
+  var themeBtn = document.getElementById('themeToggle');
+  themeBtn.addEventListener('click', function(){
+    var root = document.documentElement;
+    var current = root.getAttribute('data-theme');
+    if(current === 'dark'){ root.setAttribute('data-theme','light'); }
+    else if(current === 'light'){ root.removeAttribute('data-theme'); }
+    else { root.setAttribute('data-theme','dark'); }
+  });
+
+  /* ---------------- Turkish-safe normalize ---------------- */
+  function normTr(s){
+    return String(s || '')
+      .toLowerCase()
+      .replace(/ı/g,'i').replace(/i̇/g,'i')
+      .replace(/ş/g,'s').replace(/ğ/g,'g')
+      .replace(/ü/g,'u').replace(/ö/g,'o').replace(/ç/g,'c')
+      .trim();
+  }
+  function includesAny(hay, needles){
+    for(var i=0;i<needles.length;i++){ if(hay.indexOf(needles[i]) !== -1) return true; }
+    return false;
+  }
+
+  /* ---------------- RFC4180-ish CSV parser ---------------- */
+  function parseCSV(text){
+    var rows = [], row = [], field = '', inQuotes = false;
+    var i = 0, n = text.length;
+    while(i < n){
+      var c = text[i];
+      if(inQuotes){
+        if(c === '"'){
+          if(text[i+1] === '"'){ field += '"'; i += 2; continue; }
+          inQuotes = false; i++; continue;
+        } else { field += c; i++; continue; }
+      } else {
+        if(c === '"'){ inQuotes = true; i++; continue; }
+        if(c === ','){ row.push(field); field=''; i++; continue; }
+        if(c === '\r'){ i++; continue; }
+        if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; i++; continue; }
+        field += c; i++; continue;
+      }
+    }
+    if(field.length || row.length){ row.push(field); rows.push(row); }
+    // drop fully-empty trailing rows
+    while(rows.length && rows[rows.length-1].every(function(v){return v==='';})) rows.pop();
+    return rows;
+  }
+
+  /* ---------------- Minimal rich-text sanitizer ---------------- */
+  var ALLOWED_TAGS = {P:1,BR:1,STRONG:1,EM:1,B:1,I:1,UL:1,OL:1,LI:1,A:1,SPAN:1,U:1};
+  function sanitizeRich(html){
+    var tpl = document.createElement('template');
+    tpl.innerHTML = html;
+    (function walk(node){
+      var child = node.firstChild;
+      while(child){
+        var next = child.nextSibling;
+        if(child.nodeType === 1){
+          var tag = child.tagName;
+          if(tag === 'SCRIPT' || tag === 'STYLE'){
+            node.removeChild(child);
+          } else if(!ALLOWED_TAGS[tag]){
+            // unwrap: replace element with its children
+            while(child.firstChild){ node.insertBefore(child.firstChild, child); }
+            node.removeChild(child);
+          } else {
+            // strip all attributes except safe href on <a>
+            var attrs = Array.prototype.slice.call(child.attributes || []);
+            attrs.forEach(function(a){
+              if(tag === 'A' && a.name === 'href' && /^https?:\/\//i.test(a.value)){
+                return;
+              }
+              child.removeAttribute(a.name);
+            });
+            if(tag === 'A'){ child.setAttribute('target','_blank'); child.setAttribute('rel','noopener noreferrer'); }
+            walk(child);
+          }
+        } else if(child.nodeType !== 3){
+          node.removeChild(child);
+        }
+        child = next;
+      }
+    })(tpl.content);
+    return tpl.innerHTML;
+  }
+  function escapeText(s){
+    var d = document.createElement('div');
+    d.textContent = String(s);
+    return d.innerHTML;
+  }
+
+  /* ---------------- Field classification ---------------- */
+  function isDateHeader(h){ return includesAny(normTr(h), ['tarihi']); }
+  function isFileHeader(h){ return includesAny(normTr(h), ['dosyalari','belgeleri','yukleme']); }
+  function isCommaHeader(h){ return includesAny(normTr(h), ['virgul','etiketler']); }
+
+  var SUMMARY = {
+    office: function(h){ return includesAny(normTr(h), ['ataselik','musavirlik']); },
+    name:   function(h){ return includesAny(normTr(h), ['proje adi']); },
+    status: function(h){ return includesAny(normTr(h), ['durumu']); },
+    id:     function(h){ return normTr(h) === 'proje id'; }
+  };
+
+  var GROUPS = [
+    { title:'Genel Bilgiler', match:['proje id','irtibat kisisi','fon kaynagi','yerel ve diger fon'] },
+    { title:'Proje Tanımı', match:['amaci','hedef kitle','paydas','gerceklesecegi ulkeler','gerceklesecegi sehirler','baslangic tarihi','bitis tarihi'] },
+    { title:'Faaliyetler ve Hedefler', match:['is paketleri','nihai hedef','surdurulebilirlik'] },
+    { title:'Bütçe', match:['butcesi','para birimi'] },
+    { title:'Katılımcılar (Planlanan)', match:['katilimci ogrenci','katilimci ogretmen','katilimci veli','katilimci idareci','diger katilimci'] },
+    { title:'Ortaklık', match:['ortak arama','aranan ortak','diger ortak turu','ortaklik beklentisi'] },
+    { title:'Proje Dosyaları', match:['proje dosyalari'] },
+    { title:'Tanıtım ve Etki', match:['tanitim faaliyetleri','tahmini yaygin etki'] },
+    { title:'Ulaşılan Sayılar (Gerçekleşen)', match:['ulasilan ogrenci','ulasilan ogretmen','ulasilan veli','ulasilan idareci','ulasilan diger'] },
+    { title:'İzleme ve Değerlendirme', match:['izleme ve degerlendirme'] },
+    { title:'Onay', match:['onay'] }
+  ];
+  var FALLBACK_GROUP_TITLE = 'Diğer Bilgiler';
+
+  function classifyHeaders(headers){
+    var roles = {}; // header -> 'office'|'name'|'status'|'skip-tags-handled-elsewhere'... we keep simple
+    var groupOf = {};
+    headers.forEach(function(h){
+      var n = normTr(h);
+      var role = null;
+      Object.keys(SUMMARY).forEach(function(k){ if(SUMMARY[k](h)) role = k; });
+      roles[h] = role;
+      if(role) return; // summary fields aren't placed in a body group
+      var assigned = null;
+      for(var g=0; g<GROUPS.length; g++){
+        if(includesAny(n, GROUPS[g].match)){ assigned = GROUPS[g].title; break; }
+      }
+      groupOf[h] = assigned || FALLBACK_GROUP_TITLE;
+    });
+    return { roles: roles, groupOf: groupOf };
+  }
+
+  /* ---------------- File helpers ---------------- */
+  var IMAGE_EXT = ['jpg','jpeg','png','gif','webp','svg'];
+  var ICON_BY_EXT = {
+    pdf:'📕', doc:'📝', docx:'📝', xls:'📊', xlsx:'📊',
+    ppt:'📽️', pptx:'📽️', txt:'📄', csv:'📊', zip:'🗜️'
+  };
+  function extOf(name){
+    var m = /\.([a-z0-9]+)$/i.exec(name || '');
+    return m ? m[1].toLowerCase() : '';
+  }
+  function splitFileValue(v){
+    return String(v || '')
+      .split(/##|\r?\n/)
+      .map(function(s){ return s.trim(); })
+      .filter(Boolean);
+  }
+
+  /* ---------------- Main state ---------------- */
+  var state = { headers: [], records: [], roles: {}, groupOf: {}, fileMap: {} };
+
+  var dropzone = document.getElementById('dropzone');
+  var fileInput = document.getElementById('fileInput');
+  var statusBanner = document.getElementById('statusBanner');
+  var toolbar = document.getElementById('toolbar');
+  var galleryEl = document.getElementById('gallery');
+  var resultCountEl = document.getElementById('resultCount');
+  var searchInput = document.getElementById('searchInput');
+  var statusFilter = document.getElementById('statusFilter');
+  var officeFilter = document.getElementById('officeFilter');
+  var reloadBtn = document.getElementById('reloadBtn');
+
+  function showBanner(msg, type){
+    statusBanner.textContent = msg;
+    statusBanner.className = 'status-banner show ' + type;
+  }
+  function hideBanner(){ statusBanner.className = 'status-banner'; }
+
+  dropzone.addEventListener('click', function(){ fileInput.click(); });
+  dropzone.addEventListener('dragover', function(e){ e.preventDefault(); dropzone.classList.add('drag'); });
+  dropzone.addEventListener('dragleave', function(){ dropzone.classList.remove('drag'); });
+  dropzone.addEventListener('drop', function(e){
+    e.preventDefault(); dropzone.classList.remove('drag');
+    if(e.dataTransfer.files && e.dataTransfer.files[0]) handleInputFile(e.dataTransfer.files[0]);
+  });
+  fileInput.addEventListener('change', function(){
+    if(fileInput.files && fileInput.files[0]) handleInputFile(fileInput.files[0]);
+  });
+  reloadBtn.addEventListener('click', function(){
+    fileInput.value = '';
+    dropzone.style.display = 'block';
+    toolbar.classList.remove('show');
+    resultCountEl.classList.remove('show');
+    galleryEl.innerHTML = '';
+    hideBanner();
+  });
+
+  function isCsvFile(file){
+    return /\.csv$/i.test(file.name) || file.type === 'text/csv';
+  }
+  function isZipFile(file){
+    return /\.zip$/i.test(file.name) || file.type === 'application/zip' || file.type === 'application/x-zip-compressed';
+  }
+
+  function readCsvSource(file){
+    // Plain CSV: no attachments, so the "files" list is simply empty —
+    // file-type fields will render as "not included" chips instead of links.
+    return file.text().then(function(csvText){
+      return { csvText: csvText, files: [] };
+    });
+  }
+
+  function readZipSource(file){
+    return file.arrayBuffer().then(function(buf){
+      return JSZip.loadAsync(buf);
+    }).then(function(zip){
+      var csvPath = null;
+      Object.keys(zip.files).forEach(function(p){
+        if(!zip.files[p].dir && /\.csv$/i.test(p) && !csvPath) csvPath = p;
+      });
+      if(!csvPath){ throw new Error('ZIP içinde bir .csv dosyası bulunamadı.'); }
+
+      var fileEntries = [];
+      Object.keys(zip.files).forEach(function(p){
+        var entry = zip.files[p];
+        if(entry.dir) return;
+        if(p === csvPath) return;
+        fileEntries.push(entry);
+      });
+
+      return zip.files[csvPath].async('string').then(function(csvText){
+        return Promise.all(fileEntries.map(function(entry){
+          return entry.async('blob').then(function(blob){
+            var base = entry.name.split('/').pop();
+            return { name: base, blob: blob };
+          });
+        })).then(function(files){
+          return { csvText: csvText, files: files };
+        });
+      });
+    });
+  }
+
+  function handleInputFile(file){
+    hideBanner();
+
+    var loader;
+    if(isCsvFile(file)){
+      loader = readCsvSource(file);
+    } else if(isZipFile(file)){
+      showBanner('İşleniyor: ' + file.name + ' …', 'info');
+      loader = readZipSource(file);
+    } else {
+      showBanner('Desteklenmeyen dosya türü. Lütfen bir .zip veya .csv dosyası seçin.', 'error');
+      return;
+    }
+
+    loader.then(function(res){
+      var text = res.csvText;
+      if(text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+      var rows = parseCSV(text);
+      if(rows.length < 1){ throw new Error('CSV dosyası boş görünüyor.'); }
+      var headers = rows[0];
+      var records = rows.slice(1).map(function(r){
+        var rec = {};
+        headers.forEach(function(h, idx){ rec[h] = r[idx] !== undefined ? r[idx] : ''; });
+        return rec;
+      });
+
+      var fileMap = {};
+      res.files.forEach(function(f){
+        fileMap[f.name] = URL.createObjectURL(f.blob);
+      });
+
+      var cls = classifyHeaders(headers);
+      state = { headers: headers, records: records, roles: cls.roles, groupOf: cls.groupOf, fileMap: fileMap };
+
+      dropzone.style.display = 'none';
+      hideBanner();
+      if(res.files.length === 0 && headers.some(isFileHeader)){
+        showBanner('Not: sadece CSV yüklendiği için dosya ekleri (varsa) bağlantı olarak gösterilemiyor — dosya adları yine de listelenir. Ekleri görmek için ZIP\'i yükleyin.', 'info');
+      }
+      populateFilters();
+      toolbar.classList.add('show');
+      resultCountEl.classList.add('show');
+      applyFilters();
+    }).catch(function(err){
+      console.error(err);
+      showBanner('Hata: ' + err.message, 'error');
+    });
+  }
+
+  function findHeaderByRole(role){
+    for(var i=0;i<state.headers.length;i++){ if(state.roles[state.headers[i]] === role) return state.headers[i]; }
+    return null;
+  }
+
+  function populateFilters(){
+    var statusH = findHeaderByRole('status');
+    var officeH = findHeaderByRole('office');
+    var statuses = {}, offices = {};
+    state.records.forEach(function(r){
+      if(statusH && r[statusH]) statuses[r[statusH]] = true;
+      if(officeH && r[officeH]) r[officeH].split('##').forEach(function(o){ if(o.trim()) offices[o.trim()] = true; });
+    });
+    statusFilter.innerHTML = '<option value="">Tüm durumlar</option>' +
+      Object.keys(statuses).sort().map(function(s){ return '<option value="'+escapeText(s)+'">'+escapeText(s)+'</option>'; }).join('');
+    officeFilter.innerHTML = '<option value="">Tüm ataşelik/müşavirlikler</option>' +
+      Object.keys(offices).sort().map(function(s){ return '<option value="'+escapeText(s)+'">'+escapeText(s)+'</option>'; }).join('');
+  }
+
+  [searchInput, statusFilter, officeFilter].forEach(function(el){
+    el.addEventListener('input', applyFilters);
+    el.addEventListener('change', applyFilters);
+  });
+
+  function applyFilters(){
+    var q = normTr(searchInput.value);
+    var statusVal = statusFilter.value;
+    var officeVal = officeFilter.value;
+    var statusH = findHeaderByRole('status');
+    var officeH = findHeaderByRole('office');
+    var nameH = findHeaderByRole('name');
+    var idH = findHeaderByRole('id');
+
+    var filtered = state.records.filter(function(r){
+      if(statusVal && r[statusH] !== statusVal) return false;
+      if(officeVal){
+        var offs = (r[officeH] || '').split('##').map(function(s){return s.trim();});
+        if(offs.indexOf(officeVal) === -1) return false;
+      }
+      if(q){
+        var hay = normTr((r[nameH]||'') + ' ' + (r[officeH]||'') + ' ' + (r[idH]||'') + ' ' + (r[statusH]||''));
+        if(hay.indexOf(q) === -1) return false;
+      }
+      return true;
+    });
+
+    renderGallery(filtered);
+    resultCountEl.textContent = filtered.length + ' / ' + state.records.length + ' proje gösteriliyor';
+  }
+
+  /* ---------------- Rendering ---------------- */
+  function renderFieldValue(header, value){
+    value = (value === undefined || value === null) ? '' : String(value);
+    if(!value.trim()) return null;
+
+    if(isDateHeader(header) && /^\d{8,}$/.test(value.trim())){
+      var d = new Date(parseInt(value.trim(),10) * 1000);
+      if(!isNaN(d.getTime())){
+        return '<div class="field-value">' + escapeText(d.toLocaleDateString('tr-TR', {year:'numeric', month:'long', day:'numeric'})) + '</div>';
+      }
+    }
+
+    if(isFileHeader(header)){
+      var names = splitFileValue(value);
+      if(!names.length) return null;
+      var html = '<div class="file-row">';
+      names.forEach(function(nm){
+        var url = state.fileMap[nm];
+        var ext = extOf(nm);
+        if(url && IMAGE_EXT.indexOf(ext) !== -1){
+          html += '<a href="'+url+'" target="_blank" rel="noopener noreferrer" title="'+escapeText(nm)+'">' +
+                  '<img class="file-thumb" src="'+url+'" alt="'+escapeText(nm)+'"></a>';
+        } else if(url){
+          var icon = ICON_BY_EXT[ext] || '📎';
+          html += '<a class="file-chip" href="'+url+'" download="'+escapeText(nm)+'">' + icon + ' ' + escapeText(nm) + '</a>';
+        } else {
+          html += '<span class="file-missing">📎 ' + escapeText(nm) + ' (dosya ZIP içinde bulunamadı)</span>';
+        }
+      });
+      html += '</div>';
+      return html;
+    }
+
+    if(value.indexOf('##') !== -1){
+      var parts = value.split('##').map(function(s){return s.trim();}).filter(Boolean);
+      return '<div class="chip-row">' + parts.map(function(p){ return '<span class="chip">'+escapeText(p)+'</span>'; }).join('') + '</div>';
+    }
+
+    if(isCommaHeader(header) && value.indexOf(',') !== -1){
+      var cparts = value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+      if(cparts.length > 1){
+        return '<div class="chip-row">' + cparts.map(function(p){ return '<span class="chip">'+escapeText(p)+'</span>'; }).join('') + '</div>';
+      }
+    }
+
+    if(/<[a-z][\s\S]*>/i.test(value)){
+      return '<div class="field-value">' + sanitizeRich(value) + '</div>';
+    }
+
+    return '<div class="field-value">' + escapeText(value) + '</div>';
+  }
+
+  function shortLabel(header){
+    return header.replace(/\s*\([^)]*\)\s*$/, '').trim();
+  }
+
+  function renderCard(rec, idx){
+    var officeH = findHeaderByRole('office');
+    var nameH = findHeaderByRole('name');
+    var statusH = findHeaderByRole('status');
+    var idH = findHeaderByRole('id');
+
+    var office = (rec[officeH] || '').split('##').join(', ');
+    var name = rec[nameH] || '(İsimsiz proje)';
+    var status = rec[statusH] || '—';
+    var pid = rec[idH] || '';
+
+    // group fields
+    var groups = {};
+    var order = GROUPS.map(function(g){return g.title;}).concat([FALLBACK_GROUP_TITLE]);
+    state.headers.forEach(function(h){
+      if(state.roles[h]) return;
+      var g = state.groupOf[h];
+      var rendered = renderFieldValue(h, rec[h]);
+      if(rendered === null) return;
+      if(!groups[g]) groups[g] = [];
+      groups[g].push({ label: shortLabel(h), html: rendered, full: isFileHeader(h) || /amaci|hedef ve beklenen|surdurulebilirlik|is paketleri|beklentisi|etki$/.test(normTr(h)) });
+    });
+
+    var bodyHtml = '';
+    order.forEach(function(gTitle){
+      if(!groups[gTitle] || !groups[gTitle].length) return;
+      bodyHtml += '<div class="field-group"><div class="field-group-title">' + escapeText(gTitle) + '</div><div class="field-grid">';
+      groups[gTitle].forEach(function(f){
+        bodyHtml += '<div class="field-item' + (f.full ? ' full' : '') + '"><div class="field-label">' + escapeText(f.label) + '</div>' + f.html + '</div>';
+      });
+      bodyHtml += '</div></div>';
+    });
+
+    if(!bodyHtml){
+      bodyHtml = '<div class="field-group"><div class="field-value" style="color:var(--ink-faint)">Bu proje için ek ayrıntı girilmemiş.</div></div>';
+    }
+
+    var card = document.createElement('div');
+    card.className = 'rec-card';
+    card.innerHTML =
+      '<div class="rec-head">' +
+        '<div class="rec-stripe"></div>' +
+        '<div class="rec-main">' +
+          '<div class="rec-office">' + escapeText(office || '—') + '</div>' +
+          '<div class="rec-title-row">' +
+            '<span class="rec-title">' + escapeText(name) + '</span>' +
+            (pid ? '<span class="rec-id">#' + escapeText(pid) + '</span>' : '') +
+          '</div>' +
+        '</div>' +
+        '<span class="rec-status">' + escapeText(status) + '</span>' +
+        '<button type="button" class="rec-toggle" aria-label="Ayrıntıları göster/gizle">▾</button>' +
+      '</div>' +
+      '<div class="rec-body"><div class="rec-body-inner">' + bodyHtml + '</div></div>';
+
+    var head = card.querySelector('.rec-head');
+    var body = card.querySelector('.rec-body');
+    head.addEventListener('click', function(){
+      var isOpen = card.classList.contains('open');
+      if(isOpen){
+        body.style.maxHeight = null;
+        card.classList.remove('open');
+      } else {
+        card.classList.add('open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+
+    return card;
+  }
+
+  function renderGallery(records){
+    galleryEl.innerHTML = '';
+    if(!records.length){
+      galleryEl.innerHTML = '<div class="no-results">Aramanızla eşleşen proje bulunamadı.</div>';
+      return;
+    }
+    records.forEach(function(rec, idx){ galleryEl.appendChild(renderCard(rec, idx)); });
+  }
+
+})();
+</script>
+</body>
+</html>
