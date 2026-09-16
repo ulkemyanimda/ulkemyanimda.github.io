@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ülkem Yanımda - Jüri Değerlendirme Girişi</title>
+    <style>
+        :root {
+            --primary-color: #1a56db;
+            --primary-hover: #1e429f;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
+            --border-color: #e5e7eb;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 550px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 28px 24px;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .card-header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .info-text {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+
+        .credentials-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .cred-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .cred-item:not(:last-child) {
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .cred-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .cred-value {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: monospace;
+            font-size: 1.05rem;
+            background: #fff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 0.8rem;
+            text-decoration: underline;
+            padding: 2px 6px;
+        }
+
+        .copy-btn:hover {
+            color: var(--primary-hover);
+        }
+
+        .action-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 14px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .footer-note {
+            margin-top: 16px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="card-header">
+            <h1>Ülkem Yanımda</h1>
+            <p>Jüri Değerlendirme Portalı Bilgilendirmesi</p>
+        </div>
+
+        <div class="card-body">
+            <p class="info-text">
+                Sayın Jüri Üyesi,<br><br>
+                <strong>"Ülkem Yanımda"</strong> projesi kapsamında yürütülen çalışmaları incelemeniz ve değerlendirme sürecini tamamlayabilmeniz adına sistem üzerinde adınıza özel jüri erişim hesabı tanımlanmıştır. Aşağıda yer alan erişim bilgilerini kullanarak değerlendirme sayfasına giriş yapabilirsiniz.
+            </p>
+
+            <div class="credentials-box">
+                <div class="cred-item">
+                    <span class="cred-label">Kullanıcı Adı:</span>
+                    <div class="cred-value">
+                        <span id="username">juri</span>
+                        <button class="copy-btn" onclick="copyText('username')">Kopyala</button>
+                    </div>
+                </div>
+                <div class="cred-item">
+                    <span class="cred-label">Şifre:</span>
+                    <div class="cred-value">
+                        <span id="password">Ai@123456o</span>
+                        <button class="copy-btn" onclick="copyText('password')">Kopyala</button>
+                    </div>
+                </div>
+            </div>
+
+            <a href="https://ulkemyanimda.eba.gov.tr/moodle/user/index.php?id=494" target="_blank" rel="noopener noreferrer" class="action-btn">
+                Değerlendirme Sayfasına Git ↗
+            </a>
+
+            <p class="footer-note">
+                Sisteme yönlendirildiğinizde yukarıdaki bilgileri kullanarak giriş sağlayınız.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert(elementId === 'username' ? 'Kullanıcı adı kopyalandı!' : 'Şifre kopyalandı!');
+            });
+        }
+    </script>
+</body>
+</html>
