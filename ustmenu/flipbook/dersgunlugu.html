@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÜLKEM YANIMDA | Türkçe Günlüğüm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF3E4;
+    --paper-line: rgba(31,45,61,0.10);
+    --ink:#1F2D3D;
+    --ink-soft:#5B6B7A;
+    --rust:#B8571F;
+    --rust-soft:#E7CBB3;
+    --card:#FFFDF7;
+    --radius:10px;
+
+    /* age-group colors, shared with Günde 5 Dakika */
+    --tohum:#7C9A5C; --tohum-soft:#E7EEDD;
+    --filiz:#3D9285; --filiz-soft:#DDEEEA;
+    --fidan:#C98A2E; --fidan-soft:#F3E6CC;
+    --cinar:#33526E; --cinar-soft:#DCE5EC;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Inter', sans-serif;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  header.site{
+    position:sticky; top:0; z-index:20;
+    background:rgba(250,243,228,0.92); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:1100px; margin:0 auto;
+  }
+  .logo{
+    display:flex; align-items:center; text-decoration:none;
+  }
+  .logo img{height:34px; display:block;}
+  nav.links{display:flex; gap:28px; font-size:0.92rem;}
+  nav.links a{ text-decoration:none; color:var(--ink-soft); padding-bottom:4px; border-bottom:2px solid transparent; }
+  nav.links a.active{color:var(--ink); border-color:var(--rust); font-weight:600;}
+  nav.links a:hover{color:var(--ink);}
+  @media (max-width:640px){ nav.links{gap:16px; font-size:0.82rem;} }
+
+  /* WEEK HEADER */
+  .week-header{
+    margin:36px 0 28px; padding:44px 32px 40px; border-radius:22px;
+    position:relative; overflow:hidden; color:#fff;
+    background:linear-gradient(120deg, var(--tohum) 0%, var(--filiz) 34%, var(--fidan) 68%, var(--cinar) 100%);
+    box-shadow:0 14px 34px rgba(31,45,61,0.18);
+  }
+  .week-header::before, .week-header::after{
+    content:""; position:absolute; border-radius:50%;
+    background:rgba(255,255,255,0.14); pointer-events:none;
+  }
+  .week-header::before{width:260px; height:260px; top:-120px; right:-60px;}
+  .week-header::after{width:160px; height:160px; bottom:-90px; right:180px; background:rgba(255,255,255,0.10);}
+  .week-header > *{position:relative; z-index:1;}
+  .letter-deco{position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0;}
+  .letter-deco span{
+    position:absolute; font-family:'Fraunces', serif; font-weight:700;
+    color:rgba(255,255,255,0.16); line-height:1; user-select:none;
+  }
+  .letter-deco span:nth-child(1){font-size:170px; top:-46px; left:-14px; transform:rotate(-9deg);}
+  .letter-deco span:nth-child(2){font-size:120px; bottom:-38px; left:26%; transform:rotate(7deg);}
+  .letter-deco span:nth-child(3){font-size:150px; top:-20px; right:14%; transform:rotate(11deg);}
+  .letter-deco span:nth-child(4){font-size:100px; bottom:-24px; right:-10px; transform:rotate(-13deg);}
+  .kicker{
+    display:inline-block; color:#fff; font-weight:700; font-size:0.8rem;
+    letter-spacing:0.06em; text-transform:uppercase; margin-bottom:14px;
+    background:rgba(255,255,255,0.18); padding:6px 14px; border-radius:999px;
+  }
+  .week-nav{ display:flex; align-items:center; gap:14px; margin:0 0 10px; }
+  .week-nav button{
+    width:42px; height:42px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.6);
+    background:rgba(255,255,255,0.16); color:#fff; cursor:pointer; font-size:1.15rem;
+    display:flex; align-items:center; justify-content:center;
+    backdrop-filter:blur(2px);
+    transition:background .15s, transform .12s, box-shadow .15s, color .15s;
+  }
+  .week-nav button:not(:disabled):hover{background:#fff; color:var(--fidan); box-shadow:0 4px 14px rgba(0,0,0,0.2); transform:translateY(-1px);}
+  .week-nav button:not(:disabled):active{transform:scale(0.88);}
+  .week-nav button:disabled{opacity:0.3; cursor:not-allowed; box-shadow:none;}
+  .week-fade{transition:opacity .18s ease, transform .18s ease;}
+  .week-fade.is-switching{opacity:0; transform:translateY(5px);}
+  h1{
+    font-family:'Fraunces', serif; font-weight:600; color:#fff;
+    font-size:clamp(1.9rem, 3.6vw, 2.6rem); line-height:1.16; margin:0; max-width:20ch;
+    text-shadow:0 1px 12px rgba(0,0,0,0.12);
+  }
+  .lede{font-size:1.02rem; color:rgba(255,255,255,0.92); max-width:60ch; line-height:1.6; margin:14px 0 0;}
+
+  /* CARDS */
+  .cards{display:flex; flex-direction:column; gap:16px; margin:32px 0 24px;}
+
+  .card{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius);
+    display:flex; overflow:hidden; position:relative;
+    box-shadow:0 1px 2px rgba(31,45,61,0.04);
+    transition:box-shadow .2s, transform .2s;
+  }
+  .card:hover{box-shadow:0 10px 24px rgba(31,45,61,0.10); transform:translateY(-1px);}
+
+  .card-tools{
+    position:absolute; top:10px; right:12px; display:flex; gap:6px;
+    opacity:0; transition:opacity .15s; z-index:5;
+  }
+  .card:hover .card-tools{opacity:1;}
+  .card-tools button{
+    width:28px; height:28px; border-radius:50%; border:none; cursor:pointer;
+    background:rgba(255,255,255,0.9); color:var(--ink-soft); font-size:0.85rem;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 1px 3px rgba(31,45,61,0.15);
+  }
+  .card-tools button:hover{background:#fff; color:var(--ink);}
+  .card-tools button.delete:hover{color:#B8271F;}
+
+  .badge-col{
+    flex:0 0 168px; display:flex; flex-direction:column; justify-content:center;
+    align-items:flex-start; gap:4px; padding:18px 18px; color:#fff;
+    background-image:linear-gradient(160deg, rgba(255,255,255,0.16), transparent 60%);
+  }
+  .badge-col .age{font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem;}
+  .badge-col .level{font-size:0.82rem; opacity:0.88;}
+
+  .card.tohum .badge-col{background:var(--tohum);}
+  .card.filiz .badge-col{background:var(--filiz);}
+  .card.fidan .badge-col{background:var(--fidan);}
+  .card.cinar .badge-col{background:var(--cinar);}
+
+  .body-cols{
+    flex:1; display:grid; grid-template-columns:1.1fr 1.1fr 0.9fr;
+    gap:20px; padding:18px 22px;
+  }
+  .col .label{
+    font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;
+    color:var(--ink-soft); margin:0 0 6px;
+  }
+  .col .goal{font-size:0.92rem; line-height:1.45; margin:0;}
+  .word-chips{display:flex; flex-wrap:wrap; gap:6px;}
+  .word-chip{
+    font-size:0.78rem; padding:3px 10px; border-radius:999px; font-weight:600;
+  }
+  .card.tohum .word-chip{background:var(--tohum-soft); color:var(--tohum);}
+  .card.filiz .word-chip{background:var(--filiz-soft); color:var(--filiz);}
+  .card.fidan .word-chip{background:var(--fidan-soft); color:var(--fidan);}
+  .card.cinar .word-chip{background:var(--cinar-soft); color:var(--cinar);}
+
+  .materials-link{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:0.86rem; font-weight:600; text-decoration:none;
+    padding:8px 14px; border-radius:999px; border:1.5px solid currentColor;
+  }
+  .card.tohum .materials-link{color:var(--tohum);}
+  .card.filiz .materials-link{color:var(--filiz);}
+  .card.fidan .materials-link{color:var(--fidan);}
+  .card.cinar .materials-link{color:var(--cinar);}
+  .materials-link:hover{opacity:0.75;}
+
+  @media (max-width:900px){
+    .card{flex-direction:column;}
+    .badge-col{flex-direction:row; align-items:baseline; gap:8px; flex:0 0 auto;}
+    .body-cols{grid-template-columns:1fr; gap:14px;}
+    .card-tools{opacity:1; position:static; justify-content:flex-end; padding:8px 12px 0;}
+  }
+
+  /* ADD CARD BUTTON */
+  .add-card-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:16px; border:2px dashed var(--paper-line); border-radius:var(--radius);
+    background:transparent; color:var(--ink-soft); font-size:0.94rem; font-weight:600;
+    cursor:pointer; width:100%; margin-bottom:8px; transition:border-color .15s, color .15s, background .15s;
+  }
+  .add-card-btn:hover{border-color:var(--rust); color:var(--rust); background:var(--card);}
+
+  .toolbar-row{display:flex; justify-content:flex-end; gap:10px; margin-bottom:14px;}
+  .ghost-btn{
+    font-size:0.8rem; color:var(--ink-soft); background:none; border:1px solid var(--paper-line);
+    padding:6px 12px; border-radius:999px; cursor:pointer;
+  }
+  .ghost-btn:hover{border-color:var(--rust); color:var(--rust);}
+
+  /* MODAL */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(31,45,61,0.45); backdrop-filter:blur(3px);
+    display:none; align-items:center; justify-content:center; z-index:50; padding:20px;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal{
+    background:var(--card); border-radius:14px; max-width:480px; width:100%;
+    padding:26px 26px 22px; max-height:88vh; overflow-y:auto;
+    box-shadow:0 20px 50px rgba(31,45,61,0.25);
+  }
+  .modal h2{font-family:'Fraunces', serif; font-size:1.3rem; margin:0 0 18px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-soft); margin-bottom:6px;}
+  .field input, .field select, .field textarea{
+    width:100%; padding:9px 11px; border:1px solid var(--paper-line); border-radius:8px;
+    font-family:'Inter', sans-serif; font-size:0.92rem; background:#fff; color:var(--ink);
+  }
+  .field textarea{resize:vertical; min-height:64px;}
+  .field input:focus, .field select:focus, .field textarea:focus{outline:2px solid var(--rust); outline-offset:1px;}
+  .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:20px;}
+  .btn-primary{
+    background:var(--ink); color:var(--paper); border:none; padding:10px 18px;
+    border-radius:999px; font-weight:600; cursor:pointer; font-size:0.9rem;
+  }
+  .btn-primary:hover{background:var(--rust);}
+  .btn-secondary{
+    background:none; border:1px solid var(--paper-line); color:var(--ink-soft);
+    padding:10px 18px; border-radius:999px; cursor:pointer; font-size:0.9rem;
+  }
+  .btn-secondary:hover{color:var(--ink); border-color:var(--ink);}
+
+  .note{
+    margin:0 0 40px; padding:14px 18px; border-left:3px solid var(--rust);
+    background:var(--card); font-size:0.88rem; color:var(--ink-soft); border-radius:0 8px 8px 0;
+  }
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--paper-line); padding:36px 0; margin-top:20px;}
+  footer .wrap{display:flex; flex-direction:column; gap:6px;}
+  footer .brand{font-family:'Fraunces', serif; font-weight:600;}
+  footer .sub{font-size:0.85rem; color:var(--ink-soft);}
+  footer .copy{font-size:0.78rem; color:var(--ink-soft); margin-top:18px;}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <a class="logo" href="#">
+      <img src="https://ulkemyanimda.eba.gov.tr/web/index_files/logo.svg" alt="Ülkem Yanımda">
+    </a>
+    <nav class="links">
+      <a href="#" class="active">Türkçe Günlüğüm</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="week-header">
+    <div class="letter-deco" aria-hidden="true">
+      <span>ş</span><span>ç</span><span>ğ</span><span>ı</span>
+    </div>
+    <div class="kicker">Haberdar Olun</div>
+    <div class="week-nav">
+      <button id="prevWeekBtn" aria-label="Önceki hafta">←</button>
+      <h1 id="week-title" class="week-fade">21 – 27 Eylül arası neler yaptık?</h1>
+      <button id="nextWeekBtn" aria-label="Sonraki hafta">→</button>
+    </div>
+    <p class="lede">
+      Her grup, kendi seviyesine göre bu hafta neyi hedefledi, hangi kelime ve
+      kalıpları öğrendi ve hangi materyallerle çalıştı — hepsini burada
+      bulabilirsiniz.
+    </p>
+  </section>
+
+  <div class="cards week-fade" id="cards"></div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">ÜLKEM YANIMDA</div>
+    <div class="sub">Yurt Dışı Türk Çocukları İçin Dijital Destek Platformu</div>
+    <div class="copy">© MEB YÜKSEKÖĞRETİM VE YURT DIŞI EĞİTİM GENEL MÜDÜRLÜĞÜ</div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <h2 id="modalTitle">Yeni Kart Ekle</h2>
+    <div class="field">
+      <label for="f-age">Yaş Grubu</label>
+      <select id="f-age">
+        <option value="tohum">Tohum</option>
+        <option value="filiz">Filiz</option>
+        <option value="fidan">Fidan</option>
+        <option value="cinar">Çınar</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="f-level">Seviye</label>
+      <input id="f-level" type="text" placeholder="Örn: Farkındalık, Temel, İleri">
+    </div>
+    <div class="field">
+      <label for="f-goal">Bu Haftaki Hedefimiz</label>
+      <textarea id="f-goal" placeholder="Bu grubun bu hafta ulaşacağı kazanım..."></textarea>
+    </div>
+    <div class="field">
+      <label for="f-words">Öğrendiğimiz Kelimeler / Kalıplar</label>
+      <input id="f-words" type="text" placeholder="virgülle ayırın: anne, baba, kardeş">
+    </div>
+    <div class="field">
+      <label for="f-url">Ders İçerikleri (Materyal Linki)</label>
+      <input id="f-url" type="url" placeholder="https://materyalfabrikasi.github.io/...">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="cancelBtn">Vazgeç</button>
+      <button class="btn-primary" id="saveBtn">Kaydet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Varsayılan (ilk yükleme) örnek veri — 21-27 Eylül haftası, 12 grup
+  const SEED_DATA = [
+    { age:"tohum", ageLabel:"Tohum", level:"Farkındalık",
+      goal:"Aile kelimesini duyduğunda tepki verir, yüz ifadesiyle tanıdığını gösterir.",
+      words:["anne","baba","aile"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"tohum", ageLabel:"Tohum", level:"Hazırlık",
+      goal:"Anne ve babasını gösterip Türkçe seslendirir.",
+      words:["anne","baba","kardeş"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"filiz", ageLabel:"Filiz", level:"Başlangıç",
+      goal:"Aile üyelerini tanıtan basit cümleler kurar.",
+      words:["kardeşim","büyükanne","büyükbaba"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"filiz", ageLabel:"Filiz", level:"Temel",
+      goal:"Ailesiyle yaşadığı günlük bir olayı kısaca anlatır.",
+      words:["bugün","birlikte","yemek"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"filiz", ageLabel:"Filiz", level:"Orta",
+      goal:"Ev kurallarını kendi cümleleriyle açıklar.",
+      words:["kural","sorumluluk","saygı"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"fidan", ageLabel:"Fidan", level:"Başlangıç",
+      goal:"Akraba isimlerini doğru kullanarak tanıtır.",
+      words:["teyze","dayı","amca","hala"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"fidan", ageLabel:"Fidan", level:"Temel",
+      goal:"Bir akrabasına kısa bir mektup ya da mesaj yazar.",
+      words:["özlem","mektup","selam"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"fidan", ageLabel:"Fidan", level:"Orta",
+      goal:"Kuşaklar arası bir soru sorup aldığı yanıtı özetler.",
+      words:["kuşak","gençlik","anı"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"cinar", ageLabel:"Çınar", level:"Başlangıç",
+      goal:"Aile değerleri hakkında kısa bir görüş bildirir.",
+      words:["değer","gelenek","miras"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"cinar", ageLabel:"Çınar", level:"Temel",
+      goal:"Aile temalı kısa bir görüş metni (deneme) yazar.",
+      words:["görüş","deneme","savunma"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"cinar", ageLabel:"Çınar", level:"Orta",
+      goal:"Türkiye'deki ve bulunduğu ülkedeki aile kültürünü karşılaştırır.",
+      words:["karşılaştırma","kültür","fark"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"cinar", ageLabel:"Çınar", level:"İleri",
+      goal:"Aile temalı bir haberi okuyup kendi yorumunu ekler.",
+      words:["yorum","kaynak","bakış açısı"],
+      materialUrl:"https://materyalfabrikasi.github.io/" }
+  ];
+
+  // 28 Eylül – 4 Ekim haftasının örnek verisi
+  const SEED_DATA_WEEK2 = [
+    { age:"tohum", level:"Farkındalık",
+      goal:"Okul kelimesini duyduğunda tanıdığını gösterir.",
+      words:["okul","sınıf"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"tohum", level:"Hazırlık",
+      goal:"Sınıftaki temel eşyaları (masa, sandalye) Türkçe seslendirir.",
+      words:["masa","sandalye","kalem"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"filiz", level:"Başlangıç",
+      goal:"Okulundaki bir günlük etkinliği basit cümlelerle anlatır.",
+      words:["ders","teneffüs","arkadaş"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"filiz", level:"Temel",
+      goal:"En sevdiği dersi ve nedenini kısaca açıklar.",
+      words:["favori","çünkü","eğlenceli"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"filiz", level:"Orta",
+      goal:"Sınıf kurallarını kendi cümleleriyle anlatır.",
+      words:["kural","sıra","dikkat"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"fidan", level:"Başlangıç",
+      goal:"Okuldaki bölümleri (kütüphane, kantin, bahçe) adlandırır.",
+      words:["kütüphane","kantin","bahçe"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"fidan", level:"Temel",
+      goal:"Bir öğretmenine ya da arkadaşına kısa bir not yazar.",
+      words:["not","rica","teşekkür"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"fidan", level:"Orta",
+      goal:"Okul hayatında karşılaştığı bir zorluğu anlatır ve çözüm önerir.",
+      words:["zorluk","çözüm","yardım"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"cinar", level:"Başlangıç",
+      goal:"Okul sistemine dair bir görüşünü kısaca ifade eder.",
+      words:["sistem","görüş","gerekli"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"cinar", level:"Temel",
+      goal:"Okulla ilgili kısa bir deneme taslağı hazırlar.",
+      words:["deneme","taslak","gözlem"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"cinar", level:"Orta",
+      goal:"Yaşadığı ülkedeki ve Türkiye'deki okul sistemini karşılaştırır.",
+      words:["karşılaştırma","müfredat","fark"],
+      materialUrl:"https://materyalfabrikasi.github.io/" },
+    { age:"cinar", level:"İleri",
+      goal:"Eğitimle ilgili bir haberi okuyup sınıfta tartışmaya hazırlanır.",
+      words:["eğitim","tartışma","haber"],
+      materialUrl:"https://materyalfabrikasi.github.io/" }
+  ];
+
+  const WEEKS = [
+    { id:"2026-09-21", label:"21 – 27 Eylül", seed:SEED_DATA },
+    { id:"2026-09-28", label:"28 Eylül – 4 Ekim", seed:SEED_DATA_WEEK2 }
+  ];
+  let currentWeekIndex = 0;
+
+  const STORAGE_PREFIX = 'turkce-gunlugum-cards-';
+  const storageKey = weekId => STORAGE_PREFIX + weekId;
+
+  const AGE_LABELS = {tohum:"Tohum", filiz:"Filiz", fidan:"Fidan", cinar:"Çınar"};
+
+  const cardsEl = document.getElementById('cards');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalTitle = document.getElementById('modalTitle');
+  const weekTitleEl = document.getElementById('week-title');
+  const prevWeekBtn = document.getElementById('prevWeekBtn');
+  const nextWeekBtn = document.getElementById('nextWeekBtn');
+  const fAge = document.getElementById('f-age');
+  const fLevel = document.getElementById('f-level');
+  const fGoal = document.getElementById('f-goal');
+  const fWords = document.getElementById('f-words');
+  const fUrl = document.getElementById('f-url');
+
+  let cards = [];
+  let editingId = null;
+  let nextId = 1;
+
+  function currentWeek(){ return WEEKS[currentWeekIndex]; }
+
+  function loadCards(){
+    const week = currentWeek();
+    try{
+      const raw = localStorage.getItem(storageKey(week.id));
+      if(raw){
+        cards = JSON.parse(raw);
+      } else {
+        cards = week.seed.map(c => ({...c, id: nextId++}));
+        saveCards();
+        return;
+      }
+    }catch(e){
+      cards = week.seed.map(c => ({...c, id: nextId++}));
+    }
+    nextId = cards.reduce((max,c) => Math.max(max, c.id||0), 0) + 1;
+  }
+
+  function saveCards(){
+    try{ localStorage.setItem(storageKey(currentWeek().id), JSON.stringify(cards)); }
+    catch(e){ console.error('Kaydetme başarısız oldu', e); }
+  }
+
+  function updateWeekUI(){
+    weekTitleEl.textContent = currentWeek().label + " arası neler yaptık?";
+    prevWeekBtn.disabled = currentWeekIndex === 0;
+    nextWeekBtn.disabled = currentWeekIndex === WEEKS.length - 1;
+  }
+
+  function render(){
+    cardsEl.innerHTML = '';
+    cards.forEach(group => {
+      const chips = group.words.map(w => `<span class="word-chip">${w}</span>`).join('');
+      const card = document.createElement('div');
+      card.className = `card ${group.age}`;
+      card.innerHTML = `
+        <div class="card-tools">
+          <button class="edit" title="Düzenle" data-id="${group.id}">✎</button>
+          <button class="delete" title="Sil" data-id="${group.id}">🗑</button>
+        </div>
+        <div class="badge-col">
+          <span class="age">${AGE_LABELS[group.age] || group.age}</span>
+          <span class="level">${group.level}</span>
+        </div>
+        <div class="body-cols">
+          <div class="col">
+            <p class="label">Bu Haftaki Hedefimiz</p>
+            <p class="goal">${group.goal}</p>
+          </div>
+          <div class="col">
+            <p class="label">Öğrendiğimiz Kelimeler / Kalıplar</p>
+            <div class="word-chips">${chips}</div>
+          </div>
+          <div class="col">
+            <p class="label">Ders İçerikleri</p>
+            <a class="materials-link" href="${group.materialUrl}" target="_blank" rel="noopener">Materyalleri Gör ↗</a>
+          </div>
+        </div>
+      `;
+      cardsEl.appendChild(card);
+    });
+
+    cardsEl.querySelectorAll('.edit').forEach(btn => {
+      btn.addEventListener('click', () => openModal(parseInt(btn.dataset.id)));
+    });
+    cardsEl.querySelectorAll('.delete').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(confirm('Bu kartı silmek istediğinize emin misiniz?')){
+          cards = cards.filter(c => c.id !== parseInt(btn.dataset.id));
+          saveCards();
+          render();
+        }
+      });
+    });
+  }
+
+  function goToWeek(index){
+    if(index < 0 || index >= WEEKS.length) return;
+    weekTitleEl.classList.add('is-switching');
+    cardsEl.classList.add('is-switching');
+    setTimeout(() => {
+      currentWeekIndex = index;
+      updateWeekUI();
+      loadCards();
+      render();
+      weekTitleEl.classList.remove('is-switching');
+      cardsEl.classList.remove('is-switching');
+    }, 160);
+  }
+
+  prevWeekBtn.addEventListener('click', () => goToWeek(currentWeekIndex - 1));
+  nextWeekBtn.addEventListener('click', () => goToWeek(currentWeekIndex + 1));
+
+  function openModal(id){
+    editingId = id || null;
+    if(id){
+      const c = cards.find(c => c.id === id);
+      modalTitle.textContent = 'Kartı Düzenle';
+      fAge.value = c.age;
+      fLevel.value = c.level;
+      fGoal.value = c.goal;
+      fWords.value = c.words.join(', ');
+      fUrl.value = c.materialUrl;
+    } else {
+      modalTitle.textContent = 'Yeni Kart Ekle';
+      fAge.value = 'tohum';
+      fLevel.value = '';
+      fGoal.value = '';
+      fWords.value = '';
+      fUrl.value = 'https://materyalfabrikasi.github.io/';
+    }
+    modalBackdrop.classList.add('open');
+  }
+
+  function closeModal(){ modalBackdrop.classList.remove('open'); }
+
+  document.getElementById('cancelBtn').addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', e => { if(e.target === modalBackdrop) closeModal(); });
+
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    if(!fLevel.value.trim() || !fGoal.value.trim()){
+      alert('Lütfen en azından Seviye ve Hedef alanlarını doldurun.');
+      return;
+    }
+    const words = fWords.value.split(',').map(w => w.trim()).filter(Boolean);
+    if(editingId){
+      const c = cards.find(c => c.id === editingId);
+      c.age = fAge.value; c.level = fLevel.value.trim(); c.goal = fGoal.value.trim();
+      c.words = words; c.materialUrl = fUrl.value.trim() || 'https://materyalfabrikasi.github.io/';
+    } else {
+      cards.push({
+        id: nextId++, age: fAge.value, level: fLevel.value.trim(),
+        goal: fGoal.value.trim(), words, materialUrl: fUrl.value.trim() || 'https://materyalfabrikasi.github.io/'
+      });
+    }
+    saveCards();
+    render();
+    closeModal();
+  });
+
+  updateWeekUI();
+  loadCards();
+  render();
+</script>
+
+</body>
+</html>

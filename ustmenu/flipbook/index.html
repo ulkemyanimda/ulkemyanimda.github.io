@@ -1,124 +1,240 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bir Dil, Bir Tohum, Bir Yuva - Veli Rehberi</title>
-    
-    <style>
-        body {
-            background-color: #f0ede5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ÜLKEM YANIMDA | Veli Köprüsü</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF3E4;
+    --paper-line: rgba(31,45,61,0.10);
+    --ink:#1F2D3D;
+    --ink-soft:#5B6B7A;
+    --rust:#B8571F;
+    --rust-soft:#E7CBB3;
+    --card:#FFFDF7;
+    --radius:14px;
 
-        .header { margin-bottom: 20px; text-align: center; color: #2d5a27; }
+    /* age-group colors, shared with diger Ulkem Yanimda sayfalari */
+    --tohum:#7C9A5C; --tohum-soft:#E7EEDD;
+    --filiz:#3D9285; --filiz-soft:#DDEEEA;
+    --fidan:#C98A2E; --fidan-soft:#F3E6CC;
+    --cinar:#33526E; --cinar-soft:#DCE5EC;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Inter', sans-serif;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
 
-        #flipbook-container {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            position: relative;
-        }
+  /* NAV */
+  header.site{
+    position:sticky; top:0; z-index:20;
+    background:rgba(250,243,228,0.92); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--paper-line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:1100px; margin:0 auto;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px; text-decoration:none;
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem; color:var(--ink);
+  }
+  .logo .mark{
+    width:34px; height:34px; border-radius:9px;
+    object-fit:cover; display:block; background:var(--paper-line);
+  }
+  nav.links{display:flex; gap:28px; font-size:0.92rem;}
+  nav.links a{ text-decoration:none; color:var(--ink-soft); padding-bottom:4px; border-bottom:2px solid transparent; }
+  nav.links a.active{color:var(--ink); border-color:var(--rust); font-weight:600;}
+  nav.links a:hover{color:var(--ink);}
+  @media (max-width:640px){ nav.links{gap:16px; font-size:0.82rem;} }
 
-        #flipbook {
-            width: 800px;
-            height: 565px; /* Standart A4 yatay oranına yakın */
-        }
+  /* HERO */
+  .hero{
+    margin:36px 0 28px; padding:44px 32px 40px; border-radius:22px;
+    position:relative; overflow:hidden; color:#fff;
+    background:linear-gradient(120deg, var(--tohum) 0%, var(--filiz) 34%, var(--fidan) 68%, var(--cinar) 100%);
+    box-shadow:0 14px 34px rgba(31,45,61,0.18);
+  }
+  .hero::before, .hero::after{
+    content:""; position:absolute; border-radius:50%;
+    background:rgba(255,255,255,0.14); pointer-events:none;
+  }
+  .hero::before{width:260px; height:260px; top:-120px; right:-60px;}
+  .hero::after{width:160px; height:160px; bottom:-90px; right:180px; background:rgba(255,255,255,0.10);}
+  .hero > *{position:relative; z-index:1;}
+  .letter-deco{position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0;}
+  .letter-deco span{
+    position:absolute; font-family:'Fraunces', serif; font-weight:700;
+    color:rgba(255,255,255,0.16); line-height:1; user-select:none;
+  }
+  .letter-deco span:nth-child(1){font-size:170px; top:-46px; left:-14px; transform:rotate(-9deg);}
+  .letter-deco span:nth-child(2){font-size:120px; bottom:-38px; left:26%; transform:rotate(7deg);}
+  .letter-deco span:nth-child(3){font-size:150px; top:-20px; right:14%; transform:rotate(11deg);}
+  .letter-deco span:nth-child(4){font-size:100px; bottom:-24px; right:-10px; transform:rotate(-13deg);}
+  .kicker{
+    display:inline-block; color:#fff; font-weight:700; font-size:0.8rem;
+    letter-spacing:0.06em; text-transform:uppercase; margin-bottom:14px;
+    background:rgba(255,255,255,0.18); padding:6px 14px; border-radius:999px;
+  }
+  h1{
+    font-family:'Fraunces', serif; font-weight:600; color:#fff;
+    font-size:clamp(1.9rem, 3.6vw, 2.6rem); line-height:1.16; margin:0; max-width:26ch;
+    text-shadow:0 1px 12px rgba(0,0,0,0.12);
+  }
+  .lede{font-size:1.02rem; color:rgba(255,255,255,0.92); max-width:64ch; line-height:1.6; margin:14px 0 0;}
 
-        .page {
-            width: 400px;
-            height: 565px;
-            background-color: white;
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-        }
+  /* CARDS GRID */
+  .cards{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
+    margin:36px 0 24px;
+  }
+  @media (max-width:900px){ .cards{grid-template-columns:1fr;} }
 
-        .controls {
-            margin-top: 25px;
-            display: flex;
-            gap: 15px;
-        }
+  .card{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius);
+    display:flex; flex-direction:column; overflow:hidden; position:relative;
+    box-shadow:0 1px 2px rgba(31,45,61,0.04);
+    transition:box-shadow .2s, transform .2s;
+    text-decoration:none;
+  }
+  .card:hover{box-shadow:0 12px 28px rgba(31,45,61,0.12); transform:translateY(-3px);}
 
-        button {
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: #2d5a27;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: opacity 0.3s;
-        }
+  .card-top{
+    padding:26px 22px 18px; color:#fff;
+    background-image:linear-gradient(160deg, rgba(255,255,255,0.18), transparent 65%);
+  }
+  .card.tohum .card-top{background-color:var(--tohum);}
+  .card.filiz .card-top{background-color:var(--filiz);}
+  .card.fidan .card-top{background-color:var(--fidan);}
+  .card.cinar .card-top{background-color:var(--cinar);}
+  .card.soon .card-top{background-color:#B9C2CA;}
 
-        button:hover { opacity: 0.8; }
-    </style>
+  .card-icon{
+    width:48px; height:48px; object-fit:cover; border-radius:10px;
+    margin-bottom:10px; display:block; background:rgba(255,255,255,0.25);
+  }
+  .card-top h2{font-family:'Fraunces', serif; font-weight:600; font-size:1.2rem; margin:0;}
+
+  .card-body{padding:18px 22px 22px; display:flex; flex-direction:column; gap:14px; flex:1;}
+  .card-body p{margin:0; font-size:0.92rem; line-height:1.5; color:var(--ink-soft); flex:1;}
+
+  .card-cta{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:0.86rem; font-weight:600; text-decoration:none;
+    padding:9px 16px; border-radius:999px; border:1.5px solid currentColor;
+    align-self:flex-start;
+  }
+  .card.tohum .card-cta{color:var(--tohum);}
+  .card.filiz .card-cta{color:var(--filiz);}
+  .card.fidan .card-cta{color:var(--fidan);}
+  .card.cinar .card-cta{color:var(--cinar);}
+  .card-cta:hover{opacity:0.75;}
+
+  .card.soon{border-style:dashed; opacity:0.85;}
+  .card.soon .card-cta{color:var(--ink-soft); border-color:var(--paper-line); cursor:default; pointer-events:none;}
+
+  .note{
+    margin:0 0 40px; padding:14px 18px; border-left:3px solid var(--rust);
+    background:var(--card); font-size:0.88rem; color:var(--ink-soft); border-radius:0 8px 8px 0;
+  }
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--paper-line); padding:36px 0; margin-top:20px;}
+  footer .wrap{display:flex; flex-direction:column; gap:6px;}
+  footer .brand{font-family:'Fraunces', serif; font-weight:600;}
+  footer .sub{font-size:0.85rem; color:var(--ink-soft);}
+  footer .copy{font-size:0.78rem; color:var(--ink-soft); margin-top:18px;}
+</style>
 </head>
 <body>
 
-    <div class="header">
-        <h2>Ülkem Yanımda: Veli Rehberi</h2>
-        <p>Evdeki Sesimiz, Gelecekteki İzimiz</p>
+<header class="site">
+  <div class="nav">
+    <a class="logo" href="#">
+      <img class="mark" src="https://ulkemyanimda.github.io/icons/m.png" alt="Ülkem Yanımda"> ÜLKEM YANIMDA
+    </a>
+    <nav class="links">
+      <a href="#" class="active">Veli Köprüsü</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div class="letter-deco" aria-hidden="true">
+      <span>ş</span><span>ç</span><span>ğ</span><span>ı</span>
     </div>
+    <div class="kicker">Veliler İçin</div>
+    <h1>Çocuğunuzun Türkçe yolculuğuna eşlik edin</h1>
+    <p class="lede">
+      Veli Köprüsü, çocuğunuzun dil gelişimini nasıl destekleyebileceğiniz,
+      bu hafta neler öğrendiği ve size sunulan diğer kaynaklar hakkında
+      bilgi bulabileceğiniz tek adres.
+    </p>
+  </section>
 
-    <div id="flipbook-container">
-        <div id="flipbook">
-            </div>
-    </div>
+  <div class="cards">
 
-    <div class="controls">
-        <button id="prevBtn">Geri</button>
-        <button id="nextBtn">İleri</button>
-    </div>
+    <!-- KART 1: Veli Egitimi -->
+    <a class="card filiz" href="https://ulkemyanimda.github.io/ustmenu/flipbook/veli.html" target="_blank" rel="noopener">
+      <div class="card-top">
+        <img class="card-icon" src="images/veli-egitimi.png" alt="Veli Eğitimi">
+        <h2>Veli Eğitimi</h2>
+      </div>
+      <div class="card-body">
+        <p>Çocuğunuzun dil ve kültür gelişimine evde nasıl destek olabileceğinizi
+        anlatan kısa, görsel eğitim içerikleri.</p>
+        <span class="card-cta">Eğitimi Görüntüle ↗</span>
+      </div>
+    </a>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/turn.js/3/turn.min.js"></script>
+    <!-- KART 2: Turkce Gunlugum (yuklenen dosyaya link - index.html ile ayni klasorde oldugu varsayilir) -->
+    <a class="card fidan" href="dersgunlugu.html">
+      <div class="card-top">
+        <img class="card-icon" src="images/turkce-gunlugum.png" alt="Türkçe Günlüğüm">
+        <h2>Türkçe Günlüğüm</h2>
+      </div>
+      <div class="card-body">
+        <p>Çocuğunuzun bu hafta hangi hedefe çalıştığını, hangi kelime ve
+        kalıpları öğrendiğini haftalık olarak takip edin.</p>
+        <span class="card-cta">Günlüğü Aç ↗</span>
+      </div>
+    </a>
 
-    <script>
-        $(document).ready(function() {
-            const totalPages = 14;
-            const flipbook = $("#flipbook");
+    <!-- KART 3: Gunde 5 Dakika Turkce (ayni klasorde oldugu varsayilir) -->
+    <a class="card cinar" href="gunde-5-dakika.html">
+      <div class="card-top">
+        <img class="card-icon" src="images/gunde-5-dakika.png" alt="Günde 5 Dakika Türkçe">
+        <h2>Günde 5 Dakika Türkçe</h2>
+      </div>
+      <div class="card-body">
+        <p>Sınıfta işlenen dersin haftanın diğer günlerine yayılan, evde
+        sadece 5 dakikanızı alacak küçük ama etkili pratik önerileri.</p>
+        <span class="card-cta">Günün Pratiğini Gör ↗</span>
+      </div>
+    </a>
 
-            // Sayfaları dinamik olarak ekle
-            for (let i = 1; i <= totalPages; i++) {
-                const pageDiv = $('<div class="page"></div>');
-                pageDiv.css('background-image', `url('${i}.jpg')`);
-                flipbook.append(pageDiv);
-            }
+  </div>
 
-            // Flipbook'u başlat
-            flipbook.turn({
-                width: 800,
-                height: 565,
-                autoCenter: true,
-                acceleration: true,
-                gradients: true,
-                elevation: 50,
-                when: {
-                    turning: function(event, page, view) {
-                        // Sayfa çevirme animasyonu başladığında yapılacaklar
-                    }
-                }
-            });
+</main>
 
-            // Buton Kontrolleri
-            $("#prevBtn").click(function() {
-                flipbook.turn("previous");
-            });
+<footer>
+  <div class="wrap">
+    <div class="brand">ÜLKEM YANIMDA</div>
+    <div class="sub">Yurt Dışı Türk Çocukları İçin Dijital Destek Platformu</div>
+    <div class="copy">© MEB YÜKSEKÖĞRETİM VE YURT DIŞI EĞİTİM GENEL MÜDÜRLÜĞÜ</div>
+  </div>
+</footer>
 
-            $("#nextBtn").click(function() {
-                flipbook.turn("next");
-            });
-
-            // Klavye Kontrolleri
-            $(window).bind('keydown', function(e) {
-                if (e.keyCode == 37) flipbook.turn('previous');
-                else if (e.keyCode == 39) flipbook.turn('next');
-            });
-        });
-    </script>
 </body>
 </html>

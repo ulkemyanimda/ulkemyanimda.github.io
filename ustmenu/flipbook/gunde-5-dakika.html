@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Günde 5 Dakika Türkçe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --ink:        #2B2118;
+    --ink-soft:   #5A4C3C;
+    --canvas:     #1F3B36;
+    --canvas-2:   #17302B;
+    --paper:      #F1E9D6;
+    --paper-2:    #E8DFC6;
+    --rust:       #C2622D;
+    --rust-deep:  #9E4B21;
+    --gold:       #B08D57;
+    --line:       rgba(43,33,24,0.16);
+    --line-soft:  rgba(241,233,214,0.16);
+    --shadow:     0 14px 30px rgba(15,25,22,0.35);
+  }
+  :root:not([data-theme="light"]) {
+    /* This design is intentionally dark-canvas by default; keep tokens stable
+       so the page reads the same regardless of the viewer's OS scheme. */
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --canvas:   #17302B;
+      --canvas-2: #102420;
+    }
+  }
+  :root[data-theme="dark"] {
+    --canvas:   #17302B;
+    --canvas-2: #102420;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: var(--canvas);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(176,141,87,0.12), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(194,98,45,0.10), transparent 55%),
+      var(--canvas);
+    min-height: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+  }
+
+  /* ---------- Header ---------- */
+  .site-head {
+    text-align: left;
+    margin-bottom: 28px;
+  }
+  .kicker {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+    margin: 0 0 6px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(30px, 6vw, 42px);
+    line-height: 1.08;
+    color: var(--paper);
+    margin: 0 0 8px;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--rust);
+    color: #E8A268;
+  }
+  .site-head p {
+    font-size: 15px;
+    color: rgba(241,233,214,0.72);
+    margin: 0;
+    max-width: 46ch;
+    line-height: 1.55;
+  }
+
+  /* ---------- Week navigator ---------- */
+  .week-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 26px 0 18px;
+    padding: 10px 14px;
+    background: var(--canvas-2);
+    border: 1px solid var(--line-soft);
+    border-radius: 14px;
+  }
+  .week-nav button {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    border: 1px solid var(--line-soft);
+    background: transparent;
+    color: var(--paper);
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  .week-nav button:hover:not(:disabled) { background: rgba(241,233,214,0.08); }
+  .week-nav button:active:not(:disabled) { transform: scale(0.94); }
+  .week-nav button:disabled { opacity: 0.3; cursor: default; }
+  .week-nav button:focus-visible,
+  .day-tab:focus-visible,
+  select:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; }
+
+  .week-meta { flex: 1; min-width: 0; }
+  .week-label {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    color: var(--paper);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .week-theme {
+    font-size: 12.5px;
+    color: var(--gold);
+    margin: 1px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .week-progress {
+    width: 100%;
+    height: 3px;
+    background: var(--line-soft);
+    border-radius: 2px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .week-progress > span {
+    display: block;
+    height: 100%;
+    background: var(--rust);
+    border-radius: 2px;
+    transition: width 0.2s ease;
+  }
+
+  /* ---------- Day tabs ---------- */
+  .day-tabs {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 22px;
+  }
+  .day-tab {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    color: rgba(241,233,214,0.55);
+    background: transparent;
+    border: 1px solid var(--line-soft);
+    border-radius: 10px;
+    padding: 9px 2px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .day-tab .d-num {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 2px;
+    color: inherit;
+  }
+  .day-tab:hover { border-color: rgba(241,233,214,0.4); color: var(--paper); }
+  .day-tab.is-weekend { border-style: dashed; }
+  .day-tab.is-active {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: #fff;
+  }
+  .day-tab.is-empty { opacity: 0.35; cursor: default; }
+  .day-tab.is-empty:hover { border-color: var(--line-soft); color: rgba(241,233,214,0.55); }
+
+  /* ---------- Recipe card ---------- */
+  .card {
+    position: relative;
+    background: var(--paper);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 30px 26px 26px;
+    overflow: hidden;
+  }
+  .card::before {
+    /* stitched edge, evoking a punched recipe card */
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 34px;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0, transparent 9px,
+      var(--line) 9px, var(--line) 10px
+    );
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .card-inner { position: relative; padding-left: 14px; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .card-day {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.03em;
+    color: var(--rust-deep);
+    margin: 0;
+  }
+  .time-pill {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 5px 10px 5px 8px;
+    border-radius: 999px;
+  }
+  .time-pill svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 27px;
+    line-height: 1.15;
+    margin: 6px 0 18px;
+    color: var(--ink);
+  }
+
+  .section-label {
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: var(--rust-deep);
+    margin: 0 0 9px;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 22px;
+  }
+  .chip {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 5px 11px;
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0 0 22px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .steps li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .steps li .num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--canvas);
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+
+  .note {
+    display: flex;
+    gap: 10px;
+    background: rgba(176,141,87,0.14);
+    border: 1px solid rgba(176,141,87,0.35);
+    border-radius: 12px;
+    padding: 13px 14px;
+    margin-bottom: 14px;
+  }
+  .note svg { width: 17px; height: 17px; flex-shrink: 0; margin-top: 2px; color: var(--rust-deep); }
+  .note p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink-soft); }
+  .note strong { color: var(--ink); }
+
+  .tip {
+    display: flex;
+    gap: 10px;
+    padding: 0 2px;
+  }
+  .tip svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; color: var(--gold); }
+  .tip p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); font-style: italic; }
+  .tip strong { color: var(--ink); font-style: normal; }
+
+  /* ---------- Empty / not-yet state ---------- */
+  .empty-card {
+    background: var(--canvas-2);
+    border: 1px dashed var(--line-soft);
+    border-radius: 18px;
+    padding: 46px 26px;
+    text-align: center;
+  }
+  .empty-card p.big {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    color: var(--paper);
+    margin: 0 0 6px;
+  }
+  .empty-card p.small {
+    font-size: 13.5px;
+    color: rgba(241,233,214,0.55);
+    margin: 0;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 34px;
+    font-size: 12.5px;
+    color: rgba(241,233,214,0.4);
+  }
+
+  @media (max-width: 480px) {
+    .day-tabs { gap: 4px; }
+    .day-tab { font-size: 11px; padding: 8px 1px 7px; }
+    .day-tab .d-num { font-size: 13px; }
+    .card { padding: 24px 18px 22px; }
+    .card-inner { padding-left: 10px; }
+    .card-title { font-size: 23px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="site-head">
+    <p class="kicker">AİLE PROGRAMI</p>
+    <h1>Günde 5 Dakika <em>Türkçe</em></h1>
+    <p>Yurt dışında büyüyen çocuklar için 40 haftalık, evde uygulanabilir günlük tarif kartları. Her gün beş dakika, bir hafta boyu, kırk hafta boyu.</p>
+  </header>
+
+  <nav class="week-nav" aria-label="Hafta seçimi">
+    <button id="prevWeek" aria-label="Önceki hafta">‹</button>
+    <div class="week-meta">
+      <p class="week-label" id="weekLabel">Hafta 1 / 40</p>
+      <p class="week-theme" id="weekTheme">Selamlaşma &amp; Kendini Tanıtma</p>
+      <div class="week-progress"><span id="weekProgressBar" style="width:2.5%"></span></div>
+    </div>
+    <button id="nextWeek" aria-label="Sonraki hafta">›</button>
+  </nav>
+
+  <div class="day-tabs" id="dayTabs" role="tablist" aria-label="Gün seçimi"></div>
+
+  <main id="cardHost"></main>
+
+  <footer>Dil Dedektifi · Aile Etkileşim Kartları</footer>
+</div>
+
+<script>
+  const ICONS = {
+    clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>',
+    note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2Z"/><path d="M9.5 21h5"/></svg>',
+    tip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h4"/><path d="M16 12h4"/><path d="M12 4v4"/><path d="M12 16v4"/><path d="m6.3 6.3 2.8 2.8"/><path d="m14.9 14.9 2.8 2.8"/><path d="m17.7 6.3-2.8 2.8"/><path d="m9.1 14.9-2.8 2.8"/></svg>'
+  };
+
+  const DAY_NAMES = ["Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi","Pazar"];
+  const DAY_SHORT = ["Pzt","Sal","Çar","Per","Cum","Cmt","Paz"];
+  const TOTAL_WEEKS = 40;
+
+  // Data model: only weeks with real content need an entry.
+  // Add future weeks here in the same shape — the UI handles the rest.
+  const WEEKS = {
+    1: {
+      theme: "Selamlaşma & Kendini Tanıtma",
+      days: [
+        {
+          title: "Günün Selamı",
+          minutes: 5,
+          keywords: ["Günaydın", "İyi günler", "İyi akşamlar", "İyi geceler"],
+          steps: [
+            "Sabah çocuğunuza “Günaydın!” diyerek başlayın.",
+            "Öğlen “İyi günler” veya “Tünaydın” deyin, çocuk karşılık versin.",
+            "Akşam “İyi akşamlar”, yatmadan önce “İyi geceler” ile kapatın.",
+            "Akşam yemeğinde gün boyunca kaç selam kullandığınızı birlikte sayın."
+          ],
+          why: "Selam kelimesi gerçek anla eşleşince ezber değil, refleks olur.",
+          tip: "Küçük çocuk sadece tekrar etsin, büyük çocuk size de hatırlatıcı olsun."
+        },
+        {
+          title: "Ben Kimim?",
+          minutes: 5,
+          keywords: ["Benim adım…", "…yaşındayım", "…’da/de yaşıyorum", "Ben genellikle … biriyim"],
+          steps: [
+            "Çocuğunuzdan kendini Türkçe tanıtmasını isteyin: adı, soyadı, yaşı, nerede yaşadığı.",
+            "Küçükse tek cümle yeterli, büyükse bir kişilik özelliği eklesin.",
+            "Siz de kendinizi aynı şekilde tanıtın, çocuk sizi dinlesin.",
+            "İsterse “çünkü” ile bir sebep eklesin: “…biriyim çünkü…”"
+          ],
+          why: "Kendini anlatmak, dili ezber değil kimlik ifadesi haline getirir.",
+          tip: "Ayna karşısında yapmak küçük çocuklar için oyunlaştırır."
+        },
+        {
+          title: "Hâl Hatır Sorma",
+          minutes: 5,
+          keywords: ["Nasılsın?", "İyiyim, teşekkür ederim", "Sen nasılsın?", "Şöyle böyle"],
+          steps: [
+            "Bir aile büyüğünü (dede, nine, teyze, amca) telefonla ya da yüz yüze arayın.",
+            "Çocuğunuz Türkçe “Nasılsın?” diye sorsun.",
+            "Cevabı dinlesin.",
+            "İsterse “Sen nasılsın?” diye karşılık versin."
+          ],
+          why: "Gerçek bir büyükle kurulan bağ, dili aile bağının parçası yapar.",
+          tip: "Görüşme kısa olsun — asıl amaç cümleyi gerçek bir insana söylemek."
+        },
+        {
+          title: "Selamlaşmanın Türk Usulü",
+          minutes: 5,
+          keywords: ["El öpme", "Tokalaşma", "Yanaktan öpme", "Baş eğerek selam"],
+          steps: [
+            "Türk kültüründeki bir selamlaşma şeklini birlikte canlandırın.",
+            "Büyüklerin elini öpüp alna götürme hareketini gösterin.",
+            "Çocuğunuza sorun: yaşadığımız ülkedeki selamlaşmayla farkı ne?",
+            "Küçük çocuklarla sadece hareketi yapmak yeterli."
+          ],
+          why: "Dil ile kültürü birlikte yaşatmak, öğrenmeyi soyuttan somuta indirir.",
+          tip: "Büyük çocukla kısa bir sohbete dönüştürebilirsiniz."
+        },
+        {
+          title: "Haftanın Videosu",
+          minutes: 5,
+          keywords: ["Merhaba!", "Benim adım…", "Nasılsın?", "Görüşürüz!"],
+          steps: [
+            "Çocuğunuzdan kısa bir video ya da canlı gösteri hazırlamasını isteyin.",
+            "Sırayla: selam verme → kendini tanıtma → hâl hatır sorma → vedalaşma.",
+            "Mümkünse telefonla kaydedin.",
+            "Videoyu aile grubunuzda paylaşın ya da evde küçük bir gösteri yapın."
+          ],
+          why: "Haftalık küçük bir performans, çocuğa somut bir ilerleme hissi verir.",
+          tip: "Mükemmel olması gerekmiyor — akıcılık değil, tamamlama kutlanıyor."
+        },
+        {
+          title: "Selam Dedektifi: Sokakta Gözlem",
+          minutes: 5,
+          keywords: ["Gördüm ki…", "…yapıyordu", "el sallama", "tokalaşma"],
+          steps: [
+            "Alışverişe, parka ya da herhangi bir dışarı çıkışına giderken bir görev verin.",
+            "Çocuğunuz insanların birbirine nasıl selam verdiğini gözlemlesin.",
+            "Eve dönünce gördüklerini Türkçe anlatsın: “Bugün …’de gördüm, insanlar … yapıyordu.”",
+            "İsterse çizerek ya da tek cümlelik notla anlatabilir."
+          ],
+          why: "Sınıfta öğrenilen kültür karşılaştırması gerçek hayata taşınır; pasif bilgi aktif gözleme dönüşür.",
+          tip: "Ortam uygunsa bir Türk komşu ya da pazarcıya gerçekten Türkçe “Günaydın” dedirtin — tek kelime bile büyük bir adımdır."
+        },
+        {
+          title: "Ailemle Röportaj",
+          minutes: 5,
+          keywords: ["Adın ne?", "Nerelisin?", "Nasılsın?", "Sen küçükken…"],
+          steps: [
+            "Ailenin bir arada olduğu bu günü kullanın.",
+            "Çocuğunuz hayali bir mikrofonla (ya da gerçek kayıtla) bir büyükle röportaj yapsın.",
+            "Sorsun: “Adın ne, soyadın ne? Nerelisin? Nasılsın?”",
+            "İleri seviyedeyse ekleyebilir: “Sen küçükken Türkçeyi nasıl öğrendin?”"
+          ],
+          why: "Röportaj formatı çocuğu cevap veren konumdan soru soran konuma geçirir — dili aktif kullanmanın en güçlü yollarından biri.",
+          tip: "Röportaj mümkün değilse eski bir aile fotoğrafına bakıp kişiyi Türkçe tanıtabilir."
+        }
+      ]
+    }
+  };
+
+  let currentWeek = 1;
+  let currentDay = 0;
+
+  const dayTabsEl = document.getElementById('dayTabs');
+  const cardHost = document.getElementById('cardHost');
+  const weekLabel = document.getElementById('weekLabel');
+  const weekTheme = document.getElementById('weekTheme');
+  const weekProgressBar = document.getElementById('weekProgressBar');
+  const prevBtn = document.getElementById('prevWeek');
+  const nextBtn = document.getElementById('nextWeek');
+
+  function renderDayTabs() {
+    const weekData = WEEKS[currentWeek];
+    dayTabsEl.innerHTML = '';
+    for (let i = 0; i < 7; i++) {
+      const hasDay = weekData && weekData.days[i];
+      const btn = document.createElement('button');
+      btn.className = 'day-tab' + (i === currentDay ? ' is-active' : '') + (i >= 5 ? ' is-weekend' : '') + (!hasDay ? ' is-empty' : '');
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', i === currentDay ? 'true' : 'false');
+      btn.innerHTML = DAY_SHORT[i] + '<span class="d-num">' + (i + 1) + '</span>';
+      if (hasDay) {
+        btn.addEventListener('click', () => { currentDay = i; render(); });
+      } else {
+        btn.disabled = true;
+      }
+      dayTabsEl.appendChild(btn);
+    }
+  }
+
+  function renderCard() {
+    const weekData = WEEKS[currentWeek];
+    const day = weekData && weekData.days[currentDay];
+
+    if (!day) {
+      cardHost.innerHTML =
+        '<div class="empty-card">' +
+          '<p class="big">Bu hafta henüz eklenmedi</p>' +
+          '<p class="small">Yeni haftalık hedefler geldikçe kartlar burada görünecek.</p>' +
+        '</div>';
+      return;
+    }
+
+    const chips = day.keywords.map(k => '<span class="chip">' + k + '</span>').join('');
+    const steps = day.steps.map((s, idx) =>
+      '<li><span class="num">' + (idx + 1) + '</span><span>' + s + '</span></li>'
+    ).join('');
+
+    cardHost.innerHTML =
+      '<div class="card">' +
+        '<div class="card-inner">' +
+          '<div class="card-top">' +
+            '<p class="card-day">' + DAY_NAMES[currentDay].toUpperCase() + '</p>' +
+            '<span class="time-pill">' + ICONS.clock + day.minutes + ' dakika</span>' +
+          '</div>' +
+          '<h2 class="card-title">' + day.title + '</h2>' +
+
+          '<p class="section-label">HEDEF KELİMELER</p>' +
+          '<div class="chips">' + chips + '</div>' +
+
+          '<p class="section-label">NASIL YAPILIR</p>' +
+          '<ol class="steps">' + steps + '</ol>' +
+
+          '<div class="note">' + ICONS.note + '<p><strong>Neden işe yarar:</strong> ' + day.why + '</p></div>' +
+          '<div class="tip">' + ICONS.tip + '<p><strong>İpucu:</strong> ' + day.tip + '</p></div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function render() {
+    const weekData = WEEKS[currentWeek];
+    weekLabel.textContent = 'Hafta ' + currentWeek + ' / ' + TOTAL_WEEKS;
+    weekTheme.textContent = weekData ? weekData.theme : 'Yakında';
+    weekProgressBar.style.width = (currentWeek / TOTAL_WEEKS * 100).toFixed(1) + '%';
+    prevBtn.disabled = currentWeek <= 1;
+    nextBtn.disabled = currentWeek >= TOTAL_WEEKS;
+    renderDayTabs();
+    renderCard();
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentWeek > 1) { currentWeek--; currentDay = 0; render(); }
+  });
+  nextBtn.addEventListener('click', () => {
+    if (currentWeek < TOTAL_WEEKS) { currentWeek++; currentDay = 0; render(); }
+  });
+
+  render();
+</script>
+</body>
+</html>
