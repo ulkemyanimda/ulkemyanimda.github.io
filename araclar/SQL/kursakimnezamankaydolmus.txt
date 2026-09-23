@@ -1,0 +1,6 @@
+SELECT 
+    u.username,
+    FROM_UNIXTIME(u.timecreated) AS account_created
+FROM {user} u
+WHERE u.deleted = 0
+ORDER BY u.timecreated
