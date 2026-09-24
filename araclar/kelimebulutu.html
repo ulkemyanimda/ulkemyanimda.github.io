@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kelime Bulutu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Space+Grotesk:wght@400;500;700&family=Bricolage+Grotesque:wght@400..800&family=Bebas+Neue&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    --font-ui: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+    --font-display: 'Fraunces', 'Georgia', serif;
+
+    --bg: #17140F;
+    --bg-panel: #1F1B14;
+    --bg-well: #131110;
+    --ink: #F4EEE1;
+    --ink-dim: #B6AC98;
+    --ink-faint: #7A7161;
+    --line: rgba(244,238,225,0.12);
+    --accent: #E3AE3C;
+    --accent-ink: #17140F;
+    --accent-2: #C1585F;
+    --danger: #C1585F;
+    --shadow: 0 18px 40px -20px rgba(0,0,0,0.6);
+  }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #EFEAE0;
+      --bg-panel: #F8F4EB;
+      --bg-well: #FFFFFF;
+      --ink: #221E17;
+      --ink-dim: #6B6355;
+      --ink-faint: #948C7B;
+      --line: rgba(34,30,23,0.12);
+      --accent: #B9791E;
+      --accent-ink: #FFFFFF;
+      --accent-2: #A5434B;
+      --shadow: 0 18px 40px -22px rgba(34,30,23,0.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #EFEAE0;
+    --bg-panel: #F8F4EB;
+    --bg-well: #FFFFFF;
+    --ink: #221E17;
+    --ink-dim: #6B6355;
+    --ink-faint: #948C7B;
+    --line: rgba(34,30,23,0.12);
+    --accent: #B9791E;
+    --accent-ink: #FFFFFF;
+    --accent-2: #A5434B;
+    --shadow: 0 18px 40px -22px rgba(34,30,23,0.35);
+  }
+  :root[data-theme="dark"] {
+    --bg: #17140F;
+    --bg-panel: #1F1B14;
+    --bg-well: #131110;
+    --ink: #F4EEE1;
+    --ink-dim: #B6AC98;
+    --ink-faint: #7A7161;
+    --line: rgba(244,238,225,0.12);
+    --accent: #E3AE3C;
+    --accent-ink: #17140F;
+    --accent-2: #C1585F;
+    --shadow: 0 18px 40px -20px rgba(0,0,0,0.6);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  a { color: inherit; }
+
+  /* ---------- Header ---------- */
+  header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px clamp(16px, 3vw, 40px) 16px;
+    padding-top: calc(22px + env(safe-area-inset-top, 0px));
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .brand h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-optical-sizing: auto;
+    font-size: clamp(22px, 2.6vw, 30px);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .brand span.tag {
+    font-size: 13px;
+    color: var(--ink-faint);
+    font-style: italic;
+    font-family: var(--font-display);
+  }
+
+  #theme-toggle {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-dim);
+    border-radius: 999px;
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  #theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Layout ---------- */
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 358px 1fr;
+    gap: 0;
+    min-height: 0;
+  }
+
+  @media (max-width: 880px) {
+    main { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--bg-panel);
+    border-right: 1px solid var(--line);
+    padding: 22px clamp(16px, 3vw, 28px) 32px;
+    overflow-y: auto;
+  }
+  @media (max-width: 880px) {
+    .panel { border-right: none; border-bottom: 1px solid var(--line); max-height: none; }
+  }
+
+  .section {
+    margin-bottom: 26px;
+  }
+  .section h2 {
+    font-family: var(--font-ui);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+  }
+
+  /* ---------- Word entry form ---------- */
+  .entry-row {
+    display: grid;
+    grid-template-columns: 1fr 74px 40px;
+    gap: 8px;
+  }
+
+  input[type="text"], input[type="number"], select, textarea {
+    font-family: var(--font-ui);
+    background: var(--bg-well);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 9px 10px;
+    font-size: 14.5px;
+    width: 100%;
+    outline: none;
+    transition: border-color .15s ease;
+  }
+  input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+
+  #add-btn {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: none;
+    border-radius: 8px;
+    font-size: 19px;
+    line-height: 1;
+    cursor: pointer;
+    font-weight: 700;
+  }
+  #add-btn:hover { filter: brightness(1.08); }
+
+  .hint {
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-top: 7px;
+    line-height: 1.5;
+  }
+
+  .word-list {
+    list-style: none;
+    margin: 14px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .word-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-well);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    padding: 6px 8px 6px 12px;
+    font-size: 13.5px;
+  }
+  .word-list li .w-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .word-list li .w-val {
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+    font-size: 12.5px;
+    min-width: 24px;
+    text-align: right;
+  }
+  .word-list li button {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    cursor: pointer;
+    font-size: 15px;
+    padding: 2px 4px;
+    line-height: 1;
+  }
+  .word-list li button:hover { color: var(--danger); }
+
+  details.bulk {
+    margin-top: 14px;
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
+  }
+  details.bulk summary {
+    cursor: pointer;
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    font-weight: 600;
+  }
+  details.bulk textarea {
+    margin-top: 10px;
+    min-height: 90px;
+    resize: vertical;
+    font-size: 13px;
+  }
+  .bulk-btn {
+    margin-top: 8px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 7px;
+    padding: 7px 12px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .bulk-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .row-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .ghost-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-dim);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .ghost-btn:hover { border-color: var(--accent-2); color: var(--accent-2); }
+
+  .field {
+    margin-bottom: 14px;
+  }
+  .field label {
+    display: block;
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    margin-bottom: 6px;
+  }
+
+  .swatches {
+    display: flex;
+    gap: 6px;
+  }
+  .swatch {
+    display: flex;
+    height: 8px;
+    flex: 1;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .swatch span { flex: 1; }
+
+  .primary-btn {
+    width: 100%;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: none;
+    border-radius: 9px;
+    padding: 12px 14px;
+    font-size: 14.5px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-ui);
+    letter-spacing: 0.01em;
+  }
+  .primary-btn:hover { filter: brightness(1.07); }
+  .primary-btn:active { transform: translateY(1px); }
+
+  .secondary-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 9px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    cursor: pointer;
+    margin-top: 8px;
+    font-family: var(--font-ui);
+  }
+  .secondary-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- Canvas area ---------- */
+  .stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(14px, 3vw, 30px);
+    min-height: 420px;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 1100px;
+    aspect-ratio: 16 / 10;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 880px) {
+    .canvas-wrap { aspect-ratio: 4 / 3; }
+  }
+
+  #cloud-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .empty-state {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    gap: 6px;
+    pointer-events: none;
+  }
+  .empty-state .big {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(20px, 3vw, 28px);
+    color: var(--ink-dim);
+  }
+  .empty-state .small {
+    font-size: 13px;
+    color: var(--ink-faint);
+    max-width: 320px;
+  }
+
+  .stage-actions {
+    position: absolute;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    right: 24px;
+    display: flex;
+    gap: 10px;
+  }
+  @media (max-width: 880px) {
+    .stage-actions { position: static; margin-top: 14px; justify-content: center; }
+  }
+
+  .icon-btn {
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: var(--shadow);
+  }
+  .icon-btn:hover { border-color: var(--accent); }
+
+  footer {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    padding: 10px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 9px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>Kelime Bulutu</h1>
+    <span class="tag">kelimelerinize ağırlık verin, biçimini biz bulalım</span>
+  </div>
+  <button id="theme-toggle" title="Temayı değiştir" aria-label="Temayı değiştir">◐</button>
+</header>
+
+<main>
+  <div class="panel">
+
+    <div class="section">
+      <h2>KELİME EKLE</h2>
+      <div class="entry-row">
+        <input type="text" id="word-input" placeholder="kelime" maxlength="28">
+        <input type="number" id="value-input" placeholder="değer" min="1" max="999" value="10">
+        <button id="add-btn" title="Ekle" aria-label="Ekle">+</button>
+      </div>
+      <div class="hint">Değer ne kadar büyükse kelime bulutta o kadar büyük görünür. Enter ile de ekleyebilirsiniz.</div>
+
+      <ul class="word-list" id="word-list"></ul>
+
+      <div class="row-actions">
+        <button class="ghost-btn" id="sample-btn">Örnek veri</button>
+        <button class="ghost-btn" id="clear-btn">Listeyi temizle</button>
+      </div>
+
+      <details class="bulk">
+        <summary>Toplu ekleme (kelime, değer)</summary>
+        <textarea id="bulk-input" placeholder="tasarım, 40&#10;yaratıcılık, 32&#10;renk, 25&#10;tipografi, 18"></textarea>
+        <button class="bulk-btn" id="bulk-add-btn">Listeye ekle</button>
+      </details>
+    </div>
+
+    <div class="section">
+      <h2>GÖRÜNÜM</h2>
+
+      <div class="field">
+        <label for="palette-select">Renk paleti</label>
+        <select id="palette-select"></select>
+        <div class="swatch" id="palette-preview"></div>
+      </div>
+
+      <div class="field">
+        <label for="font-select">Yazı tipi</label>
+        <select id="font-select">
+          <option value="'Fraunces', Georgia, serif">Fraunces — zarif</option>
+          <option value="'Space Grotesk', sans-serif">Space Grotesk — modern</option>
+          <option value="'Bricolage Grotesque', sans-serif">Bricolage — karakterli</option>
+          <option value="'Archivo Black', sans-serif">Archivo Black — vurgulu</option>
+          <option value="'Bebas Neue', sans-serif">Bebas Neue — afiş</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="bg-select">Zemin</label>
+        <select id="bg-select">
+          <option value="well">Panel rengi</option>
+          <option value="dark">Mürekkep siyahı</option>
+          <option value="light">Kağıt beyazı</option>
+          <option value="transparent">Şeffaf</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section">
+      <button class="primary-btn" id="generate-btn">Bulutu Oluştur</button>
+      <button class="secondary-btn" id="shuffle-btn">Yeni Diziliş Dene</button>
+    </div>
+
+  </div>
+
+  <div class="stage">
+    <div class="canvas-wrap" id="canvas-wrap">
+      <canvas id="cloud-canvas"></canvas>
+      <div class="empty-state" id="empty-state">
+        <div class="big">Henüz kelime yok</div>
+        <div class="small">Soldan birkaç kelime ve değer ekleyin, "Bulutu Oluştur" düğmesine basın.</div>
+      </div>
+      <div class="stage-actions">
+        <button class="icon-btn" id="download-btn">⬇ PNG indir</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>Tarayıcınızda, sunucuya veri gönderilmeden oluşturulur.</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- State ----------
+  var words = []; // {text, value}
+  var lastLayout = null;
+
+  var PALETTES = {
+    "Gün Batımı": ["#F4A259", "#E07A5F", "#C1495F", "#8E3B46", "#F2CC8F", "#B24C63"],
+    "Derin Okyanus": ["#2EC4B6", "#2E86AB", "#0B5563", "#7FD1C0", "#1B3A4B", "#5FBFC0"],
+    "Orman": ["#8AA624", "#4E7B4F", "#2E5339", "#B7C68B", "#3B6B4A", "#C4D6A4"],
+    "Mürekkep & Altın": ["#F3EEE4", "#C9BFA6", "#E3B23C", "#8F8672", "#5A5344", "#D8A13A"],
+    "Neon Gece": ["#FF5DA2", "#7B61FF", "#2EE6D6", "#FFD23F", "#FF8811", "#48D1CC"],
+    "Toprak": ["#A9744F", "#D9A566", "#6B4A3B", "#C7B198", "#8C5E3C", "#EAD7B7"]
+  };
+
+  var wordListEl = document.getElementById("word-list");
+  var wordInput = document.getElementById("word-input");
+  var valueInput = document.getElementById("value-input");
+  var addBtn = document.getElementById("add-btn");
+  var bulkInput = document.getElementById("bulk-input");
+  var bulkAddBtn = document.getElementById("bulk-add-btn");
+  var sampleBtn = document.getElementById("sample-btn");
+  var clearBtn = document.getElementById("clear-btn");
+  var paletteSelect = document.getElementById("palette-select");
+  var palettePreview = document.getElementById("palette-preview");
+  var fontSelect = document.getElementById("font-select");
+  var bgSelect = document.getElementById("bg-select");
+  var generateBtn = document.getElementById("generate-btn");
+  var shuffleBtn = document.getElementById("shuffle-btn");
+  var downloadBtn = document.getElementById("download-btn");
+  var canvas = document.getElementById("cloud-canvas");
+  var canvasWrap = document.getElementById("canvas-wrap");
+  var emptyState = document.getElementById("empty-state");
+  var themeToggle = document.getElementById("theme-toggle");
+  var ctx = canvas.getContext("2d");
+
+  // ---------- Theme toggle ----------
+  themeToggle.addEventListener("click", function () {
+    var root = document.documentElement;
+    var current = root.getAttribute("data-theme");
+    if (current === "dark") { root.setAttribute("data-theme", "light"); }
+    else if (current === "light") { root.setAttribute("data-theme", "dark"); }
+    else {
+      var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      root.setAttribute("data-theme", prefersDark ? "light" : "dark");
+    }
+    if (lastLayout) render();
+  });
+
+  // ---------- Palette select population ----------
+  Object.keys(PALETTES).forEach(function (name) {
+    var opt = document.createElement("option");
+    opt.value = name;
+    opt.textContent = name;
+    paletteSelect.appendChild(opt);
+  });
+  function updatePalettePreview() {
+    var colors = PALETTES[paletteSelect.value];
+    palettePreview.innerHTML = "";
+    colors.forEach(function (c) {
+      var s = document.createElement("span");
+      s.style.background = c;
+      palettePreview.appendChild(s);
+    });
+  }
+  paletteSelect.addEventListener("change", updatePalettePreview);
+  updatePalettePreview();
+
+  // ---------- Word list management ----------
+  function renderWordList() {
+    wordListEl.innerHTML = "";
+    words.forEach(function (w, i) {
+      var li = document.createElement("li");
+
+      var name = document.createElement("span");
+      name.className = "w-name";
+      name.textContent = w.text;
+
+      var val = document.createElement("span");
+      val.className = "w-val";
+      val.textContent = w.value;
+
+      var del = document.createElement("button");
+      del.textContent = "×";
+      del.title = "Kaldır";
+      del.addEventListener("click", function () {
+        words.splice(i, 1);
+        renderWordList();
+      });
+
+      li.appendChild(name);
+      li.appendChild(val);
+      li.appendChild(del);
+      wordListEl.appendChild(li);
+    });
+  }
+
+  function addWord(text, value) {
+    text = (text || "").trim();
+    if (!text) return;
+    value = parseFloat(value);
+    if (isNaN(value) || value <= 0) value = 10;
+    var existing = words.find(function (w) { return w.text.toLowerCase() === text.toLowerCase(); });
+    if (existing) { existing.value = value; }
+    else { words.push({ text: text, value: value }); }
+    renderWordList();
+  }
+
+  addBtn.addEventListener("click", function () {
+    addWord(wordInput.value, valueInput.value);
+    wordInput.value = "";
+    wordInput.focus();
+  });
+  wordInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { addBtn.click(); }
+  });
+  valueInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { addBtn.click(); }
+  });
+
+  bulkAddBtn.addEventListener("click", function () {
+    var lines = bulkInput.value.split("\n");
+    lines.forEach(function (line) {
+      if (!line.trim()) return;
+      var parts = line.split(",");
+      if (parts.length >= 2) {
+        addWord(parts[0], parts[1]);
+      } else {
+        addWord(line, 10);
+      }
+    });
+    bulkInput.value = "";
+    generate();
+  });
+
+  clearBtn.addEventListener("click", function () {
+    words = [];
+    renderWordList();
+    clearCanvas();
+  });
+
+  sampleBtn.addEventListener("click", function () {
+    var sample = [
+      ["yaratıcılık", 46], ["tasarım", 40], ["kelime", 34], ["renk", 30],
+      ["fikir", 27], ["tipografi", 24], ["ilham", 22], ["düzen", 19],
+      ["hikaye", 18], ["biçim", 16], ["denge", 15], ["doku", 13],
+      ["ritim", 12], ["kontrast", 11], ["akış", 10], ["detay", 9]
+    ];
+    sample.forEach(function (s) { addWord(s[0], s[1]); });
+    generate();
+  });
+
+  // ---------- Layout engine ----------
+  function fitCanvasToDisplay() {
+    var rect = canvasWrap.getBoundingClientRect();
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.max(200, Math.round(rect.width * dpr));
+    canvas.height = Math.max(200, Math.round(rect.height * dpr));
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { w: rect.width, h: rect.height };
+  }
+
+  function rectsOverlap(a, b, pad) {
+    pad = pad || 0;
+    return !(
+      a.x + a.w + pad < b.x ||
+      b.x + b.w + pad < a.x ||
+      a.y + a.h + pad < b.y ||
+      b.y + b.h + pad < a.y
+    );
+  }
+
+  function layoutWords(list, W, H, fontFamily) {
+    var placed = [];
+    if (!list.length) return placed;
+
+    var sorted = list.slice().sort(function (a, b) { return b.value - a.value; });
+    var values = sorted.map(function (w) { return w.value; });
+    var maxV = Math.max.apply(null, values);
+    var minV = Math.min.apply(null, values);
+
+    var shortSide = Math.min(W, H);
+    var fontMax = shortSide * (sorted.length <= 6 ? 0.26 : sorted.length <= 12 ? 0.19 : 0.14);
+    var fontMin = Math.max(11, fontMax * 0.14);
+    fontMax = Math.max(fontMax, fontMin + 4);
+
+    var cx = W / 2, cy = H / 2;
+    var colorPalette = PALETTES[paletteSelect.value];
+    var lastColorIdx = -1;
+
+    sorted.forEach(function (word, idx) {
+      var t = maxV === minV ? 0.7 : (word.value - minV) / (maxV - minV);
+      var size = fontMin + (fontMax - fontMin) * Math.pow(t, 0.72);
+
+      var rotate = (idx > 1 && Math.random() < 0.18) ? 90 : 0;
+      var weight = idx < Math.ceil(sorted.length * 0.35) ? 700 : 500;
+
+      ctx.font = weight + " " + size + "px " + fontFamily;
+      var metrics = ctx.measureText(word.text);
+      var padPx = Math.max(3, size * 0.08);
+      var w = metrics.width + padPx * 2;
+      var h = size * 1.18 + padPx * 2;
+      if (rotate === 90) { var tmp = w; w = h; h = tmp; }
+
+      var placedOk = false;
+      var t2 = 0;
+      var dt = 0.09;
+      var maxIter = 2600;
+      var spiralFactor = shortSide * 0.012;
+      var x = 0, y = 0;
+
+      while (!placedOk && t2 < maxIter) {
+        var radius = spiralFactor * Math.sqrt(t2);
+        var angle = t2 * 0.28;
+        x = cx + radius * Math.cos(angle) * 1.05 - w / 2;
+        y = cy + radius * Math.sin(angle) * 0.82 - h / 2;
+
+        var candidate = { x: x, y: y, w: w, h: h };
+        var withinBounds = x > -w * 0.15 && y > -h * 0.15 && x + w < W + w * 0.15 && y + h < H + h * 0.15;
+
+        if (withinBounds) {
+          var collides = false;
+          for (var i = 0; i < placed.length; i++) {
+            if (rectsOverlap(candidate, placed[i], Math.max(2, size * 0.05))) { collides = true; break; }
+          }
+          if (!collides) placedOk = true;
+        }
+        t2 += 1;
+      }
+
+      if (placedOk) {
+        var color;
+        var colorIdx;
+        do { colorIdx = Math.floor(Math.random() * colorPalette.length); }
+        while (colorPalette.length > 1 && colorIdx === lastColorIdx);
+        lastColorIdx = colorIdx;
+        color = colorPalette[colorIdx];
+
+        placed.push({
+          text: word.text, x: x, y: y, w: w, h: h, size: size,
+          rotate: rotate, weight: weight, color: color
+        });
+      }
+    });
+
+    return placed;
+  }
+
+  function bgColorFor(mode) {
+    var styles = getComputedStyle(document.documentElement);
+    if (mode === "dark") return "#131110";
+    if (mode === "light") return "#FFFFFF";
+    if (mode === "transparent") return null;
+    return styles.getPropertyValue("--bg-well").trim() || "#131110";
+  }
+
+  function clearCanvas() {
+    var dims = fitCanvasToDisplay();
+    ctx.clearRect(0, 0, dims.w, dims.h);
+    emptyState.style.display = "flex";
+  }
+
+  function drawLayout(layout, W, H, fontFamily, bgMode) {
+    ctx.clearRect(0, 0, W, H);
+    var bg = bgColorFor(bgMode);
+    if (bg) {
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+    }
+    layout.forEach(function (item) {
+      ctx.save();
+      ctx.font = item.weight + " " + item.size + "px " + fontFamily;
+      ctx.fillStyle = item.color;
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "left";
+      var padPx = Math.max(3, item.size * 0.08);
+      var textX = item.x + padPx;
+      var textY = item.y + item.h / 2;
+
+      if (item.rotate === 90) {
+        ctx.translate(item.x + item.w / 2, item.y + item.h / 2);
+        ctx.rotate(Math.PI / 2);
+        ctx.textAlign = "center";
+        ctx.fillText(item.text, 0, 0);
+      } else {
+        ctx.fillText(item.text, textX, textY);
+      }
+      ctx.restore();
+    });
+  }
+
+  function generate() {
+    if (!words.length) { clearCanvas(); return; }
+    emptyState.style.display = "none";
+    var dims = fitCanvasToDisplay();
+    var fontFamily = fontSelect.value;
+    var layout = layoutWords(words, dims.w, dims.h, fontFamily);
+    lastLayout = { layout: layout, W: dims.w, H: dims.h, fontFamily: fontFamily };
+    drawLayout(layout, dims.w, dims.h, fontFamily, bgSelect.value);
+  }
+
+  function render() {
+    if (!lastLayout) { generate(); return; }
+    var dims = fitCanvasToDisplay();
+    drawLayout(lastLayout.layout, dims.w, dims.h, lastLayout.fontFamily, bgSelect.value);
+  }
+
+  generateBtn.addEventListener("click", generate);
+  shuffleBtn.addEventListener("click", generate);
+  bgSelect.addEventListener("change", render);
+  paletteSelect.addEventListener("change", function () { if (lastLayout) generate(); });
+  fontSelect.addEventListener("change", function () { if (lastLayout) generate(); });
+
+  downloadBtn.addEventListener("click", function () {
+    if (!lastLayout) return;
+    try {
+      var link = document.createElement("a");
+      link.download = "kelime-bulutu.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch (err) {
+      console.error("İndirme başarısız", err);
+    }
+  });
+
+  var resizeTimer;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () { if (lastLayout) render(); }, 150);
+  });
+
+  // ---------- Init ----------
+  renderWordList();
+  clearCanvas();
+})();
+</script>
+</body>
+</html>
