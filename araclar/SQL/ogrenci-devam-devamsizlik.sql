@@ -13,6 +13,6 @@ JOIN {user} u ON u.id = atst.studentid
 JOIN {course} c ON c.id = ats.courseid
 
 WHERE u.deleted = 0
-AND ats.sessdate BETWEEN UNIX_TIMESTAMP('2026-02-01') AND UNIX_TIMESTAMP('2026-02-19')
+AND ats.sessdate BETWEEN UNIX_TIMESTAMP('2026-09-21') AND UNIX_TIMESTAMP('2026-09-28')
 
 ORDER BY c.fullname, u.lastname, session_date
