@@ -106,11 +106,12 @@
 
   .card{
     background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius);
-    display:flex; overflow:hidden; position:relative;
+    display:flex; position:relative;
     box-shadow:0 1px 2px rgba(31,45,61,0.04);
     transition:box-shadow .2s, transform .2s;
   }
   .card:hover{box-shadow:0 10px 24px rgba(31,45,61,0.10); transform:translateY(-1px);}
+  .card:has(.materials-wrap.open){z-index:15;}
 
   .card-tools{
     position:absolute; top:10px; right:12px; display:flex; gap:6px;
@@ -130,6 +131,7 @@
     flex:0 0 168px; display:flex; flex-direction:column; justify-content:center;
     align-items:flex-start; gap:4px; padding:18px 18px; color:#fff;
     background-image:linear-gradient(160deg, rgba(255,255,255,0.16), transparent 60%);
+    border-radius:var(--radius) 0 0 var(--radius);
   }
   .badge-col .age{font-family:'Fraunces', serif; font-weight:600; font-size:1.1rem;}
   .badge-col .level{font-size:0.82rem; opacity:0.88;}
@@ -167,10 +169,23 @@
   .card.fidan .materials-link{color:var(--fidan);}
   .card.cinar .materials-link{color:var(--cinar);}
   .materials-link:hover{opacity:0.75;}
+  .materials-wrap{position:relative; display:inline-block;}
+  button.materials-link{background:none; cursor:pointer; font-family:inherit;}
+  .materials-menu{
+    display:none; position:absolute; top:calc(100% + 6px); left:0; z-index:10; min-width:190px;
+    background:#fff; border:1px solid var(--paper-line); border-radius:10px; padding:6px;
+    box-shadow:0 10px 24px rgba(31,45,61,0.16);
+  }
+  .materials-wrap.open .materials-menu{display:block;}
+  .materials-menu a{
+    display:block; padding:8px 12px; border-radius:7px; font-size:0.86rem; font-weight:600;
+    text-decoration:none; color:var(--ink);
+  }
+  .materials-menu a:hover{background:var(--paper);}
 
   @media (max-width:900px){
     .card{flex-direction:column;}
-    .badge-col{flex-direction:row; align-items:baseline; gap:8px; flex:0 0 auto;}
+    .badge-col{flex-direction:row; align-items:baseline; gap:8px; flex:0 0 auto; border-radius:0;}
     .body-cols{grid-template-columns:1fr; gap:14px;}
     .card-tools{opacity:1; position:static; justify-content:flex-end; padding:8px 12px 0;}
   }
@@ -305,8 +320,8 @@
       <input id="f-words" type="text" placeholder="virgülle ayırın: anne, baba, kardeş">
     </div>
     <div class="field">
-      <label for="f-url">Ders İçerikleri (Materyal Linki)</label>
-      <input id="f-url" type="url" placeholder="https://materyalfabrikasi.github.io/...">
+      <label for="f-url">Ders İçerikleri (Materyal Linkleri)</label>
+      <textarea id="f-url" placeholder="Her satıra bir link. İsterseniz başına ad yazın:&#10;Sunum | https://...&#10;Etkinlik | https://..."></textarea>
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" id="cancelBtn">Vazgeç</button>
@@ -319,105 +334,105 @@
   // Varsayılan (ilk yükleme) örnek veri — 21-27 Eylül haftası, 12 grup
   const SEED_DATA = [
     { age:"tohum", ageLabel:"Tohum", level:"Farkındalık",
-      goal:"Aile kelimesini duyduğunda tepki verir, yüz ifadesiyle tanıdığını gösterir.",
-      words:["anne","baba","aile"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"“Merhaba” sözcüğünü farklı ses ve hareketlerle duymak, “Merhaba, ben…” kalıbını tanımak ve kendi adımızı söylemek.",
+      words:["Merhaba","Merhaba, ben…","Senin adın ne?"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/farkindalik1/index.html"},
     { age:"tohum", ageLabel:"Tohum", level:"Hazırlık",
-      goal:"Anne ve babasını gösterip Türkçe seslendirir.",
-      words:["anne","baba","kardeş"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"“Merhaba” demek, adımızı kısa bir Türkçe kalıp içinde tanımak ve Türkiye'yi anlatan ilk sözcüklerle tanışmak.",
+      words:["Merhaba","Benim adım…","Bu kim?","simit","ayran","bayrak","lokum","baklava","Aferin!","Tamamladık!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/hazirlik1/index.html" },
     { age:"filiz", ageLabel:"Filiz", level:"Başlangıç",
-      goal:"Aile üyelerini tanıtan basit cümleler kurar.",
-      words:["kardeşim","büyükanne","büyükbaba"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Günün farklı saatlerinde selamlaşmak, adımızı ve soyadımızı söylemek, “Tanıştığıma memnun oldum” demek ve vedalaşmak",
+      words:["Günaydın", "İyi günler", "İyi akşamlar", "İyi geceler", "Merhaba", "Benim adım…", "Benim soyadım…", "Senin adın ne? Soyadın ne?", "Tanıştığıma memnun oldum.", "Ben de.", "Hoşça kal!", "Görüşürüz!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftaa1/index.html" },
     { age:"filiz", ageLabel:"Filiz", level:"Temel",
-      goal:"Ailesiyle yaşadığı günlük bir olayı kısaca anlatır.",
-      words:["bugün","birlikte","yemek"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Selamlaşma ve vedalaşmanın farklı yollarını öğrenmek, kendimizi ad, yaş ve yaşadığımız yerle tanıtmak, karşımızdakinin hâlini hatırını sormak",
+      words:["Selamünaleyküm – Aleykümselam", "Tünaydın", "Hayırlı günler / akşamlar", "Hoş geldin – Hoş bulduk", "Allah'a ısmarladık – Güle güle", "… yaşındayım", "…'da/de yaşıyorum.", "Nerede yaşıyorsun?", "Nerelisin?", "Nasılsın? – İyiyim, teşekkür ederim."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftaa2/index.html" },
     { age:"filiz", ageLabel:"Filiz", level:"Orta",
-      goal:"Ev kurallarını kendi cümleleriyle açıklar.",
-      words:["kural","sorumluluk","saygı"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Türk selamlama kültürünü yaşadığımız ülkenin kültürüyle karşılaştırmak, kişilik özelliklerimizi anlatmak ve Türkçeyi neden öğrendiğimizi çünkü, bu yüzden bağlaçlarıyla açıklamak",
+      words:["sabırlı", "duyarlı", "girişken", "konuşkan", "mantıklı", "dikkatli", "Ben genellikle … biriyim.", "Çok … olduğum için…", "çünkü", "bu yüzden", "bu nedenle"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftab1/index.html" },
     { age:"fidan", ageLabel:"Fidan", level:"Başlangıç",
-      goal:"Akraba isimlerini doğru kullanarak tanıtır.",
-      words:["teyze","dayı","amca","hala"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Günün farklı saatlerinde selamlaşmak, adımızı ve soyadımızı söylemek, “Tanıştığıma memnun oldum” demek ve vedalaşmak",
+      words:["Günaydın", "İyi günler", "İyi akşamlar", "İyi geceler", "Merhaba", "Benim adım…", "Benim soyadım…", "Senin adın ne? Soyadın ne?", "Tanıştığıma memnun oldum.", "Ben de.", "Hoşça kal!", "Görüşürüz!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftaa1/index.html" },
     { age:"fidan", ageLabel:"Fidan", level:"Temel",
-      goal:"Bir akrabasına kısa bir mektup ya da mesaj yazar.",
-      words:["özlem","mektup","selam"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Selamlaşma ve vedalaşmanın farklı yollarını öğrenmek, kendimizi ad, yaş ve yaşadığımız yerle tanıtmak, karşımızdakinin hâlini hatırını sormak",
+      words:["Selamünaleyküm – Aleykümselam", "Tünaydın", "Hayırlı günler / akşamlar", "Hoş geldin – Hoş bulduk", "Allah'a ısmarladık – Güle güle", "… yaşındayım", "…'da/de yaşıyorum.", "Nerede yaşıyorsun?", "Nerelisin?", "Nasılsın? – İyiyim, teşekkür ederim."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftaa2/index.html" },
     { age:"fidan", ageLabel:"Fidan", level:"Orta",
-      goal:"Kuşaklar arası bir soru sorup aldığı yanıtı özetler.",
-      words:["kuşak","gençlik","anı"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Türk selamlama kültürünü yaşadığımız ülkenin kültürüyle karşılaştırmak, kişilik özelliklerimizi anlatmak ve Türkçeyi neden öğrendiğimizi çünkü, bu yüzden bağlaçlarıyla açıklamak",
+      words:["sabırlı", "duyarlı", "girişken", "konuşkan", "mantıklı", "dikkatli", "Ben genellikle … biriyim.", "Çok … olduğum için…", "çünkü", "bu yüzden", "bu nedenle"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftab1/index.html" },
     { age:"cinar", ageLabel:"Çınar", level:"Başlangıç",
-      goal:"Aile değerleri hakkında kısa bir görüş bildirir.",
-      words:["değer","gelenek","miras"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Günün farklı saatlerinde selamlaşmak, adımızı ve soyadımızı söylemek, “Tanıştığıma memnun oldum” demek ve vedalaşmak",
+      words:["Günaydın", "İyi günler", "İyi akşamlar", "İyi geceler", "Merhaba", "Benim adım…", "Benim soyadım…", "Senin adın ne? Soyadın ne?", "Tanıştığıma memnun oldum.", "Ben de.", "Hoşça kal!", "Görüşürüz!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftaa1/index.html" },
     { age:"cinar", ageLabel:"Çınar", level:"Temel",
-      goal:"Aile temalı kısa bir görüş metni (deneme) yazar.",
-      words:["görüş","deneme","savunma"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Selamlaşma ve vedalaşmanın farklı yollarını öğrenmek, kendimizi ad, yaş ve yaşadığımız yerle tanıtmak, karşımızdakinin hâlini hatırını sormak.",
+      words:["Selamünaleyküm – Aleykümselam", "Tünaydın", "Hayırlı günler / akşamlar", "Hoş geldin – Hoş bulduk", "Allah'a ısmarladık – Güle güle", "… yaşındayım", "…'da/de yaşıyorum.", "Nerede yaşıyorsun?", "Nerelisin?", "Nasılsın? – İyiyim, teşekkür ederim."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftaa2/index.html" },
     { age:"cinar", ageLabel:"Çınar", level:"Orta",
-      goal:"Türkiye'deki ve bulunduğu ülkedeki aile kültürünü karşılaştırır.",
-      words:["karşılaştırma","kültür","fark"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
+      goal:"Türk selamlama kültürünü yaşadığımız ülkenin kültürüyle karşılaştırmak, kişilik özelliklerimizi anlatmak ve Türkçeyi neden öğrendiğimizi çünkü, bu yüzden bağlaçlarıyla açıklamak.",
+      words:["sabırlı", "duyarlı", "girişken", "konuşkan", "mantıklı", "dikkatli", "Ben genellikle … biriyim.", "Çok … olduğum için…", "çünkü", "bu yüzden", "bu nedenle"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftab1/index.html" },
     { age:"cinar", ageLabel:"Çınar", level:"İleri",
-      goal:"Aile temalı bir haberi okuyup kendi yorumunu ekler.",
-      words:["yorum","kaynak","bakış açısı"],
-      materialUrl:"https://materyalfabrikasi.github.io/" }
+      goal:"Selamlaşma biçimlerinin bir toplumu yansıtıp yansıtmadığını tartışmak, güçlü yönlerimizi ve kariyer hedeflerimizi anlatmak, ikidilliliğin kimliğimize kattıklarını sorgulamak.",
+      words:["analitik düşünme", "yaratıcılık", "liderlik", "takım çalışması", "problem çözme", "iletişim becerisi", "kariyer hedefi", "meslek seçimi", "sorumluluk almak", "deneyim kazanmak", "azimli olmak", "ikidillilik", "kültürel zenginlik", "kimlik karmaşası", "En güçlü yanım…", "Geliştirmem gereken yanım…"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/1.haftab2/index.html" }
   ];
 
   // 28 Eylül – 4 Ekim haftasının örnek verisi
   const SEED_DATA_WEEK2 = [
-    { age:"tohum", level:"Farkındalık",
-      goal:"Okul kelimesini duyduğunda tanıdığını gösterir.",
-      words:["okul","sınıf"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"tohum", level:"Hazırlık",
-      goal:"Sınıftaki temel eşyaları (masa, sandalye) Türkçe seslendirir.",
-      words:["masa","sandalye","kalem"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"filiz", level:"Başlangıç",
-      goal:"Okulundaki bir günlük etkinliği basit cümlelerle anlatır.",
-      words:["ders","teneffüs","arkadaş"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"filiz", level:"Temel",
-      goal:"En sevdiği dersi ve nedenini kısaca açıklar.",
-      words:["favori","çünkü","eğlenceli"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"filiz", level:"Orta",
-      goal:"Sınıf kurallarını kendi cümleleriyle anlatır.",
-      words:["kural","sıra","dikkat"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"fidan", level:"Başlangıç",
-      goal:"Okuldaki bölümleri (kütüphane, kantin, bahçe) adlandırır.",
-      words:["kütüphane","kantin","bahçe"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"fidan", level:"Temel",
-      goal:"Bir öğretmenine ya da arkadaşına kısa bir not yazar.",
-      words:["not","rica","teşekkür"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"fidan", level:"Orta",
-      goal:"Okul hayatında karşılaştığı bir zorluğu anlatır ve çözüm önerir.",
-      words:["zorluk","çözüm","yardım"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"cinar", level:"Başlangıç",
-      goal:"Okul sistemine dair bir görüşünü kısaca ifade eder.",
-      words:["sistem","görüş","gerekli"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"cinar", level:"Temel",
-      goal:"Okulla ilgili kısa bir deneme taslağı hazırlar.",
-      words:["deneme","taslak","gözlem"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"cinar", level:"Orta",
-      goal:"Yaşadığı ülkedeki ve Türkiye'deki okul sistemini karşılaştırır.",
-      words:["karşılaştırma","müfredat","fark"],
-      materialUrl:"https://materyalfabrikasi.github.io/" },
-    { age:"cinar", level:"İleri",
-      goal:"Eğitimle ilgili bir haberi okuyup sınıfta tartışmaya hazırlanır.",
-      words:["eğitim","tartışma","haber"],
-      materialUrl:"https://materyalfabrikasi.github.io/" }
+   { age:"tohum", ageLabel:"Tohum", level:"Farkındalık",
+      goal:"“Merhaba” sözcüğünü farklı ses ve hareketlerle duymak, “Merhaba, ben…” kalıbını tanımak ve kendi adımızı söylemek.",
+      words:["Merhaba","Merhaba, ben…","Senin adın ne?"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftafarkindalik/index.html"},
+    { age:"tohum", ageLabel:"Tohum", level:"Hazırlık",
+      goal:"“Merhaba” demek, adımızı kısa bir Türkçe kalıp içinde tanımak ve Türkiye'yi anlatan ilk sözcüklerle tanışmak.",
+      words:["Merhaba","Benim adım…","Bu kim?","simit","ayran","bayrak","lokum","baklava","Aferin!","Tamamladık!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftahazirlik/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Başlangıç",
+      goal:"Günün farklı saatlerinde selamlaşmak, adımızı ve soyadımızı söylemek, “Tanıştığıma memnun oldum” demek ve vedalaşmak",
+      words:["Günaydın", "İyi günler", "İyi akşamlar", "İyi geceler", "Merhaba", "Benim adım…", "Benim soyadım…", "Senin adın ne? Soyadın ne?", "Tanıştığıma memnun oldum.", "Ben de.", "Hoşça kal!", "Görüşürüz!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftabaslangic/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Temel",
+      goal:"Selamlaşma ve vedalaşmanın farklı yollarını öğrenmek, kendimizi ad, yaş ve yaşadığımız yerle tanıtmak, karşımızdakinin hâlini hatırını sormak",
+      words:["Selamünaleyküm – Aleykümselam", "Tünaydın", "Hayırlı günler / akşamlar", "Hoş geldin – Hoş bulduk", "Allah'a ısmarladık – Güle güle", "… yaşındayım", "…'da/de yaşıyorum.", "Nerede yaşıyorsun?", "Nerelisin?", "Nasılsın? – İyiyim, teşekkür ederim."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftatemel/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Orta",
+      goal:"Türk selamlama kültürünü yaşadığımız ülkenin kültürüyle karşılaştırmak, kişilik özelliklerimizi anlatmak ve Türkçeyi neden öğrendiğimizi çünkü, bu yüzden bağlaçlarıyla açıklamak",
+      words:["sabırlı", "duyarlı", "girişken", "konuşkan", "mantıklı", "dikkatli", "Ben genellikle … biriyim.", "Çok … olduğum için…", "çünkü", "bu yüzden", "bu nedenle"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftaorta/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Başlangıç",
+      goal:"Günün farklı saatlerinde selamlaşmak, adımızı ve soyadımızı söylemek, “Tanıştığıma memnun oldum” demek ve vedalaşmak",
+      words:["Günaydın", "İyi günler", "İyi akşamlar", "İyi geceler", "Merhaba", "Benim adım…", "Benim soyadım…", "Senin adın ne? Soyadın ne?", "Tanıştığıma memnun oldum.", "Ben de.", "Hoşça kal!", "Görüşürüz!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftabaslangic/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Temel",
+      goal:"Selamlaşma ve vedalaşmanın farklı yollarını öğrenmek, kendimizi ad, yaş ve yaşadığımız yerle tanıtmak, karşımızdakinin hâlini hatırını sormak",
+      words:["Selamünaleyküm – Aleykümselam", "Tünaydın", "Hayırlı günler / akşamlar", "Hoş geldin – Hoş bulduk", "Allah'a ısmarladık – Güle güle", "… yaşındayım", "…'da/de yaşıyorum.", "Nerede yaşıyorsun?", "Nerelisin?", "Nasılsın? – İyiyim, teşekkür ederim."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftatemel/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Orta",
+      goal:"Türk selamlama kültürünü yaşadığımız ülkenin kültürüyle karşılaştırmak, kişilik özelliklerimizi anlatmak ve Türkçeyi neden öğrendiğimizi çünkü, bu yüzden bağlaçlarıyla açıklamak",
+      words:["sabırlı", "duyarlı", "girişken", "konuşkan", "mantıklı", "dikkatli", "Ben genellikle … biriyim.", "Çok … olduğum için…", "çünkü", "bu yüzden", "bu nedenle"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftaorta/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Başlangıç",
+      goal:"Günün farklı saatlerinde selamlaşmak, adımızı ve soyadımızı söylemek, “Tanıştığıma memnun oldum” demek ve vedalaşmak",
+      words:["Günaydın", "İyi günler", "İyi akşamlar", "İyi geceler", "Merhaba", "Benim adım…", "Benim soyadım…", "Senin adın ne? Soyadın ne?", "Tanıştığıma memnun oldum.", "Ben de.", "Hoşça kal!", "Görüşürüz!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftabaslangic/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Temel",
+      goal:"Selamlaşma ve vedalaşmanın farklı yollarını öğrenmek, kendimizi ad, yaş ve yaşadığımız yerle tanıtmak, karşımızdakinin hâlini hatırını sormak.",
+      words:["Selamünaleyküm – Aleykümselam", "Tünaydın", "Hayırlı günler / akşamlar", "Hoş geldin – Hoş bulduk", "Allah'a ısmarladık – Güle güle", "… yaşındayım", "…'da/de yaşıyorum.", "Nerede yaşıyorsun?", "Nerelisin?", "Nasılsın? – İyiyim, teşekkür ederim."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftatemel/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Orta",
+      goal:"Türk selamlama kültürünü yaşadığımız ülkenin kültürüyle karşılaştırmak, kişilik özelliklerimizi anlatmak ve Türkçeyi neden öğrendiğimizi çünkü, bu yüzden bağlaçlarıyla açıklamak.",
+      words:["sabırlı", "duyarlı", "girişken", "konuşkan", "mantıklı", "dikkatli", "Ben genellikle … biriyim.", "Çok … olduğum için…", "çünkü", "bu yüzden", "bu nedenle"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftaorta/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"İleri",
+      goal:"Selamlaşma biçimlerinin bir toplumu yansıtıp yansıtmadığını tartışmak, güçlü yönlerimizi ve kariyer hedeflerimizi anlatmak, ikidilliliğin kimliğimize kattıklarını sorgulamak.",
+      words:["analitik düşünme", "yaratıcılık", "liderlik", "takım çalışması", "problem çözme", "iletişim becerisi", "kariyer hedefi", "meslek seçimi", "sorumluluk almak", "deneyim kazanmak", "azimli olmak", "ikidillilik", "kültürel zenginlik", "kimlik karmaşası", "En güçlü yanım…", "Geliştirmem gereken yanım…"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftaileri/index.html" }
   ];
 
   const WEEKS = [
@@ -426,8 +441,67 @@
   ];
   let currentWeekIndex = 0;
 
-  const STORAGE_PREFIX = 'turkce-gunlugum-cards-';
-  const storageKey = weekId => STORAGE_PREFIX + weekId;
+  const STORAGE_PREFIX = 'turkce-gunlugum-cards-v2-';
+  // Koddaki kartlar değişince kayıt adı da otomatik değişir; elle v3, v4 yazmaya gerek kalmaz.
+  function seedHash(seed){
+    const str = JSON.stringify(seed); let h = 0;
+    for(let i = 0; i < str.length; i++){ h = (h * 31 + str.charCodeAt(i)) | 0; }
+    return (h >>> 0).toString(36);
+  }
+  const storageKey = weekId => {
+    const week = WEEKS.find(w => w.id === weekId);
+    return STORAGE_PREFIX + weekId + '-' + seedHash(week.seed);
+  };
+
+  // materialUrl üç şekilde yazılabilir:
+  //   "https://..."                                  → Materyalleri Gör linki doğrudan açar
+  //   ["https://...", "https://..."]                 → Materyalleri Gör menüsünde: Materyal 1, Materyal 2
+  //   [{ad:"Sunum", link:"https://..."}, {...}]      → menüde verdiğiniz adlar görünür
+  function materialsOf(group){
+    let list = group.materialUrl;
+    if(!Array.isArray(list)) list = [list];
+    list = list.filter(Boolean).map((m, i, all) => {
+      if(typeof m === 'string'){
+        return { ad: all.length === 1 ? 'Materyalleri Gör' : 'Materyal ' + (i + 1), link: m };
+      }
+      return { ad: m.ad || ('Materyal ' + (i + 1)), link: m.link };
+    });
+    return list.length ? list : [{ ad:'Materyalleri Gör', link:'https://materyalfabrikasi.github.io/' }];
+  }
+  // Tek link: düğme doğrudan açar. Birden fazla link: "Materyalleri Gör" tıklanınca linkler açılır menüde listelenir.
+  function materialsHtml(group){
+    const list = materialsOf(group);
+    if(list.length === 1){
+      return `<a class="materials-link" href="${list[0].link}" target="_blank" rel="noopener">Materyalleri Gör ↗</a>`;
+    }
+    const items = list.map(m => `<a href="${m.link}" target="_blank" rel="noopener">${m.ad} ↗</a>`).join('');
+    return `<div class="materials-wrap">
+      <button type="button" class="materials-link materials-toggle">Materyalleri Gör ▾</button>
+      <div class="materials-menu">${items}</div>
+    </div>`;
+  }
+  document.addEventListener('click', e => {
+    const toggle = e.target.closest('.materials-toggle');
+    document.querySelectorAll('.materials-wrap.open').forEach(w => {
+      if(!toggle || w !== toggle.parentElement) w.classList.remove('open');
+    });
+    if(toggle) toggle.parentElement.classList.toggle('open');
+  });
+
+  function materialsToText(group){
+    const raw = Array.isArray(group.materialUrl) ? group.materialUrl : [group.materialUrl];
+    return raw.filter(Boolean).map(m => typeof m === 'string' ? m : (m.ad ? m.ad + ' | ' + m.link : m.link)).join('\n');
+  }
+  function textToMaterials(text){
+    const items = text.split('\n').map(l => l.trim()).filter(Boolean).map(line => {
+      const bar = line.lastIndexOf('|');
+      if(bar === -1) return line;
+      const ad = line.slice(0, bar).trim(), link = line.slice(bar + 1).trim();
+      return ad ? { ad, link } : link;
+    });
+    if(items.length === 0) return 'https://materyalfabrikasi.github.io/';
+    return items.length === 1 ? items[0] : items;
+  }
 
   const AGE_LABELS = {tohum:"Tohum", filiz:"Filiz", fidan:"Fidan", cinar:"Çınar"};
 
@@ -503,7 +577,7 @@
           </div>
           <div class="col">
             <p class="label">Ders İçerikleri</p>
-            <a class="materials-link" href="${group.materialUrl}" target="_blank" rel="noopener">Materyalleri Gör ↗</a>
+            ${materialsHtml(group)}
           </div>
         </div>
       `;
@@ -550,14 +624,14 @@
       fLevel.value = c.level;
       fGoal.value = c.goal;
       fWords.value = c.words.join(', ');
-      fUrl.value = c.materialUrl;
+      fUrl.value = materialsToText(c);
     } else {
       modalTitle.textContent = 'Yeni Kart Ekle';
       fAge.value = 'tohum';
       fLevel.value = '';
       fGoal.value = '';
       fWords.value = '';
-      fUrl.value = 'https://materyalfabrikasi.github.io/';
+      fUrl.value = '';
     }
     modalBackdrop.classList.add('open');
   }
@@ -576,11 +650,11 @@
     if(editingId){
       const c = cards.find(c => c.id === editingId);
       c.age = fAge.value; c.level = fLevel.value.trim(); c.goal = fGoal.value.trim();
-      c.words = words; c.materialUrl = fUrl.value.trim() || 'https://materyalfabrikasi.github.io/';
+      c.words = words; c.materialUrl = textToMaterials(fUrl.value);
     } else {
       cards.push({
         id: nextId++, age: fAge.value, level: fLevel.value.trim(),
-        goal: fGoal.value.trim(), words, materialUrl: fUrl.value.trim() || 'https://materyalfabrikasi.github.io/'
+        goal: fGoal.value.trim(), words, materialUrl: textToMaterials(fUrl.value)
       });
     }
     saveCards();
