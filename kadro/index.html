@@ -284,7 +284,7 @@ footer {
   </div>
   <h1>Ülkem <em>Yanımda</em></h1>
   <p class="subtitle">Türkçe ve Türk Kültürü Dersi Öğretmen Kadrosu</p>
-  <div class="badge">👩‍🏫 98 Öğretmen</div>
+  <div class="badge">👩‍🏫 99 Öğretmen</div>
 </header>
 
 <div class="search-bar">
@@ -294,10 +294,20 @@ footer {
 
 <div class="container">
   <p class="count-label">
-    <strong id="visibleCount">98</strong> öğretmen gösteriliyor
+    <strong id="visibleCount">99</strong> öğretmen gösteriliyor
   </p>
   <div class="grid" id="grid">
-    
+        <div class="card" data-index="98"
+             data-isim="Esra Ballım ERKILIÇ" data-brans="İletişim ve Sosyal Medya Tasarımı"
+             data-sehir="Ülkem Yanımda" data-hayat="Gazi Üniversitesi İletişim Fakültesi Gazetecilik Bölümü mezunuyum. Basın sektöründe muhabir olarak çalıştım. Daha sonra formasyon eğitimi alarak Sınıf Öğretmenliğine atandım. 27 yıllık öğretmenim. 18 yıl Yenilik ve Eğitim Teknolojileri Genel Müdürlüğünde EBA ve İletişim Daire Başkanlığında görev yaptım. Şimdi Ülkem Yanımda platformunun sosyal medyasında; Türkçe deyim, atasözü, Türk şair ve yazarlar ile mekan tanıtımları üzerine paylaşımlar yapıyorum. Ayrıca, veli-öğrenci iletişimi süreçlerinde platforma katkı sunuyorum.">
+          <div class="avatar"><img src="iletisim-sosyal-medya.jpeg" alt="Esra Ballım ERKILIÇ" style="object-position: center 25%;"></div>
+          <div class="info">
+            <span class="name">Esra Ballım ERKILIÇ</span>
+            <span class="brans">İletişim ve Sosyal Medya Tasarımı</span>
+            <span class="sehir">📍 Ülkem Yanımda</span>
+          </div>
+        </div>
+
         <div class="card" data-index="0"
              data-isim="Ayşe RENKLİBAY" data-brans="Eğitim Operasyonları ve Süreç Yönetimi"
              data-sehir="Ülkem Yanımda" data-hayat="Millî Eğitim Bakanlığı bünyesinde Türkçe öğretmeni olarak 13 yıllık mesleki tecrübeye sahip olup şu an Yükseköğretim ve Yurt Dışı Eğitim Genel Müdürlüğü Yurt Dışı Eğitim Dairesi’nde görev yapmaktayım. Bu kapsamda yurt dışında yaşayan vatandaşlarımızın ve soydaşlarımızın çocuklarına yönelik çevrim içi Türkçe ve Türk kültürü dersleri veren &#39;Ülkem Yanımda&#39; ekibinde görev almaktayım.">
@@ -1503,6 +1513,7 @@ cards.forEach(c => {
     const img = c.querySelector("img");
     modalImg.src = img ? img.src : "";
     modalImg.alt = c.dataset.isim;
+    modalImg.style.objectPosition = img ? img.style.objectPosition : "";
     overlay.classList.add("active");
     document.body.style.overflow = "hidden";
   });
