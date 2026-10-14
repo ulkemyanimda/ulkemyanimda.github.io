@@ -435,12 +435,72 @@
       materialUrl:"https://materyalfabrikasi.github.io/preview/2.haftaileri/index.html" }
   ];
 
+// 5 – 11 Ekim haftasının verisi
+  const SEED_DATA_WEEK3 = [
+    { age:"tohum", ageLabel:"Tohum", level:"Farkındalık",
+      goal:"Türk bayrağını ve yaşadığımız ülkenin bayrağını tanımak, bayraktaki kırmızı rengi, ayı ve yıldızı fark etmek, iki bayrağımızı yan yana görerek aralarında bağ kurmak.",
+      words:["Türkiye", "Türk bayrağı", "kırmızı", "ay", "yıldız", "Bu Türk bayrağı.", "Hangi ülkede yaşıyorsun?", "Bayrağını bul.", "Bayrağımız kırmızıdır; ay ve yıldız beyazdır."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftafarkindalik/index.html" },
+    { age:"tohum", ageLabel:"Tohum", level:"Hazırlık",
+      goal:"Türk bayrağını kırmızı rengi, ayı ve yıldızıyla tanımak, farklı ülkelerin bayraklarını görüp dinleyerek ayırt etmek ve eş bayrakları bulmak.",
+      words:["Türkiye", "Türk bayrağı", "kırmızı", "ay", "yıldız", "Bu, Türk bayrağıdır.", "Türk bayrağını bulalım.", "Bayrakların eşini bulalım.", "Harika!", "Bir daha deneyelim."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftahazirlik/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Başlangıç",
+      goal:"“Nerelisin?” diye sormak, “Türkiyeliyim.” diye cevap vermek ve -da/-de ekiyle hangi ülkede yaşadığımızı söylemek.",
+      words:["Nerelisin?", "Türkiyeliyim.", "Memleketin neresi?", "Memleketim Türkiye.", "Nerede yaşıyorsun?", "…'da/de yaşıyorum.", "Hollanda'da yaşıyorum.", "İsveç'te yaşıyorum.", "hemşehri"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftabaslangic/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Temel",
+      goal:"Doğduğumuz yeri ve yaşadığımız yeri ayırt etmek, ülke-millet-dil adlarını öğrenmek, ailemizin Türkiye'nin hangi bölgesinden geldiğini anlatmak ve “Hemşerim!” sözünün anlamını keşfetmek.",
+      words:["Türkiye – Türk – Türkçe", "Hollandalı / Norveçli", "İspanyol / Bulgar / Boşnak", "İspanyolca / Norveççe", "…'da/de doğdum ama …'da/de yaşıyorum.", "Hangi dilleri konuşuyorsun?", "Evde Türkçe, okulda … konuşuyorum.", "Ailem … Bölgesi'nden geliyor.", "Onlar İzmirli / Trabzonlu.", "7 bölge", "Hemşerim!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftatemel/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Orta",
+      goal:"İstanbul'u tarihî mekânlarıyla tanımak, cami, çeşme, köprü, kervansaray ve medreseyi ayırt etmek, memleketimizi konumu, iklimi ve lezzetleriyle tanıtıp yaşadığımız yerle “Bence / Bana göre” diyerek karşılaştırmak.",
+      words:["memleket", "cami", "çeşme", "köprü", "kervansaray", "medrese", "coğrafi işaret", "hemşehri", "… Bölgesi'nde bulunur.", "… ile ünlüdür.", "… meşhurdur.", "Bence / Bana göre…"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftaorta/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Başlangıç",
+      goal:"“Nerelisin?” diye sormak, “Türkiyeliyim.” diye cevap vermek ve -da/-de ekiyle hangi ülkede yaşadığımızı söylemek.",
+      words:["Nerelisin?", "Türkiyeliyim.", "Memleketin neresi?", "Memleketim Türkiye.", "Nerede yaşıyorsun?", "…'da/de yaşıyorum.", "Hollanda'da yaşıyorum.", "İsveç'te yaşıyorum.", "hemşehri"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftabaslangic/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Temel",
+      goal:"Doğduğumuz yeri ve yaşadığımız yeri ayırt etmek, ülke-millet-dil adlarını öğrenmek, ailemizin Türkiye'nin hangi bölgesinden geldiğini anlatmak ve “Hemşerim!” sözünün anlamını keşfetmek.",
+      words:["Türkiye – Türk – Türkçe", "Hollandalı / Norveçli", "İspanyol / Bulgar / Boşnak", "İspanyolca / Norveççe", "…'da/de doğdum ama …'da/de yaşıyorum.", "Hangi dilleri konuşuyorsun?", "Evde Türkçe, okulda … konuşuyorum.", "Ailem … Bölgesi'nden geliyor.", "Onlar İzmirli / Trabzonlu.", "7 bölge", "Hemşerim!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftatemel/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Orta",
+      goal:"İstanbul'u tarihî mekânlarıyla tanımak, cami, çeşme, köprü, kervansaray ve medreseyi ayırt etmek, memleketimizi konumu, iklimi ve lezzetleriyle tanıtıp yaşadığımız yerle “Bence / Bana göre” diyerek karşılaştırmak.",
+      words:["memleket", "cami", "çeşme", "köprü", "kervansaray", "medrese", "coğrafi işaret", "hemşehri", "… Bölgesi'nde bulunur.", "… ile ünlüdür.", "… meşhurdur.", "Bence / Bana göre…"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftaorta/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Başlangıç",
+      goal:"“Nerelisin?” diye sormak, “Türkiyeliyim.” diye cevap vermek ve -da/-de ekiyle hangi ülkede yaşadığımızı söylemek.",
+      words:["Nerelisin?", "Türkiyeliyim.", "Memleketin neresi?", "Memleketim Türkiye.", "Nerede yaşıyorsun?", "…'da/de yaşıyorum.", "Hollanda'da yaşıyorum.", "İsveç'te yaşıyorum.", "hemşehri"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftabaslangic/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Temel",
+      goal:"Doğduğumuz yeri ve yaşadığımız yeri ayırt etmek, ülke-millet-dil adlarını öğrenmek, ailemizin Türkiye'nin hangi bölgesinden geldiğini anlatmak ve “Hemşerim!” sözünün anlamını keşfetmek.",
+      words:["Türkiye – Türk – Türkçe", "Hollandalı / Norveçli", "İspanyol / Bulgar / Boşnak", "İspanyolca / Norveççe", "…'da/de doğdum ama …'da/de yaşıyorum.", "Hangi dilleri konuşuyorsun?", "Evde Türkçe, okulda … konuşuyorum.", "Ailem … Bölgesi'nden geliyor.", "Onlar İzmirli / Trabzonlu.", "7 bölge", "Hemşerim!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftatemel/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Orta",
+      goal:"İstanbul'u tarihî mekânlarıyla tanımak, cami, çeşme, köprü, kervansaray ve medreseyi ayırt etmek, memleketimizi konumu, iklimi ve lezzetleriyle tanıtıp yaşadığımız yerle “Bence / Bana göre” diyerek karşılaştırmak.",
+      words:["memleket", "cami", "çeşme", "köprü", "kervansaray", "medrese", "coğrafi işaret", "hemşehri", "… Bölgesi'nde bulunur.", "… ile ünlüdür.", "… meşhurdur.", "Bence / Bana göre…"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftaorta/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"İleri",
+      goal:"Türkiye'nin iki kıta arasındaki konumunu ve Mavi Vatan'ı açıklamak, Türk dünyasını ve KKTC'yi ortak kültürel bağlarıyla tanımak, külliye, dergâh ve tekke gibi mekânları yorumlamak ve Türkiye'yi turizm türleriyle tanıtan ikna edici bir kampanya hazırlamak.",
+      words:["iki kıta", "boğaz", "Mavi Vatan", "Türk dünyası", "KKTC", "Orhun Yazıtları", "Nevruz", "Dede Korkut", "külliye", "dergâh", "tekke", "kültür turizmi", "yayla turizmi", "Türkiye sadece … değil, aynı zamanda …", "… bulunduğu için …", "hem … hem de …"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/3.haftaileri/index.html" }
+  ];
+
+  // 12 – 18 Ekim haftasının verisi
+  // İçerik 3. haftayla aynı; yalnızca materyal bağlantıları 4. haftaya yönlendirilir.
+  const SEED_DATA_WEEK4 = JSON.parse(JSON.stringify(SEED_DATA_WEEK3)).map(card => ({
+    ...card,
+    materialUrl: card.materialUrl.replace('/preview/3.hafta', '/preview/4.hafta')
+  }));
+
   const WEEKS = [
     { id:"2026-09-21", label:"21 – 27 Eylül", seed:SEED_DATA },
-    { id:"2026-09-28", label:"28 Eylül – 4 Ekim", seed:SEED_DATA_WEEK2 }
+    { id:"2026-09-28", label:"28 Eylül – 4 Ekim", seed:SEED_DATA_WEEK2 },
+    { id:"2026-10-05", label:"5 – 11 Ekim", seed:SEED_DATA_WEEK3 },
+    { id:"2026-10-12", label:"12 – 18 Ekim", seed:SEED_DATA_WEEK4 }
   ];
-  let currentWeekIndex = 0;
-
+  let currentWeekIndex = WEEKS.length - 1; // Sayfa her zaman en yeni haftayla açılır.
   const STORAGE_PREFIX = 'turkce-gunlugum-cards-v2-';
   // Koddaki kartlar değişince kayıt adı da otomatik değişir; elle v3, v4 yazmaya gerek kalmaz.
   function seedHash(seed){
