@@ -494,11 +494,64 @@
     materialUrl: card.materialUrl.replace('/preview/3.hafta', '/preview/4.hafta')
   }));
 
+  // 19 – 25 Ekim haftasının verisi
+  const SEED_DATA_WEEK5 = [
+    { age:"filiz", ageLabel:"Filiz", level:"Başlangıç",
+      goal:"1'den 20'ye kadar saymak, “Kaç yaşındasın?” diye sorup yaşımızı söylemek, “İyi ki doğdun!” diyerek doğum günü kutlamak ve bizden büyüklere “Abi”, “Abla” diye seslenmeyi keşfetmek.",
+      words:["bir, iki, üç … on", "on bir … yirmi", "Kaç yaşındasın?", "Ben on üç yaşındayım.", "İyi ki doğdun!", "Doğum günün kutlu olsun!", "Abi / Abla", "Amca / Teyze"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftabaslangic/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Temel",
+      goal:"100'e kadar saymak, ayları ve mevsimleri kullanarak doğum günümüzü söylemek, büyüklere “Kaç yaşındasınız?” diye “siz” ile sormak ve yaşa göre doğru hitabı seçmek.",
+      words:["yirmi, otuz, kırk … yüz", "Ocak … Aralık", "ilkbahar / yaz / sonbahar / kış", "Doğum günüm 15 Mart'ta.", "… mevsiminde doğdum.", "Kaç yaşındasın? – Kaç yaşındasınız?", "çocuk / genç / yetişkin", "Abi / Abla / Amca / Teyze", "Ayşe Teyze, nasılsınız?"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftatemel/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Orta",
+      goal:"Doğum tarihimizi gün, ay ve yılla söylemek, hayat hikâyemizi “önce, sonra, ardından” ile sıralamak ve Türkiye'deki yaşa saygı kültürünü yaşadığımız ülkeyle karşılaştırmak.",
+      words:["Ne zaman doğdun? / doğdunuz?", "12 Mart 2011'de doğdum.", "2010'da / 2013'te", "bin sekiz yüz seksen bir", "… yaşında …'a/e başladım.", "önce", "sonra", "ardından", "daha sonra", "hayat hikâyesi", "yaşa saygı", "el öpmek"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftaorta/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Başlangıç",
+      goal:"1'den 20'ye kadar saymak, “Kaç yaşındasın?” diye sorup yaşımızı söylemek, “İyi ki doğdun!” diyerek doğum günü kutlamak ve bizden büyüklere “Abi”, “Abla” diye seslenmeyi keşfetmek.",
+      words:["bir, iki, üç … on", "on bir … yirmi", "Kaç yaşındasın?", "Ben on üç yaşındayım.", "İyi ki doğdun!", "Doğum günün kutlu olsun!", "Abi / Abla", "Amca / Teyze"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftabaslangic/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Temel",
+      goal:"100'e kadar saymak, ayları ve mevsimleri kullanarak doğum günümüzü söylemek, büyüklere “Kaç yaşındasınız?” diye “siz” ile sormak ve yaşa göre doğru hitabı seçmek.",
+      words:["yirmi, otuz, kırk … yüz", "Ocak … Aralık", "ilkbahar / yaz / sonbahar / kış", "Doğum günüm 15 Mart'ta.", "… mevsiminde doğdum.", "Kaç yaşındasın? – Kaç yaşındasınız?", "çocuk / genç / yetişkin", "Abi / Abla / Amca / Teyze", "Ayşe Teyze, nasılsınız?"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftatemel/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Orta",
+      goal:"Doğum tarihimizi gün, ay ve yılla söylemek, hayat hikâyemizi “önce, sonra, ardından” ile sıralamak ve Türkiye'deki yaşa saygı kültürünü yaşadığımız ülkeyle karşılaştırmak.",
+      words:["Ne zaman doğdun? / doğdunuz?", "12 Mart 2011'de doğdum.", "2010'da / 2013'te", "bin sekiz yüz seksen bir", "… yaşında …'a/e başladım.", "önce", "sonra", "ardından", "daha sonra", "hayat hikâyesi", "yaşa saygı", "el öpmek"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftaorta/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Başlangıç",
+      goal:"1'den 20'ye kadar saymak, “Kaç yaşındasın?” diye sorup yaşımızı söylemek, “İyi ki doğdun!” diyerek doğum günü kutlamak ve bizden büyüklere “Abi”, “Abla” diye seslenmeyi keşfetmek.",
+      words:["bir, iki, üç … on", "on bir … yirmi", "Kaç yaşındasın?", "Ben on üç yaşındayım.", "İyi ki doğdun!", "Doğum günün kutlu olsun!", "Abi / Abla", "Amca / Teyze"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftabaslangic/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Temel",
+      goal:"100'e kadar saymak, ayları ve mevsimleri kullanarak doğum günümüzü söylemek, büyüklere “Kaç yaşındasınız?” diye “siz” ile sormak ve yaşa göre doğru hitabı seçmek.",
+      words:["yirmi, otuz, kırk … yüz", "Ocak … Aralık", "ilkbahar / yaz / sonbahar / kış", "Doğum günüm 15 Mart'ta.", "… mevsiminde doğdum.", "Kaç yaşındasın? – Kaç yaşındasınız?", "çocuk / genç / yetişkin", "Abi / Abla / Amca / Teyze", "Ayşe Teyze, nasılsınız?"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftatemel/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Orta",
+      goal:"Doğum tarihimizi gün, ay ve yılla söylemek, hayat hikâyemizi “önce, sonra, ardından” ile sıralamak ve Türkiye'deki yaşa saygı kültürünü yaşadığımız ülkeyle karşılaştırmak.",
+      words:["Ne zaman doğdun? / doğdunuz?", "12 Mart 2011'de doğdum.", "2010'da / 2013'te", "bin sekiz yüz seksen bir", "… yaşında …'a/e başladım.", "önce", "sonra", "ardından", "daha sonra", "hayat hikâyesi", "yaşa saygı", "el öpmek"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftaorta/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"İleri",
+      goal:"Ailemizin nesillerini onlu yıllar ve yüzyıllarla anlatmak, “Eskiden …, oysa şimdi …” yapısıyla yaşam tarzlarındaki değişimi karşılaştırmak ve yaşa saygının, hitap kültürünün nesilden nesile nasıl aktarıldığını tartışmak.",
+      words:["altmışlı yıllar", "seksenli yıllar", "21. yüzyıl", "nesil / kuşak", "toplumsal dönüşüm", "komşuluk ilişkileri", "bireysellik", "hitap kültürü", "kuşak aktarımı", "Bizim nesil … büyüdü.", "Eskiden …, oysa şimdi …", "buna karşın", "Büyüğe saygı, küçüğe sevgi."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftaileri/index.html" }
+  ];
+
+  // 26 Ekim – 1 Kasım haftasının verisi
+  // İçerik 5. haftayla aynı; yalnızca materyal bağlantıları 6. haftaya yönlendirilir.
+  const SEED_DATA_WEEK6 = JSON.parse(JSON.stringify(SEED_DATA_WEEK5)).map(card => ({
+    ...card,
+    materialUrl: card.materialUrl.replace('/preview/5.hafta', '/preview/6.hafta')
+  }));
+
   const WEEKS = [
     { id:"2026-09-21", label:"21 – 27 Eylül", seed:SEED_DATA },
     { id:"2026-09-28", label:"28 Eylül – 4 Ekim", seed:SEED_DATA_WEEK2 },
     { id:"2026-10-05", label:"5 – 11 Ekim", seed:SEED_DATA_WEEK3 },
-    { id:"2026-10-12", label:"12 – 18 Ekim", seed:SEED_DATA_WEEK4 }
+    { id:"2026-10-12", label:"12 – 18 Ekim", seed:SEED_DATA_WEEK4 },
+    { id:"2026-10-19", label:"19 – 25 Ekim", seed:SEED_DATA_WEEK5 },
+    { id:"2026-10-26", label:"26 Ekim – 1 Kasım", seed:SEED_DATA_WEEK6 }
   ];
   let currentWeekIndex = WEEKS.length - 1; // Sayfa her zaman en yeni haftayla açılır.
   const STORAGE_PREFIX = 'turkce-gunlugum-cards-v2-';
