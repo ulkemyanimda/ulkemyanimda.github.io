@@ -496,6 +496,14 @@
 
   // 19 – 25 Ekim haftasının verisi
   const SEED_DATA_WEEK5 = [
+    { age:"tohum", ageLabel:"Tohum", level:"Farkındalık",
+      goal:"1'den 10'a kadar ritmik saymak, rakam görsellerini tanımak, sayıları doğru sıraya dizmek ve verilen sayı kadar nesne seçerek sayıyla miktarı eşleştirmek.",
+      words:["bir, iki, üç, dört, beş", "altı, yedi, sekiz, dokuz, on", "tren", "vagon", "bavul", "Sen de tekrar et."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftafarkindalik/index.html" },
+    { age:"tohum", ageLabel:"Tohum", level:"Hazırlık",
+      goal:"1'den 20'ye kadar sayıları söylemek, “Sen kaç yaşındasın?” diye sorup “Ben … yaşındayım.” diye cevap vermek ve doğum günü kutlama ifadelerini kullanmak.",
+      words:["bir … on", "on bir … yirmi", "Sen kaç yaşındasın?", "Ben … yaşındayım.", "Doğum günün kutlu olsun.", "Nice mutlu yıllara!", "Teşekkür ederim."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/5.haftahazirlik/index.html" },
     { age:"filiz", ageLabel:"Filiz", level:"Başlangıç",
       goal:"1'den 20'ye kadar saymak, “Kaç yaşındasın?” diye sorup yaşımızı söylemek, “İyi ki doğdun!” diyerek doğum günü kutlamak ve bizden büyüklere “Abi”, “Abla” diye seslenmeyi keşfetmek.",
       words:["bir, iki, üç … on", "on bir … yirmi", "Kaç yaşındasın?", "Ben on üç yaşındayım.", "İyi ki doğdun!", "Doğum günün kutlu olsun!", "Abi / Abla", "Amca / Teyze"],
@@ -545,13 +553,74 @@
     materialUrl: card.materialUrl.replace('/preview/5.hafta', '/preview/6.hafta')
   }));
 
+  // 2 – 8 Kasım haftasının verisi
+  const SEED_DATA_WEEK7 = [
+    { age:"tohum", ageLabel:"Tohum", level:"Farkındalık",
+      goal:"Mutlu ve üzgün yüz ifadelerini ayırt etmek, “Nasılsın?” sorusunu duyup tanımak ve baş, omuz, diz, ayak sözcüklerini dinleyerek bedenimizde göstermek.",
+      words:["Nasılsın?", "Sen nasılsın?", "İyiyim, teşekkür ederim.", "mutlu", "üzgün", "baş", "omuz", "diz", "ayak", "Başını göster.", "Başım ağrıyor."],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftafarkindalik/index.html" },
+    { age:"tohum", ageLabel:"Tohum", level:"Hazırlık",
+      goal:"“Nasılsın?” diye sorup “İyiyim, teşekkür ederim.” diye cevap vermek, duygumuzu kısa cümlelerle söylemek ve baş, göz, kulak, el, ayak sözcükleriyle “Başım ağrıyor.” gibi durum ifadelerini tanımak.",
+      words:["Nasılsın?", "Sen nasılsın?", "İyiyim, teşekkür ederim.", "Mutluyum.", "Üzgünüm.", "Kızgınım.", "Şaşkınım.", "baş", "göz", "kulak", "el", "ayak", "Başım ağrıyor.", "Harika!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftahazirlik/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Başlangıç",
+      goal:"“Nasılsın?” ve “Ailen nasıl?” diye hâl hatır sormak, “İyiyim, teşekkür ederim. Ya sen?” diye cevap vermek, duygularımızı Türkçe söylemek ve “Başım ağrıyor.” diyen birine “Geçmiş olsun!” demek.",
+      words:["Nasılsın?", "İyiyim, teşekkür ederim. Ya sen?", "Ailen nasıl? – Ailem de iyi.", "Nasıl hissediyorsun?", "mutluyum / üzgünüm / yorgunum", "hastayım / kızgınım / heyecanlıyım", "baş / göz / kulak / ağız / diş", "el / kol / ayak", "Başım ağrıyor.", "Geçmiş olsun!", "Kendine iyi bak!", "Çoluk çocuk nasıl?", "Evdekiler nasıl?"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftabaslangic/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Temel",
+      goal:"Duygularımızın nedenini “çünkü” ile açıklamak, vücudumuzu daha iyi tanıyıp “Dişim ağrıyor, öksürüyorum” gibi sağlık durumlarını söylemek, büyüklere “Nasılsınız?” diye “siz” ile sormak ve hastaya “Geçmiş olsun” demek.",
+      words:["Bugün yorgunum çünkü …", "alın / yanak / çene", "boyun / omuz / sırt / karın", "dirsek / bilek / diz / topuk", "Neren ağrıyor? – Nereniz ağrıyor?", "Dişim / Boğazım ağrıyor.", "Ateşim var.", "Öksürüyorum.", "Midem bulanıyor.", "Hayırdır, neyin var?", "Nasılsınız? Evdekiler nasıl?", "Geçmiş olsun, Allah şifa versin!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftatemel/index.html" },
+    { age:"filiz", ageLabel:"Filiz", level:"Orta",
+      goal:"İyi bir dinleyici olmak, bir durumun nedenini “yüzünden / nedeniyle” ile anlatmak, duruma uygun sözü seçip “-malısın / -abilirim” ile öneride ve teklifte bulunmak, hâl hatır ve geçmiş olsun ziyareti kültürünü yaşadığımız ülkeyle karşılaştırmak.",
+      words:["Anlıyorum.", "Sonra ne oldu?", "Seni dinliyorum.", "… yüzünden", "… nedeniyle", "Geçmiş olsun, acil şifalar!", "Merak etme, başaracaksın!", "Kolay gelsin!", "Bence doktora gitmelisin.", "İstersen … getirebilirim.", "Çok naziksin, teşekkürler!", "ıhlamur", "geçmiş olsun ziyareti"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftaorta/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Başlangıç",
+      goal:"“Nasılsın?” ve “Ailen nasıl?” diye hâl hatır sormak, “İyiyim, teşekkür ederim. Ya sen?” diye cevap vermek, duygularımızı Türkçe söylemek ve “Başım ağrıyor.” diyen birine “Geçmiş olsun!” demek.",
+      words:["Nasılsın?", "İyiyim, teşekkür ederim. Ya sen?", "Ailen nasıl? – Ailem de iyi.", "Nasıl hissediyorsun?", "mutluyum / üzgünüm / yorgunum", "hastayım / kızgınım / heyecanlıyım", "baş / göz / kulak / ağız / diş", "el / kol / ayak", "Başım ağrıyor.", "Geçmiş olsun!", "Kendine iyi bak!", "Çoluk çocuk nasıl?", "Evdekiler nasıl?"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftabaslangic/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Temel",
+      goal:"Duygularımızın nedenini “çünkü” ile açıklamak, vücudumuzu daha iyi tanıyıp “Dişim ağrıyor, öksürüyorum” gibi sağlık durumlarını söylemek, büyüklere “Nasılsınız?” diye “siz” ile sormak ve hastaya “Geçmiş olsun” demek.",
+      words:["Bugün yorgunum çünkü …", "alın / yanak / çene", "boyun / omuz / sırt / karın", "dirsek / bilek / diz / topuk", "Neren ağrıyor? – Nereniz ağrıyor?", "Dişim / Boğazım ağrıyor.", "Ateşim var.", "Öksürüyorum.", "Midem bulanıyor.", "Hayırdır, neyin var?", "Nasılsınız? Evdekiler nasıl?", "Geçmiş olsun, Allah şifa versin!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftatemel/index.html" },
+    { age:"fidan", ageLabel:"Fidan", level:"Orta",
+      goal:"İyi bir dinleyici olmak, bir durumun nedenini “yüzünden / nedeniyle” ile anlatmak, duruma uygun sözü seçip “-malısın / -abilirim” ile öneride ve teklifte bulunmak, hâl hatır ve geçmiş olsun ziyareti kültürünü yaşadığımız ülkeyle karşılaştırmak.",
+      words:["Anlıyorum.", "Sonra ne oldu?", "Seni dinliyorum.", "… yüzünden", "… nedeniyle", "Geçmiş olsun, acil şifalar!", "Merak etme, başaracaksın!", "Kolay gelsin!", "Bence doktora gitmelisin.", "İstersen … getirebilirim.", "Çok naziksin, teşekkürler!", "ıhlamur", "geçmiş olsun ziyareti"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftaorta/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Başlangıç",
+      goal:"“Nasılsın?” ve “Ailen nasıl?” diye hâl hatır sormak, “İyiyim, teşekkür ederim. Ya sen?” diye cevap vermek, duygularımızı Türkçe söylemek ve “Başım ağrıyor.” diyen birine “Geçmiş olsun!” demek.",
+      words:["Nasılsın?", "İyiyim, teşekkür ederim. Ya sen?", "Ailen nasıl? – Ailem de iyi.", "Nasıl hissediyorsun?", "mutluyum / üzgünüm / yorgunum", "hastayım / kızgınım / heyecanlıyım", "baş / göz / kulak / ağız / diş", "el / kol / ayak", "Başım ağrıyor.", "Geçmiş olsun!", "Kendine iyi bak!", "Çoluk çocuk nasıl?", "Evdekiler nasıl?"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftabaslangic/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Temel",
+      goal:"Duygularımızın nedenini “çünkü” ile açıklamak, vücudumuzu daha iyi tanıyıp “Dişim ağrıyor, öksürüyorum” gibi sağlık durumlarını söylemek, büyüklere “Nasılsınız?” diye “siz” ile sormak ve hastaya “Geçmiş olsun” demek.",
+      words:["Bugün yorgunum çünkü …", "alın / yanak / çene", "boyun / omuz / sırt / karın", "dirsek / bilek / diz / topuk", "Neren ağrıyor? – Nereniz ağrıyor?", "Dişim / Boğazım ağrıyor.", "Ateşim var.", "Öksürüyorum.", "Midem bulanıyor.", "Hayırdır, neyin var?", "Nasılsınız? Evdekiler nasıl?", "Geçmiş olsun, Allah şifa versin!"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftatemel/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"Orta",
+      goal:"İyi bir dinleyici olmak, bir durumun nedenini “yüzünden / nedeniyle” ile anlatmak, duruma uygun sözü seçip “-malısın / -abilirim” ile öneride ve teklifte bulunmak, hâl hatır ve geçmiş olsun ziyareti kültürünü yaşadığımız ülkeyle karşılaştırmak.",
+      words:["Anlıyorum.", "Sonra ne oldu?", "Seni dinliyorum.", "… yüzünden", "… nedeniyle", "Geçmiş olsun, acil şifalar!", "Merak etme, başaracaksın!", "Kolay gelsin!", "Bence doktora gitmelisin.", "İstersen … getirebilirim.", "Çok naziksin, teşekkürler!", "ıhlamur", "geçmiş olsun ziyareti"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftaorta/index.html" },
+    { age:"cinar", ageLabel:"Çınar", level:"İleri",
+      goal:"“Hatır” kavramını deyim ve atasözleriyle analiz etmek, “Eskiden …, oysa şimdi …” ve “Eğer … -saydı, … -ardı” yapılarıyla hatır sormanın dönüşümünü anlatmak, gurbette ve dijital çağda hatır sormayı tartışıp kendi görüşümüzü savunmak.",
+      words:["hatır sormak", "hatırını kırmak", "hatırı sayılır", "… hatırına", "Bir kahvenin kırk yıl hatırı vardır.", "vefa", "gurbet", "burnunda tütmek", "gözü yolda kalmak", "hasret çekmek", "Eskiden …, oysa şimdi …", "Eğer … -saydım, … -ardım.", "Katılıyorum, ama …", "Öte yandan …"],
+      materialUrl:"https://materyalfabrikasi.github.io/preview/7.haftaileri/index.html" }
+  ];
+
+  // 9 – 15 Kasım haftasının verisi
+  // İçerik 7. haftayla aynı; yalnızca materyal bağlantıları 8. haftaya yönlendirilir.
+  const SEED_DATA_WEEK8 = JSON.parse(JSON.stringify(SEED_DATA_WEEK7)).map(card => ({
+    ...card,
+    materialUrl: card.materialUrl.replace('/preview/7.hafta', '/preview/8.hafta')
+  }));
+
   const WEEKS = [
     { id:"2026-09-21", label:"21 – 27 Eylül", seed:SEED_DATA },
     { id:"2026-09-28", label:"28 Eylül – 4 Ekim", seed:SEED_DATA_WEEK2 },
     { id:"2026-10-05", label:"5 – 11 Ekim", seed:SEED_DATA_WEEK3 },
     { id:"2026-10-12", label:"12 – 18 Ekim", seed:SEED_DATA_WEEK4 },
     { id:"2026-10-19", label:"19 – 25 Ekim", seed:SEED_DATA_WEEK5 },
-    { id:"2026-10-26", label:"26 Ekim – 1 Kasım", seed:SEED_DATA_WEEK6 }
+    { id:"2026-10-26", label:"26 Ekim – 1 Kasım", seed:SEED_DATA_WEEK6 },
+    { id:"2026-11-02", label:"2 – 8 Kasım", seed:SEED_DATA_WEEK7 },
+    { id:"2026-11-09", label:"9 – 15 Kasım", seed:SEED_DATA_WEEK8 }
   ];
   let currentWeekIndex = WEEKS.length - 1; // Sayfa her zaman en yeni haftayla açılır.
   const STORAGE_PREFIX = 'turkce-gunlugum-cards-v2-';
