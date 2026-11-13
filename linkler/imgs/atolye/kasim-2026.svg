@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560">
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#e5f1df"/><stop offset="1" stop-color="#fff2d8"/></linearGradient><filter id="shadow"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#184e3d" flood-opacity=".12"/></filter></defs>
+<rect width="960" height="560" fill="url(#bg)"/><circle cx="900" cy="10" r="190" fill="#bcd9b8" opacity=".45"/><circle cx="40" cy="560" r="160" fill="#edc98f" opacity=".3"/>
+<g font-family="Arial, sans-serif" text-anchor="middle"><text x="480" y="83" font-size="22" letter-spacing="5" fill="#306b54">ÜLKEM YANIMDA</text><text x="480" y="151" font-size="50" font-weight="700" fill="#174f40">KASIM 2026</text><text x="480" y="196" font-size="27" fill="#476b55">Ara Tatil Atölyeleri</text></g>
+<g filter="url(#shadow)"><rect x="145" y="239" width="200" height="205" rx="28" fill="#fffdf7" transform="rotate(-7 245 342)"/><rect x="380" y="239" width="200" height="205" rx="28" fill="#cfe5d5"/><rect x="615" y="239" width="200" height="205" rx="28" fill="#fffdf7" transform="rotate(7 715 342)"/></g>
+<!-- Katlanmış kâğıt kuş -->
+<path d="m179 347 117-62-36 68 55 18-74 12z" fill="#168774"/><path d="m179 347 72-7 45-55" fill="#65bba2"/><path d="m241 383 19-30-9-13" fill="#0a5e50"/>
+<!-- Yeniden kullanım döngüsü -->
+<g fill="none" stroke="#28724f" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><path d="M440 304a55 55 0 0 1 88 21m-1-27 3 30-29-2M522 369a55 55 0 0 1-88-21m1 27-3-30 29 2"/></g>
+<!-- Üç boyutlu tasarım -->
+<path d="m715 278 55 32v65l-55 32-55-32v-65z" fill="#e4af61"/><path d="m715 278 55 32-55 33-55-33z" fill="#f5d29c"/><path d="m715 343 55-33v65l-55 32z" fill="#c58d42"/>
+<g font-family="Arial, sans-serif" text-anchor="middle" fill="#174f40" font-weight="700" font-size="19"><text x="245" y="420">KATLA</text><text x="480" y="420">DÖNÜŞTÜR</text><text x="715" y="420">TASARLA</text></g>
+<text x="480" y="507" font-family="Arial, sans-serif" text-anchor="middle" fill="#476b55" font-size="23">Küçük fikirler, büyük dönüşümler.</text></svg>
