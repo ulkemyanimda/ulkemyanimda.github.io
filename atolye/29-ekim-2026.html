@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>29 Ekim Cumhuriyet Yolculuğu | Ülkem Yanımda Atölyesi</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <!-- Canvas Confetti for Celebration -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              red: '#E02A36',
+              redHover: '#C61E2A',
+              teal: '#1DB79D',
+              tealDark: '#138F7A',
+              tealLight: '#E8F8F5',
+              dark: '#1E232A',
+              cream: '#FFFBF5'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            bubble: ['Quicksand', 'system-ui', 'sans-serif']
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' }
+            },
+            wave: {
+              '0%, 100%': { transform: 'rotate(-4deg)' },
+              '50%': { transform: 'rotate(4deg)' }
+            }
+          },
+          animation: {
+            float: 'float 4s ease-in-out infinite',
+            wave: 'wave 2.4s ease-in-out infinite'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html { color-scheme: light; }
+    body { background: #FBFDFD; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #F3F4F6; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+    .hero-pattern {
+      background-color: #FAFCFC;
+      background-image: radial-gradient(#1DB79D 0.75px, transparent 0.75px), radial-gradient(#E02A36 0.75px, #FAFCFC 0.75px);
+      background-size: 30px 30px;
+      background-position: 0 0, 15px 15px;
+    }
+    h1, h2, h3 { text-wrap: balance; }
+    @media (prefers-reduced-motion: reduce) {
+      .animate-float, .animate-wave, .animate-bounce, .animate-ping { animation: none !important; }
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-[#FBFDFD] text-slate-800 antialiased selection:bg-brand-red selection:text-white min-h-screen flex flex-col justify-between">
+
+  <!-- Üst Menü -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-3">
+      <a href="#" class="flex items-center gap-3 group focus:outline-none" title="Ülkem Yanımda Ana Sayfa">
+        <img
+          src="logo.png"
+          alt="Ülkem Yanımda Logo"
+          class="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-105 duration-200"
+        />
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="#akis" class="hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 transition-colors">
+          <span>🗓️</span> Atölye Akışı
+        </a>
+        <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-brand-red border border-red-100 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+          29 Ekim 2026 Perşembe • 20:45 (TSİ)
+        </span>
+        <a
+          href="https://teams.microsoft.com/meet/351357725259287?p=BKQ9ektTECrqQbyIvV" target="_blank" rel="noopener noreferrer"
+          data-join
+          class="inline-flex items-center gap-2 px-4 py-2 text-sm font-bold text-white bg-brand-red hover:bg-brand-redHover rounded-full shadow-sm hover:shadow transition-all duration-200"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="6" width="14" height="12" rx="2.5"/>
+            <path d="M16 10.5l5-3v9l-5-3z" stroke-linejoin="round"/>
+          </svg>
+          <span class="hidden sm:inline">Atölyemize</span> Katıl
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <!-- Karşılama Alanı -->
+    <section class="relative overflow-hidden hero-pattern pt-8 pb-14 sm:py-16 border-b border-slate-100">
+      <div class="absolute -top-24 -left-24 w-80 h-80 bg-red-100 rounded-full filter blur-3xl opacity-50 pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-rose-100 rounded-full filter blur-3xl opacity-50 pointer-events-none"></div>
+
+      <!-- Dekoratif ay-yıldız -->
+      <svg class="hidden md:block absolute top-10 right-8 lg:right-20 w-28 h-28 lg:w-36 lg:h-36 opacity-[0.12] animate-float pointer-events-none" viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="50" cy="60" r="34" fill="#E02A36"/>
+        <circle cx="58.5" cy="60" r="27" fill="#FAFCFC"/>
+        <polygon fill="#E02A36" points="96,60 79.4,65.4 79.4,82.9 69.1,68.7 52.5,74.1 62.8,60 52.5,45.9 69.1,51.3 79.4,37.1 79.4,54.6"/>
+      </svg>
+
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 text-center">
+        <div class="inline-flex flex-wrap items-center justify-center gap-2 mb-6">
+          <span class="px-4 py-1.5 rounded-full text-xs sm:text-sm font-extrabold bg-brand-red text-white shadow-md shadow-red-500/20 flex items-center gap-1.5">
+            📅 29 Ekim 2026 Perşembe • 20:45 (TSİ)
+          </span>
+          <span class="px-3.5 py-1.5 rounded-full text-xs sm:text-sm font-bold bg-white text-brand-red border border-red-100 shadow-sm flex items-center gap-1.5">
+            🇹🇷 Cumhuriyet Bayramı Özel
+          </span>
+          <span class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-emerald-50 text-brand-tealDark border border-emerald-100">
+            🌱 5 - 16 Yaş Çocuk & Gençler
+          </span>
+          <span class="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-amber-50 text-amber-800 border border-amber-100">
+            ⏱️ 40 Dakika • Canlı & Oyunlu
+          </span>
+        </div>
+
+        <h1 class="text-3xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.2] mb-6 max-w-4xl mx-auto">
+          <span class="block text-brand-red mb-2">29 Ekim</span>
+          <span class="block bg-gradient-to-r from-brand-red via-rose-500 to-brand-teal bg-clip-text text-transparent">
+            Cumhuriyet Yolculuğu
+          </span>
+        </h1>
+
+        <p class="text-base sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal mb-8">
+          Tahmin oyunları, dijital bayrak boyama, bilim deneyi, hareketli yarışma ve bayram şarkısıyla dolu 29 Ekim atölyemize sen de davetlisin!
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-md mx-auto mb-10">
+          <a
+            href="https://teams.microsoft.com/meet/351357725259287?p=BKQ9ektTECrqQbyIvV" target="_blank" rel="noopener noreferrer"
+            data-join
+            id="joinMeetingBtn"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-base sm:text-lg font-bold text-white bg-brand-red hover:bg-brand-redHover rounded-2xl shadow-lg shadow-red-500/25 hover:shadow-red-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+          >
+            <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19 12h-4l-3-6-4 12-3-6H2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="19" cy="12" r="3" fill="currentColor"/>
+            </svg>
+            Atölyemize Katıl
+          </a>
+
+          <button
+            type="button"
+            id="copyLinkBtn"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-4 text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl shadow-sm hover:shadow transition-all"
+          >
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+            </svg>
+            <span id="copyBtnText">Linki Kopyala</span>
+          </button>
+        </div>
+
+        <div class="inline-flex items-center gap-2 text-xs sm:text-sm text-slate-500 bg-white/70 backdrop-blur-sm px-4 py-2 rounded-xl border border-slate-200/60 shadow-sm text-left">
+          <span class="text-emerald-500 font-bold">✓</span>
+          <span>Bilgisayar, tablet veya telefondan <strong>tek tıkla</strong> katılabilirsiniz. Türkçesi yeni başlayan çocuklarımız da hareketlerle rahatça katılır.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Öğretmen Kartı -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 -mt-8 relative z-20">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-200/50 border border-slate-100 flex flex-col md:flex-row items-center gap-6 sm:gap-8">
+        <div class="relative flex-shrink-0 text-center">
+          <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden shadow-md ring-4 ring-brand-red/15 relative group mx-auto bg-gradient-to-br from-brand-red to-rose-500 flex items-center justify-center">
+            <span class="font-bubble text-5xl sm:text-6xl font-bold text-white/95 select-none">ED</span>
+            <img
+              src="29-ekim/edanur-dogan.jpg"
+              alt="Edanur Doğan - Atölye Eğitmeni"
+              class="absolute inset-0 w-full h-full object-cover object-top transition duration-300 group-hover:scale-105"
+              onerror="this.remove()"
+            />
+          </div>
+          <div class="absolute -bottom-2 -right-2 bg-white text-brand-red p-1.5 rounded-xl shadow-md border border-red-100" title="Atölye Eğitmeni: Edanur Doğan">
+            <svg class="w-5 h-5" viewBox="0 0 120 120" aria-hidden="true">
+              <circle cx="50" cy="60" r="34" fill="#E02A36"/>
+              <circle cx="58.5" cy="60" r="27" fill="#FFFFFF"/>
+              <polygon fill="#E02A36" points="96,60 79.4,65.4 79.4,82.9 69.1,68.7 52.5,74.1 62.8,60 52.5,45.9 69.1,51.3 79.4,37.1 79.4,54.6"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="text-center md:text-left flex-grow min-w-0">
+          <div class="inline-block px-3 py-1 mb-2 text-xs font-bold uppercase tracking-wider text-brand-red bg-red-50 rounded-lg">
+            Atölye Buluşması
+          </div>
+          <h2 class="text-2xl font-bold text-slate-800 mb-1">
+            Cumhuriyetimizin Doğum Günü Kutlu Olsun!
+          </h2>
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
+            Yurt dışında yaşayan çocuklarımız ve gençlerimiz için hazırlanan bu bayram buluşmasında; <strong>Edanur Doğan</strong> Öğretmenimizin eşliğinde bayrağımızı tanıyacak, dijital bayrağımızı hep birlikte boyayacak ve Cumhuriyet coşkusunu dünyanın dört bir yanından arkadaşlarımızla birlikte paylaşacağız.
+          </p>
+          <div class="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 text-xs sm:text-sm text-slate-500 font-medium">
+            <span class="flex items-center gap-1.5 text-brand-red font-bold bg-red-50 px-2.5 py-1 rounded-lg border border-red-100">
+              ⏰ 29 Ekim 2026 Perşembe 20:45
+            </span>
+            <span class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Hareketle Katılım
+            </span>
+            <span class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-brand-red"></span>
+              Dijital Bayrak Boyama
+            </span>
+            <span class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+              Adına Özel Sertifika
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 40 Dakikalık Akış -->
+    <section id="akis" class="max-w-6xl mx-auto px-4 sm:px-6 py-16 scroll-mt-20">
+      <div class="text-center max-w-xl mx-auto mb-12">
+        <span class="text-brand-red font-bold text-xs uppercase tracking-widest block mb-2">40 Dakikalık Akış</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+          Atölyede Bizi Neler Bekliyor?
+        </h2>
+        <p class="text-slate-500 text-sm mt-2">
+          Az kelime, bol hareket! Her kelimenin bir hareketi var; Türkçesi yeni başlayan arkadaşlarımız da el çırparak, bayrak sallayarak oyuna katılıyor.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- 1 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-red-50 text-brand-red flex items-center justify-center text-2xl mb-4">🇹🇷</div>
+            <div class="text-xs font-bold text-brand-red mb-1">00 - 03 dk • Açılış</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Saygı Duruşu & İstiklal Marşı</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              Bayram atölyemize saygı duruşu ve İstiklal Marşı'mızla başlıyoruz. Öğretmenimiz bayrağını sallayarak bizi selamlıyor, biz de el sallayarak karşılık veriyoruz!
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <span class="text-xs font-semibold text-slate-400">Hep birlikte ayağa kalkıyoruz 🫡</span>
+          </div>
+        </div>
+
+        <!-- 1b -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-2xl mb-4">🎂</div>
+            <div class="text-xs font-bold text-rose-600 mb-1">03 - 05 dk • Sohbet & Tahmin Oyunu</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Merhaba Cumhuriyet!</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              Bugün hangi özel günü kutluyoruz? Cumhuriyetimiz kaç yaşında, tahmin et! "Daha büyük!" deyince kollar yukarı, "Daha küçük!" deyince kollar aşağı. Doğru sayıyı bulunca pastadaki mumları üflüyoruz: İyi ki doğdun Cumhuriyet!
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <span class="text-xs font-semibold text-slate-400">Elinde bayrağın hazır olsun 🇹🇷</span>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl mb-4">🔍</div>
+            <div class="text-xs font-bold text-amber-600 mb-1">05 - 10 dk • Renkler & Şekiller</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Bayrağımızı Tanıyalım</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              Kırmızı deyince el çırp, beyaz deyince ellerini kaldır! Ay ve yıldızı havada çiziyoruz. Ardından "Kırmızıyı Bul!" oyunu: 10 saniyede evden kırmızı bir şey bul, kameraya göster!
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <span class="text-xs font-semibold text-slate-400">Oyun: Kırmızıyı Bul! ⏱️</span>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-teal-50 text-brand-teal flex items-center justify-center text-2xl mb-4">🎨</div>
+            <div class="text-xs font-bold text-brand-tealDark mb-1">10 - 16 dk • Dijital Oyun</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Bayrak Boyama</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              Boş bayrağı hep birlikte boyuyoruz. Hangi renk, nereye? Kararı siz veriyorsunuz! Bayrak tamamlanınca konfeti patlıyor, "Dalgalandır" düğmesiyle bayrağımız rüzgârda dalgalanıyor. Sonra herkes kendi bayrağını boyayıp kameraya gösteriyor.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <span class="text-xs font-semibold text-slate-400">Boya, dalgalandır, indir 🖌️</span>
+          </div>
+        </div>
+
+        <!-- Bilim atölyesi -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-brand-tealDark flex items-center justify-center text-2xl mb-4">🔬</div>
+            <div class="text-xs font-bold text-brand-tealDark mb-1">16 - 24 dk • Bilim Atölyesi</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Sihirli Bayrağım</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">Öğretmenimizin gösterdiği deneyde önce tahmin ediyor, sonra birlikte sayıyoruz. Mum sönüyor, kırmızı su kavanozun içinde yükseliyor ve beyaz ay-yıldızla buluşuyor!</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100"><span class="text-xs font-semibold text-slate-500">Deneyi öğretmenimiz yapıyor, biz izliyoruz.</span></div>
+        </div>
+
+        <!-- 5 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl mb-4">🎬</div>
+            <div class="text-xs font-bold text-sky-600 mb-1">24 - 26 dk • Video Molası</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Bayrağı Görünce Salla!</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              Balonlar, bayraklar ve Ankara'yla dolu kısa bir bayram animasyonu izliyoruz. Görevin: Videoda bayrak görünce bayrağını salla! Sonra soruyoruz: Ne gördün? Hangi ülkeden katılıyorsun?
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <span class="text-xs font-semibold text-slate-400">35 saniyelik animasyon 📺</span>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-4">🙆</div>
+            <div class="text-xs font-bold text-emerald-600 mb-1">26 - 31 dk • Hareketli Yarışma</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Doğru mu, Yanlış mı?</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              Doğruysa ayağa kalk, kollarını kaldır: "Doğru!" Yanlışsa kollarınla X yap: "Yanlış!" Beş soruyu sınıfça cevaplıyor, ortak puanımızı birlikte topluyoruz.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <span class="text-xs font-semibold text-slate-400">5 soru • Sınıf puanı 🏆</span>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-pink-50 text-pink-600 flex items-center justify-center text-2xl mb-4">💬</div>
+            <div class="text-xs font-bold text-pink-600 mb-1">32 - 36 dk • Mesaj & Sertifika</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Cumhuriyet Benim İçin...</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              Bayram mı, mutluluk mu, bayrak mı, sevgi mi? Herkes cümleyi kendi kelimesiyle tamamlıyor; tek kelime de yeter, elle kalp yapmak da! Sonra adımıza özel sertifikalarımızı görüyoruz.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <span class="text-xs font-semibold text-slate-400">Adına özel sertifika 📜</span>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl mb-4">🎵</div>
+            <div class="text-xs font-bold text-indigo-600 mb-1">36 - 40 dk • Kapanış</div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">Şarkı & Hatıra Fotoğrafı</h3>
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+              Bayraklar havaya! "Pırıl Cumhuriyet Bayramı Şarkısı"na öğretmenimizin hareketlerini tekrar ederek eşlik ediyoruz. Yaşasın Cumhuriyet! Son olarak hep birlikte hatıra fotoğrafı çekiyoruz.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100">
+            <span class="text-xs font-semibold text-slate-400">Yaşasın Cumhuriyet! 🙌</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Atölyeden Önce Hazırlık -->
+    <section id="hazirlik" class="max-w-4xl mx-auto px-4 sm:px-6 mb-16 scroll-mt-24">
+      <div class="bg-amber-50 border border-amber-200 rounded-3xl p-6 sm:p-8">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-2xl">🎒</span>
+          <h3 class="text-base sm:text-lg font-bold text-amber-950">Atölyeden Önce Yanınızda Hazır Olsun</h3>
+        </div>
+        <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-3 text-sm text-amber-900/90">
+          <li class="flex items-start gap-2">
+            <span class="text-amber-600 font-bold mt-0.5">•</span>
+            <span><strong>Küçük bir Türk bayrağı:</strong> Şarkıda ve oyunlarda sallayacağız.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-amber-600 font-bold mt-0.5">•</span>
+            <span><strong>Kırmızı boya kalemi ve kâğıt:</strong> Bayrağımızı çizmek için.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-amber-600 font-bold mt-0.5">•</span>
+            <span><strong>Kırmızı veya beyaz kıyafet:</strong> İsteğe bağlı, bayram havası için.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-amber-600 font-bold mt-0.5">•</span>
+            <span><strong>Yanında bir yetişkin:</strong> Küçüklerimize bilgisayar konusunda yardım etmesi için.</span>
+          </li>
+          <li class="flex items-start gap-2 sm:col-span-2">
+            <span class="text-amber-600 font-bold mt-0.5">•</span>
+            <span><strong>Hatıra fotoğrafı:</strong> Atölye sonunda toplu bir ekran görüntüsü alacağız; öğretmenimiz önceden haber verecek. Görüntüsünün alınmasını istemeyen öğrencilerimiz kamerasını kapatabilir.</span>
+          </li>
+        </ul>
+        <p class="text-sm text-amber-900/90 mt-4"><strong>Deney hakkında:</strong> Mumlu deneyi yalnızca öğretmenimiz gösterecek. Çocuklarımızın evde tek başına denememesi gerekir; yanınızda deney malzemesi bulundurmanız gerekmiyor.</p>
+
+        <div class="mt-6 pt-6 border-t border-amber-200">
+          <h4 class="text-base font-bold text-amber-950 mb-2">Dijital Atölye Materyalleri</h4>
+          <p class="text-sm text-amber-900/90 mb-4">Etkinlikleri aşağıdan açabilirsiniz. Atölyede birlikte bayrağımızı boyayacak, videomuzu izleyecek ve oyunlarla öğrendiklerimizi pekiştireceğiz. Sertifikanızı atölye sonunda adınıza hazırlayabilirsiniz.</p>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <a href="29-ekim/index.html#bayrak" target="_blank" rel="noopener noreferrer" class="block rounded-2xl bg-white border border-amber-200 p-4 hover:border-brand-teal hover:shadow-md transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal"><span class="block font-bold text-brand-tealDark">🎨 Bayrak Boyama ↗</span><span class="block text-xs text-slate-600 mt-1">Bayrağını boya, dalgalandır ve indir.</span></a>
+            <a href="29-ekim/index.html#video" target="_blank" rel="noopener noreferrer" class="block rounded-2xl bg-white border border-amber-200 p-4 hover:border-brand-teal hover:shadow-md transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal"><span class="block font-bold text-brand-tealDark">🎬 Cumhuriyet Videosu ↗</span><span class="block text-xs text-slate-600 mt-1">Bayram animasyonunu izle.</span></a>
+            <a href="29-ekim/index.html#dogru-yanlis" target="_blank" rel="noopener noreferrer" class="block rounded-2xl bg-white border border-amber-200 p-4 hover:border-brand-teal hover:shadow-md transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal"><span class="block font-bold text-brand-tealDark">✓✕ Doğru – Yanlış ↗</span><span class="block text-xs text-slate-600 mt-1">Beş soruluk bilgi oyununa katıl.</span></a>
+            <a href="29-ekim/index.html#sertifika" target="_blank" rel="noopener noreferrer" class="block rounded-2xl bg-white border border-amber-200 p-4 hover:border-brand-teal hover:shadow-md transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-teal"><span class="block font-bold text-brand-tealDark">🏅 Katılım Sertifikası ↗</span><span class="block text-xs text-slate-600 mt-1">Adını yaz, sertifikanı indir.</span></a>
+          </div>
+          <div class="flex flex-wrap gap-3 mt-4 text-sm font-semibold">
+            <a href="29-ekim/turk_bayragi.png" target="_blank" rel="noopener noreferrer" class="text-brand-tealDark underline underline-offset-4">Türk bayrağı görseli</a>
+            <a href="29-ekim/29Ekim.zip" download class="text-brand-tealDark underline underline-offset-4">Tüm materyalleri indir (ZIP · 17 MB)</a>
+            <a href="29-ekim/atolye-plani.docx" download class="text-brand-tealDark underline underline-offset-4">Öğretmen için atölye planı (Word)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Alt Bilgi -->
+  <footer class="bg-slate-900 text-slate-400 py-8 text-xs border-t border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <span class="text-slate-200 font-bold tracking-tight">ÜLKEM YANIMDA</span>
+        <span class="text-slate-600">|</span>
+        <span>29 Ekim Cumhuriyet Bayramı Özel Atölyesi</span>
+      </div>
+      <div>Sevgiyle, dille ve kültürle bir aradayız.</div>
+    </div>
+  </footer>
+
+  <!-- Bildirim -->
+  <div id="toast" role="status" aria-live="polite" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 text-white text-xs sm:text-sm font-medium px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 border border-slate-700 max-w-[calc(100vw-3rem)]">
+    <span id="toastIcon" class="text-emerald-400 font-bold">✓</span>
+    <span id="toastText">Atölye bağlantısı panoya kopyalandı!</span>
+  </div>
+
+  <script>
+    // Toplantı bağlantısını (Zoom / Meet / Teams) buraya yapıştırın:
+    const MEET_URL = "https://teams.microsoft.com/meet/351357725259287?p=BKQ9ektTECrqQbyIvV";
+
+    // Katıl düğmelerini bağlantıya yönlendir
+    document.querySelectorAll('[data-join]').forEach(function (el) {
+      if (MEET_URL) {
+        el.href = MEET_URL;
+        el.target = '_blank';
+        el.rel = 'noopener noreferrer';
+      }
+      el.addEventListener('click', function (e) {
+        triggerConfetti();
+        if (!MEET_URL) {
+          e.preventDefault();
+          showToast('Katılım bağlantısı atölye gününden önce burada paylaşılacak.', 'ℹ');
+        }
+      });
+    });
+
+    // Bayram konfetisi: kırmızı & beyaz
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 90,
+          spread: 75,
+          origin: { y: 0.6 },
+          colors: ['#E02A36', '#FFFFFF', '#C61E2A', '#FFD166']
+        });
+      }
+    }
+
+    // Linki kopyala
+    const copyBtn = document.getElementById('copyLinkBtn');
+    const copyBtnText = document.getElementById('copyBtnText');
+
+    function legacyCopy(text) {
+      const tempInput = document.createElement('input');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+      document.body.removeChild(tempInput);
+      return ok;
+    }
+
+    function copied() {
+      showToast('Atölye bağlantısı panoya kopyalandı!', '✓');
+      triggerConfetti();
+      copyBtnText.textContent = 'Kopyalandı!';
+      setTimeout(function () { copyBtnText.textContent = 'Linki Kopyala'; }, 2500);
+    }
+
+    copyBtn.addEventListener('click', function () {
+      if (!MEET_URL) {
+        showToast('Katılım bağlantısı atölye gününden önce burada paylaşılacak.', 'ℹ');
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(MEET_URL).then(copied).catch(function () {
+          if (legacyCopy(MEET_URL)) copied();
+        });
+      } else if (legacyCopy(MEET_URL)) {
+        copied();
+      }
+    });
+
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(message, icon) {
+      document.getElementById('toastText').textContent = message;
+      document.getElementById('toastIcon').textContent = icon || '✓';
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
