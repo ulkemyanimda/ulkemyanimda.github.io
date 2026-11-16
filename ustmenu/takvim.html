@@ -183,6 +183,7 @@
     grid-template-columns:repeat(7, 1fr);
     gap:4px;
   }
+  a.day{text-decoration:none;color:inherit;}
   .day{
     aspect-ratio:1/1;
     display:flex;
@@ -324,7 +325,7 @@
   <div class="legend-item"><span class="swatch yariyil"></span> Yarıyıl Tatili</div>
   <div class="legend-item"><span class="swatch ataturk"></span> Atatürk'ü Anma</div>
   <div class="legend-item"><span class="swatch turkuaz"></span> Kültürel Keşif Yarışması</div>
-  <div class="legend-note">Atölye isimleri yakında eklenecektir.</div>
+  <div class="legend-note">Sayfası hazır olan atölyelerin tarihlerine tıklayarak programlarına ulaşabilirsiniz.</div>
 </div>
 
 <main id="calendar"></main>
@@ -356,6 +357,13 @@ function d(y,m,day){ return new Date(y,m,day).getTime(); }
 
 const events = [
   {
+    start:d(2026,8,26), end:d(2026,8,26),
+    type:"atolye", tag:"Atölye",
+    title:"26 Eylül Türk Dil Bayramı Atölyesi",
+    url:"../atolye/26-eylul.html",
+    desc:"Türk Dil Bayramı atölyemizde buluşuyoruz."
+  },
+  {
     start:d(2026,8,21), end:d(2026,8,21),
     type:"school", tag:"Başlangıç",
     title:"Eğitim - Öğretim Başlangıcı",
@@ -363,42 +371,49 @@ const events = [
   },
   {
     start:d(2026,9,29), end:d(2026,9,29),
+    url:"../atolye/29-ekim-2026.html",
     type:"atolye", tag:"Atölye",
     title:"29 Ekim Cumhuriyet Yolculuğu Atölye Çalışması",
     desc:"Müzikten halk oyunlarına, sanattan eğlenceli oyunlara uzanan etkinliklerle 29 Ekim’in coşkusunu birlikte yaşıyoruz."
   },
   {
     start:d(2026,10,10), end:d(2026,10,10),
+    url:"../10-kasim-anma-programi.html",
     type:"ataturk", tag:"Anma Günü",
-    title:"Atatürk'ün İzinde",
+    title:"10 Kasım Atatürk’ü Anma Programı",
     desc:"Atatürk Haftası’nda öğrenciler, Materyal Fabrikası’ndaki etkileşimli etkinliklerle Atatürk’ü daha yakından tanıyor; onun fikirlerini ve Cumhuriyet’e uzanan yolculuğunu keşfediyor."
   },
   {
     start:d(2026,10,17), end:d(2026,10,17),
+    url:"../atolye/index.html#gun-0",
     type:"atolye", tag:"Atölye",
     title:"Dönüşen Dünyam",
     desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
   },
    {
     start:d(2026,10,18), end:d(2026,10,18),
+    url:"../atolye/index.html#gun-1",
     type:"atolye", tag:"Atölye",
     title:"Dönüşen Dünyam",
     desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
   },
    {
     start:d(2026,10,19), end:d(2026,10,19),
+    url:"../atolye/index.html#gun-2",
     type:"atolye", tag:"Atölye",
     title:"Dönüşen Dünyam",
     desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
   },
   {
     start:d(2026,10,21), end:d(2026,10,21),
+    url:"../atolye/index.html#gun-3",
     type:"atolye", tag:"Atölye",
     title:"Dönüşen Dünyam",
     desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
   },
   {
     start:d(2026,10,22), end:d(2026,10,22),
+    url:"../atolye/index.html#gun-4",
     type:"atolye", tag:"Atölye",
     title:"Dönüşen Dünyam",
     desc:"örgü ve dokumadan origamiye, oyun tasarımından yaratıcı el işlerine uzanan birbirinden farklı etkinliklerle geri dönüşüm malzemelerine yeni bir hayat verirken farklı kültürleri keşfedeceğimiz eğlenceli bir ara tatil atölye serisi."
@@ -606,22 +621,31 @@ monthsToShow.forEach(({y,m}) => {
 
   const daysInMonth = new Date(y, m+1, 0).getDate();
   for(let day=1; day<=daysInMonth; day++){
-    const cell = document.createElement('div');
-    cell.className = 'day';
-    cell.textContent = day;
-
     const ts = d(y, m, day);
     const ev = findEvent(ts);
+    const cell = document.createElement(ev?.url ? 'a' : 'div');
+    cell.className = 'day';
+    cell.textContent = day;
 
     if(ev){
       cell.classList.add('marked', ev.type);
       if(ts === ev.start) cell.classList.add('range-start');
       if(ts === ev.end) cell.classList.add('range-end');
-      cell.tabIndex = 0;
-      cell.setAttribute('role','button');
-      cell.setAttribute('aria-label', ev.title);
-      cell.addEventListener('click', () => openModal(ev));
-      cell.addEventListener('keypress', (ke) => { if(ke.key === 'Enter') openModal(ev); });
+      cell.setAttribute('aria-label', `${formatDateRange(ts, ts)}: ${ev.title}`);
+      if(ev.url){
+        cell.href = ev.url;
+        cell.title = `${ev.title} — Programı aç`;
+      } else {
+        cell.tabIndex = 0;
+        cell.setAttribute('role','button');
+        cell.addEventListener('click', () => openModal(ev));
+        cell.addEventListener('keydown', (ke) => {
+          if(ke.key === 'Enter' || ke.key === ' '){
+            ke.preventDefault();
+            openModal(ev);
+          }
+        });
+      }
     }
 
     daysGrid.appendChild(cell);
