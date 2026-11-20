@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Kitaplar</title>
+    <title>Sesli Kitaplar ve Masallar | Ülkem Yanımda</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,12 +60,45 @@
         .download-btn:hover {
             background-color: #45a049;
         }
+        * { box-sizing: border-box; }
+        body { margin: 0; color: #214d45; }
+        .library-header, .sources, .source-panel { max-width: 1240px; margin: 0 auto 22px; }
+        .library-header { padding: 28px 20px; background: #fffffff2; border-radius: 18px; }
+        h1 { margin: 0 0 12px; font-size: clamp(26px, 5vw, 38px); }
+        .library-header p { margin: 0; line-height: 1.6; }
+        .sources { display: flex; flex-wrap: wrap; gap: 12px; }
+        .source-button { flex: 1 1 220px; padding: 18px; border: 2px solid #d4e6de; border-radius: 14px; background: #fff; color: #245c50; font: bold 17px Arial, sans-serif; cursor: pointer; }
+        .source-button[aria-pressed="true"] { background: #216b59; color: #fff; border-color: #216b59; }
+        .source-button:focus-visible, .source-link:focus-visible { outline: 3px solid #dca433; outline-offset: 4px; }
+        [hidden] { display: none !important; }
+        .source-panel { padding: 24px; background: #fff; border-radius: 18px; }
+        .source-panel h2 { margin-top: 0; }
+        .source-panel p { line-height: 1.7; }
+        .source-link { display: inline-block; padding: 12px 20px; border-radius: 9px; background: #216b59; color: white; text-decoration: none; font-weight: bold; }
+        .external-catalog { width: 100%; height: 75vh; min-height: 480px; border: 1px solid #d4e6de; border-radius: 12px; margin-top: 20px; background: #fff; }
+        .source-symbol { font-size: 48px; margin-bottom: 12px; }
+        .integration-help { margin: 24px auto; max-width: 600px; }
+        .integration-help summary { cursor: pointer; font-weight: bold; padding: 14px; }
+        .integration-help iframe { max-width: 100%; }
+        @media (max-width: 600px) { body { padding: 12px; } .source-panel { padding: 16px; } .icon-container { padding: 12px; } }
     </style>
 </head>
 <body>
-<h3>Kitapları Moodle'a nasıl entegre edebilirim?</h3>
-<iframe width="560" height="115" src="https://www.youtube.com/embed/0uUskv-4cLA?si=qJifKk9EhCSXJpIZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
- <body>
+<header class="library-header">
+    <h1>Sesli Kitaplar ve Masallar</h1>
+    <p>Bir hikâyeye kulak ver, hayal dünyanı keşfet. Dinlemek istediğin kaynağı seç.</p>
+</header>
+<nav class="sources" aria-label="Kitap kaynakları">
+    <button class="source-button" type="button" aria-pressed="true" aria-controls="our-books">Sesli Kitaplarımız</button>
+    <button class="source-button" type="button" aria-pressed="false" aria-controls="eba-books">EBA Sesli Kitaplar</button>
+    <button class="source-button" type="button" aria-pressed="false" aria-controls="meb-tales">MEB Masal Kitapları</button>
+</nav>
+<main>
+<section id="our-books" class="source-panel" aria-labelledby="our-books-title">
+<h2 id="our-books-title">Sesli Kitaplarımız</h2>
+<details class="integration-help"><summary>Kitapları Moodle'a nasıl entegre edebilirim?</summary>
+<iframe loading="lazy" width="560" height="115" src="https://www.youtube.com/embed/0uUskv-4cLA?si=qJifKk9EhCSXJpIZ" title="Kitapları Moodle'a entegre etme videosu" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</details>
     <div class="icon-container">
         <!-- First two entries remain as you created them -->
    
@@ -156,5 +189,35 @@
 		
 		
     </div>
+</section>
+<section id="eba-books" class="source-panel" aria-labelledby="eba-title" hidden>
+    <div class="source-symbol" aria-hidden="true">🎧</div>
+    <h2 id="eba-title">EBA Sesli Kitaplar</h2>
+    <p>Türkçe EBA'nın sesli kitap koleksiyonunu keşfedin.</p>
+    <p>EBA bu koleksiyonun başka siteler içinde gösterilmesine izin vermediği için kitaplar yeni sekmede açılır. Bu sayfa açık kalır.</p>
+    <a class="source-link" href="https://turkce.eba.gov.tr/iceriklistesitab/sesli-kitaplar-251" target="_blank" rel="noopener noreferrer">EBA sesli kitaplarını aç ↗</a>
+</section>
+<section id="meb-tales" class="source-panel" aria-labelledby="meb-title" hidden>
+    <h2 id="meb-title">MEB Kültür Yayınları · Masal Kitapları</h2>
+    <p>Masal kitaplarını aşağıdaki katalogdan inceleyebilirsiniz. Katalog görüntülenmezse yeni sekmede açabilirsiniz.</p>
+    <a class="source-link" href="https://kulturyayinlari.meb.gov.tr/arama?arama=masal" target="_blank" rel="noopener noreferrer">Kataloğu yeni sekmede aç ↗</a>
+    <iframe class="external-catalog" title="MEB Kültür Yayınları masal kitapları kataloğu" data-src="https://kulturyayinlari.meb.gov.tr/arama?arama=masal" loading="lazy" allowfullscreen></iframe>
+</section>
+</main>
+<script>
+const sourceButtons = document.querySelectorAll('.source-button');
+sourceButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        sourceButtons.forEach(item => {
+            const selected = item === button;
+            item.setAttribute('aria-pressed', String(selected));
+            document.getElementById(item.getAttribute('aria-controls')).hidden = !selected;
+        });
+        const panel = document.getElementById(button.getAttribute('aria-controls'));
+        const frame = panel.querySelector('iframe[data-src]');
+        if (frame && !frame.hasAttribute('src')) frame.src = frame.dataset.src;
+    });
+});
+</script>
 </body>
 </html>
