@@ -190,6 +190,36 @@
     .card-tools{opacity:1; position:static; justify-content:flex-end; padding:8px 12px 0;}
   }
 
+  /* ATÖLYE HAFTASI */
+  .workshop{
+    background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius);
+    overflow:hidden; box-shadow:0 1px 2px rgba(31,45,61,0.04);
+  }
+  .workshop-head{
+    background:var(--rust); color:#fff; padding:22px 26px;
+    background-image:linear-gradient(160deg, rgba(255,255,255,0.16), transparent 60%);
+  }
+  .workshop-head .tag{font-size:0.75rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; opacity:0.9;}
+  .workshop-head h2{font-family:'Fraunces', serif; font-weight:600; font-size:1.5rem; margin:4px 0 8px;}
+  .workshop-head p{margin:0; line-height:1.55; font-size:0.95rem; max-width:70ch; opacity:0.95;}
+  .workshop-list{list-style:none; margin:0; padding:6px 26px;}
+  .workshop-list li{
+    display:grid; grid-template-columns:1.3fr 1.5fr 1fr; gap:18px; align-items:start;
+    padding:16px 0; border-bottom:1px solid var(--paper-line);
+  }
+  .workshop-list li:last-child{border-bottom:none;}
+  .workshop-list .w-name{font-family:'Fraunces', serif; font-weight:600; font-size:1.05rem; margin:0 0 3px;}
+  .workshop-list .w-teacher{font-size:0.82rem; color:var(--ink-soft);}
+  .workshop-list .w-desc{font-size:0.92rem; line-height:1.45; margin:0;}
+  .workshop-list .w-dates{display:flex; flex-wrap:wrap; gap:6px;}
+  .workshop-list .w-dates span{
+    font-size:0.76rem; font-weight:600; padding:3px 10px; border-radius:999px;
+    background:var(--rust-soft); color:var(--rust);
+  }
+  .workshop-foot{padding:4px 26px 22px;}
+  .workshop-foot .materials-link{color:var(--rust);}
+  @media (max-width:900px){ .workshop-list li{grid-template-columns:1fr; gap:8px;} }
+
   /* ADD CARD BUTTON */
   .add-card-btn{
     display:flex; align-items:center; justify-content:center; gap:8px;
@@ -276,7 +306,7 @@
       <h1 id="week-title" class="week-fade">21 – 27 Eylül arası neler yaptık?</h1>
       <button id="nextWeekBtn" aria-label="Sonraki hafta">→</button>
     </div>
-    <p class="lede">
+    <p class="lede" id="week-lede">
       Her grup, kendi seviyesine göre bu hafta neyi hedefledi, hangi kelime ve
       kalıpları öğrendi ve hangi materyallerle çalıştı — hepsini burada
       bulabilirsiniz.
@@ -612,6 +642,31 @@
     materialUrl: card.materialUrl.replace('/preview/7.hafta', '/preview/8.hafta')
   }));
 
+  // 16 – 22 Kasım: Ara tatil atölyeleri (bu hafta ders yapılmadı)
+  // Atölye haftalarında seviye kartları yerine bu bölüm gösterilir.
+  const WORKSHOP_WEEK_KASIM = {
+    title:"Atölye Haftası",
+    intro:"Bu hafta ders yapılmadı. Ara tatilde çevrim içi atölyelerde buluştuk; Türkçe konuşarak ürettik, doğayı korumanın ve eski malzemeleri yeniden değerlendirmenin yollarını keşfettik.",
+    pageUrl:"https://ulkemyanimda.github.io/atolye/index.html",
+    items:[
+      { name:"Dönüşen Rulolar, Beslenen Kanatlar", teacher:"Leyla Meşhur",
+        desc:"Boş kâğıt rulolarından kuşlar için yemlik yaptık.",
+        dates:["17 Kasım", "19 Kasım"] },
+      { name:"Kâğıdın Sihirli Dönüşümü", teacher:"Nurcan Akbulut",
+        desc:"Kâğıt, gazete ve dergileri dönüştürerek yeni şeyler ürettik.",
+        dates:["18 Kasım", "21 Kasım", "22 Kasım"] },
+      { name:"Hayal Et, Tasarla, Dönüştür", teacher:"Mehmet Örsdemir",
+        desc:"Bilgisayarda hayalimizdeki tasarımları oluşturduk.",
+        dates:["21 Kasım", "22 Kasım"] },
+      { name:"Hedefi Tuttur, Puanları Topla", teacher:"Nurcan Akbulut",
+        desc:"Atık malzemelerden bir hedef oyunu yapıp puan topladık.",
+        dates:["21 Kasım", "22 Kasım"] },
+      { name:"Kırk Yama ile Dönüşüm", teacher:"Fadime Yaşa",
+        desc:"",
+        dates:["22 Kasım"] }
+    ]
+  };
+
   const WEEKS = [
     { id:"2026-09-21", label:"21 – 27 Eylül", seed:SEED_DATA },
     { id:"2026-09-28", label:"28 Eylül – 4 Ekim", seed:SEED_DATA_WEEK2 },
@@ -620,7 +675,8 @@
     { id:"2026-10-19", label:"19 – 25 Ekim", seed:SEED_DATA_WEEK5 },
     { id:"2026-10-26", label:"26 Ekim – 1 Kasım", seed:SEED_DATA_WEEK6 },
     { id:"2026-11-02", label:"2 – 8 Kasım", seed:SEED_DATA_WEEK7 },
-    { id:"2026-11-09", label:"9 – 15 Kasım", seed:SEED_DATA_WEEK8 }
+    { id:"2026-11-09", label:"9 – 15 Kasım", seed:SEED_DATA_WEEK8 },
+    { id:"2026-11-16", label:"16 – 22 Kasım", seed:[], workshop:WORKSHOP_WEEK_KASIM }
   ];
   let currentWeekIndex = WEEKS.length - 1; // Sayfa her zaman en yeni haftayla açılır.
   const STORAGE_PREFIX = 'turkce-gunlugum-cards-v2-';
@@ -691,6 +747,8 @@
   const modalBackdrop = document.getElementById('modalBackdrop');
   const modalTitle = document.getElementById('modalTitle');
   const weekTitleEl = document.getElementById('week-title');
+  const weekLedeEl = document.getElementById('week-lede');
+  const DEFAULT_LEDE = weekLedeEl.textContent.replace(/\s+/g, ' ').trim();
   const prevWeekBtn = document.getElementById('prevWeekBtn');
   const nextWeekBtn = document.getElementById('nextWeekBtn');
   const fAge = document.getElementById('f-age');
@@ -729,12 +787,42 @@
 
   function updateWeekUI(){
     weekTitleEl.textContent = currentWeek().label + " arası neler yaptık?";
+    weekLedeEl.textContent = currentWeek().workshop
+      ? "Bu hafta derslerimize ara verdik ve atölyelerde buluştuk. Hangi atölyelerin yapıldığını aşağıda bulabilirsiniz."
+      : DEFAULT_LEDE;
     prevWeekBtn.disabled = currentWeekIndex === 0;
     nextWeekBtn.disabled = currentWeekIndex === WEEKS.length - 1;
   }
 
+  function workshopHtml(w){
+    const items = w.items.map(it => `
+      <li>
+        <div>
+          <p class="w-name">${it.name}</p>
+          <span class="w-teacher">${it.teacher}</span>
+        </div>
+        <p class="w-desc">${it.desc || ''}</p>
+        <div class="w-dates">${it.dates.map(d => `<span>${d}</span>`).join('')}</div>
+      </li>`).join('');
+    return `<section class="workshop">
+      <div class="workshop-head">
+        <div class="tag">Ders yerine</div>
+        <h2>${w.title}</h2>
+        <p>${w.intro}</p>
+      </div>
+      <ul class="workshop-list">${items}</ul>
+      <div class="workshop-foot">
+        <a class="materials-link" href="${w.pageUrl}" target="_blank" rel="noopener">Atölye Sayfasını Gör ↗</a>
+      </div>
+    </section>`;
+  }
+
   function render(){
     cardsEl.innerHTML = '';
+    if(currentWeek().workshop){
+      cardsEl.innerHTML = workshopHtml(currentWeek().workshop);
+      return;
+    }
     cards.forEach(group => {
       const chips = group.words.map(w => `<span class="word-chip">${w}</span>`).join('');
       const card = document.createElement('div');
